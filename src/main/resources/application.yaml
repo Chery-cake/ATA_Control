@@ -1,0 +1,22 @@
+# Server Port
+server:
+  port: 8090
+
+# Postgres
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ata_control #?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  #JPA
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    open-in-view: true
+
+  # THYMELEAF
+  thymeleaf:
+    cache: false
