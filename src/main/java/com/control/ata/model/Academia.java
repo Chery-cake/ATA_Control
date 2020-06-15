@@ -16,8 +16,8 @@ public class Academia {
 
 	private String nome;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "endereco_fk")
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "endereco_fk", nullable = false)
 	private Endereco endereco;
 
 	@JsonIgnore

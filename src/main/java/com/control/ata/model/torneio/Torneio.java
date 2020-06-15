@@ -20,8 +20,8 @@ public class Torneio {
 
 	private Date dataTermino;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "endereco_fk")
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "endereco_fk", nullable = false)
 	private Endereco endereco;
 
 	@JsonIgnore
