@@ -9,20 +9,11 @@ import org.springframework.stereotype.Service;
 public class EnderecoDAO {
 
     @Autowired
-    private PaisRepository paisRepository;
-    @Autowired
-    private EstadoRepository estadoRepository;
-    @Autowired
-    private CidadeRepository cidadeRepository;
-    @Autowired
     private BairroRepository bairroRepository;
     @Autowired
     private EnderecoRepository enderecoRepository;
 
     public void save(Endereco endereco) {
-        paisRepository.save(endereco.getBairro().getCidade().getEstado().getPais());
-        estadoRepository.save(endereco.getBairro().getCidade().getEstado());
-        cidadeRepository.save(endereco.getBairro().getCidade());
         bairroRepository.save(endereco.getBairro());
         enderecoRepository.save(endereco);
     }

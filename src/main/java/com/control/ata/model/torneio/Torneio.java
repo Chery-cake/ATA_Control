@@ -20,8 +20,8 @@ public class Torneio {
 
 	private Date dataTermino;
 
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "endereco_fk", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "endereco_fk")
 	private Endereco endereco;
 
 	@JsonIgnore

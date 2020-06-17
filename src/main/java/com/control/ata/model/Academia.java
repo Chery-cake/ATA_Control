@@ -16,12 +16,20 @@ public class Academia {
 
 	private String nome;
 
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "endereco_fk", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "endereco_fk")
 	private Endereco endereco;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "academia")
 	private Collection<Instrutor> instrutores;
+
+	public Academia() {
+	}
+
+	public Academia(String nome, Endereco endereco) {
+		this.nome = nome;
+		this.endereco = endereco;
+	}
 
 }

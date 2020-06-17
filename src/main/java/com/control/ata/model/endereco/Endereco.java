@@ -25,15 +25,13 @@ public class Endereco {
     @OneToMany(mappedBy = "endereco")
     private Collection<Pessoa> pessoa;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "endereco")
-    private Academia academia;
+    @JsonIgnore
+    @OneToMany(mappedBy = "endereco")
+    private Collection<Academia> academia;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "endereco")
-    private Torneio torneio;
+    @JsonIgnore
+    @OneToMany(mappedBy = "endereco")
+    private Collection<Torneio> torneio;
 
     public Endereco() {
     }
@@ -47,27 +45,7 @@ public class Endereco {
         return rua;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-
     public Bairro getBairro() {
         return bairro;
-    }
-
-    public void setBairro(Bairro bairro) {
-        this.bairro = bairro;
-    }
-
-    @Override
-    public String toString() {
-        return "Endereco{" +
-                "id=" + id +
-                ", rua='" + rua + '\'' +
-                ", bairro=" + bairro +
-                ", academia=" + academia +
-                ", torneio=" + torneio +
-                //", pessoa=" + pessoa +
-                '}';
     }
 }
