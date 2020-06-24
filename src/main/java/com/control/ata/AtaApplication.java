@@ -122,7 +122,6 @@ public class AtaApplication implements CommandLineRunner {
             System.out.println(e);
         }
 
-
     }
 
     @Bean
