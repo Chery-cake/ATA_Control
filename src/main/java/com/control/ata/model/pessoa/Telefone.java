@@ -30,33 +30,13 @@ public class Telefone {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
     public Boolean getCelular() {
         return Celular;
-    }
-
-    public void setCelular(Boolean celular) {
-        Celular = celular;
     }
 
     public Pessoa getPessoa() {
         return pessoa;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
 
-    @Override
-    public String toString() {
-        return "Telefone{" +
-                "id=" + id +
-                ", telefone='" + telefone + '\'' +
-                ", Celular=" + Celular +
-                ", pessoa=" + pessoa +
-                '}';
-    }
 }

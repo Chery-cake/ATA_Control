@@ -29,16 +29,4 @@ public class Faixa {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    @Override
-    public String toString() {
-        return "Faixa{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                //", pessoa=" + pessoa +
-                '}';
-    }
 }
