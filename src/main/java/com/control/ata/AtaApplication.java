@@ -2,14 +2,20 @@ package com.control.ata;
 
 import com.control.ata.dao.EnderecoDAO;
 import com.control.ata.dao.PessoaDAO;
+import com.control.ata.dao.TipoPessoaDAO;
 import com.control.ata.model.endereco.*;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.pessoa.Telefone;
+import com.control.ata.model.tipo_pessoa.Juiz;
+import com.control.ata.model.torneio.RodadaJuiz;
+import com.control.ata.model.torneio.Torneio;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
+import com.control.ata.repository.torneio.RodadaJuizRepository;
+import com.control.ata.repository.torneio.TorneioRepository;
 import org.directwebremoting.spring.DwrSpringServlet;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -39,6 +45,12 @@ public class AtaApplication implements CommandLineRunner {
     private EstadoRepository estadoRepository;
     @Autowired
     private CidadeRepository cidadeRepository;
+    @Autowired
+    private TorneioRepository torneioRepository;
+    @Autowired
+    private RodadaJuizRepository rodadaJuizRepository;
+    @Autowired
+    private TipoPessoaDAO tipoPessoaDAO;
 
     @Autowired
     private EnderecoDAO enderecoDAO;
@@ -65,49 +77,33 @@ public class AtaApplication implements CommandLineRunner {
 
         enderecoDAO.saveAll(enderecos);
 
+        Torneio torneio = new Torneio(new Date(), new Date(), endereco);
+
+        torneioRepository.save(torneio);
+
         Faixa faixa = new Faixa("faixa");
         faixaRepository.save(faixa);
 
         Pessoa pessoa = new Pessoa("nome", "sobrenome", false, new Date(), "usuario",
-                "senha", 1, "foto", "world", "brasil", faixa, endereco);
+                                   "senha", 1, "foto", "world", "brasil", true, faixa, endereco);
 
         Telefone telefone = new Telefone("telefone", false, pessoa);
 
         ArrayList<Telefone> telefones = new ArrayList<>();
 
         telefones.add(telefone);
-        telefones.add(new Telefone("telefone1", false, pessoa));
-        telefones.add(new Telefone("telefone2", false, pessoa));
 
         pessoa.setTelefoneCollection(telefones);
 
         ArrayList<Pessoa> pessoas = new ArrayList<>();
 
         pessoas.add(pessoa);
-        Pessoa pessoa1 = new Pessoa("nome1", "sobrenome", false, new Date(), "usuario",
-                "senha", 1, "foto", "world", "brasil", faixa, endereco);
-        telefones = new ArrayList<>();
-        telefones.add(new Telefone("telefone1", false, pessoa1));
-        telefones.add(new Telefone("telefone2", false, pessoa1));
-        telefones.add(new Telefone("telefone3", false, pessoa1));
-        pessoa1.setTelefoneCollection(telefones);
-        pessoas.add(pessoa1);
-        Pessoa pessoa2 = new Pessoa("nome2", "sobrenome", false, new Date(), "usuario",
-                "senha", 1, "foto", "world", "brasil", faixa, endereco);
-        telefones = new ArrayList<>();
-        telefones.add(new Telefone("telefone1", false, pessoa2));
-        telefones.add(new Telefone("telefone2", false, pessoa2));
-        telefones.add(new Telefone("telefone3", false, pessoa2));
-        pessoa2.setTelefoneCollection(telefones);
-        pessoas.add(pessoa2);
-        Pessoa pessoa3 = new Pessoa("nome3", "sobrenome", false, new Date(), "usuario",
-                "senha", 1, "foto", "world", "brasil", faixa, endereco);
-        telefones = new ArrayList<>();
-        telefones.add(new Telefone("telefone1", false, pessoa3));
-        telefones.add(new Telefone("telefone2", false, pessoa3));
-        telefones.add(new Telefone("telefone3", false, pessoa3));
-        pessoa3.setTelefoneCollection(telefones);
-        pessoas.add(pessoa3);
+        pessoas.add(new Pessoa("nome", "sobrenome", false, new Date(), "usuario",
+                               "senha", 1, "foto", "world", "brasil", true, faixa, endereco));
+        pessoas.add(new Pessoa("nome", "sobrenome", false, new Date(), "usuario",
+                               "senha", 1, "foto", "world", "brasil", true, faixa, endereco));
+        pessoas.add(new Pessoa("nome", "sobrenome", false, new Date(), "usuario",
+                               "senha", 1, "foto", "world", "brasil", true, faixa, endereco));
 
         try {
             pessoaDAO.saveAll(pessoas);
@@ -115,6 +111,25 @@ public class AtaApplication implements CommandLineRunner {
             System.out.println(e);
         }
 
+        Juiz juiz = new Juiz(pessoa);
+
+        try {
+            tipoPessoaDAO.save(juiz);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+
+        RodadaJuiz rodadaJuiz = new RodadaJuiz(torneio, juiz);
+
+        rodadaJuizRepository.save(rodadaJuiz);
+
+        try {
+            pessoaDAO.deleteAll(pessoas);
+//            tipoPessoaDAO.delete(juiz);
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
     }
 

@@ -5,11 +5,24 @@ import com.control.ata.model.pessoa.Pessoa;
 import javax.persistence.*;
 
 @Entity
-@PrimaryKeyJoinColumn(name="id")
-public class Administrador extends Pessoa {
+public class Administrador {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "pessoa_fk")
+    private Pessoa pessoa;
+
+    public Administrador() {
+    }
+
+    public Administrador(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
 }

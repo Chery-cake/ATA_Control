@@ -10,21 +10,42 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@PrimaryKeyJoinColumn(name="id")
-public class Juiz extends Pessoa {
+public class Juiz {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "juiz")
-	private Collection<RodadaJuiz> rodadaJuizList;
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "pessoa_fk")
+    private Pessoa pessoa;
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	private Collection<RingueIndividual> ringueIndividualCollection;
+    @JsonIgnore
+    @OneToMany(mappedBy = "juiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<RodadaJuiz> rodadaJuizList;
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	private Collection<RingueTime> ringueTimeCollection;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Collection<RingueIndividual> ringueIndividualCollection;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Collection<RingueTime> ringueTimeCollection;
+
+    public Juiz() {
+    }
+
+    public Juiz(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public Collection<RodadaJuiz> getRodadaJuizList() {
+        return rodadaJuizList;
+    }
 }

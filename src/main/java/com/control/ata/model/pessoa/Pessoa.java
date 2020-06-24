@@ -1,6 +1,7 @@
 package com.control.ata.model.pessoa;
 
 import com.control.ata.model.endereco.Endereco;
+import com.control.ata.model.tipo_pessoa.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -8,7 +9,6 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa {
 
     @Id
@@ -16,28 +16,16 @@ public class Pessoa {
     private Integer id;
 
     private String nome;
-
     private String sobrenome;
-
     private Boolean genero;
-
     private Date dataNascimento;
-
     private String nomeUsuario;
-
     private String senha;
-
     private Integer status;
-
     private String foto;
-
     private String ataNumberWorld;
-
     private String ataNumberBrasil;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "pessoa")
-    private Collection<Telefone> telefoneCollection;
+    private Boolean isInstrutor;
 
     @ManyToOne
     @JoinColumn(name = "faixa_fk")
@@ -47,11 +35,51 @@ public class Pessoa {
     @JoinColumn(name = "endereco_fk")
     private Endereco endereco;
 
+    @ManyToOne
+    @JoinColumn(name = "instrutor_fk", nullable = true)
+    private Instrutor instrutor;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "pessoa",
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<Telefone> telefoneCollection;
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "pessoa",
+            orphanRemoval = true)
+    private Administrador administrador;
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "pessoa",
+            orphanRemoval = true)
+    private Competidor competidor;
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "pessoa",
+            orphanRemoval = true)
+    private Instrutor getInstrutor;
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "pessoa",
+            orphanRemoval = true)
+    private Juiz juiz;
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "pessoa",
+            orphanRemoval = true)
+    private Treinador treinador;
+
     public Pessoa() {
     }
 
     public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String nomeUsuario, String senha,
-                  Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Faixa faixa, Endereco endereco) {
+                  Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
+                  Faixa faixa, Endereco endereco) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.genero = genero;
@@ -62,56 +90,52 @@ public class Pessoa {
         this.foto = foto;
         this.ataNumberWorld = ataNumberWorld;
         this.ataNumberBrasil = ataNumberBrasil;
+        this.isInstrutor = isInstrutor;
         this.faixa = faixa;
         this.endereco = endereco;
+    }
+
+    public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String nomeUsuario, String senha,
+                  Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
+                  Faixa faixa, Endereco endereco, Instrutor instrutor) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.genero = genero;
+        this.dataNascimento = dataNascimento;
+        this.nomeUsuario = nomeUsuario;
+        this.senha = senha;
+        this.status = status;
+        this.foto = foto;
+        this.ataNumberWorld = ataNumberWorld;
+        this.ataNumberBrasil = ataNumberBrasil;
+        this.isInstrutor = isInstrutor;
+        this.faixa = faixa;
+        this.endereco = endereco;
+        this.instrutor = instrutor;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getSobrenome() {
         return sobrenome;
-    }
-
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
     }
 
     public Boolean getGenero() {
         return genero;
     }
 
-    public void setGenero(Boolean genero) {
-        this.genero = genero;
-    }
-
     public Date getDataNascimento() {
         return dataNascimento;
-    }
-
-    public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
     }
 
     public String getNomeUsuario() {
         return nomeUsuario;
     }
 
-    public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
-    }
-
     public String getSenha() {
         return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public Integer getStatus() {
@@ -126,24 +150,24 @@ public class Pessoa {
         return foto;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
     public String getAtaNumberWorld() {
         return ataNumberWorld;
-    }
-
-    public void setAtaNumberWorld(String ataNumberWorld) {
-        this.ataNumberWorld = ataNumberWorld;
     }
 
     public String getAtaNumberBrasil() {
         return ataNumberBrasil;
     }
 
-    public void setAtaNumberBrasil(String ataNumberBrasil) {
-        this.ataNumberBrasil = ataNumberBrasil;
+    public Boolean getInstrutor() {
+        return isInstrutor;
+    }
+
+    public void setInstrutor(Boolean instrutor) {
+        isInstrutor = instrutor;
+    }
+
+    public void setInstrutor(Instrutor instrutor) {
+        this.instrutor = instrutor;
     }
 
     public Collection<Telefone> getTelefoneCollection() {
@@ -168,25 +192,5 @@ public class Pessoa {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
-    }
-
-    @Override
-    public String toString() {
-        return "Pessoa{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", sobrenome='" + sobrenome + '\'' +
-                ", genero=" + genero +
-                ", dataNascimento=" + dataNascimento +
-                ", nomeUsuario='" + nomeUsuario + '\'' +
-                ", senha='" + senha + '\'' +
-                ", status=" + status +
-                ", foto='" + foto + '\'' +
-                ", ataNumberWorld='" + ataNumberWorld + '\'' +
-                ", ataNumberBrasil='" + ataNumberBrasil + '\'' +
-                //", telefoneCollection=" + telefoneCollection +
-                ", faixa=" + faixa +
-                ", endereco=" + endereco +
-                '}';
     }
 }

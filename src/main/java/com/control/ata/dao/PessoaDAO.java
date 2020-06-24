@@ -19,15 +19,27 @@ public class PessoaDAO {
 
     public void save(Pessoa pessoa) {
         pessoaRepository.save(pessoa);
-        ArrayList<Telefone> telefones = new ArrayList<>(pessoa.getTelefoneCollection());
-        for (Telefone telefone : telefones) {
-            telefoneRepository.save(telefone);
+        if(pessoa.getTelefoneCollection() != null){
+            ArrayList<Telefone> telefones = new ArrayList<>(pessoa.getTelefoneCollection());
+            for (Telefone telefone : telefones) {
+                telefoneRepository.save(telefone);
+            }
         }
     }
 
     public void saveAll(Iterable<Pessoa> iterable) {
         for (Pessoa pessoa : iterable) {
             this.save(pessoa);
+        }
+    }
+
+    public void delete(Pessoa pessoa) {
+        pessoaRepository.delete(pessoa);
+    }
+
+    public void deleteAll(Iterable<Pessoa> iterable) {
+        for (Pessoa pessoa : iterable) {
+            this.delete(pessoa);
         }
     }
 
