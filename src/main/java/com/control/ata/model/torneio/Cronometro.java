@@ -22,11 +22,11 @@ public class Cronometro {
 	private ChaveLutaTime chaveLutaTime;
 	*/
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ringueIndividual_fk")
     private RingueIndividual ringueIndividual;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ringueTime_fk")
     private RingueTime ringueTime;
 

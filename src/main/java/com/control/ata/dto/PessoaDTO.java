@@ -8,7 +8,6 @@ import java.util.Date;
 
 public class PessoaDTO {
 
-    private Integer id;
     private String nome;
     private String sobrenome;
     private Boolean genero;

@@ -34,25 +34,7 @@ public class Bairro {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public Cidade getCidade() {
 		return cidade;
-	}
-
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
-	}
-
-	@Override
-	public String toString() {
-		return "Bairro{" +
-				"id=" + id +
-				", nome='" + nome + '\'' +
-				", cidade=" + cidade +
-				", enderecos=" + enderecos +
-				'}';
 	}
 }

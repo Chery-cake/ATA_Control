@@ -8,51 +8,40 @@ import java.util.Collection;
 @Entity
 public class Estado {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	private String nome;
+    private String nome;
 
-	@ManyToOne
-	@JoinColumn(name = "pais_fk")
-	private Pais pais;
+    private String sigla;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "estado")
-	private Collection<Cidade> cidades;
+    @ManyToOne
+    @JoinColumn(name = "pais_fk")
+    private Pais pais;
 
-	public Estado() {
-	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "estado")
+    private Collection<Cidade> cidades;
 
-	public Estado(String nome, Pais pais) {
-		this.nome = nome;
-		this.pais = pais;
-	}
+    public Estado() {
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public Estado(String nome, String sigla, Pais pais) {
+        this.nome = nome;
+        this.sigla = sigla;
+        this.pais = pais;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public Pais getPais() {
-		return pais;
-	}
+    public String getSigla() {
+        return sigla;
+    }
 
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
-
-	@Override
-	public String toString() {
-		return "Estado{" +
-				"id=" + id +
-				", nome='" + nome + '\'' +
-				", pais=" + pais +
-				", cidades=" + cidades +
-				'}';
-	}
+    public Pais getPais() {
+        return pais;
+    }
 }

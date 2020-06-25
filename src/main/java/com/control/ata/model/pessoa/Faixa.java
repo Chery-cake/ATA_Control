@@ -1,17 +1,32 @@
 package com.control.ata.model.pessoa;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Faixa {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	private String nome;
+    private String nome;
 
-	@OneToOne(mappedBy = "faixa")
-	private Pessoa pessoa;
+    @JsonIgnore
+    @OneToMany(mappedBy = "faixa")
+    private Collection<Pessoa> pessoa;
+
+    public Faixa() {
+    }
+
+    public Faixa(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
 
 }

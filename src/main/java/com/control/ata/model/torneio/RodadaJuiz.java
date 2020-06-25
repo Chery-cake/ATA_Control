@@ -7,16 +7,23 @@ import javax.persistence.*;
 @Entity
 public class RodadaJuiz {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@ManyToOne
-	@JoinColumn(name = "torneio_fk")
-	private Torneio torneio;
+    @ManyToOne
+    @JoinColumn(name = "torneio_fk")
+    private Torneio torneio;
 
-	@ManyToOne
-	@JoinColumn(name = "juiz_fk")
-	private Juiz juiz;
+    @ManyToOne
+    @JoinColumn(name = "juiz_fk")
+    private Juiz juiz;
 
+    public RodadaJuiz() {
+    }
+
+    public RodadaJuiz(Torneio torneio, Juiz juiz) {
+        this.torneio = torneio;
+        this.juiz = juiz;
+    }
 }

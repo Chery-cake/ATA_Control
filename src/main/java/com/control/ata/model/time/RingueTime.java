@@ -38,7 +38,9 @@ public class RingueTime {
 	@OneToMany(mappedBy = "ringueTime")
 	private Collection<PlanilhaChaveamentoTime> planilhaChaveamentoTime;
 
-	@OneToOne(mappedBy = "ringueTime")
+	@OneToOne(fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL,
+			mappedBy = "ringueTime")
 	private Cronometro cronometro;
 
 	@ManyToOne

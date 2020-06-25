@@ -41,7 +41,9 @@ public class RingueIndividual {
 	@OneToMany(mappedBy = "ringueIndividual")
 	private Collection<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividual;
 
-	@OneToOne(mappedBy = "ringueIndividual")
+	@OneToOne(fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL,
+			mappedBy = "ringueIndividual")
 	private Cronometro cronometro;
 
 	@ManyToOne

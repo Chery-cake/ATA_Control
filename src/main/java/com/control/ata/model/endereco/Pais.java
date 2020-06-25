@@ -28,17 +28,4 @@ public class Pais {
 	public String getNome() {
 		return nome;
 	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	@Override
-	public String toString() {
-		return "Pais{" +
-				"id=" + id +
-				", nome='" + nome + '\'' +
-				", estados=" + estados +
-				'}';
-	}
 }

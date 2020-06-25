@@ -16,12 +16,20 @@ public class Academia {
 
 	private String nome;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "endereco_fk")
 	private Endereco endereco;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "academia")
 	private Collection<Instrutor> instrutores;
+
+	public Academia() {
+	}
+
+	public Academia(String nome, Endereco endereco) {
+		this.nome = nome;
+		this.endereco = endereco;
+	}
 
 }
