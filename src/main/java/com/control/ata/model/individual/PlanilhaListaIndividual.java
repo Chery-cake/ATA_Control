@@ -30,4 +30,49 @@ public class PlanilhaListaIndividual {
 	@JoinColumn(name = "ringueIndividual_fk")
 	private RingueIndividual ringueIndividual;
 
+	public PlanilhaListaIndividual() {
+	}
+
+	public PlanilhaListaIndividual(Competidor competidor,
+			CategoriaCompeticao categoriaCompeticao, RingueIndividual ringueIndividual) {
+		this.competidor = competidor;
+		this.categoriaCompeticao = categoriaCompeticao;
+		this.ringueIndividual = ringueIndividual;
+	}
+
+	public Competidor getCompetidor() {
+		return competidor;
+	}
+
+	public Integer getNotaJuizA() {
+		return notaJuizA;
+	}
+
+	public void setNotaJuizA(Integer notaJuizA) {
+		this.notaJuizA = notaJuizA;
+	}
+
+	public Integer getNotaJuizB() {
+		return notaJuizB;
+	}
+
+	public void setNotaJuizB(Integer notaJuizB) {
+		this.notaJuizB = notaJuizB;
+	}
+
+	public Integer getNotaJuizC() {
+		return notaJuizC;
+	}
+
+	public void setNotaJuizC(Integer notaJuizC) {
+		this.notaJuizC = notaJuizC;
+	}
+
+	public CategoriaCompeticao getCategoriaCompeticao() {
+		return categoriaCompeticao;
+	}
+
+	public RingueIndividual getRingueIndividual() {
+		return ringueIndividual;
+	}
 }

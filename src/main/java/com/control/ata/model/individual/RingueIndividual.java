@@ -50,4 +50,81 @@ public class RingueIndividual {
 	@JoinColumn(name = "placar_fk")
 	private Placar placar;
 
+	public RingueIndividual() {
+	}
+
+	public RingueIndividual(Boolean fechado, Integer numero,
+			Collection<Competidor> competidor, Collection<Juiz> juiz, Torneio torneio) {
+		this.fechado = fechado;
+		this.numero = numero;
+		this.competidor = competidor;
+		this.juiz = juiz;
+		this.torneio = torneio;
+	}
+
+	public Boolean getFechado() {
+		return fechado;
+	}
+
+	public Integer getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Integer numero) {
+		this.numero = numero;
+	}
+
+	public Collection<Competidor> getCompetidor() {
+		return competidor;
+	}
+
+	public void setCompetidor(Collection<Competidor> competidor) {
+		this.competidor = competidor;
+	}
+
+	public Collection<Juiz> getJuiz() {
+		return juiz;
+	}
+
+	public void setJuiz(Collection<Juiz> juiz) {
+		this.juiz = juiz;
+	}
+
+	public Torneio getTorneio() {
+		return torneio;
+	}
+
+	public Collection<PlanilhaListaIndividual> getPlanilhaListaIndividual() {
+		return planilhaListaIndividual;
+	}
+
+	public void setPlanilhaListaIndividual(
+			Collection<PlanilhaListaIndividual> planilhaListaIndividual) {
+		this.planilhaListaIndividual = planilhaListaIndividual;
+	}
+
+	public Collection<PlanilhaChaveamentoIndividual> getPlanilhaChaveamentoIndividual() {
+		return planilhaChaveamentoIndividual;
+	}
+
+	public void setPlanilhaChaveamentoIndividual(
+			Collection<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividual) {
+		this.planilhaChaveamentoIndividual = planilhaChaveamentoIndividual;
+	}
+
+	public Cronometro getCronometro() {
+		return cronometro;
+	}
+
+	public void setCronometro(Cronometro cronometro) {
+		this.cronometro = cronometro;
+	}
+
+	public Placar getPlacar() {
+		return placar;
+	}
+
+	public void setPlacar(Placar placar) {
+		this.placar = placar;
+	}
 }

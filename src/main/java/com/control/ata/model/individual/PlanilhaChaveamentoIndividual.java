@@ -25,4 +25,12 @@ public class PlanilhaChaveamentoIndividual {
 	@JoinColumn(name = "ringueIndividual_fk")
 	private RingueIndividual ringueIndividual;
 
+	public PlanilhaChaveamentoIndividual() {
+	}
+
+	public PlanilhaChaveamentoIndividual(CategoriaCompeticao categoriaCompeticao,
+			RingueIndividual ringueIndividual) {
+		this.categoriaCompeticao = categoriaCompeticao;
+		this.ringueIndividual = ringueIndividual;
+	}
 }
