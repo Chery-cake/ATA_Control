@@ -7,10 +7,12 @@ import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.repository.time.PlanilhaListaTimeRepository;
 import com.control.ata.repository.time.RingueTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-public class Lista {
+@Service
+public class ListaTime {
 
     @Autowired
     private RingueTimeRepository ringueTimeRepository;
@@ -25,7 +27,7 @@ public class Lista {
     }
 
     public void setPlanilha(PlanilhaListaTime planilha) {
-        planilhaListaTimeRepository.updatePlanilha(planilha);
+        planilhaListaTimeRepository.save(planilha);
     }
 
 }

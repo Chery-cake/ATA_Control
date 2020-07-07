@@ -12,7 +12,6 @@ public class ChaveLutaIndividual {
 	private Integer id;
 
 	private Integer posicao;
-
 	private Integer fase;
 
 	@ManyToOne
@@ -20,11 +19,8 @@ public class ChaveLutaIndividual {
 	private Competidor competidorVermelho;
 
 	private Integer pontosVermelhos;
-
 	private Integer advertenciasVermelhas;
-
 	private Integer penalidadesVermelhas;
-
 	private Boolean desqualificacaoVermelha;
 
 	@ManyToOne
@@ -32,11 +28,8 @@ public class ChaveLutaIndividual {
 	private Competidor competidorBranco;
 
 	private Integer pontosBrancos;
-
 	private Integer advertenciasBrancas;
-
 	private Integer penalidadesBrancas;
-
 	private Boolean desqualificacaoBranca;
 
 	@ManyToOne
@@ -54,6 +47,8 @@ public class ChaveLutaIndividual {
 		this.competidorVermelho = competidorVermelho;
 		this.competidorBranco = competidorBranco;
 		this.planilhaChaveamentoIndividual = planilhaChaveamentoIndividual;
+		this.desqualificacaoBranca = false;
+		this.desqualificacaoVermelha = false;
 	}
 
 	public Integer getId() {

@@ -1,8 +1,9 @@
 package com.control.ata.model.individual;
 
 import com.control.ata.model.tipo_pessoa.Competidor;
-import com.control.ata.model.torneio.Cronometro;
 import com.control.ata.model.tipo_pessoa.Juiz;
+import com.control.ata.model.torneio.CategoriaCompeticao;
+import com.control.ata.model.torneio.Cronometro;
 import com.control.ata.model.torneio.Placar;
 import com.control.ata.model.torneio.Torneio;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,118 +14,135 @@ import java.util.Collection;
 @Entity
 public class RingueIndividual {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	private Boolean fechado;
+    private Boolean fechado;
+    private Integer numero;
 
-	private Integer numero;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Collection<Juiz> juiz;
 
-	@ManyToMany(mappedBy = "ringueIndividualCollection")
-	private Collection<Competidor> competidor;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Collection<Competidor> competidor;
 
-	@ManyToMany(mappedBy = "ringueIndividualCollection")
-	private Collection<Juiz> juiz;
+    @ManyToOne
+    @JoinColumn(name = "torneio_fk")
+    private Torneio torneio;
 
-	@ManyToOne
-	@JoinColumn(name = "torneio_fk")
-	private Torneio torneio;
+    //private Collection<Torneio> torneio;
 
-	//private Collection<Torneio> torneio;
+    @JsonIgnore
+    @OneToMany(mappedBy = "ringueIndividual")
+    private Collection<PlanilhaListaIndividual> planilhaListaIndividual;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "ringueIndividual")
-	private Collection<PlanilhaListaIndividual> planilhaListaIndividual;
+    @JsonIgnore
+    @OneToMany(mappedBy = "ringueIndividual")
+    private Collection<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividual;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "ringueIndividual")
-	private Collection<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividual;
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "ringueTime")
+    private Cronometro cronometro;
 
-	@OneToOne(fetch = FetchType.LAZY,
-			cascade = CascadeType.ALL,
-			mappedBy = "ringueIndividual")
-	private Cronometro cronometro;
+    @ManyToOne
+    @JoinColumn(name = "placar_fk")
+    private Placar placar;
 
-	@ManyToOne
-	@JoinColumn(name = "placar_fk")
-	private Placar placar;
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    private Collection<CategoriaCompeticao> categoriaCompeticao;
 
-	public RingueIndividual() {
-	}
+    public RingueIndividual() {
+    }
 
-	public RingueIndividual(Boolean fechado, Integer numero,
-			Collection<Competidor> competidor, Collection<Juiz> juiz, Torneio torneio) {
-		this.fechado = fechado;
-		this.numero = numero;
-		this.competidor = competidor;
-		this.juiz = juiz;
-		this.torneio = torneio;
-	}
+    public RingueIndividual(Boolean fechado, Integer numero,
+            Collection<Juiz> juiz, Collection<Competidor> competidor, Torneio torneio,
+            Collection<CategoriaCompeticao> categoriaCompeticao) {
+        this.fechado = fechado;
+        this.numero = numero;
+        this.juiz = juiz;
+        this.competidor = competidor;
+        this.torneio = torneio;
+        this.categoriaCompeticao = categoriaCompeticao;
+    }
 
-	public Boolean getFechado() {
-		return fechado;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Integer getNumero() {
-		return numero;
-	}
+    public Boolean getFechado() {
+        return fechado;
+    }
 
-	public void setNumero(Integer numero) {
-		this.numero = numero;
-	}
+    public Integer getNumero() {
+        return numero;
+    }
 
-	public Collection<Competidor> getCompetidor() {
-		return competidor;
-	}
+    public void setNumero(Integer numero) {
+        this.numero = numero;
+    }
 
-	public void setCompetidor(Collection<Competidor> competidor) {
-		this.competidor = competidor;
-	}
+    public Collection<Competidor> getCompetidor() {
+        return competidor;
+    }
 
-	public Collection<Juiz> getJuiz() {
-		return juiz;
-	}
+    public void setCompetidor(Collection<Competidor> competidor) {
+        this.competidor = competidor;
+    }
 
-	public void setJuiz(Collection<Juiz> juiz) {
-		this.juiz = juiz;
-	}
+    public Collection<Juiz> getJuiz() {
+        return juiz;
+    }
 
-	public Torneio getTorneio() {
-		return torneio;
-	}
+    public void setJuiz(Collection<Juiz> juiz) {
+        this.juiz = juiz;
+    }
 
-	public Collection<PlanilhaListaIndividual> getPlanilhaListaIndividual() {
-		return planilhaListaIndividual;
-	}
+    public Torneio getTorneio() {
+        return torneio;
+    }
 
-	public void setPlanilhaListaIndividual(
-			Collection<PlanilhaListaIndividual> planilhaListaIndividual) {
-		this.planilhaListaIndividual = planilhaListaIndividual;
-	}
+    public Collection<PlanilhaListaIndividual> getPlanilhaListaIndividual() {
+        return planilhaListaIndividual;
+    }
 
-	public Collection<PlanilhaChaveamentoIndividual> getPlanilhaChaveamentoIndividual() {
-		return planilhaChaveamentoIndividual;
-	}
+    public void setPlanilhaListaIndividual(
+            Collection<PlanilhaListaIndividual> planilhaListaIndividual) {
+        this.planilhaListaIndividual = planilhaListaIndividual;
+    }
 
-	public void setPlanilhaChaveamentoIndividual(
-			Collection<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividual) {
-		this.planilhaChaveamentoIndividual = planilhaChaveamentoIndividual;
-	}
+    public Collection<PlanilhaChaveamentoIndividual> getPlanilhaChaveamentoIndividual() {
+        return planilhaChaveamentoIndividual;
+    }
 
-	public Cronometro getCronometro() {
-		return cronometro;
-	}
+    public void setPlanilhaChaveamentoIndividual(
+            Collection<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividual) {
+        this.planilhaChaveamentoIndividual = planilhaChaveamentoIndividual;
+    }
 
-	public void setCronometro(Cronometro cronometro) {
-		this.cronometro = cronometro;
-	}
+    public Cronometro getCronometro() {
+        return cronometro;
+    }
 
-	public Placar getPlacar() {
-		return placar;
-	}
+    public void setCronometro(Cronometro cronometro) {
+        this.cronometro = cronometro;
+    }
 
-	public void setPlacar(Placar placar) {
-		this.placar = placar;
-	}
+    public Placar getPlacar() {
+        return placar;
+    }
+
+    public void setPlacar(Placar placar) {
+        this.placar = placar;
+    }
+
+    public Collection<CategoriaCompeticao> getCategoriaCompeticao() {
+        return categoriaCompeticao;
+    }
+
+    public void setCategoriaCompeticao(
+            Collection<CategoriaCompeticao> categoriaCompeticao) {
+        this.categoriaCompeticao = categoriaCompeticao;
+    }
 }

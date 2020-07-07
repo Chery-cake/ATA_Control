@@ -1,15 +1,19 @@
 package com.control.ata.repository.individual;
 
 import com.control.ata.model.individual.ChaveLutaIndividual;
+import com.control.ata.model.individual.PlanilhaChaveamentoIndividual;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+
 @Repository
 public interface ChaveLutaIndividualRepository extends JpaRepository<ChaveLutaIndividual, Integer> {
 
-    @Query("update ChaveLutaIndividual c set c = :chave where c.id = :chave")
-    void updateChave(@Param("chave") ChaveLutaIndividual chave);
+    @Query("select c from ChaveLutaIndividual c where c.planilhaChaveamentoIndividual = :planilha")
+    Collection<ChaveLutaIndividual> getAllByPlanilhaChaveamentoIndividual(@Param("planilha")
+            PlanilhaChaveamentoIndividual planilha);
 
 }

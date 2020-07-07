@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
-public class Chave {
+public class ChaveIndividual {
 
     @Autowired
     private RingueIndividualRepository ringueIndividualRepository;
@@ -24,17 +24,17 @@ public class Chave {
     @Autowired
     private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
 
-    public void createPlanilha(RingueIndividual ringueIndividual, CategoriaCompeticao categoriaCompeticao) {
-        ArrayList<Competidor> competidorArrayList = (ArrayList<Competidor>) ringueIndividualRepository.getCompetidoresByRingueIndividual(
-                ringueIndividual);
+    public PlanilhaChaveamentoIndividual createPlanilha(RingueIndividual ringueIndividual, CategoriaCompeticao categoriaCompeticao) {
+        ArrayList<Competidor> competidorArrayList = new ArrayList<>(ringueIndividual.getCompetidor());
         PlanilhaChaveamentoIndividual planilha = new PlanilhaChaveamentoIndividual(categoriaCompeticao,
                                                                                    ringueIndividual);
-        planilhaChaveamentoIndividualRepository.save(planilha);
+        planilha = planilhaChaveamentoIndividualRepository.save(planilha);
         createChave(competidorArrayList, planilha);
+        return planilha;
     }
 
-    public void updateChave(ChaveLutaIndividual chaveLutaIndividual){
-        chaveLutaIndividualRepository.updateChave(chaveLutaIndividual);
+    public ChaveLutaIndividual updateChave(ChaveLutaIndividual chaveLutaIndividual){
+        return chaveLutaIndividualRepository.save(chaveLutaIndividual);
     }
 
     private void setChave(Competidor compVer, Competidor compBra, PlanilhaChaveamentoIndividual planilha, int posicao,

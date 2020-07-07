@@ -33,4 +33,21 @@ public class PlanilhaChaveamentoIndividual {
 		this.categoriaCompeticao = categoriaCompeticao;
 		this.ringueIndividual = ringueIndividual;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public Collection<ChaveLutaIndividual> getChaveLutaIndividual() {
+		return chaveLutaIndividual;
+	}
+
+	public CategoriaCompeticao getCategoriaCompeticao() {
+		return categoriaCompeticao;
+	}
+
+	public RingueIndividual getRingueIndividual() {
+		return ringueIndividual;
+	}
+
 }

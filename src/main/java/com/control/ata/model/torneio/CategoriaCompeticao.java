@@ -1,66 +1,114 @@
 package com.control.ata.model.torneio;
 
-import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.individual.PlanilhaChaveamentoIndividual;
 import com.control.ata.model.individual.PlanilhaListaIndividual;
 import com.control.ata.model.individual.RankingIndividual;
+import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.time.PlanilhaChaveamentoTime;
 import com.control.ata.model.time.PlanilhaListaTime;
 import com.control.ata.model.time.RankingTime;
+import com.control.ata.model.time.RingueTime;
+import com.control.ata.model.tipo_pessoa.Competidor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 public class CategoriaCompeticao {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	private String nome;
+    private String nome;
 
-	private Boolean tipoChave;
+    private Boolean tipoChave;
+    private Boolean tipoTime;
+    private Integer limiteTempo;
+    private Integer limitePonto;
 
-	private Boolean tipoTime;
+    private Integer minimoMasculino;
+    private Integer minimoFeminino;
+    private Integer maximoTotal;
 
-	private Integer limiteTempo;
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoriaCompeticao")
+    private Collection<PlanilhaListaIndividual> planilhaListaIndividualList;
 
-	private Integer limitePonto;
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoriaCompeticao")
+    private Collection<PlanilhaListaTime> planilhaListaTimeList;
 
-	private Integer minimoMasculino;
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoriaCompeticao")
+    private Collection<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividualList;
 
-	private Integer minimoFeminino;
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoriaCompeticao")
+    private Collection<PlanilhaChaveamentoTime> planilhaChaveamentoTimeList;
 
-	private Integer maximoTotal;
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoriaCompeticao")
+    private Collection<RankingTime> rankingTimeList;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "categoriaCompeticao")
-	private Collection<PlanilhaListaIndividual> planilhaListaIndividualList;
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoriaCompeticao")
+    private Collection<RankingIndividual> rankingIndividualList;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "categoriaCompeticao")
-	private Collection<PlanilhaListaTime> planilhaListaTimeList;
+    @ManyToMany(mappedBy = "categoriaCompeticao")
+    private Collection<Competidor> competidorList;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "categoriaCompeticao")
-	private Collection<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividualList;
+    @ManyToMany(mappedBy = "categoriaCompeticao")
+    private Collection<RingueIndividual> ringueIndividualList;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "categoriaCompeticao")
-	private Collection<PlanilhaChaveamentoTime> planilhaChaveamentoTimeList;
+    @ManyToMany(mappedBy = "categoriaCompeticao")
+    private Collection<RingueTime> ringueTimeList;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "categoriaCompeticao")
-	private Collection<RankingTime> rankingTimeList;
+    public CategoriaCompeticao() {
+    }
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "categoriaCompeticao")
-	private Collection<RankingIndividual> rankingIndividualList;
+    public CategoriaCompeticao(String nome, Boolean tipoChave, Boolean tipoTime, Integer limiteTempo,
+            Integer limitePonto, Integer minimoMasculino, Integer minimoFeminino, Integer maximoTotal) {
+        this.nome = nome;
+        this.tipoChave = tipoChave;
+        this.tipoTime = tipoTime;
+        this.limiteTempo = limiteTempo;
+        this.limitePonto = limitePonto;
+        this.minimoMasculino = minimoMasculino;
+        this.minimoFeminino = minimoFeminino;
+        this.maximoTotal = maximoTotal;
+    }
 
-	@ManyToMany(mappedBy = "categoriaCompeticao")
-	private Collection<Competidor> competidorList;
+    public String getNome() {
+        return nome;
+    }
 
+    public Boolean getTipoChave() {
+        return tipoChave;
+    }
+
+    public Boolean getTipoTime() {
+        return tipoTime;
+    }
+
+    public Integer getLimiteTempo() {
+        return limiteTempo;
+    }
+
+    public Integer getLimitePonto() {
+        return limitePonto;
+    }
+
+    public Integer getMinimoMasculino() {
+        return minimoMasculino;
+    }
+
+    public Integer getMinimoFeminino() {
+        return minimoFeminino;
+    }
+
+    public Integer getMaximoTotal() {
+        return maximoTotal;
+    }
 }
