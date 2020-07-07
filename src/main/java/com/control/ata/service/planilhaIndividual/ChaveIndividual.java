@@ -24,7 +24,8 @@ public class ChaveIndividual {
     @Autowired
     private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
 
-    public PlanilhaChaveamentoIndividual createPlanilha(RingueIndividual ringueIndividual, CategoriaCompeticao categoriaCompeticao) {
+    public PlanilhaChaveamentoIndividual createPlanilha(RingueIndividual ringueIndividual,
+            CategoriaCompeticao categoriaCompeticao) {
         ArrayList<Competidor> competidorArrayList = new ArrayList<>(ringueIndividual.getCompetidor());
         PlanilhaChaveamentoIndividual planilha = new PlanilhaChaveamentoIndividual(categoriaCompeticao,
                                                                                    ringueIndividual);
@@ -33,7 +34,7 @@ public class ChaveIndividual {
         return planilha;
     }
 
-    public ChaveLutaIndividual updateChave(ChaveLutaIndividual chaveLutaIndividual){
+    public ChaveLutaIndividual updateChave(ChaveLutaIndividual chaveLutaIndividual) {
         return chaveLutaIndividualRepository.save(chaveLutaIndividual);
     }
 
@@ -45,15 +46,13 @@ public class ChaveIndividual {
 
     private void createChave(ArrayList<Competidor> competidorArrayList, PlanilhaChaveamentoIndividual planilha) {
         if (competidorArrayList.size() > 2) {
-            int fase = 0;
-            if (competidorArrayList.size() == 4) {
+            int fase = 1;
+            if ((competidorArrayList.size() > 4) && (competidorArrayList.size() <= 8)) {
                 fase = 2;
-            } else if (competidorArrayList.size() == 8) {
+            } else if ((competidorArrayList.size() > 8) && (competidorArrayList.size() <= 16)) {
                 fase = 3;
-            } else if (competidorArrayList.size() == 16) {
+            } else if ((competidorArrayList.size() > 16) && (competidorArrayList.size() <= 32)) {
                 fase = 4;
-            } else if (competidorArrayList.size() == 32) {
-                fase = 5;
             }
             int i = 1;
             while (competidorArrayList.size() > 0) {
@@ -63,9 +62,9 @@ public class ChaveIndividual {
                 i++;
             }
         } else if (competidorArrayList.size() == 2) {
-            setChave(competidorArrayList.get(0), competidorArrayList.get(1), planilha, 1, 1);
+            setChave(competidorArrayList.get(0), competidorArrayList.get(1), planilha, 1, 0);
         } else if (competidorArrayList.size() == 1) {
-            setChave(competidorArrayList.get(0), null, planilha, 1, 1);
+            setChave(competidorArrayList.get(0), null, planilha, 1, 0);
         }
     }
 
@@ -85,8 +84,13 @@ public class ChaveIndividual {
                 }
                 sorteio.a = competidorArrayList.get(indiA);
                 sorteio.b = competidorArrayList.get(indiB);
-                competidorArrayList.remove(indiA);
-                competidorArrayList.remove(indiB);
+                if (indiA > indiB) {
+                    competidorArrayList.remove(indiA);
+                    competidorArrayList.remove(indiB);
+                } else {
+                    competidorArrayList.remove(indiB);
+                    competidorArrayList.remove(indiA);
+                }
             } else {
                 int size = competidorArrayList.size();
                 int indiA = ThreadLocalRandom.current().nextInt(0, size);

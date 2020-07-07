@@ -18,7 +18,10 @@ import com.control.ata.model.torneio.RodadaJuiz;
 import com.control.ata.model.torneio.Torneio;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.individual.ChaveLutaIndividualRepository;
+import com.control.ata.repository.individual.RingueIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
+import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
+import com.control.ata.repository.tipo_pessoa.JuizRepository;
 import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
 import com.control.ata.service.PopulateBD;
@@ -51,6 +54,12 @@ public class AtaApplication implements CommandLineRunner {
     private CategoriaCompeticaoRepository categoriaCompeticaoRepository;
     @Autowired
     private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
+    @Autowired
+    private CompetidorRepository competidorRepository;
+    @Autowired
+    private JuizRepository juizRepository;
+    @Autowired
+    private RingueIndividualRepository ringueIndividualRepository;
 
     @Autowired
     private TipoPessoaDAO tipoPessoaDAO;
@@ -76,7 +85,11 @@ public class AtaApplication implements CommandLineRunner {
         populateBD.populate();
 
         Endereco endereco = new Endereco("rua", new Bairro("bairro", cidadeRepository.getOne(1)));
-        endereco = enderecoDAO.save(endereco);
+        try {
+            endereco = enderecoDAO.save(endereco);
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
         Torneio torneio = new Torneio(new Date(), new Date(), endereco);
         try {
@@ -103,6 +116,7 @@ public class AtaApplication implements CommandLineRunner {
 
         Juiz juiz = new Juiz(pessoa);
         Juiz juiz1 = new Juiz(pessoa1);
+
         RodadaJuiz rodadaJuiz = new RodadaJuiz(torneio, juiz);
         ArrayList<RodadaJuiz> rodadaJuizArrayList = new ArrayList<>();
         rodadaJuizArrayList.add(rodadaJuiz);
@@ -142,6 +156,12 @@ public class AtaApplication implements CommandLineRunner {
             System.out.println(e);
         }
 
+        try {
+            ringueIndividualRepository.deleteAll();
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
         RingueIndividual ringueIndividual = new RingueIndividual(false, 1, juizArrayList, competidorArrayList, torneio,
                                                                  categoriaCompeticaoArrayList);
         try {
@@ -170,7 +190,7 @@ public class AtaApplication implements CommandLineRunner {
             for (ChaveLutaIndividual chave : chaveLutaIndividual) {
                 System.out.println(chave);
                 chave.setDesqualificacaoBranca(true);
-                chave.setDesqualificacaoVermelha(null);
+                chave.setDesqualificacaoVermelha(true);
                 chaveIndividual.updateChave(chave);
             }
         } catch (Exception e) {

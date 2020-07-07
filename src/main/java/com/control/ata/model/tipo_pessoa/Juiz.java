@@ -27,7 +27,7 @@ public class Juiz {
     @ManyToMany(mappedBy = "juiz")
     private Collection<RingueIndividual> ringueIndividualCollection;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     private Collection<RingueTime> ringueTimeCollection;
 
     public Juiz() {

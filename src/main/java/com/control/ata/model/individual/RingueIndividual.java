@@ -21,10 +21,10 @@ public class RingueIndividual {
     private Boolean fechado;
     private Integer numero;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     private Collection<Juiz> juiz;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     private Collection<Competidor> competidor;
 
     @ManyToOne
@@ -34,11 +34,11 @@ public class RingueIndividual {
     //private Collection<Torneio> torneio;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "ringueIndividual")
+    @OneToMany(mappedBy = "ringueIndividual", cascade = CascadeType.ALL)
     private Collection<PlanilhaListaIndividual> planilhaListaIndividual;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "ringueIndividual")
+    @OneToMany(mappedBy = "ringueIndividual", cascade = CascadeType.ALL)
     private Collection<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividual;
 
     @OneToOne(fetch = FetchType.LAZY,

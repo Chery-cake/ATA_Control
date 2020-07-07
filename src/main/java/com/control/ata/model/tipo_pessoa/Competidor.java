@@ -30,7 +30,7 @@ public class Competidor {
     @ManyToMany(cascade = {CascadeType.PERSIST})
     private Collection<CategoriaCompeticao> categoriaCompeticao;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     private Collection<Time> time;
 
     @JsonIgnore

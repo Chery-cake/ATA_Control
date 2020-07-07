@@ -31,7 +31,7 @@ public class Time {
 	@OneToMany(mappedBy = "time")
 	private Collection<PlanilhaListaTime> planilhaListaTimeList;
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(cascade = { CascadeType.PERSIST})
 	private Collection<RingueTime> ringueTimeCollection;
 
 	@JsonIgnore
