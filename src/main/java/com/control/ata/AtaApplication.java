@@ -102,20 +102,29 @@ public class AtaApplication implements CommandLineRunner {
                                    "ataBrasil", false, faixaRepository.getOne(1), endereco);
         Pessoa pessoa1 = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto", "ataWorld",
                                     "ataBrasil", false, faixaRepository.getOne(1), endereco);
+        Pessoa pessoa2 = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto", "ataWorld",
+                                    "ataBrasil", false, faixaRepository.getOne(1), endereco);
+        Pessoa pessoa3 = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto", "ataWorld",
+                                    "ataBrasil", false, faixaRepository.getOne(1), endereco);
         ArrayList<Pessoa> pessoas = new ArrayList<>();
         pessoas.add(pessoa);
         pessoas.add(pessoa1);
+        pessoas.add(pessoa2);
+        pessoas.add(pessoa3);
         try {
             pessoas = (ArrayList<Pessoa>) pessoaDAO.saveAll(pessoas);
-            pessoa = pessoaDAO.save(pessoa);
+//            pessoa = pessoaDAO.save(pessoa);
         } catch (Exception e) {
             System.out.println(e);
         }
         pessoa = pessoas.get(0);
         pessoa1 = pessoas.get(1);
+        pessoa2 = pessoas.get(2);
+        pessoa3 = pessoas.get(3);
 
         Juiz juiz = new Juiz(pessoa);
         Juiz juiz1 = new Juiz(pessoa1);
+        Juiz juiz2 = new Juiz(pessoa2);
 
         RodadaJuiz rodadaJuiz = new RodadaJuiz(torneio, juiz);
         ArrayList<RodadaJuiz> rodadaJuizArrayList = new ArrayList<>();
@@ -125,12 +134,18 @@ public class AtaApplication implements CommandLineRunner {
         ArrayList<RodadaJuiz> rodadaJuizArrayList1 = new ArrayList<>();
         rodadaJuizArrayList1.add(rodadaJuiz1);
 
+        RodadaJuiz rodadaJuiz2 = new RodadaJuiz(torneio, juiz2);
+        ArrayList<RodadaJuiz> rodadaJuizArrayList2 = new ArrayList<>();
+        rodadaJuizArrayList2.add(rodadaJuiz2);
+
         juiz.setRodadaJuizList(rodadaJuizArrayList);
         juiz1.setRodadaJuizList(rodadaJuizArrayList1);
+        juiz2.setRodadaJuizList(rodadaJuizArrayList2);
 
         ArrayList<Juiz> juizArrayList = new ArrayList<>();
         juizArrayList.add(juiz);
         juizArrayList.add(juiz1);
+        juizArrayList.add(juiz2);
         try {
 //            juiz = tipoPessoaDAO.save(juiz);
             juizArrayList = (ArrayList<Juiz>) tipoPessoaDAO.saveAll(juizArrayList);
@@ -145,9 +160,13 @@ public class AtaApplication implements CommandLineRunner {
 
         Competidor competidor = new Competidor(1.0, 1.0, "nivel", pessoa, categoriaCompeticaoArrayList);
         Competidor competidor1 = new Competidor(1.0, 1.0, "nivel", pessoa1, categoriaCompeticaoArrayList);
+        Competidor competidor2 = new Competidor(1.0, 1.0, "nivel", pessoa2, categoriaCompeticaoArrayList);
+        Competidor competidor3 = new Competidor(1.0, 1.0, "nivel", pessoa3, categoriaCompeticaoArrayList);
         ArrayList<Competidor> competidorArrayList = new ArrayList<>();
         competidorArrayList.add(competidor);
         competidorArrayList.add(competidor1);
+        competidorArrayList.add(competidor2);
+        competidorArrayList.add(competidor3);
 
         try {
             competidorArrayList = (ArrayList<Competidor>) tipoPessoaDAO.saveAll(competidorArrayList);
@@ -190,7 +209,7 @@ public class AtaApplication implements CommandLineRunner {
             for (ChaveLutaIndividual chave : chaveLutaIndividual) {
                 System.out.println(chave);
                 chave.setDesqualificacaoBranca(true);
-                chave.setDesqualificacaoVermelha(true);
+                chave.setDesqualificacaoVermelha(false);
                 chaveIndividual.updateChave(chave);
             }
         } catch (Exception e) {

@@ -34,8 +34,89 @@ public class ChaveIndividual {
         return planilha;
     }
 
-    public ChaveLutaIndividual updateChave(ChaveLutaIndividual chaveLutaIndividual) {
-        return chaveLutaIndividualRepository.save(chaveLutaIndividual);
+    public ChaveLutaIndividual updateChave(ChaveLutaIndividual chaveLutaIndividual) {//todo fazer com que chaves com 1 competidor passem pra proxima fase
+        chaveLutaIndividual = chaveLutaIndividualRepository.save(chaveLutaIndividual);
+
+        if (chaveLutaIndividual.getDesqualificacaoBranca()) {
+            nextChave(chaveLutaIndividual.getCompetidorVermelho(), chaveLutaIndividual);
+        } else if (chaveLutaIndividual.getDesqualificacaoVermelha()) {
+            nextChave(chaveLutaIndividual.getCompetidorBranco(), chaveLutaIndividual);
+        } else if (chaveLutaIndividual.getPontosBrancos().equals(
+                chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao().getLimitePonto())) {
+            nextChave(chaveLutaIndividual.getCompetidorBranco(), chaveLutaIndividual);
+        } else if (chaveLutaIndividual.getPontosVermelhos().equals(
+                chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao().getLimitePonto())) {
+            nextChave(chaveLutaIndividual.getCompetidorVermelho(), chaveLutaIndividual);
+        }
+
+        return chaveLutaIndividual;
+    }
+
+    private void nextChave(Competidor competidor, ChaveLutaIndividual chaveLutaIndividual) {
+        if (chaveLutaIndividual.getFase() == 0) {
+        } else if (chaveLutaIndividual.getFase() - 1 == 0) {
+            if (!chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividualAndFase(
+                    chaveLutaIndividual.getPlanilhaChaveamentoIndividual(),
+                    chaveLutaIndividual.getFase() - 1).isEmpty()) {
+                ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList = (ArrayList<ChaveLutaIndividual>) chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividualAndFase(
+                        chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), chaveLutaIndividual.getFase() - 1);
+                ChaveLutaIndividual chaveLutaIndividual2 = null;
+                ChaveLutaIndividual chaveLutaIndividual3 = null;
+                for (ChaveLutaIndividual chaveLutaIndividual1 : chaveLutaIndividualArrayList) {
+                    if ((chaveLutaIndividual1.getCompetidorBranco() == null) && (chaveLutaIndividual1.getPosicao() == 1)) {
+                        chaveLutaIndividual2 = chaveLutaIndividual1;
+                    }
+                    if ((chaveLutaIndividual1.getCompetidorBranco() == null) && (chaveLutaIndividual1.getPosicao() == 2)) {
+                        chaveLutaIndividual3 = chaveLutaIndividual1;
+                    }
+                }
+                chaveLutaIndividual2.setCompetidorBranco(competidor);
+                chaveLutaIndividualRepository.save(chaveLutaIndividual2);
+                Competidor competidor1 = null;
+                if (competidor == chaveLutaIndividual.getCompetidorBranco()) {
+                    competidor1 = chaveLutaIndividual.getCompetidorVermelho();
+                } else {
+                    competidor1 = chaveLutaIndividual.getCompetidorBranco();
+                }
+                chaveLutaIndividual3.setCompetidorBranco(competidor1);
+                chaveLutaIndividualRepository.save(chaveLutaIndividual3);
+            } else {
+                this.setChave(competidor, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), 1,
+                              chaveLutaIndividual.getFase() - 1);
+                Competidor competidor1 = null;
+                if (competidor == chaveLutaIndividual.getCompetidorBranco()) {
+                    competidor1 = chaveLutaIndividual.getCompetidorVermelho();
+                } else {
+                    competidor1 = chaveLutaIndividual.getCompetidorBranco();
+                }
+                this.setChave(competidor1, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), 2,
+                              chaveLutaIndividual.getFase() - 1);
+            }
+        } else if (!chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividualAndFase(
+                chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), chaveLutaIndividual.getFase() - 1).isEmpty()) {
+            ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList = (ArrayList<ChaveLutaIndividual>) chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividualAndFase(
+                    chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), chaveLutaIndividual.getFase() - 1);
+            ChaveLutaIndividual chaveLutaIndividual2 = null;
+            Boolean semChave = true;
+            for (ChaveLutaIndividual chaveLutaIndividual1 : chaveLutaIndividualArrayList) {
+                if (chaveLutaIndividual1.getCompetidorBranco() == null) {
+                    chaveLutaIndividual2 = chaveLutaIndividual1;
+                    semChave = false;
+                    break;
+                }
+            }
+            if (semChave) {
+                this.setChave(competidor, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(),
+                              chaveLutaIndividualArrayList.size() + 1,
+                              chaveLutaIndividual.getFase() - 1);
+            } else {
+                chaveLutaIndividual2.setCompetidorBranco(competidor);
+                chaveLutaIndividualRepository.save(chaveLutaIndividual2);
+            }
+        } else {
+            this.setChave(competidor, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), 1,
+                          chaveLutaIndividual.getFase() - 1);
+        }
     }
 
     private void setChave(Competidor compVer, Competidor compBra, PlanilhaChaveamentoIndividual planilha, int posicao,

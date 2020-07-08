@@ -16,4 +16,8 @@ public interface ChaveLutaIndividualRepository extends JpaRepository<ChaveLutaIn
     Collection<ChaveLutaIndividual> getAllByPlanilhaChaveamentoIndividual(@Param("planilha")
             PlanilhaChaveamentoIndividual planilha);
 
+    @Query("select c from ChaveLutaIndividual c where c.planilhaChaveamentoIndividual = :planilha and c.fase = :fase")
+    Collection<ChaveLutaIndividual> getAllByPlanilhaChaveamentoIndividualAndFase(@Param("planilha")
+            PlanilhaChaveamentoIndividual planilha, @Param("fase") Integer fase);
+
 }
