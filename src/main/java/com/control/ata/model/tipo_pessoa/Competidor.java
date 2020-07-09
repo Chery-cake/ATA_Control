@@ -2,11 +2,11 @@ package com.control.ata.model.tipo_pessoa;
 
 import com.control.ata.model.individual.ChaveLutaIndividual;
 import com.control.ata.model.individual.PlanilhaListaIndividual;
-import com.control.ata.model.individual.RankingIndividual;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.time.Time;
 import com.control.ata.model.torneio.CategoriaCompeticao;
+import com.control.ata.model.torneio.Titulo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -34,23 +34,23 @@ public class Competidor {
     private Collection<Time> time;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "competidor")
+    @OneToMany(mappedBy = "competidor", cascade = CascadeType.ALL)
     private Collection<PlanilhaListaIndividual> planilhaListaIndividualList;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "competidor")
-    private Collection<RankingIndividual> rankingIndividualList;
 
     @ManyToMany(mappedBy = "competidor")
     private Collection<RingueIndividual> ringueIndividualCollection;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "competidorVermelho")
+    @OneToMany(mappedBy = "competidorVermelho", cascade = CascadeType.ALL)
     private Collection<ChaveLutaIndividual> chaveLutaIndividualVermelho;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "competidorBranco")
+    @OneToMany(mappedBy = "competidorBranco", cascade = CascadeType.ALL)
     private Collection<ChaveLutaIndividual> chaveLutaIndividualBranco;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "competidor", cascade = CascadeType.ALL)
+    private Collection<Titulo> tituloList;
 
     public Competidor() {
     }
@@ -109,5 +109,13 @@ public class Competidor {
 
     public Pessoa getPessoa() {
         return pessoa;
+    }
+
+    public Collection<Titulo> getTituloList() {
+        return tituloList;
+    }
+
+    public void setTituloList(Collection<Titulo> tituloList) {
+        this.tituloList = tituloList;
     }
 }

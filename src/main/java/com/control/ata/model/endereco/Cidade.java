@@ -19,7 +19,7 @@ public class Cidade {
 	private Estado estado;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "cidade")
+	@OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL)
 	private Collection<Bairro> bairros;
 
 	public Cidade() {

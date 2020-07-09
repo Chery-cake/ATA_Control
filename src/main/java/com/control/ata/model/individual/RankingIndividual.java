@@ -1,6 +1,6 @@
 package com.control.ata.model.individual;
 
-import com.control.ata.model.tipo_pessoa.Competidor;
+import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 
 import javax.persistence.*;
@@ -13,8 +13,8 @@ public class RankingIndividual {
 	private Integer id;
 
 	@ManyToOne
-	@JoinColumn(name = "competidor_fk")
-	private Competidor competidor;
+	@JoinColumn(name = "pessoa_fk")
+	private Pessoa pessoa;
 
 	private Integer pontuacao;
 

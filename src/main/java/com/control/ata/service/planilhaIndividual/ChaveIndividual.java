@@ -125,6 +125,7 @@ public class ChaveIndividual {
         chaveLutaIndividualRepository.save(chave);
     }
 
+    //todo arrumar o sistema pro titulos
     private void createChave(ArrayList<Competidor> competidorArrayList, PlanilhaChaveamentoIndividual planilha) {
         if (competidorArrayList.size() > 2) {
             int fase = 1;

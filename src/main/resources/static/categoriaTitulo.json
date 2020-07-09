@@ -1,0 +1,22 @@
+[
+  {
+    "prioridade": 1,
+    "nome": "Distrito"
+  },
+  {
+    "prioridade": 2,
+    "nome": "Estadual"
+  },
+  {
+    "prioridade": 3,
+    "nome": "Nacional"
+  },
+  {
+    "prioridade": 4,
+    "nome": "Panamericano"
+  },
+  {
+    "prioridade": 5,
+    "nome": "Mundial"
+  }
+]

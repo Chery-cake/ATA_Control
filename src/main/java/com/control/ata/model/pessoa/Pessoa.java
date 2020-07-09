@@ -1,6 +1,7 @@
 package com.control.ata.model.pessoa;
 
 import com.control.ata.model.endereco.Endereco;
+import com.control.ata.model.individual.RankingIndividual;
 import com.control.ata.model.tipo_pessoa.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -40,46 +41,34 @@ public class Pessoa {
     private Instrutor instrutor;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "pessoa",
-            cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Telefone> telefoneCollection;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "pessoa",
-            orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
     private Administrador administrador;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "pessoa",
-            orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
     private Competidor competidor;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "pessoa",
-            orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
     private Instrutor getInstrutor;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "pessoa",
-            orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
     private Juiz juiz;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "pessoa",
-            orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
     private Treinador treinador;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    private Collection<RankingIndividual> rankingIndividualList;
 
     public Pessoa() {
     }
 
     public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String nomeUsuario, String senha,
-                  Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
-                  Faixa faixa, Endereco endereco) {
+            Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
+            Faixa faixa, Endereco endereco) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.genero = genero;
@@ -96,8 +85,8 @@ public class Pessoa {
     }
 
     public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String nomeUsuario, String senha,
-                  Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
-                  Faixa faixa, Endereco endereco, Instrutor instrutor) {
+            Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
+            Faixa faixa, Endereco endereco, Instrutor instrutor) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.genero = genero;
@@ -192,5 +181,14 @@ public class Pessoa {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public Collection<RankingIndividual> getRankingIndividualList() {
+        return rankingIndividualList;
+    }
+
+    public void setRankingIndividualList(
+            Collection<RankingIndividual> rankingIndividualList) {
+        this.rankingIndividualList = rankingIndividualList;
     }
 }

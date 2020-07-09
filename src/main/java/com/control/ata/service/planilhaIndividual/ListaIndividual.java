@@ -17,6 +17,7 @@ public class ListaIndividual {
     @Autowired
     private PlanilhaListaIndividualRepository planilhaListaIndividualRepository;
 
+    //todo arrumar o sistema pro titulos
     public List<PlanilhaListaIndividual> createPlanilha(RingueIndividual ringueIndividual,
             CategoriaCompeticao categoriaCompeticao) {
         List<PlanilhaListaIndividual> list = new ArrayList<>();

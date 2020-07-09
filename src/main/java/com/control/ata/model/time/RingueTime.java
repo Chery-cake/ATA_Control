@@ -32,11 +32,11 @@ public class RingueTime {
     //private Collection<Torneio> torneio;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "ringueTime")
+    @OneToMany(mappedBy = "ringueTime", cascade = CascadeType.ALL)
     private Collection<PlanilhaListaTime> planilhaListaTime;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "ringueTime")
+    @OneToMany(mappedBy = "ringueTime", cascade = CascadeType.ALL)
     private Collection<PlanilhaChaveamentoTime> planilhaChaveamentoTime;
 
     @OneToOne(fetch = FetchType.LAZY,

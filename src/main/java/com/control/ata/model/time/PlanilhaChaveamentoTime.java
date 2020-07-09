@@ -14,7 +14,7 @@ public class PlanilhaChaveamentoTime {
 	private Integer id;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "planilhaChaveamentoTime")
+	@OneToMany(mappedBy = "planilhaChaveamentoTime", cascade = CascadeType.ALL)
 	private Collection<ChaveLutaTime> chaveLutaTime;
 
 	@ManyToOne

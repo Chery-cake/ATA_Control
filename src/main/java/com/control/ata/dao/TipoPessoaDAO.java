@@ -2,8 +2,10 @@ package com.control.ata.dao;
 
 import com.control.ata.model.tipo_pessoa.*;
 import com.control.ata.model.torneio.RodadaJuiz;
+import com.control.ata.model.torneio.Titulo;
 import com.control.ata.repository.tipo_pessoa.*;
 import com.control.ata.repository.torneio.RodadaJuizRepository;
+import com.control.ata.repository.torneio.TituloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,8 @@ public class TipoPessoaDAO {
     private TreinadorRepository treinadorRepository;
     @Autowired
     private RodadaJuizRepository rodadaJuizRepository;
+    @Autowired
+    private TituloRepository tituloRepository;
 
     public Administrador save(Administrador administrador) {
         administrador = administradorRepository.save(administrador);
@@ -38,6 +42,15 @@ public class TipoPessoaDAO {
         aux.setCategoriaCompeticao(null);
         aux = competidorRepository.save(aux);
         aux.setCategoriaCompeticao(competidor.getCategoriaCompeticao());
+        aux = competidorRepository.save(aux);
+        if(!competidor.getTituloList().isEmpty()){
+            ArrayList<Titulo> titulos = new ArrayList<>();//todo melhorar a incersao dos titulos
+            for (Titulo titulo:competidor.getTituloList()){
+                titulo.setCompetidor(aux);
+                titulos.add(tituloRepository.save(titulo));
+            }
+            aux.setTituloList(titulos);
+        }
         aux = competidorRepository.save(aux);
         return aux;
     }

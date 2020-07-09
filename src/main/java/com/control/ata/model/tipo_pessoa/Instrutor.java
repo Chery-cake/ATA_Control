@@ -1,6 +1,6 @@
 package com.control.ata.model.tipo_pessoa;
 
-import com.control.ata.model.Academia;
+import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.pessoa.Pessoa;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,7 +23,7 @@ public class Instrutor {
     private Pessoa pessoa;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "instrutor")
+    @OneToMany(mappedBy = "instrutor", cascade = CascadeType.ALL)
     private Collection<Pessoa> alunos;
 
     public Instrutor() {

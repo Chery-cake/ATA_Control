@@ -4,10 +4,12 @@ import com.control.ata.model.endereco.Cidade;
 import com.control.ata.model.endereco.Estado;
 import com.control.ata.model.endereco.Pais;
 import com.control.ata.model.pessoa.Faixa;
+import com.control.ata.model.torneio.CategoriaTitulo;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
+import com.control.ata.repository.torneio.CategoriaTituloRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -23,6 +25,7 @@ import java.io.IOException;
 @Service
 public class PopulateBD {
 
+    private final JSONParser jsonParser = new JSONParser();
     @Autowired
     private PaisRepository paisRepository;
     @Autowired
@@ -31,20 +34,24 @@ public class PopulateBD {
     private CidadeRepository cidadeRepository;
     @Autowired
     private FaixaRepository faixaRepository;
+    @Autowired
+    private CategoriaTituloRepository categoriaTituloRepository;
 
-    public void populate(){
+    public void populate() {
         this.addEndereco();
         this.addFaixa();
+        this.addCategoriaTitulo();
     }
 
-    public void criaJSON(){
+    public void criaJSON() {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
 
         FileWriter writeFile = null;
 
         //Armazena dados em um Objeto JSON
-        jsonObject.put("nome", "Preta Nono Dan");
+//        jsonObject.put("nome", "Mundial");
+//        jsonObject.put("prioridade", 4);
 
         //Cria o parse de tratamento
         JSONParser parser = new JSONParser();
@@ -52,7 +59,7 @@ public class PopulateBD {
         try {
             //Salva no objeto JSONObject o que o parse tratou do arquivo
             jsonArray = (JSONArray) parser.parse(new FileReader(
-                    "src\\main\\resources\\static\\faixa.json"));
+                    "src\\main\\resources\\static\\arquivo.json"));
 
             jsonArray.add(jsonObject);
 
@@ -68,7 +75,7 @@ public class PopulateBD {
         }
 
         try {
-            writeFile = new FileWriter("src\\main\\resources\\static\\faixa.json");
+            writeFile = new FileWriter("src\\main\\resources\\static\\arquivo.json");
             //Escreve no arquivo conteudo do Objeto JSON
             writeFile.write(jsonArray.toJSONString());
             writeFile.close();
@@ -79,7 +86,7 @@ public class PopulateBD {
 
     private void addEndereco() {
 
-        JSONParser jsonParser = new JSONParser();
+//        jsonParser = new JSONParser();
 
         try (FileReader reader = new FileReader("src\\main\\resources\\static\\endereco.json")) {
             //Read JSON file
@@ -125,7 +132,7 @@ public class PopulateBD {
 
     private void addFaixa() {
 
-        JSONParser jsonParser = new JSONParser();
+//        jsonParser = new JSONParser();
 
         try (FileReader reader = new FileReader("src\\main\\resources\\static\\faixa.json")) {
             //Read JSON file
@@ -137,6 +144,35 @@ public class PopulateBD {
                 JSONObject faixa = (JSONObject) object;
                 Faixa faixaObj = new Faixa((String) faixa.get("nome"));
                 faixaRepository.save(faixaObj);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    private void addCategoriaTitulo() {
+
+//        jsonParser = new JSONParser();
+
+        try (FileReader reader = new FileReader("src\\main\\resources\\static\\categoriaTitulo.json")) {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+
+            JSONArray faixas = (JSONArray) obj;
+
+            for (Object object : faixas) {
+                JSONObject categoriaTitulo = (JSONObject) object;
+                CategoriaTitulo categoriaTituloObj = new CategoriaTitulo((String) categoriaTitulo.get("nome"),
+                                                                         (int) (long) categoriaTitulo.get(
+                                                                                 "prioridade"));
+                categoriaTituloRepository.save(categoriaTituloObj);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

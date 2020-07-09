@@ -21,7 +21,7 @@ public class Estado {
     private Pais pais;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "estado")
+    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
     private Collection<Cidade> cidades;
 
     public Estado() {

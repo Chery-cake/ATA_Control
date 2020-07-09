@@ -33,27 +33,27 @@ public class CategoriaCompeticao {
     private Integer maximoTotal;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "categoriaCompeticao")
+    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
     private Collection<PlanilhaListaIndividual> planilhaListaIndividualList;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "categoriaCompeticao")
+    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
     private Collection<PlanilhaListaTime> planilhaListaTimeList;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "categoriaCompeticao")
+    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
     private Collection<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividualList;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "categoriaCompeticao")
+    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
     private Collection<PlanilhaChaveamentoTime> planilhaChaveamentoTimeList;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "categoriaCompeticao")
+    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
     private Collection<RankingTime> rankingTimeList;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "categoriaCompeticao")
+    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
     private Collection<RankingIndividual> rankingIndividualList;
 
     @ManyToMany(mappedBy = "categoriaCompeticao")
@@ -64,6 +64,10 @@ public class CategoriaCompeticao {
 
     @ManyToMany(mappedBy = "categoriaCompeticao")
     private Collection<RingueTime> ringueTimeList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
+    private Collection<Titulo> tituloList;
 
     public CategoriaCompeticao() {
     }
