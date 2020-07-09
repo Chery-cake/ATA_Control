@@ -2,21 +2,28 @@ package com.control.ata;
 
 import com.control.ata.dao.EnderecoDAO;
 import com.control.ata.dao.PessoaDAO;
+import com.control.ata.dao.RingueDAO;
 import com.control.ata.dao.TipoPessoaDAO;
 import com.control.ata.model.endereco.Bairro;
-import com.control.ata.model.endereco.Cidade;
 import com.control.ata.model.endereco.Endereco;
-import com.control.ata.model.pessoa.Faixa;
+import com.control.ata.model.individual.ChaveLutaIndividual;
+import com.control.ata.model.individual.PlanilhaChaveamentoIndividual;
+import com.control.ata.model.individual.PlanilhaListaIndividual;
+import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Pessoa;
-import com.control.ata.model.pessoa.Telefone;
+import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.tipo_pessoa.Juiz;
-import com.control.ata.model.torneio.RodadaJuiz;
-import com.control.ata.model.torneio.Torneio;
+import com.control.ata.model.torneio.*;
 import com.control.ata.repository.endereco.CidadeRepository;
+import com.control.ata.repository.individual.ChaveLutaIndividualRepository;
+import com.control.ata.repository.individual.RingueIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
-import com.control.ata.repository.torneio.RodadaJuizRepository;
+import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
+import com.control.ata.repository.torneio.CategoriaTituloRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
 import com.control.ata.service.PopulateBD;
+import com.control.ata.service.planilhaIndividual.ChaveIndividual;
+import com.control.ata.service.planilhaIndividual.ListaIndividual;
 import org.directwebremoting.spring.DwrSpringServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -39,9 +46,15 @@ public class AtaApplication implements CommandLineRunner {
     @Autowired
     private TorneioRepository torneioRepository;
     @Autowired
-    private RodadaJuizRepository rodadaJuizRepository;
-    @Autowired
     private FaixaRepository faixaRepository;
+    @Autowired
+    private CategoriaCompeticaoRepository categoriaCompeticaoRepository;
+    @Autowired
+    private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
+    @Autowired
+    private CategoriaTituloRepository categoriaTituloRepository;
+    @Autowired
+    private RingueIndividualRepository ringueIndividualRepository;
 
     @Autowired
     private TipoPessoaDAO tipoPessoaDAO;
@@ -51,6 +64,12 @@ public class AtaApplication implements CommandLineRunner {
     private PessoaDAO pessoaDAO;
     @Autowired
     private PopulateBD populateBD;
+    @Autowired
+    private RingueDAO ringueDAO;
+    @Autowired
+    private ListaIndividual listaIndividual;
+    @Autowired
+    private ChaveIndividual chaveIndividual;
 
     public static void main(String[] args) {
         SpringApplication.run(AtaApplication.class, args);
@@ -60,64 +79,161 @@ public class AtaApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         populateBD.populate();
 
-        Cidade cidade = cidadeRepository.getOne(1);
 
-        Endereco endereco = new Endereco("rua", new Bairro("bairro", cidade));
-
-        ArrayList<Endereco> enderecos = new ArrayList<>();
-        enderecos.add(endereco);
-
-        enderecoDAO.saveAll(enderecos);
+        Endereco endereco = new Endereco("rua", new Bairro("bairro", cidadeRepository.getOne(1)));
+        try {
+            endereco = enderecoDAO.save(endereco);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         Torneio torneio = new Torneio(new Date(), new Date(), endereco);
+        try {
+            torneioRepository.save(torneio);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
-        torneioRepository.save(torneio);
+        CategoriaCompeticao categoriaCompeticao = new CategoriaCompeticao("nome", false, false, 1, 1, 1, 1, 1);
+        categoriaCompeticao = categoriaCompeticaoRepository.save(categoriaCompeticao);
+        ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList = new ArrayList<>();
+        categoriaCompeticaoArrayList.add(categoriaCompeticao);
 
-        Faixa faixa = faixaRepository.getOne(1);
+        CategoriaTitulo categoriaTitulo = categoriaTituloRepository.getOne(1);
 
-        Pessoa pessoa = new Pessoa("nome", "sobrenome", false, new Date(), "usuario",
-                                   "senha", 1, "foto", "world", "brasil", true, faixa, endereco);
-
-        Telefone telefone = new Telefone("telefone", false, pessoa);
-
-        ArrayList<Telefone> telefones = new ArrayList<>();
-
-        telefones.add(telefone);
-
-        pessoa.setTelefoneCollection(telefones);
+        Pessoa pessoa = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto", "ataWorld",
+                                   "ataBrasil", false, faixaRepository.getOne(1), endereco);
+        Pessoa pessoa1 = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto", "ataWorld",
+                                    "ataBrasil", false, faixaRepository.getOne(1), endereco);
+        Pessoa pessoa2 = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto", "ataWorld",
+                                    "ataBrasil", false, faixaRepository.getOne(1), endereco);
+        Pessoa pessoa3 = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto", "ataWorld",
+                                    "ataBrasil", false, faixaRepository.getOne(1), endereco);
 
         ArrayList<Pessoa> pessoas = new ArrayList<>();
-
         pessoas.add(pessoa);
-        pessoas.add(new Pessoa("nome", "sobrenome", false, new Date(), "usuario",
-                               "senha", 1, "foto", "world", "brasil", true, faixa, endereco));
-        pessoas.add(new Pessoa("nome", "sobrenome", false, new Date(), "usuario",
-                               "senha", 1, "foto", "world", "brasil", true, faixa, endereco));
-        pessoas.add(new Pessoa("nome", "sobrenome", false, new Date(), "usuario",
-                               "senha", 1, "foto", "world", "brasil", true, faixa, endereco));
-
+        pessoas.add(pessoa1);
+        pessoas.add(pessoa2);
+        pessoas.add(pessoa3);
         try {
-            pessoaDAO.saveAll(pessoas);
+            pessoas = (ArrayList<Pessoa>) pessoaDAO.saveAll(pessoas);
+//            pessoa = pessoaDAO.save(pessoa);
         } catch (Exception e) {
             System.out.println(e);
         }
+        pessoa = pessoas.get(0);
+        pessoa1 = pessoas.get(1);
+        pessoa2 = pessoas.get(2);
+        pessoa3 = pessoas.get(3);
 
         Juiz juiz = new Juiz(pessoa);
+        Juiz juiz1 = new Juiz(pessoa1);
+        Juiz juiz2 = new Juiz(pessoa2);
 
+        RodadaJuiz rodadaJuiz = new RodadaJuiz(torneio, juiz);
+        ArrayList<RodadaJuiz> rodadaJuizArrayList = new ArrayList<>();
+        rodadaJuizArrayList.add(rodadaJuiz);
+
+        RodadaJuiz rodadaJuiz1 = new RodadaJuiz(torneio, juiz1);
+        ArrayList<RodadaJuiz> rodadaJuizArrayList1 = new ArrayList<>();
+        rodadaJuizArrayList1.add(rodadaJuiz1);
+
+        RodadaJuiz rodadaJuiz2 = new RodadaJuiz(torneio, juiz2);
+        ArrayList<RodadaJuiz> rodadaJuizArrayList2 = new ArrayList<>();
+        rodadaJuizArrayList2.add(rodadaJuiz2);
+
+        juiz.setRodadaJuizList(rodadaJuizArrayList);
+        juiz1.setRodadaJuizList(rodadaJuizArrayList1);
+        juiz2.setRodadaJuizList(rodadaJuizArrayList2);
+
+        ArrayList<Juiz> juizArrayList = new ArrayList<>();
+        juizArrayList.add(juiz);
+        juizArrayList.add(juiz1);
+        juizArrayList.add(juiz2);
         try {
-            tipoPessoaDAO.save(juiz);
+//            juiz = tipoPessoaDAO.save(juiz);
+            juizArrayList = (ArrayList<Juiz>) tipoPessoaDAO.saveAll(juizArrayList);
         } catch (Exception e) {
             System.out.println(e);
         }
 
+        Competidor competidor = new Competidor(1.0, 1.0, "nivel", pessoa, categoriaCompeticaoArrayList);
+        Competidor competidor1 = new Competidor(1.0, 1.0, "nivel", pessoa1, categoriaCompeticaoArrayList);
+        Competidor competidor2 = new Competidor(1.0, 1.0, "nivel", pessoa2, categoriaCompeticaoArrayList);
+        Competidor competidor3 = new Competidor(1.0, 1.0, "nivel", pessoa3, categoriaCompeticaoArrayList);
 
-        RodadaJuiz rodadaJuiz = new RodadaJuiz(torneio, juiz);
+        ArrayList<Titulo> titulos = new ArrayList<>();
+        Titulo titulo = new Titulo(2020, categoriaCompeticao, categoriaTitulo, competidor);
+        titulos.add(titulo);
 
-        rodadaJuizRepository.save(rodadaJuiz);
+        ArrayList<Titulo> titulos1 = new ArrayList<>();
+        Titulo titulo1 = new Titulo(2020, categoriaCompeticao, categoriaTitulo, competidor1);
+        titulos1.add(titulo1);
+
+        ArrayList<Titulo> titulos2 = new ArrayList<>();
+        Titulo titulo2 = new Titulo(2020, categoriaCompeticao, categoriaTitulo, competidor2);
+        titulos2.add(titulo2);
+
+        ArrayList<Titulo> titulos3 = new ArrayList<>();
+        Titulo titulo3 = new Titulo(2020, categoriaCompeticao, categoriaTitulo, competidor3);
+        titulos3.add(titulo3);
+
+        competidor.setTituloList(titulos);
+        competidor1.setTituloList(titulos1);
+        competidor2.setTituloList(titulos2);
+        competidor3.setTituloList(titulos3);
+
+        ArrayList<Competidor> competidorArrayList = new ArrayList<>();
+        competidorArrayList.add(competidor);
+        competidorArrayList.add(competidor1);
+        competidorArrayList.add(competidor2);
+        competidorArrayList.add(competidor3);
 
         try {
-//            pessoaDAO.deleteAll(pessoas);
-//            tipoPessoaDAO.delete(juiz);
+            competidorArrayList = (ArrayList<Competidor>) tipoPessoaDAO.saveAll(competidorArrayList);
+//            competidor = tipoPessoaDAO.save(competidor);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        try {
+            ringueIndividualRepository.deleteAll();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        RingueIndividual ringueIndividual = new RingueIndividual(false, 1, juizArrayList, competidorArrayList, torneio,
+                                                                 categoriaCompeticaoArrayList);
+        try {
+            ringueIndividual = ringueDAO.save(ringueIndividual);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        try {
+            ArrayList<PlanilhaListaIndividual> list = (ArrayList<PlanilhaListaIndividual>) listaIndividual.createPlanilha(
+                    ringueIndividual, categoriaCompeticao);
+            for (PlanilhaListaIndividual planilhaListaIndividual : list) {
+                planilhaListaIndividual.setNotaJuizA(5);
+                planilhaListaIndividual.setNotaJuizB(5);
+                planilhaListaIndividual.setNotaJuizC(5);
+                listaIndividual.setPlanilha(planilhaListaIndividual);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        try {
+            PlanilhaChaveamentoIndividual planilha = chaveIndividual.createPlanilha(ringueIndividual,
+                                                                                    categoriaCompeticao);
+            ArrayList<ChaveLutaIndividual> chaveLutaIndividual = (ArrayList<ChaveLutaIndividual>) chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(
+                    planilha);
+            for (ChaveLutaIndividual chave : chaveLutaIndividual) {
+                System.out.println(chave);
+                chave.setDesqualificacaoBranca(true);
+                chave.setDesqualificacaoVermelha(false);
+                chaveIndividual.updateChave(chave);
+            }
         } catch (Exception e) {
             System.out.println(e);
         }

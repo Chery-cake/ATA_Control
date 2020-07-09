@@ -2,10 +2,15 @@ package com.control.ata.dao;
 
 import com.control.ata.model.tipo_pessoa.*;
 import com.control.ata.model.torneio.RodadaJuiz;
+import com.control.ata.model.torneio.Titulo;
 import com.control.ata.repository.tipo_pessoa.*;
 import com.control.ata.repository.torneio.RodadaJuizRepository;
+import com.control.ata.repository.torneio.TituloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TipoPessoaDAO {
@@ -22,49 +27,71 @@ public class TipoPessoaDAO {
     private TreinadorRepository treinadorRepository;
     @Autowired
     private RodadaJuizRepository rodadaJuizRepository;
+    @Autowired
+    private TituloRepository tituloRepository;
 
-    public void save(Administrador administrador) {
-        administradorRepository.save(administrador);
+    public Administrador save(Administrador administrador) {
+        administrador = administradorRepository.save(administrador);
+        return administrador;
     }
 
-    public void save(Competidor competidor) {
-        competidorRepository.save(competidor);
-    }
-
-    public void save(Instrutor instrutor) {
-        instrutorRepository.save(instrutor);
-    }
-
-    public void save(Juiz juiz) {
-        juizRepository.save(juiz);
-    }
-
-    public void save(Treinador treinador) {
-        treinadorRepository.save(treinador);
-    }
-
-    public void saveAll(Iterable<?> iterable) {
-        if (Administrador.class.equals(iterable.getClass())) {
-            for (Object o : iterable) {
-                this.save((Administrador) o);
+    public Competidor save(Competidor competidor) {
+        Competidor aux = new Competidor(competidor.getPeso(), competidor.getAltura(), competidor.getNivel(),
+                                        competidor.getPessoa(), competidor.getCategoriaCompeticao(),
+                                        competidor.getTime());
+        aux.setCategoriaCompeticao(null);
+        aux = competidorRepository.save(aux);
+        aux.setCategoriaCompeticao(competidor.getCategoriaCompeticao());
+        aux = competidorRepository.save(aux);
+        if(!competidor.getTituloList().isEmpty()){
+            ArrayList<Titulo> titulos = new ArrayList<>();//todo melhorar a incersao dos titulos
+            for (Titulo titulo:competidor.getTituloList()){
+                titulo.setCompetidor(aux);
+                titulos.add(tituloRepository.save(titulo));
             }
-        } else if (Competidor.class.equals(iterable.getClass())) {
-            for (Object o : iterable) {
-                this.save((Competidor) o);
-            }
-        } else if (Instrutor.class.equals(iterable.getClass())) {
-            for (Object o : iterable) {
-                this.save((Instrutor) o);
-            }
-        } else if (Juiz.class.equals(iterable.getClass())) {
-            for (Object o : iterable) {
-                this.save((Juiz) o);
-            }
-        } else if (Treinador.class.equals(iterable.getClass())) {
-            for (Object o : iterable) {
-                this.save((Treinador) o);
-            }
+            aux.setTituloList(titulos);
         }
+        aux = competidorRepository.save(aux);
+        return aux;
+    }
+
+    public Instrutor save(Instrutor instrutor) {
+        instrutor = instrutorRepository.save(instrutor);
+        return instrutor;
+    }
+
+    public Juiz save(Juiz juiz) {
+        juiz = juizRepository.save(juiz);
+        return juiz;
+    }
+
+    public Treinador save(Treinador treinador) {
+        treinador = treinadorRepository.save(treinador);
+        return treinador;
+    }
+
+    private <T> T saveObj(Object obj) {
+        Object o = null;
+        if (Administrador.class.equals(obj.getClass())) {
+            o = this.save((Administrador) obj);
+        } else if (Competidor.class.equals(obj.getClass())) {
+            o = this.save((Competidor) obj);
+        } else if (Instrutor.class.equals(obj.getClass())) {
+            o = this.save((Instrutor) obj);
+        } else if (Juiz.class.equals(obj.getClass())) {
+            o = this.save((Juiz) obj);
+        } else if (Treinador.class.equals(obj.getClass())) {
+            o = this.save((Treinador) obj);
+        }
+        return (T) o;
+    }
+
+    public <T> List<T> saveAll(Iterable<T> iterable) {
+        List<T> list = new ArrayList<>();
+        for (Object o : iterable) {
+            list.add(this.saveObj(o));
+        }
+        return list;
     }
 
     public void delete(Administrador administrador) {
@@ -80,7 +107,7 @@ public class TipoPessoaDAO {
     }
 
     public void delete(Juiz juiz) {
-        if(rodadaJuizRepository.getRodadaJuizByJuiz(juiz) != null){
+        if (rodadaJuizRepository.getRodadaJuizByJuiz(juiz) != null) {
             RodadaJuiz rodadaJuiz = rodadaJuizRepository.getRodadaJuizByJuiz(juiz);
             rodadaJuizRepository.delete(rodadaJuiz);
         }

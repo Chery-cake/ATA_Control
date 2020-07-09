@@ -14,7 +14,7 @@ public class PlanilhaChaveamentoIndividual {
 	private Integer id;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "planilhaChaveamentoIndividual")
+	@OneToMany(mappedBy = "planilhaChaveamentoIndividual", cascade = CascadeType.ALL)
 	private Collection<ChaveLutaIndividual> chaveLutaIndividual;
 
 	@ManyToOne
@@ -24,5 +24,30 @@ public class PlanilhaChaveamentoIndividual {
 	@ManyToOne
 	@JoinColumn(name = "ringueIndividual_fk")
 	private RingueIndividual ringueIndividual;
+
+	public PlanilhaChaveamentoIndividual() {
+	}
+
+	public PlanilhaChaveamentoIndividual(CategoriaCompeticao categoriaCompeticao,
+			RingueIndividual ringueIndividual) {
+		this.categoriaCompeticao = categoriaCompeticao;
+		this.ringueIndividual = ringueIndividual;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public Collection<ChaveLutaIndividual> getChaveLutaIndividual() {
+		return chaveLutaIndividual;
+	}
+
+	public CategoriaCompeticao getCategoriaCompeticao() {
+		return categoriaCompeticao;
+	}
+
+	public RingueIndividual getRingueIndividual() {
+		return ringueIndividual;
+	}
 
 }

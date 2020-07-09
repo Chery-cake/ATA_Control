@@ -1,6 +1,5 @@
-package com.control.ata.model;
+package com.control.ata.model.endereco;
 
-import com.control.ata.model.endereco.Endereco;
 import com.control.ata.model.tipo_pessoa.Instrutor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,7 +20,7 @@ public class Academia {
 	private Endereco endereco;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "academia")
+	@OneToMany(mappedBy = "academia", cascade = CascadeType.ALL)
 	private Collection<Instrutor> instrutores;
 
 	public Academia() {

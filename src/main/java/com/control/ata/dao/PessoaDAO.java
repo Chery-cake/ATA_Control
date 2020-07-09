@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PessoaDAO {
@@ -17,20 +18,25 @@ public class PessoaDAO {
     @Autowired
     private TelefoneRepository telefoneRepository;
 
-    public void save(Pessoa pessoa) {
-        pessoaRepository.save(pessoa);
-        if(pessoa.getTelefoneCollection() != null){
+    public Pessoa save(Pessoa pessoa) {
+        pessoa = pessoaRepository.save(pessoa);
+        ArrayList<Telefone> aux = new ArrayList<>();
+        if (pessoa.getTelefoneCollection() != null) {
             ArrayList<Telefone> telefones = new ArrayList<>(pessoa.getTelefoneCollection());
             for (Telefone telefone : telefones) {
-                telefoneRepository.save(telefone);
+                aux.add(telefoneRepository.save(telefone));
             }
         }
+        pessoa.setTelefoneCollection(aux);
+        return pessoa;
     }
 
-    public void saveAll(Iterable<Pessoa> iterable) {
+    public List<Pessoa> saveAll(Iterable<Pessoa> iterable) {
+        List<Pessoa> pessoas = new ArrayList<>();
         for (Pessoa pessoa : iterable) {
-            this.save(pessoa);
+            pessoas.add(this.save(pessoa));
         }
+        return pessoas;
     }
 
     public void delete(Pessoa pessoa) {

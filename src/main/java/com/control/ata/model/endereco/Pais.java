@@ -15,7 +15,7 @@ public class Pais {
 	private String nome;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "pais")
+	@OneToMany(mappedBy = "pais", cascade = CascadeType.ALL)
 	private Collection<Estado> estados;
 
 	public Pais() {

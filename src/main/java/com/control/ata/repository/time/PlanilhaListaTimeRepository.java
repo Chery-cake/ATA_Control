@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlanilhaListaTimeRepository extends JpaRepository<PlanilhaListaTime, Integer> {
+
 }

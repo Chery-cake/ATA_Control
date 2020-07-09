@@ -1,6 +1,5 @@
 package com.control.ata.model.endereco;
 
-import com.control.ata.model.Academia;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.torneio.Torneio;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,15 +21,15 @@ public class Endereco {
     private Bairro bairro;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "endereco")
+    @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL)
     private Collection<Pessoa> pessoa;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "endereco")
+    @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL)
     private Collection<Academia> academia;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "endereco")
+    @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL)
     private Collection<Torneio> torneio;
 
     public Endereco() {

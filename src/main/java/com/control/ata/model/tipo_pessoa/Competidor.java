@@ -2,11 +2,11 @@ package com.control.ata.model.tipo_pessoa;
 
 import com.control.ata.model.individual.ChaveLutaIndividual;
 import com.control.ata.model.individual.PlanilhaListaIndividual;
-import com.control.ata.model.individual.RankingIndividual;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.time.Time;
 import com.control.ata.model.torneio.CategoriaCompeticao;
+import com.control.ata.model.torneio.Titulo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -19,65 +19,70 @@ public class Competidor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer peso;
-    private Integer altura;
+    private Double peso;
+    private Double altura;
     private String nivel;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pessoa_fk")
     private Pessoa pessoa;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     private Collection<CategoriaCompeticao> categoriaCompeticao;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     private Collection<Time> time;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "competidor")
+    @OneToMany(mappedBy = "competidor", cascade = CascadeType.ALL)
     private Collection<PlanilhaListaIndividual> planilhaListaIndividualList;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "competidor")
-    private Collection<RankingIndividual> rankingIndividualList;
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "competidor")
     private Collection<RingueIndividual> ringueIndividualCollection;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "competidorVermelho")
+    @OneToMany(mappedBy = "competidorVermelho", cascade = CascadeType.ALL)
     private Collection<ChaveLutaIndividual> chaveLutaIndividualVermelho;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "competidorBranco")
+    @OneToMany(mappedBy = "competidorBranco", cascade = CascadeType.ALL)
     private Collection<ChaveLutaIndividual> chaveLutaIndividualBranco;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "competidor", cascade = CascadeType.ALL)
+    private Collection<Titulo> tituloList;
 
     public Competidor() {
     }
 
-    public Competidor(Integer peso, Integer altura, String nivel,
-                      Collection<CategoriaCompeticao> categoriaCompeticao) {
+    public Competidor(Double peso, Double altura, String nivel, Pessoa pessoa,
+            Collection<CategoriaCompeticao> categoriaCompeticao) {
         this.peso = peso;
         this.altura = altura;
         this.nivel = nivel;
+        this.pessoa = pessoa;
         this.categoriaCompeticao = categoriaCompeticao;
     }
 
-    public Competidor(Integer peso, Integer altura, String nivel,
-                      Collection<CategoriaCompeticao> categoriaCompeticao,
-                      Collection<Time> time) {
+    public Competidor(Double peso, Double altura, String nivel, Pessoa pessoa,
+            Collection<CategoriaCompeticao> categoriaCompeticao, Collection<Time> time) {
         this.peso = peso;
         this.altura = altura;
         this.nivel = nivel;
+        this.pessoa = pessoa;
         this.categoriaCompeticao = categoriaCompeticao;
         this.time = time;
     }
 
-    public Integer getPeso() {
+    public Integer getId() {
+        return id;
+    }
+
+    public Double getPeso() {
         return peso;
     }
 
-    public Integer getAltura() {
+    public Double getAltura() {
         return altura;
     }
 
@@ -89,11 +94,28 @@ public class Competidor {
         return categoriaCompeticao;
     }
 
+    public void setCategoriaCompeticao(
+            Collection<CategoriaCompeticao> categoriaCompeticao) {
+        this.categoriaCompeticao = categoriaCompeticao;
+    }
+
     public Collection<Time> getTime() {
         return time;
     }
 
+    public void setTime(Collection<Time> time) {
+        this.time = time;
+    }
+
     public Pessoa getPessoa() {
         return pessoa;
+    }
+
+    public Collection<Titulo> getTituloList() {
+        return tituloList;
+    }
+
+    public void setTituloList(Collection<Titulo> tituloList) {
+        this.tituloList = tituloList;
     }
 }

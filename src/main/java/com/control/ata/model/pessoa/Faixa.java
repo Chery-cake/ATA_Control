@@ -15,7 +15,7 @@ public class Faixa {
     private String nome;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "faixa")
+    @OneToMany(mappedBy = "faixa", cascade = CascadeType.ALL)
     private Collection<Pessoa> pessoa;
 
     public Faixa() {

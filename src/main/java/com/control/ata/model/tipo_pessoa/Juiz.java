@@ -24,10 +24,10 @@ public class Juiz {
     @OneToMany(mappedBy = "juiz", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<RodadaJuiz> rodadaJuizList;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "juiz")
     private Collection<RingueIndividual> ringueIndividualCollection;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     private Collection<RingueTime> ringueTimeCollection;
 
     public Juiz() {
@@ -48,4 +48,9 @@ public class Juiz {
     public Collection<RodadaJuiz> getRodadaJuizList() {
         return rodadaJuizList;
     }
+
+    public void setRodadaJuizList(Collection<RodadaJuiz> rodadaJuizList) {
+        this.rodadaJuizList = rodadaJuizList;
+    }
+
 }

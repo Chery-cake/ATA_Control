@@ -25,15 +25,15 @@ public class Torneio {
     private Endereco endereco;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
     private Collection<RodadaJuiz> rodadaJuizList;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
     private Collection<RingueIndividual> ringueIndividualCollection;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
     private Collection<RingueTime> ringueTimeCollection;
 
     public Torneio() {

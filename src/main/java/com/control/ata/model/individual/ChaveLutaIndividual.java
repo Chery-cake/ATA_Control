@@ -7,36 +7,139 @@ import javax.persistence.*;
 @Entity
 public class ChaveLutaIndividual {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@ManyToOne
-	@JoinColumn(name = "competidorVermelho_fk")
-	private Competidor competidorVermelho;
+    private Integer posicao;
+    private Integer fase;
 
-	private Integer pontosVermelhos;
+    @ManyToOne
+    @JoinColumn(name = "competidorVermelho_fk")
+    private Competidor competidorVermelho;
 
-	private Integer advertenciasVermelhas;
+    private Integer pontosVermelhos;
+    private Integer advertenciasVermelhas;
+    private Integer penalidadesVermelhas;
+    private Boolean desqualificacaoVermelha;
 
-	private Integer penalidadesVermelhas;
+    @ManyToOne
+    @JoinColumn(name = "competidorBranco_fk")
+    private Competidor competidorBranco;
 
-	private Boolean desqualificacaoVermelha;
+    private Integer pontosBrancos;
+    private Integer advertenciasBrancas;
+    private Integer penalidadesBrancas;
+    private Boolean desqualificacaoBranca;
 
-	@ManyToOne
-	@JoinColumn(name = "competidorBranco_fk")
-	private Competidor competidorBranco;
+    @ManyToOne
+    @JoinColumn(name = "planilhaChaveamentoIndividual_fk")
+    private PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual;
 
-	private Integer pontosBrancos;
+    public ChaveLutaIndividual() {
+    }
 
-	private Integer advertenciasBrancas;
+    public ChaveLutaIndividual(Integer posicao, Integer fase,
+            Competidor competidorVermelho, Competidor competidorBranco,
+            PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual) {
+        this.posicao = posicao;
+        this.fase = fase;
+        this.competidorVermelho = competidorVermelho;
+        this.competidorBranco = competidorBranco;
+        this.planilhaChaveamentoIndividual = planilhaChaveamentoIndividual;
+        this.desqualificacaoBranca = false;
+        this.desqualificacaoVermelha = false;
+    }
 
-	private Integer penalidadesBrancas;
+    public Integer getId() {
+        return id;
+    }
 
-	private Boolean desqualificacaoBranca;
+    public Integer getPosicao() {
+        return posicao;
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "planilhaChaveamentoIndividual_fk")
-	private PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual;
+    public Integer getFase() {
+        return fase;
+    }
 
+    public Competidor getCompetidorVermelho() {
+        return competidorVermelho;
+    }
+
+    public Integer getPontosVermelhos() {
+        return pontosVermelhos;
+    }
+
+    public void setPontosVermelhos(Integer pontosVermelhos) {
+        this.pontosVermelhos = pontosVermelhos;
+    }
+
+    public Integer getAdvertenciasVermelhas() {
+        return advertenciasVermelhas;
+    }
+
+    public void setAdvertenciasVermelhas(Integer advertenciasVermelhas) {
+        this.advertenciasVermelhas = advertenciasVermelhas;
+    }
+
+    public Integer getPenalidadesVermelhas() {
+        return penalidadesVermelhas;
+    }
+
+    public void setPenalidadesVermelhas(Integer penalidadesVermelhas) {
+        this.penalidadesVermelhas = penalidadesVermelhas;
+    }
+
+    public Boolean getDesqualificacaoVermelha() {
+        return desqualificacaoVermelha;
+    }
+
+    public void setDesqualificacaoVermelha(Boolean desqualificacaoVermelha) {
+        this.desqualificacaoVermelha = desqualificacaoVermelha;
+    }
+
+    public Competidor getCompetidorBranco() {
+        return competidorBranco;
+    }
+
+    public void setCompetidorBranco(Competidor competidorBranco) {
+        this.competidorBranco = competidorBranco;
+    }
+
+    public Integer getPontosBrancos() {
+        return pontosBrancos;
+    }
+
+    public void setPontosBrancos(Integer pontosBrancos) {
+        this.pontosBrancos = pontosBrancos;
+    }
+
+    public Integer getAdvertenciasBrancas() {
+        return advertenciasBrancas;
+    }
+
+    public void setAdvertenciasBrancas(Integer advertenciasBrancas) {
+        this.advertenciasBrancas = advertenciasBrancas;
+    }
+
+    public Integer getPenalidadesBrancas() {
+        return penalidadesBrancas;
+    }
+
+    public void setPenalidadesBrancas(Integer penalidadesBrancas) {
+        this.penalidadesBrancas = penalidadesBrancas;
+    }
+
+    public Boolean getDesqualificacaoBranca() {
+        return desqualificacaoBranca;
+    }
+
+    public void setDesqualificacaoBranca(Boolean desqualificacaoBranca) {
+        this.desqualificacaoBranca = desqualificacaoBranca;
+    }
+
+    public PlanilhaChaveamentoIndividual getPlanilhaChaveamentoIndividual() {
+        return planilhaChaveamentoIndividual;
+    }
 }
