@@ -6,8 +6,6 @@ import com.control.ata.dao.RingueDAO;
 import com.control.ata.dao.TipoPessoaDAO;
 import com.control.ata.model.endereco.Bairro;
 import com.control.ata.model.endereco.Endereco;
-import com.control.ata.model.individual.ChaveLutaIndividual;
-import com.control.ata.model.individual.PlanilhaChaveamentoIndividual;
 import com.control.ata.model.individual.PlanilhaListaIndividual;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Pessoa;
@@ -99,7 +97,10 @@ public class AtaApplication implements CommandLineRunner {
         ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList = new ArrayList<>();
         categoriaCompeticaoArrayList.add(categoriaCompeticao);
 
-        CategoriaTitulo categoriaTitulo = categoriaTituloRepository.getOne(1);
+        CategoriaTitulo categoriaTitulo = categoriaTituloRepository.getOne(3);
+        CategoriaTitulo categoriaTitulo1 = categoriaTituloRepository.getOne(5);
+        CategoriaTitulo categoriaTitulo2 = categoriaTituloRepository.getOne(2);
+        CategoriaTitulo categoriaTitulo3 = categoriaTituloRepository.getOne(1);
 
         Pessoa pessoa = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto", "ataWorld",
                                    "ataBrasil", false, faixaRepository.getOne(1), endereco);
@@ -167,15 +168,15 @@ public class AtaApplication implements CommandLineRunner {
         titulos.add(titulo);
 
         ArrayList<Titulo> titulos1 = new ArrayList<>();
-        Titulo titulo1 = new Titulo(2020, categoriaCompeticao, categoriaTitulo, competidor1);
+        Titulo titulo1 = new Titulo(2019, categoriaCompeticao, categoriaTitulo1, competidor1);
         titulos1.add(titulo1);
 
         ArrayList<Titulo> titulos2 = new ArrayList<>();
-        Titulo titulo2 = new Titulo(2020, categoriaCompeticao, categoriaTitulo, competidor2);
+        Titulo titulo2 = new Titulo(2020, categoriaCompeticao, categoriaTitulo2, competidor2);
         titulos2.add(titulo2);
 
         ArrayList<Titulo> titulos3 = new ArrayList<>();
-        Titulo titulo3 = new Titulo(2020, categoriaCompeticao, categoriaTitulo, competidor3);
+        Titulo titulo3 = new Titulo(2000, categoriaCompeticao, categoriaTitulo3, competidor3);
         titulos3.add(titulo3);
 
         competidor.setTituloList(titulos);
@@ -213,16 +214,16 @@ public class AtaApplication implements CommandLineRunner {
         try {
             ArrayList<PlanilhaListaIndividual> list = (ArrayList<PlanilhaListaIndividual>) listaIndividual.createPlanilha(
                     ringueIndividual, categoriaCompeticao);
-            for (PlanilhaListaIndividual planilhaListaIndividual : list) {
-                planilhaListaIndividual.setNotaJuizA(5);
-                planilhaListaIndividual.setNotaJuizB(5);
-                planilhaListaIndividual.setNotaJuizC(5);
-                listaIndividual.setPlanilha(planilhaListaIndividual);
-            }
+//            for (PlanilhaListaIndividual planilhaListaIndividual : list) {
+//                planilhaListaIndividual.setNotaJuizA(5);
+//                planilhaListaIndividual.setNotaJuizB(5);
+//                planilhaListaIndividual.setNotaJuizC(5);
+//                listaIndividual.setPlanilha(planilhaListaIndividual);
+//            }
         } catch (Exception e) {
             System.out.println(e);
         }
-
+/*
         try {
             PlanilhaChaveamentoIndividual planilha = chaveIndividual.createPlanilha(ringueIndividual,
                                                                                     categoriaCompeticao);
@@ -237,7 +238,7 @@ public class AtaApplication implements CommandLineRunner {
         } catch (Exception e) {
             System.out.println(e);
         }
-
+*/
     }
 
     @Bean

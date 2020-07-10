@@ -24,4 +24,16 @@ public class CategoriaTitulo {
         this.nome = nome;
         this.prioridade = prioridade;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Integer getPrioridade() {
+        return prioridade;
+    }
 }
