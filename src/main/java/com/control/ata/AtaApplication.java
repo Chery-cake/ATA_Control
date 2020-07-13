@@ -6,6 +6,8 @@ import com.control.ata.dao.RingueDAO;
 import com.control.ata.dao.TipoPessoaDAO;
 import com.control.ata.model.endereco.Bairro;
 import com.control.ata.model.endereco.Endereco;
+import com.control.ata.model.individual.ChaveLutaIndividual;
+import com.control.ata.model.individual.PlanilhaChaveamentoIndividual;
 import com.control.ata.model.individual.PlanilhaListaIndividual;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Pessoa;
@@ -76,7 +78,7 @@ public class AtaApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         populateBD.populate();
-
+        Singleton s = Singleton.getSingleton();
 
         Endereco endereco = new Endereco("rua", new Bairro("bairro", cidadeRepository.getOne(1)));
         try {
@@ -223,7 +225,7 @@ public class AtaApplication implements CommandLineRunner {
         } catch (Exception e) {
             System.out.println(e);
         }
-/*
+
         try {
             PlanilhaChaveamentoIndividual planilha = chaveIndividual.createPlanilha(ringueIndividual,
                                                                                     categoriaCompeticao);
@@ -238,7 +240,7 @@ public class AtaApplication implements CommandLineRunner {
         } catch (Exception e) {
             System.out.println(e);
         }
-*/
+
     }
 
     @Bean
