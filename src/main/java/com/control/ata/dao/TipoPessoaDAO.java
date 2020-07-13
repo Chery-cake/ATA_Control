@@ -42,32 +42,29 @@ public class TipoPessoaDAO {
         aux.setCategoriaCompeticao(null);
         aux = competidorRepository.save(aux);
         aux.setCategoriaCompeticao(competidor.getCategoriaCompeticao());
-        aux = competidorRepository.save(aux);
-        if(!competidor.getTituloList().isEmpty()){
-            ArrayList<Titulo> titulos = new ArrayList<>();//todo melhorar a incersao dos titulos
-            for (Titulo titulo:competidor.getTituloList()){
-                titulo.setCompetidor(aux);
-                titulos.add(tituloRepository.save(titulo));
+        if(competidor.getTituloList() != null){
+            if(!competidor.getTituloList().isEmpty()){
+                ArrayList<Titulo> titulos = new ArrayList<>();//todo melhorar a incersao dos titulos
+                for (Titulo titulo:competidor.getTituloList()){
+                    titulo.setCompetidor(aux);
+                    titulos.add(tituloRepository.save(titulo));
+                }
+                aux.setTituloList(titulos);
             }
-            aux.setTituloList(titulos);
         }
-        aux = competidorRepository.save(aux);
-        return aux;
+        return competidorRepository.save(aux);
     }
 
     public Instrutor save(Instrutor instrutor) {
-        instrutor = instrutorRepository.save(instrutor);
-        return instrutor;
+        return instrutorRepository.save(instrutor);
     }
 
     public Juiz save(Juiz juiz) {
-        juiz = juizRepository.save(juiz);
-        return juiz;
+        return juizRepository.save(juiz);
     }
 
     public Treinador save(Treinador treinador) {
-        treinador = treinadorRepository.save(treinador);
-        return treinador;
+        return treinadorRepository.save(treinador);
     }
 
     private <T> T saveObj(Object obj) {
