@@ -18,11 +18,33 @@ public class PlanilhaChaveamentoTime {
 	private Collection<ChaveLutaTime> chaveLutaTime;
 
 	@ManyToOne
-	@JoinColumn(name = "categoriaCompeticao_fk")
 	private CategoriaCompeticao categoriaCompeticao;
 
 	@ManyToOne
-	@JoinColumn(name = "ringueTime_fk")
 	private RingueTime ringueTime;
 
+	public PlanilhaChaveamentoTime() {
+	}
+
+	public PlanilhaChaveamentoTime(CategoriaCompeticao categoriaCompeticao,
+			RingueTime ringueTime) {
+		this.categoriaCompeticao = categoriaCompeticao;
+		this.ringueTime = ringueTime;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public Collection<ChaveLutaTime> getChaveLutaTime() {
+		return chaveLutaTime;
+	}
+
+	public CategoriaCompeticao getCategoriaCompeticao() {
+		return categoriaCompeticao;
+	}
+
+	public RingueTime getRingueTime() {
+		return ringueTime;
+	}
 }

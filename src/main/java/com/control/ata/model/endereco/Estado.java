@@ -17,7 +17,6 @@ public class Estado {
     private String sigla;
 
     @ManyToOne
-    @JoinColumn(name = "pais_fk")
     private Pais pais;
 
     @JsonIgnore

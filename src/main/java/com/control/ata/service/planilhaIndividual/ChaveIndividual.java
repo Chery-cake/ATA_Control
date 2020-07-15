@@ -8,7 +8,6 @@ import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.repository.individual.ChaveLutaIndividualRepository;
 import com.control.ata.repository.individual.PlanilhaChaveamentoIndividualRepository;
-import com.control.ata.repository.individual.RingueIndividualRepository;
 import com.control.ata.repository.torneio.TituloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,10 +18,8 @@ import java.util.Collection;
 @Service
 public class ChaveIndividual {
 
-    private Singleton s = Singleton.getSingleton();
+    private final Singleton s = Singleton.getSingleton();
 
-    @Autowired
-    private RingueIndividualRepository ringueIndividualRepository;
     @Autowired
     private PlanilhaChaveamentoIndividualRepository planilhaChaveamentoIndividualRepository;
     @Autowired
@@ -43,16 +40,13 @@ public class ChaveIndividual {
     public ChaveLutaIndividual updateChave(
             ChaveLutaIndividual chaveLutaIndividual) {//todo fazer com que chaves com 1 competidor passem pra proxima fase
         chaveLutaIndividual = chaveLutaIndividualRepository.save(chaveLutaIndividual);
-
         if (chaveLutaIndividual.getDesqualificacaoBranca()) {
             nextChave(chaveLutaIndividual.getCompetidorVermelho(), chaveLutaIndividual);
         } else if (chaveLutaIndividual.getDesqualificacaoVermelha()) {
             nextChave(chaveLutaIndividual.getCompetidorBranco(), chaveLutaIndividual);
-        } else if (chaveLutaIndividual.getPontosBrancos().equals(
-                chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao().getLimitePonto())) {
+        } else if (chaveLutaIndividual.getPontosBrancos() >= chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao().getLimitePonto()) {
             nextChave(chaveLutaIndividual.getCompetidorBranco(), chaveLutaIndividual);
-        } else if (chaveLutaIndividual.getPontosVermelhos().equals(
-                chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao().getLimitePonto())) {
+        } else if (chaveLutaIndividual.getPontosVermelhos() >= chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao().getLimitePonto()) {
             nextChave(chaveLutaIndividual.getCompetidorVermelho(), chaveLutaIndividual);
         }
 
@@ -120,21 +114,20 @@ public class ChaveIndividual {
                 chaveLutaIndividualRepository.save(chaveLutaIndividual2);
             }
         } else {
-            if(chaveLutaIndividual.getFase() != 0){
+            if (chaveLutaIndividual.getFase() != 0) {
                 this.setChave(competidor, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), 1,
                               chaveLutaIndividual.getFase() - 1);
             }
         }
     }
 
-    private void setChave(Competidor compVer, Competidor compBra, PlanilhaChaveamentoIndividual planilha, int posicao,
+    private ChaveLutaIndividual setChave(Competidor compVer, Competidor compBra, PlanilhaChaveamentoIndividual planilha,
+            int posicao,
             int fase) {
-        ChaveLutaIndividual chave = new ChaveLutaIndividual(posicao, fase, compVer, compBra, planilha);
-        chaveLutaIndividualRepository.save(chave);
+        return chaveLutaIndividualRepository.save(new ChaveLutaIndividual(posicao, fase, compVer, compBra, planilha));
     }
 
-    //todo arrumar o sistema pro titulos
-    private void createChave(ArrayList<Competidor> competidorArrayList, PlanilhaChaveamentoIndividual planilha) {
+    private void createChave(ArrayList<Competidor> competidorArrayList, PlanilhaChaveamentoIndividual planilha) {//todo testar sobre ser da mesma academia
         if (planilha.getRingueIndividual().getFechado()) {
             if (competidorArrayList.size() > 2) {
                 int fase = 1;
@@ -147,9 +140,9 @@ public class ChaveIndividual {
                 }
                 int i = 1;
                 while (competidorArrayList.size() > 0) {
-                    Sorteio sorteio = new Sorteio();
+                    Singleton.Sorteio sorteio = new Singleton.Sorteio();
                     sorteio = sorteio.sorteio(competidorArrayList);
-                    setChave(sorteio.a, sorteio.b, planilha, i, fase);
+                    setChave((Competidor) sorteio.a, (Competidor) sorteio.b, planilha, i, fase);
                     i++;
                 }
             } else if (competidorArrayList.size() == 2) {
@@ -178,13 +171,12 @@ public class ChaveIndividual {
                         setChave(competidorArrayList.get(0), competidorTitulo, planilha, i, fase);
                         competidorArrayList.remove(0);
                         competidorTituloAdicionado = true;
-                        i++;
                     } else {
-                        Sorteio sorteio = new Sorteio();
+                        Singleton.Sorteio sorteio = new Singleton.Sorteio();
                         sorteio = sorteio.sorteio(competidorArrayList);
-                        setChave(sorteio.a, sorteio.b, planilha, i, fase);
-                        i++;
+                        setChave((Competidor) sorteio.a, (Competidor) sorteio.b, planilha, i, fase);
                     }
+                    i++;
                 }
                 if (!competidorTituloAdicionado) {
                     setChave(competidorTitulo, null, planilha, i, fase);
@@ -201,41 +193,7 @@ public class ChaveIndividual {
 
     private Competidor sort(Collection<Competidor> competidorList,
             CategoriaCompeticao categoriaCompeticao) {//retorna o maior titulo
-        return s.getCompetidorTitulo(competidorList, categoriaCompeticao, tituloRepository);
-    }
-
-    private class Sorteio {
-        Competidor a;
-        Competidor b;
-
-        Sorteio sorteio(ArrayList<Competidor> competidorArrayList) {
-            Sorteio sorteio = new Sorteio();
-            if (competidorArrayList.size() > 1) {
-                int size = competidorArrayList.size();
-                int indiA = s.getRandomInt(0, size);
-                int indiB = indiA;
-
-                while (indiB == indiA) {
-                    indiB = s.getRandomInt(0, size);
-                }
-                sorteio.a = competidorArrayList.get(indiA);
-                sorteio.b = competidorArrayList.get(indiB);
-                if (indiA > indiB) {
-                    competidorArrayList.remove(indiA);
-                    competidorArrayList.remove(indiB);
-                } else {
-                    competidorArrayList.remove(indiB);
-                    competidorArrayList.remove(indiA);
-                }
-            } else {
-                int size = competidorArrayList.size();
-                int indiA = s.getRandomInt(0, size);
-                sorteio.a = competidorArrayList.get(indiA);
-                sorteio.b = null;
-                competidorArrayList.remove(indiA);
-            }
-            return sorteio;
-        }
+        return Singleton.getCompetidorTitulo(competidorList, categoriaCompeticao, tituloRepository);
     }
 
 }

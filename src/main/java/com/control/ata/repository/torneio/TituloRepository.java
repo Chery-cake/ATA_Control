@@ -1,5 +1,6 @@
 package com.control.ata.repository.torneio;
 
+import com.control.ata.model.time.Time;
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.Titulo;
@@ -17,7 +18,11 @@ public interface TituloRepository extends JpaRepository<Titulo, Integer> {
     Collection<Titulo> getAllByCompetidor(@Param("competidor")Competidor competidor);
 
     @Query("select t from Titulo t where t.competidor = :competidor and t.categoriaCompeticao = :categoriaCompeticao")
-    Titulo getAllByCompetidorAndCategoriaCompeticao(@Param("competidor")Competidor competidor, @Param("categoriaCompeticao")
+    Titulo getByCompetidorAndCategoriaCompeticao(@Param("competidor")Competidor competidor, @Param("categoriaCompeticao")
+            CategoriaCompeticao categoriaCompeticao);
+
+    @Query("select t from Titulo t where t.time = :time and t.categoriaCompeticao = :categoriaCompeticao")
+    Titulo getByTimeAndCategoriaCompeticao(@Param("time")Time time, @Param("categoriaCompeticao")
             CategoriaCompeticao categoriaCompeticao);
 
 }

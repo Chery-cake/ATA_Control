@@ -1,6 +1,7 @@
 package com.control.ata.dao;
 
 import com.control.ata.model.individual.RingueIndividual;
+import com.control.ata.model.time.RingueTime;
 import com.control.ata.repository.individual.RingueIndividualRepository;
 import com.control.ata.repository.time.RingueTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ public class RingueDAO {
     private RingueIndividualRepository ringueIndividualRepository;
     @Autowired
     private RingueTimeRepository ringueTimeRepository;
-    //TODO fazer o DAO do ringueTime
 
     public RingueIndividual save(RingueIndividual ringueIndividual) {
         RingueIndividual aux = new RingueIndividual(ringueIndividual.getFechado(), ringueIndividual.getNumero(), null,
@@ -28,12 +28,32 @@ public class RingueDAO {
         return ringueIndividualRepository.save(aux);
     }
 
-    public List<RingueIndividual> saveAll(Iterable<RingueIndividual> iterable) {
-        List<RingueIndividual> individuals = new ArrayList<>();
-        for (RingueIndividual ringue : iterable) {
-            individuals.add(this.save(ringue));
+    public RingueTime save(RingueTime ringueTime) {
+        RingueTime aux = new RingueTime(ringueTime.getFechado(), ringueTime.getNumero(), null, null,
+                                        ringueTime.getTorneio(), null);
+        aux = ringueTimeRepository.save(aux);
+        aux.setJuiz(ringueTime.getJuiz());
+        aux.setTime(ringueTime.getTime());
+        aux.setCategoriaCompeticao(ringueTime.getCategoriaCompeticao());
+        return ringueTimeRepository.save(aux);
+    }
+
+    private <T> T saveObj(Object obj) {
+        Object o = null;
+        if (RingueIndividual.class.equals(obj.getClass())) {
+            o = this.save((RingueIndividual) obj);
+        } else if (RingueTime.class.equals(obj.getClass())) {
+            o = this.save((RingueTime) obj);
         }
-        return individuals;
+        return (T) o;
+    }
+
+    public <T> List<T> saveAll(Iterable<T> iterable) {
+        List<T> list = new ArrayList<>();
+        for (Object o : iterable) {
+            list.add(this.saveObj(o));
+        }
+        return list;
     }
 
     public void delete(RingueIndividual ringueIndividual) {

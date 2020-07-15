@@ -21,7 +21,6 @@ public class Torneio {
     private Date dataTermino;
 
     @ManyToOne
-    @JoinColumn(name = "endereco_fk")
     private Endereco endereco;
 
     @JsonIgnore

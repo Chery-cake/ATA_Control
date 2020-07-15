@@ -21,14 +21,13 @@ public class RingueIndividual {
     private Boolean fechado;
     private Integer numero;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Juiz> juiz;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Competidor> competidor;
 
     @ManyToOne
-    @JoinColumn(name = "torneio_fk")
     private Torneio torneio;
 
     //private Collection<Torneio> torneio;
@@ -47,10 +46,9 @@ public class RingueIndividual {
     private Cronometro cronometro;
 
     @ManyToOne
-    @JoinColumn(name = "placar_fk")
     private Placar placar;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<CategoriaCompeticao> categoriaCompeticao;
 
     public RingueIndividual() {

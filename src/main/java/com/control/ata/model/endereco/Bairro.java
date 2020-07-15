@@ -15,7 +15,6 @@ public class Bairro {
 	private String nome;
 
 	@ManyToOne
-	@JoinColumn(name = "cidade_fk")
 	private Cidade cidade;
 
 	@JsonIgnore

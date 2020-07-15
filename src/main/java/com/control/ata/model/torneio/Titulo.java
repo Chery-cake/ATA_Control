@@ -15,19 +15,15 @@ public class Titulo {
     private Integer ano;
 
     @ManyToOne
-    @JoinColumn(name = "categoriaCompeticao_fk")
     private CategoriaCompeticao categoriaCompeticao;
 
     @ManyToOne
-    @JoinColumn(name = "categoriaTitulo_fk")
     private CategoriaTitulo categoriaTitulo;
 
     @ManyToOne
-    @JoinColumn(name = "competidor_fk", nullable = true)
     private Competidor competidor;
 
     @ManyToOne
-    @JoinColumn(name = "time_fk", nullable = true)
     private Time time;
 
     public Titulo() {
@@ -75,5 +71,9 @@ public class Titulo {
 
     public Time getTime() {
         return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
     }
 }

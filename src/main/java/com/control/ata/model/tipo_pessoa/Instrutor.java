@@ -15,11 +15,9 @@ public class Instrutor {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "academia_fk")
     private Academia academia;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "pessoa_fk")
     private Pessoa pessoa;
 
     @JsonIgnore

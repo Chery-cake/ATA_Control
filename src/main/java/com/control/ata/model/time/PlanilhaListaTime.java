@@ -12,7 +12,6 @@ public class PlanilhaListaTime {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "time_fk")
     private Time time;
 
     private Integer notaJuizA;
@@ -22,11 +21,9 @@ public class PlanilhaListaTime {
     private Integer notaJuizC;
 
     @ManyToOne
-    @JoinColumn(name = "ringueTime_fk")
     private RingueTime ringueTime;
 
     @ManyToOne
-    @JoinColumn(name = "categoriaCompeticao_fk")
     private CategoriaCompeticao categoriaCompeticao;
 
     public PlanilhaListaTime() {

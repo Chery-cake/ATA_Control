@@ -29,15 +29,12 @@ public class Pessoa {
     private Boolean isInstrutor;
 
     @ManyToOne
-    @JoinColumn(name = "faixa_fk")
     private Faixa faixa;
 
     @ManyToOne
-    @JoinColumn(name = "endereco_fk")
     private Endereco endereco;
 
     @ManyToOne
-    @JoinColumn(name = "instrutor_fk", nullable = true)
     private Instrutor instrutor;
 
     @JsonIgnore

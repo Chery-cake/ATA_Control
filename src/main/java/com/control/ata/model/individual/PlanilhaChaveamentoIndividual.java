@@ -18,11 +18,9 @@ public class PlanilhaChaveamentoIndividual {
 	private Collection<ChaveLutaIndividual> chaveLutaIndividual;
 
 	@ManyToOne
-	@JoinColumn(name = "categoriaCompeticao_fk")
 	private CategoriaCompeticao categoriaCompeticao;
 
 	@ManyToOne
-	@JoinColumn(name = "ringueIndividual_fk")
 	private RingueIndividual ringueIndividual;
 
 	public PlanilhaChaveamentoIndividual() {

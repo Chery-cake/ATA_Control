@@ -16,7 +16,6 @@ public class Academia {
 	private String nome;
 
 	@ManyToOne
-	@JoinColumn(name = "endereco_fk")
 	private Endereco endereco;
 
 	@JsonIgnore
