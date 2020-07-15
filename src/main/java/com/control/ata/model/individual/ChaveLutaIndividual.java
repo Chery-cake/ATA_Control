@@ -15,25 +15,22 @@ public class ChaveLutaIndividual {
     private Integer fase;
 
     @ManyToOne
-    @JoinColumn(name = "competidorVermelho_fk")
     private Competidor competidorVermelho;
 
-    private Integer pontosVermelhos;
-    private Integer advertenciasVermelhas;
-    private Integer penalidadesVermelhas;
-    private Boolean desqualificacaoVermelha;
+    private Integer pontosVermelhos = 0;
+    private Integer advertenciasVermelhas = 0;
+    private Integer penalidadesVermelhas = 0;
+    private Boolean desqualificacaoVermelha = false;
 
     @ManyToOne
-    @JoinColumn(name = "competidorBranco_fk")
     private Competidor competidorBranco;
 
-    private Integer pontosBrancos;
-    private Integer advertenciasBrancas;
-    private Integer penalidadesBrancas;
-    private Boolean desqualificacaoBranca;
+    private Integer pontosBrancos = 0;
+    private Integer advertenciasBrancas = 0;
+    private Integer penalidadesBrancas = 0;
+    private Boolean desqualificacaoBranca = false;
 
     @ManyToOne
-    @JoinColumn(name = "planilhaChaveamentoIndividual_fk")
     private PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual;
 
     public ChaveLutaIndividual() {

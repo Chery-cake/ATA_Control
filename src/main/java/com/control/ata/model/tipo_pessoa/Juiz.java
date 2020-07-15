@@ -17,7 +17,6 @@ public class Juiz {
     private Integer id;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "pessoa_fk")
     private Pessoa pessoa;
 
     @JsonIgnore
@@ -27,7 +26,7 @@ public class Juiz {
     @ManyToMany(mappedBy = "juiz")
     private Collection<RingueIndividual> ringueIndividualCollection;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "juiz")
     private Collection<RingueTime> ringueTimeCollection;
 
     public Juiz() {

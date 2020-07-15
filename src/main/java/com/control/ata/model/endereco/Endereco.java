@@ -17,7 +17,6 @@ public class Endereco {
     private String rua;
 
     @ManyToOne
-    @JoinColumn(name = "bairro_fk")
     private Bairro bairro;
 
     @JsonIgnore

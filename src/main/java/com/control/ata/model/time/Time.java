@@ -16,12 +16,13 @@ public class Time {
 	private Integer id;
 
 	private String representa;
+	private Boolean junior;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "time", cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	private Collection<Treinador> treinadorList;
 
-	@ManyToMany(mappedBy = "time")
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	private Collection<Competidor> competidores;
 
 	@JsonIgnore
@@ -32,7 +33,7 @@ public class Time {
 	@OneToMany(mappedBy = "time", cascade = CascadeType.ALL)
 	private Collection<PlanilhaListaTime> planilhaListaTimeList;
 
-	@ManyToMany(cascade = { CascadeType.PERSIST})
+	@ManyToMany(mappedBy = "time")
 	private Collection<RingueTime> ringueTimeCollection;
 
 	@JsonIgnore
@@ -47,4 +48,60 @@ public class Time {
 	@OneToMany(mappedBy = "time", cascade = CascadeType.ALL)
 	private Collection<Titulo> tituloList;
 
+	public Time() {
+	}
+
+	public Time(String representa, Boolean junior, Collection<Competidor> competidores) {
+		this.representa = representa;
+		this.junior = junior;
+		this.competidores = competidores;
+	}
+
+	public Time(String representa, Boolean junior, Collection<Competidor> competidores,
+			Collection<Titulo> tituloList) {
+		this.representa = representa;
+		this.junior = junior;
+		this.competidores = competidores;
+		this.tituloList = tituloList;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public String getRepresenta() {
+		return representa;
+	}
+
+	public Boolean getJunior() {
+		return junior;
+	}
+
+	public Collection<Treinador> getTreinadorList() {
+		return treinadorList;
+	}
+
+	public void setTreinadorList(Collection<Treinador> treinadorList) {
+		this.treinadorList = treinadorList;
+	}
+
+	public Collection<Competidor> getCompetidores() {
+		return competidores;
+	}
+
+	public void setCompetidores(Collection<Competidor> competidores) {
+		this.competidores = competidores;
+	}
+
+	public Collection<RankingTime> getRankingTimeList() {
+		return rankingTimeList;
+	}
+
+	public Collection<Titulo> getTituloList() {
+		return tituloList;
+	}
+
+	public void setTituloList(Collection<Titulo> tituloList) {
+		this.tituloList = tituloList;
+	}
 }

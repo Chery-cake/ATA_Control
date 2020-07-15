@@ -13,7 +13,6 @@ public class RankingIndividual {
 	private Integer id;
 
 	@ManyToOne
-	@JoinColumn(name = "pessoa_fk")
 	private Pessoa pessoa;
 
 	private Integer pontuacao;
@@ -21,7 +20,6 @@ public class RankingIndividual {
 	//private RingueIndividual ringueIndividual;
 
 	@ManyToOne
-	@JoinColumn(name = "categoriaCompeticao_fk")
 	private CategoriaCompeticao categoriaCompeticao;
 
 }

@@ -12,7 +12,6 @@ public class RankingTime {
 	private Integer id;
 
 	@ManyToOne
-	@JoinColumn(name = "time_fk")
 	private Time time;
 
 	private Integer pontuacao;
@@ -20,7 +19,6 @@ public class RankingTime {
 	//private RingueTime ringueTime;
 
 	@ManyToOne
-	@JoinColumn(name = "categoriaCompeticao_fk")
 	private CategoriaCompeticao categoriaCompeticao;
 
 }

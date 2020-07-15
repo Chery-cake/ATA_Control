@@ -12,11 +12,9 @@ public class RodadaJuiz {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "torneio_fk")
     private Torneio torneio;
 
     @ManyToOne
-    @JoinColumn(name = "juiz_fk")
     private Juiz juiz;
 
     public RodadaJuiz() {

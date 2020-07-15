@@ -14,7 +14,6 @@ public class Telefone {
     private Boolean Celular;
 
     @ManyToOne
-    @JoinColumn(name = "pessoa_fk")
     private Pessoa pessoa;
 
     public Telefone() {

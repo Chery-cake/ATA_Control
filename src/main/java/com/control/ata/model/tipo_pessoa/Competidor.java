@@ -24,13 +24,12 @@ public class Competidor {
     private String nivel;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "pessoa_fk")
     private Pessoa pessoa;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<CategoriaCompeticao> categoriaCompeticao;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "competidores")
     private Collection<Time> time;
 
     @JsonIgnore

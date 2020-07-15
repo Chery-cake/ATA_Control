@@ -13,7 +13,6 @@ public class PlanilhaListaIndividual {
 	private Integer id;
 
 	@ManyToOne
-	@JoinColumn(name = "competidor_fk")
 	private Competidor competidor;
 
 	private Integer notaJuizA;
@@ -23,11 +22,9 @@ public class PlanilhaListaIndividual {
 	private Integer notaJuizC;
 
 	@ManyToOne
-	@JoinColumn(name = "categoriaCompeticao_fk")
 	private CategoriaCompeticao categoriaCompeticao;
 
 	@ManyToOne
-	@JoinColumn(name = "ringueIndividual_fk")
 	private RingueIndividual ringueIndividual;
 
 	public PlanilhaListaIndividual() {

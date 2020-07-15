@@ -12,7 +12,6 @@ public class Administrador {
     private Integer id;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "pessoa_fk")
     private Pessoa pessoa;
 
     public Administrador() {

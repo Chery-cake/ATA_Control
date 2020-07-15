@@ -38,8 +38,7 @@ public class ListaIndividual {
         }
 
         while (competidorArrayList.size() > 0) {
-            Singleton s = Singleton.getSingleton();
-            int indi = s.getRandomInt(0, competidorArrayList.size());//.nextInt(0, competidorArrayList.size());
+            int indi = s.getRandomInt(0, competidorArrayList.size());
             list.add(planilhaListaIndividualRepository.save(
                     new PlanilhaListaIndividual(competidorArrayList.get(indi), categoriaCompeticao, ringueIndividual)));
             competidorArrayList.remove(indi);
@@ -53,13 +52,13 @@ public class ListaIndividual {
         return list;
     }
 
-    public void setPlanilha(PlanilhaListaIndividual planilha) {
-        planilhaListaIndividualRepository.save(planilha);
+    public PlanilhaListaIndividual setPlanilha(PlanilhaListaIndividual planilha) {
+        return planilhaListaIndividualRepository.save(planilha);
     }
 
     private Competidor sort(Collection<Competidor> competidorList,
             CategoriaCompeticao categoriaCompeticao) {//retorna o maior titulo
-        return s.getCompetidorTitulo(competidorList, categoriaCompeticao, tituloRepository);
+        return Singleton.getCompetidorTitulo(competidorList, categoriaCompeticao, tituloRepository);
     }
 
 }
