@@ -30,4 +30,19 @@ public class Academia {
 		this.endereco = endereco;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public Collection<Instrutor> getInstrutores() {
+		return instrutores;
+	}
 }

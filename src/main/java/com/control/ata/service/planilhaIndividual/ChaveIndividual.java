@@ -127,7 +127,8 @@ public class ChaveIndividual {
         return chaveLutaIndividualRepository.save(new ChaveLutaIndividual(posicao, fase, compVer, compBra, planilha));
     }
 
-    private void createChave(ArrayList<Competidor> competidorArrayList, PlanilhaChaveamentoIndividual planilha) {//todo testar sobre ser da mesma academia
+    private void createChave(ArrayList<Competidor> competidorArrayList,
+            PlanilhaChaveamentoIndividual planilha) {
         if (planilha.getRingueIndividual().getFechado()) {
             if (competidorArrayList.size() > 2) {
                 int fase = 1;
@@ -139,10 +140,35 @@ public class ChaveIndividual {
                     fase = 4;
                 }
                 int i = 1;
-                while (competidorArrayList.size() > 0) {
-                    Singleton.Sorteio sorteio = new Singleton.Sorteio();
-                    sorteio = sorteio.sorteio(competidorArrayList);
-                    setChave((Competidor) sorteio.a, (Competidor) sorteio.b, planilha, i, fase);
+
+                ArrayList<ArrayList<Competidor>> arrayList = new ArrayList<>();
+                for (Competidor competidor : competidorArrayList) {
+                    if (arrayList.isEmpty()) {
+                        ArrayList<Competidor> competidors = new ArrayList<>();
+                        competidors.add(competidor);
+                        arrayList.add(competidors);
+                    } else {
+                        boolean adicionado = false;
+                        for (ArrayList<Competidor> arrayList1 : arrayList) {
+                            if (arrayList1.get(
+                                    0).getPessoa().getInstrutor().getAcademia().getNome().equals(
+                                    competidor.getPessoa().getInstrutor().getAcademia().getNome())) {
+                                arrayList1.add(competidor);
+                                adicionado = true;
+                            }
+                        }
+                        if (!adicionado) {
+                            ArrayList<Competidor> competidors = new ArrayList<>();
+                            competidors.add(competidor);
+                            arrayList.add(competidors);
+                        }
+                    }
+                }
+
+                while (arrayList.size() > 0) {
+                    Sorteio sorteio = new Sorteio();
+                    sorteio = sorteio.sorteio(arrayList);
+                    setChave(sorteio.a, sorteio.b, planilha, i, fase);
                     i++;
                 }
             } else if (competidorArrayList.size() == 2) {
@@ -166,15 +192,39 @@ public class ChaveIndividual {
                     fase = 4;
                 }
                 int i = 1;
-                while (competidorArrayList.size() > 0) {
-                    if (competidorArrayList.size() == 1) {
-                        setChave(competidorArrayList.get(0), competidorTitulo, planilha, i, fase);
-                        competidorArrayList.remove(0);
+
+                ArrayList<ArrayList<Competidor>> arrayList = new ArrayList<>();
+                for (Competidor competidor : competidorArrayList) {
+                    if (arrayList.isEmpty()) {
+                        ArrayList<Competidor> competidors = new ArrayList<>();
+                        competidors.add(competidor);
+                        arrayList.add(competidors);
+                    } else {
+                        boolean adicionado = false;
+                        for (ArrayList<Competidor> arrayList1 : arrayList) {
+                            if (arrayList1.get(
+                                    0).getPessoa().getInstrutor().getAcademia().getNome().equals(
+                                    competidor.getPessoa().getInstrutor().getAcademia().getNome())) {
+                                arrayList1.add(competidor);
+                                adicionado = true;
+                            }
+                        }
+                        if (!adicionado) {
+                            ArrayList<Competidor> competidors = new ArrayList<>();
+                            competidors.add(competidor);
+                            arrayList.add(competidors);
+                        }
+                    }
+                }
+
+                while (arrayList.size() > 0) {
+                    Sorteio sorteio = new Sorteio();
+                    sorteio = sorteio.sorteio(arrayList);
+                    if (sorteio.b == null) {
+                        setChave(sorteio.a, competidorTitulo, planilha, i, fase);
                         competidorTituloAdicionado = true;
                     } else {
-                        Singleton.Sorteio sorteio = new Singleton.Sorteio();
-                        sorteio = sorteio.sorteio(competidorArrayList);
-                        setChave((Competidor) sorteio.a, (Competidor) sorteio.b, planilha, i, fase);
+                        setChave(sorteio.a, sorteio.b, planilha, i, fase);
                     }
                     i++;
                 }
@@ -194,6 +244,84 @@ public class ChaveIndividual {
     private Competidor sort(Collection<Competidor> competidorList,
             CategoriaCompeticao categoriaCompeticao) {//retorna o maior titulo
         return Singleton.getCompetidorTitulo(competidorList, categoriaCompeticao, tituloRepository);
+    }
+
+    private class Sorteio {
+        Competidor a;
+        Competidor b;
+        Singleton s = Singleton.getSingleton();
+
+        public Sorteio sorteio(Iterable<?> iterables) {
+            Sorteio sorteio = new Sorteio();
+
+            ArrayList arrayList = (ArrayList) iterables;
+
+            if (arrayList.size() > 1) {
+                int indiCompetidores1 = s.getRandomInt(0, arrayList.size());
+                ArrayList<Competidor> competidores1 = (ArrayList<Competidor>) arrayList.get(indiCompetidores1);
+                ArrayList<Competidor> competidores2 = competidores1;
+                int indiCompetidores2 = 0;
+
+                while (competidores1 == competidores2) {
+                    indiCompetidores2 = s.getRandomInt(0, arrayList.size());
+                    competidores2 = (ArrayList<Competidor>) arrayList.get(indiCompetidores2);
+                }
+
+                sorteio.a = competidores1.get(s.getRandomInt(0, competidores1.size()));
+                sorteio.b = competidores2.get(s.getRandomInt(0, competidores2.size()));
+
+                competidores1.remove(sorteio.a);
+                competidores2.remove(sorteio.b);
+
+                if (indiCompetidores1 > indiCompetidores2) {
+                    arrayList.remove(indiCompetidores1);
+                    arrayList.remove(indiCompetidores2);
+                } else {
+                    arrayList.remove(indiCompetidores2);
+                    arrayList.remove(indiCompetidores1);
+                }
+
+                if (!competidores1.isEmpty()) {
+                    arrayList.add(competidores1);
+                }
+                if (!competidores2.isEmpty()) {
+                    arrayList.add(competidores2);
+                }
+            } else {
+                int indiCompetidores = 0;
+                ArrayList<Competidor> competidores = (ArrayList<Competidor>) arrayList.get(indiCompetidores);
+
+                if (competidores.size() > 1) {
+                    int indiA = s.getRandomInt(0, competidores.size());
+                    int indiB = indiA;
+
+                    while (indiB == indiA) {
+                        indiB = s.getRandomInt(0, competidores.size());
+                    }
+                    sorteio.a = competidores.get(indiA);
+                    sorteio.b = competidores.get(indiB);
+
+                    competidores.remove(sorteio.a);
+                    competidores.remove(sorteio.b);
+
+                    arrayList.remove(indiCompetidores);
+                    if (!competidores.isEmpty()) {
+                        arrayList.add(competidores);
+                    }
+                } else {
+                    int indiA = s.getRandomInt(0, competidores.size());
+                    sorteio.a = competidores.get(indiA);
+                    sorteio.b = null;
+                    competidores.remove(sorteio.a);
+
+                    arrayList.remove(indiCompetidores);
+                    if (!competidores.isEmpty()) {
+                        arrayList.add(competidores);
+                    }
+                }
+            }
+            return sorteio;
+        }
     }
 
 }
