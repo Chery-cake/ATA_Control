@@ -23,7 +23,7 @@ public class Competidor {
     private Double altura;
     private String nivel;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     private Pessoa pessoa;
 
     @ManyToMany(cascade = CascadeType.PERSIST)

@@ -137,9 +137,9 @@ public class ChaveTime {
                 }
                 int i = 1;
                 while (timeArrayList.size() > 0) {
-                    Singleton.Sorteio sorteio = new Singleton.Sorteio();
+                    Sorteio sorteio = new Sorteio();
                     sorteio = sorteio.sorteio(timeArrayList);
-                    setChave((Time) sorteio.a, (Time) sorteio.b, planilha, i, fase);
+                    setChave(sorteio.a, sorteio.b, planilha, i, fase);
                     i++;
                 }
             } else if (timeArrayList.size() == 2) {
@@ -167,13 +167,13 @@ public class ChaveTime {
                         timeArrayList.remove(0);
                         timeTituloAdicionado = true;
                     } else {
-                        Singleton.Sorteio sorteio = new Singleton.Sorteio();
+                        Sorteio sorteio = new Sorteio();
                         sorteio = sorteio.sorteio(timeArrayList);
-                        setChave((Time) sorteio.a, (Time) sorteio.b, planilha, i, fase);
+                        setChave(sorteio.a, sorteio.b, planilha, i, fase);
                     }
                     i++;
                 }
-                if (!timeTituloAdicionado){
+                if (!timeTituloAdicionado) {
                     setChave(timeTitulo, null, planilha, i, fase);
                 }
             } else if (timeArrayList.size() == 1) {
@@ -187,6 +187,40 @@ public class ChaveTime {
 
     private Time sort(Collection<Time> timeList, CategoriaCompeticao categoriaCompeticao) {
         return Singleton.getTimeTitulo(timeList, categoriaCompeticao, tituloRepository);
+    }
+
+    private class Sorteio {
+        Time a;
+        Time b;
+        Singleton s = Singleton.getSingleton();
+
+        public Sorteio sorteio(Iterable<Time> iterable) {
+            Sorteio sorteio = new Sorteio();
+            ArrayList<Time> arrayList = (ArrayList<Time>) iterable;
+            if (arrayList.size() > 1) {
+                int indiA = s.getRandomInt(0, arrayList.size());
+                int indiB = indiA;
+
+                while (indiB == indiA) {
+                    indiB = s.getRandomInt(0, arrayList.size());
+                }
+                sorteio.a = arrayList.get(indiA);
+                sorteio.b = arrayList.get(indiB);
+                if (indiA > indiB) {
+                    arrayList.remove(indiA);
+                    arrayList.remove(indiB);
+                } else {
+                    arrayList.remove(indiB);
+                    arrayList.remove(indiA);
+                }
+            } else {
+                int indiA = s.getRandomInt(0, arrayList.size());
+                sorteio.a = arrayList.get(indiA);
+                sorteio.b = null;
+                arrayList.remove(indiA);
+            }
+            return sorteio;
+        }
     }
 
 }

@@ -6,7 +6,6 @@ import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.Titulo;
 import com.control.ata.repository.torneio.TituloRepository;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -112,40 +111,6 @@ public class Singleton {
 
     public Integer getRandomInt(Integer mim, Integer max) {
         return ThreadLocalRandom.current().nextInt(mim, max);
-    }
-
-    public static class Sorteio {
-        public Object a;
-        public Object b;
-        Singleton s = Singleton.getSingleton();
-
-        public Sorteio sorteio(Iterable<?> iterable) {
-            Sorteio sorteio = new Sorteio();
-            ArrayList<?> arrayList = (ArrayList<?>) iterable;
-            if (arrayList.size() > 1) {
-                int indiA = s.getRandomInt(0, arrayList.size());
-                int indiB = indiA;
-
-                while (indiB == indiA) {
-                    indiB = s.getRandomInt(0, arrayList.size());
-                }
-                sorteio.a = arrayList.get(indiA);
-                sorteio.b = arrayList.get(indiB);
-                if (indiA > indiB) {
-                    arrayList.remove(indiA);
-                    arrayList.remove(indiB);
-                } else {
-                    arrayList.remove(indiB);
-                    arrayList.remove(indiA);
-                }
-            } else {
-                int indiA = s.getRandomInt(0, arrayList.size());
-                sorteio.a = arrayList.get(indiA);
-                sorteio.b = null;
-                arrayList.remove(indiA);
-            }
-            return sorteio;
-        }
     }
 
 }

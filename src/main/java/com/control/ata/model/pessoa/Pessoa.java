@@ -48,7 +48,7 @@ public class Pessoa {
     private Competidor competidor;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
-    private Instrutor getInstrutor;
+    private Instrutor IsInstrutor;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
     private Juiz juiz;
@@ -144,8 +144,12 @@ public class Pessoa {
         return ataNumberBrasil;
     }
 
-    public Boolean getInstrutor() {
+    public Boolean getIsInstrutor() {
         return isInstrutor;
+    }
+
+    public Instrutor getInstrutor() {
+        return instrutor;
     }
 
     public void setInstrutor(Boolean instrutor) {

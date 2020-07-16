@@ -11,7 +11,7 @@ public class Administrador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     private Pessoa pessoa;
 
     public Administrador() {
