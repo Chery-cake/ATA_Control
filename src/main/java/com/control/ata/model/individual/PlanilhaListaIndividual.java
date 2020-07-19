@@ -1,75 +1,55 @@
 package com.control.ata.model.individual;
 
-import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.torneio.CategoriaCompeticao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class PlanilhaListaIndividual {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@ManyToOne
-	private Competidor competidor;
+    @ManyToOne
+    private CategoriaCompeticao categoriaCompeticao;
 
-	private Integer notaJuizA;
+    @ManyToOne
+    private RingueIndividual ringueIndividual;
 
-	private Integer notaJuizB;
+    @JsonIgnore
+    @OneToMany(mappedBy = "planilhaListaIndividual", cascade = CascadeType.ALL)
+    private Collection<ChaveListaIndividual> chaveListaIndividualList;
 
-	private Integer notaJuizC;
+    public PlanilhaListaIndividual() {
+    }
 
-	@ManyToOne
-	private CategoriaCompeticao categoriaCompeticao;
+    public PlanilhaListaIndividual(CategoriaCompeticao categoriaCompeticao,
+            RingueIndividual ringueIndividual) {
+        this.categoriaCompeticao = categoriaCompeticao;
+        this.ringueIndividual = ringueIndividual;
+    }
 
-	@ManyToOne
-	private RingueIndividual ringueIndividual;
+    public Integer getId() {
+        return id;
+    }
 
-	public PlanilhaListaIndividual() {
-	}
+    public CategoriaCompeticao getCategoriaCompeticao() {
+        return categoriaCompeticao;
+    }
 
-	public PlanilhaListaIndividual(Competidor competidor,
-			CategoriaCompeticao categoriaCompeticao, RingueIndividual ringueIndividual) {
-		this.competidor = competidor;
-		this.categoriaCompeticao = categoriaCompeticao;
-		this.ringueIndividual = ringueIndividual;
-	}
+    public RingueIndividual getRingueIndividual() {
+        return ringueIndividual;
+    }
 
-	public Competidor getCompetidor() {
-		return competidor;
-	}
+    public Collection<ChaveListaIndividual> getChaveListaIndividualList() {
+        return chaveListaIndividualList;
+    }
 
-	public Integer getNotaJuizA() {
-		return notaJuizA;
-	}
-
-	public void setNotaJuizA(Integer notaJuizA) {
-		this.notaJuizA = notaJuizA;
-	}
-
-	public Integer getNotaJuizB() {
-		return notaJuizB;
-	}
-
-	public void setNotaJuizB(Integer notaJuizB) {
-		this.notaJuizB = notaJuizB;
-	}
-
-	public Integer getNotaJuizC() {
-		return notaJuizC;
-	}
-
-	public void setNotaJuizC(Integer notaJuizC) {
-		this.notaJuizC = notaJuizC;
-	}
-
-	public CategoriaCompeticao getCategoriaCompeticao() {
-		return categoriaCompeticao;
-	}
-
-	public RingueIndividual getRingueIndividual() {
-		return ringueIndividual;
-	}
+    public void setChaveListaIndividualList(
+            Collection<ChaveListaIndividual> chaveListaIndividualList) {
+        this.chaveListaIndividualList = chaveListaIndividualList;
+    }
 }

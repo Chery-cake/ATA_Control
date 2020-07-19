@@ -7,7 +7,7 @@ import com.control.ata.dao.TipoPessoaDAO;
 import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Bairro;
 import com.control.ata.model.endereco.Endereco;
-import com.control.ata.model.individual.RingueIndividual;
+import com.control.ata.model.individual.*;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.tipo_pessoa.Instrutor;
@@ -15,12 +15,15 @@ import com.control.ata.model.tipo_pessoa.Juiz;
 import com.control.ata.model.torneio.*;
 import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
+import com.control.ata.repository.individual.ChaveLutaIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
-import com.control.ata.repository.torneio.CategoriaTituloRepository;
+import com.control.ata.repository.torneio.CategoriaTorneioRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
 import com.control.ata.service.PopulateBD;
 import com.control.ata.service.planilhaIndividual.ChaveIndividual;
+import com.control.ata.service.planilhaIndividual.ListaIndividual;
+import com.control.ata.service.planilhaIndividual.RankIndividual;
 import org.directwebremoting.spring.DwrSpringServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -38,7 +41,8 @@ import java.util.Date;
 public class AtaApplication implements CommandLineRunner {
 
     @Autowired
-    private CidadeRepository cidadeRepository;
+    private PopulateBD populateBD;
+
 
     @Autowired
     private TorneioRepository torneioRepository;
@@ -47,22 +51,28 @@ public class AtaApplication implements CommandLineRunner {
     @Autowired
     private CategoriaCompeticaoRepository categoriaCompeticaoRepository;
     @Autowired
-    private CategoriaTituloRepository categoriaTituloRepository;
+    private CategoriaTorneioRepository categoriaTorneioRepository;
     @Autowired
     private RingueDAO ringueDAO;
     @Autowired
     private AcademiaRepository academiaRepository;
     @Autowired
+    private ListaIndividual listaIndividual;
+    @Autowired
     private ChaveIndividual chaveIndividual;
+    @Autowired
+    private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
 
     @Autowired
     private TipoPessoaDAO tipoPessoaDAO;
     @Autowired
     private EnderecoDAO enderecoDAO;
     @Autowired
+    private CidadeRepository cidadeRepository;
+    @Autowired
     private PessoaDAO pessoaDAO;
     @Autowired
-    private PopulateBD populateBD;
+    private RankIndividual rankingIndividual;
 
     public static void main(String[] args) {
         SpringApplication.run(AtaApplication.class, args);
@@ -78,7 +88,7 @@ public class AtaApplication implements CommandLineRunner {
             Endereco endereco = new Endereco("rua", new Bairro("bairro", cidadeRepository.getOne(1)));
             endereco = enderecoDAO.save(endereco);
 
-            Torneio torneio = new Torneio(new Date(), new Date(), endereco);
+            Torneio torneio = new Torneio(new Date(), new Date(), endereco, categoriaTorneioRepository.getOne(5));
             torneioRepository.save(torneio);
 
             CategoriaCompeticao categoriaCompeticao = new CategoriaCompeticao("nome", false, false, 1, 1, 1, 1, 1);
@@ -86,15 +96,15 @@ public class AtaApplication implements CommandLineRunner {
             ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList = new ArrayList<>();
             categoriaCompeticaoArrayList.add(categoriaCompeticao);
 
-            CategoriaTitulo categoriaTitulo = categoriaTituloRepository.getOne(3);
-            CategoriaTitulo categoriaTitulo1 = categoriaTituloRepository.getOne(5);
-            CategoriaTitulo categoriaTitulo2 = categoriaTituloRepository.getOne(2);
-            CategoriaTitulo categoriaTitulo3 = categoriaTituloRepository.getOne(1);
+            CategoriaTorneio categoriaTorneio = categoriaTorneioRepository.getOne(3);
+            CategoriaTorneio categoriaTorneio1 = categoriaTorneioRepository.getOne(5);
+            CategoriaTorneio categoriaTorneio2 = categoriaTorneioRepository.getOne(2);
+            CategoriaTorneio categoriaTorneio3 = categoriaTorneioRepository.getOne(1);
 
             Pessoa pessoaIns = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto",
-                                          "ataWorld", "ataBrasil", false, faixaRepository.getOne(1), endereco);
+                                          "ataWorld", "ataBrasil", true, faixaRepository.getOne(1), endereco);
             Pessoa pessoaIns1 = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto",
-                                           "ataWorld", "ataBrasil", false, faixaRepository.getOne(1), endereco);
+                                           "ataWorld", "ataBrasil", true, faixaRepository.getOne(1), endereco);
 
             pessoaIns = pessoaDAO.save(pessoaIns);
             pessoaIns1 = pessoaDAO.save(pessoaIns1);
@@ -174,19 +184,19 @@ public class AtaApplication implements CommandLineRunner {
             Competidor competidor3 = new Competidor(1.0, 1.0, "nivel", pessoa3, categoriaCompeticaoArrayList);
 
             ArrayList<Titulo> titulos = new ArrayList<>();
-            Titulo titulo = new Titulo(2020, categoriaCompeticao, categoriaTitulo, competidor);
+            Titulo titulo = new Titulo(2020, categoriaCompeticao, categoriaTorneio, competidor);
             titulos.add(titulo);
 
             ArrayList<Titulo> titulos1 = new ArrayList<>();
-            Titulo titulo1 = new Titulo(2019, categoriaCompeticao, categoriaTitulo1, competidor1);
+            Titulo titulo1 = new Titulo(2019, categoriaCompeticao, categoriaTorneio1, competidor1);
             titulos1.add(titulo1);
 
             ArrayList<Titulo> titulos2 = new ArrayList<>();
-            Titulo titulo2 = new Titulo(2020, categoriaCompeticao, categoriaTitulo2, competidor2);
+            Titulo titulo2 = new Titulo(2020, categoriaCompeticao, categoriaTorneio2, competidor2);
             titulos2.add(titulo2);
 
             ArrayList<Titulo> titulos3 = new ArrayList<>();
-            Titulo titulo3 = new Titulo(2020, categoriaCompeticao, categoriaTitulo3, competidor3);
+            Titulo titulo3 = new Titulo(2020, categoriaCompeticao, categoriaTorneio3, competidor3);
             titulos3.add(titulo3);
 
             competidor.setTituloList(titulos);
@@ -207,7 +217,39 @@ public class AtaApplication implements CommandLineRunner {
 
             ringueIndividual = ringueDAO.save(ringueIndividual);
 
-            chaveIndividual.createPlanilha(ringueIndividual, categoriaCompeticao);
+            PlanilhaListaIndividual planilhaListaIndividual = listaIndividual.createPlanilha(ringueIndividual,
+                                                                                             categoriaCompeticao);
+
+            for (ChaveListaIndividual chaveListaIndividual : planilhaListaIndividual.getChaveListaIndividualList()) {
+                chaveListaIndividual.setNotaJuizA(s.getRandomInt(1, 10));
+                chaveListaIndividual.setNotaJuizB(s.getRandomInt(1, 10));
+                chaveListaIndividual.setNotaJuizC(s.getRandomInt(1, 10));
+                listaIndividual.setChavePlanilha(chaveListaIndividual);
+            }
+
+            rankingIndividual.setRankingLista(planilhaListaIndividual);
+
+            PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual = chaveIndividual.createPlanilha(
+                    ringueIndividual, categoriaCompeticao);
+
+            ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList = new ArrayList<>(
+                    chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(planilhaChaveamentoIndividual));
+
+            for (ChaveLutaIndividual chaveLutaIndividual : chaveLutaIndividualArrayList) {
+                chaveLutaIndividual.setDesqualificacaoVermelha(true);
+                chaveIndividual.updateChave(chaveLutaIndividual);
+            }
+
+            ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList1 = new ArrayList<>(
+                    chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(planilhaChaveamentoIndividual));
+            for (ChaveLutaIndividual chaveLutaIndividual : chaveLutaIndividualArrayList1) {
+                if (!chaveLutaIndividual.getDesqualificacaoVermelha()) {
+                    chaveLutaIndividual.setDesqualificacaoVermelha(true);
+                    chaveIndividual.updateChave(chaveLutaIndividual);
+                }
+            }
+
+            rankingIndividual.setRankingChave(planilhaChaveamentoIndividual);
 
         } catch (Exception e) {
             System.out.println(e);

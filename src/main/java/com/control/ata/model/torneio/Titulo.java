@@ -18,7 +18,7 @@ public class Titulo {
     private CategoriaCompeticao categoriaCompeticao;
 
     @ManyToOne
-    private CategoriaTitulo categoriaTitulo;
+    private CategoriaTorneio categoriaTorneio;
 
     @ManyToOne
     private Competidor competidor;
@@ -30,18 +30,18 @@ public class Titulo {
     }
 
     public Titulo(Integer ano, CategoriaCompeticao categoriaCompeticao,
-            CategoriaTitulo categoriaTitulo, Competidor competidor) {
+            CategoriaTorneio categoriaTorneio, Competidor competidor) {
         this.ano = ano;
         this.categoriaCompeticao = categoriaCompeticao;
-        this.categoriaTitulo = categoriaTitulo;
+        this.categoriaTorneio = categoriaTorneio;
         this.competidor = competidor;
     }
 
     public Titulo(Integer ano, CategoriaCompeticao categoriaCompeticao,
-            CategoriaTitulo categoriaTitulo, Time time) {
+            CategoriaTorneio categoriaTorneio, Time time) {
         this.ano = ano;
         this.categoriaCompeticao = categoriaCompeticao;
-        this.categoriaTitulo = categoriaTitulo;
+        this.categoriaTorneio = categoriaTorneio;
         this.time = time;
     }
 
@@ -57,8 +57,8 @@ public class Titulo {
         return categoriaCompeticao;
     }
 
-    public CategoriaTitulo getCategoriaTitulo() {
-        return categoriaTitulo;
+    public CategoriaTorneio getCategoriaTorneio() {
+        return categoriaTorneio;
     }
 
     public Competidor getCompetidor() {

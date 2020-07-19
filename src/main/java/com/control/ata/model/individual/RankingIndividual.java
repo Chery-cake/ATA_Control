@@ -22,4 +22,33 @@ public class RankingIndividual {
 	@ManyToOne
 	private CategoriaCompeticao categoriaCompeticao;
 
+	public RankingIndividual() {
+	}
+
+	public RankingIndividual(Pessoa pessoa, Integer pontuacao,
+			CategoriaCompeticao categoriaCompeticao) {
+		this.pessoa = pessoa;
+		this.pontuacao = pontuacao;
+		this.categoriaCompeticao = categoriaCompeticao;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public Integer getPontuacao() {
+		return pontuacao;
+	}
+
+	public void setPontuacao(Integer pontuacao) {
+		this.pontuacao = pontuacao;
+	}
+
+	public CategoriaCompeticao getCategoriaCompeticao() {
+		return categoriaCompeticao;
+	}
 }
