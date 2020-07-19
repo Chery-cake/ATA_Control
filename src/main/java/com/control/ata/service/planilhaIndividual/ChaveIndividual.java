@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class ChaveIndividual {
@@ -33,8 +34,8 @@ public class ChaveIndividual {
         PlanilhaChaveamentoIndividual planilha = new PlanilhaChaveamentoIndividual(categoriaCompeticao,
                                                                                    ringueIndividual);
         planilha = planilhaChaveamentoIndividualRepository.save(planilha);
-        createChave(competidorArrayList, planilha);
-        return planilha;
+        planilha.setChaveLutaIndividual(createChave(competidorArrayList, planilha));
+        return planilhaChaveamentoIndividualRepository.save(planilha);
     }
 
     public ChaveLutaIndividual updateChave(
@@ -122,13 +123,13 @@ public class ChaveIndividual {
     }
 
     private ChaveLutaIndividual setChave(Competidor compVer, Competidor compBra, PlanilhaChaveamentoIndividual planilha,
-            int posicao,
-            int fase) {
+            int posicao, int fase) {
         return chaveLutaIndividualRepository.save(new ChaveLutaIndividual(posicao, fase, compVer, compBra, planilha));
     }
 
-    private void createChave(ArrayList<Competidor> competidorArrayList,
+    private List<ChaveLutaIndividual> createChave(ArrayList<Competidor> competidorArrayList,
             PlanilhaChaveamentoIndividual planilha) {
+        List<ChaveLutaIndividual> list = new ArrayList<>();
         if (planilha.getRingueIndividual().getFechado()) {
             if (competidorArrayList.size() > 2) {
                 int fase = 1;
@@ -168,13 +169,13 @@ public class ChaveIndividual {
                 while (arrayList.size() > 0) {
                     Sorteio sorteio = new Sorteio();
                     sorteio = sorteio.sorteio(arrayList);
-                    setChave(sorteio.a, sorteio.b, planilha, i, fase);
+                    list.add(setChave(sorteio.a, sorteio.b, planilha, i, fase));
                     i++;
                 }
             } else if (competidorArrayList.size() == 2) {
-                setChave(competidorArrayList.get(0), competidorArrayList.get(1), planilha, 1, 0);
+                list.add(setChave(competidorArrayList.get(0), competidorArrayList.get(1), planilha, 1, 0));
             } else if (competidorArrayList.size() == 1) {
-                setChave(competidorArrayList.get(0), null, planilha, 1, 0);
+                list.add(setChave(competidorArrayList.get(0), null, planilha, 1, 0));
             }
         } else {
             Competidor competidorTitulo = this.sort(competidorArrayList, planilha.getCategoriaCompeticao());
@@ -221,24 +222,23 @@ public class ChaveIndividual {
                     Sorteio sorteio = new Sorteio();
                     sorteio = sorteio.sorteio(arrayList);
                     if (sorteio.b == null) {
-                        setChave(sorteio.a, competidorTitulo, planilha, i, fase);
+                        list.add(setChave(sorteio.a, competidorTitulo, planilha, i, fase));
                         competidorTituloAdicionado = true;
                     } else {
-                        setChave(sorteio.a, sorteio.b, planilha, i, fase);
+                        list.add(setChave(sorteio.a, sorteio.b, planilha, i, fase));
                     }
                     i++;
                 }
                 if (!competidorTituloAdicionado) {
-                    setChave(competidorTitulo, null, planilha, i, fase);
+                    list.add(setChave(competidorTitulo, null, planilha, i, fase));
                 }
             } else if (competidorArrayList.size() + 1 == 2) {
-                setChave(competidorArrayList.get(0), competidorTitulo, planilha, 1, 0);
+                list.add(setChave(competidorArrayList.get(0), competidorTitulo, planilha, 1, 0));
             } else if (competidorArrayList.size() == 0) {
-                setChave(competidorTitulo, null, planilha, 1, 0);
+                list.add(setChave(competidorTitulo, null, planilha, 1, 0));
             }
-
         }
-
+        return list;
     }
 
     private Competidor sort(Collection<Competidor> competidorList,

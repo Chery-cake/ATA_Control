@@ -1,7 +1,7 @@
 package com.control.ata.model.tipo_pessoa;
 
+import com.control.ata.model.individual.ChaveListaIndividual;
 import com.control.ata.model.individual.ChaveLutaIndividual;
-import com.control.ata.model.individual.PlanilhaListaIndividual;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.time.Time;
@@ -34,7 +34,7 @@ public class Competidor {
 
     @JsonIgnore
     @OneToMany(mappedBy = "competidor", cascade = CascadeType.ALL)
-    private Collection<PlanilhaListaIndividual> planilhaListaIndividualList;
+    private Collection<ChaveListaIndividual> chaveListaIndividualList;
 
     @ManyToMany(mappedBy = "competidor")
     private Collection<RingueIndividual> ringueIndividualCollection;

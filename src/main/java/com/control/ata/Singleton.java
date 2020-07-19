@@ -13,6 +13,8 @@ public class Singleton {
 
     private static Singleton single_instance = null;
 
+    public Integer valorBase = 5;
+
     private Singleton() {
 
     }
@@ -40,7 +42,7 @@ public class Singleton {
                 }
 
                 if ((titulo1 != null) && (titulo2 != null)) {
-                    if ((titulo1.getCategoriaTitulo().getPrioridade() > titulo2.getCategoriaTitulo().getPrioridade()) && (titulo1.getAno() > titulo2.getAno())) {
+                    if ((titulo1.getCategoriaTorneio().getPrioridade() > titulo2.getCategoriaTorneio().getPrioridade()) && (titulo1.getAno() > titulo2.getAno())) {
                         competidorArrayAux[0] = competidorArray[j];
                         competidorArrayAux[1] = competidorArray[j + 1];
                         competidorArray[j] = competidorArrayAux[1];
@@ -50,7 +52,7 @@ public class Singleton {
                         competidorArrayAux[1] = competidorArray[j + 1];
                         competidorArray[j] = competidorArrayAux[1];
                         competidorArray[j + 1] = competidorArrayAux[0];
-                    } else if (titulo1.getCategoriaTitulo().getPrioridade() > titulo2.getCategoriaTitulo().getPrioridade()) {
+                    } else if (titulo1.getCategoriaTorneio().getPrioridade() > titulo2.getCategoriaTorneio().getPrioridade()) {
                         competidorArrayAux[0] = competidorArray[j];
                         competidorArrayAux[1] = competidorArray[j + 1];
                         competidorArray[j] = competidorArrayAux[1];
@@ -82,7 +84,7 @@ public class Singleton {
                                                                                categoriaCompeticao);
                 }
                 if ((titulo1 != null) && (titulo2 != null)) {
-                    if ((titulo1.getCategoriaTitulo().getPrioridade() > titulo2.getCategoriaTitulo().getPrioridade()) && (titulo1.getAno() > titulo2.getAno())) {
+                    if ((titulo1.getCategoriaTorneio().getPrioridade() > titulo2.getCategoriaTorneio().getPrioridade()) && (titulo1.getAno() > titulo2.getAno())) {
                         timeArrayAux[0] = timeArray[j];
                         timeArrayAux[1] = timeArray[j + 1];
                         timeArray[j] = timeArrayAux[1];
@@ -92,7 +94,7 @@ public class Singleton {
                         timeArrayAux[1] = timeArray[j + 1];
                         timeArray[j] = timeArrayAux[1];
                         timeArray[j + 1] = timeArrayAux[0];
-                    } else if (titulo1.getCategoriaTitulo().getPrioridade() > titulo2.getCategoriaTitulo().getPrioridade()) {
+                    } else if (titulo1.getCategoriaTorneio().getPrioridade() > titulo2.getCategoriaTorneio().getPrioridade()) {
                         timeArrayAux[0] = timeArray[j];
                         timeArrayAux[1] = timeArray[j + 1];
                         timeArray[j] = timeArrayAux[1];
@@ -107,6 +109,15 @@ public class Singleton {
             }
         }
         return timeArray[timeArray.length - 1];
+    }
+
+    public Integer getValorBase(Integer integer) {
+        if (integer - 5 <= 0) {
+            integer = 1;
+        } else {
+            integer -= 5;
+        }
+        return integer;
     }
 
     public Integer getRandomInt(Integer mim, Integer max) {

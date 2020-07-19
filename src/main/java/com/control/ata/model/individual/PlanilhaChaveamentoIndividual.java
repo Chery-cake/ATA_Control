@@ -9,43 +9,48 @@ import java.util.Collection;
 @Entity
 public class PlanilhaChaveamentoIndividual {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "planilhaChaveamentoIndividual", cascade = CascadeType.ALL)
-	private Collection<ChaveLutaIndividual> chaveLutaIndividual;
+    @JsonIgnore
+    @OneToMany(mappedBy = "planilhaChaveamentoIndividual", cascade = CascadeType.ALL)
+    private Collection<ChaveLutaIndividual> chaveLutaIndividual;
 
-	@ManyToOne
-	private CategoriaCompeticao categoriaCompeticao;
+    @ManyToOne
+    private CategoriaCompeticao categoriaCompeticao;
 
-	@ManyToOne
-	private RingueIndividual ringueIndividual;
+    @ManyToOne
+    private RingueIndividual ringueIndividual;
 
-	public PlanilhaChaveamentoIndividual() {
-	}
+    public PlanilhaChaveamentoIndividual() {
+    }
 
-	public PlanilhaChaveamentoIndividual(CategoriaCompeticao categoriaCompeticao,
-			RingueIndividual ringueIndividual) {
-		this.categoriaCompeticao = categoriaCompeticao;
-		this.ringueIndividual = ringueIndividual;
-	}
+    public PlanilhaChaveamentoIndividual(CategoriaCompeticao categoriaCompeticao,
+            RingueIndividual ringueIndividual) {
+        this.categoriaCompeticao = categoriaCompeticao;
+        this.ringueIndividual = ringueIndividual;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Collection<ChaveLutaIndividual> getChaveLutaIndividual() {
-		return chaveLutaIndividual;
-	}
+    public Collection<ChaveLutaIndividual> getChaveLutaIndividual() {
+        return chaveLutaIndividual;
+    }
 
-	public CategoriaCompeticao getCategoriaCompeticao() {
-		return categoriaCompeticao;
-	}
+    public void setChaveLutaIndividual(
+            Collection<ChaveLutaIndividual> chaveLutaIndividual) {
+        this.chaveLutaIndividual = chaveLutaIndividual;
+    }
 
-	public RingueIndividual getRingueIndividual() {
-		return ringueIndividual;
-	}
+    public CategoriaCompeticao getCategoriaCompeticao() {
+        return categoriaCompeticao;
+    }
+
+    public RingueIndividual getRingueIndividual() {
+        return ringueIndividual;
+    }
 
 }

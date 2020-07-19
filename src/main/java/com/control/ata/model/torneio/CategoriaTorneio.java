@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-public class CategoriaTitulo {
+public class CategoriaTorneio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,13 +14,16 @@ public class CategoriaTitulo {
 
     private Integer prioridade;
 
-    @OneToMany(mappedBy = "categoriaTitulo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "categoriaTorneio", cascade = CascadeType.ALL)
     private Collection<Titulo> tituloList;
 
-    public CategoriaTitulo() {
+    @OneToMany(mappedBy = "categoriaTorneio", cascade = CascadeType.ALL)
+    private Collection<Torneio> torneioList;
+
+    public CategoriaTorneio() {
     }
 
-    public CategoriaTitulo(String nome, Integer prioridade) {
+    public CategoriaTorneio(String nome, Integer prioridade) {
         this.nome = nome;
         this.prioridade = prioridade;
     }

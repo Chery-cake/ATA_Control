@@ -4,12 +4,12 @@ import com.control.ata.model.endereco.Cidade;
 import com.control.ata.model.endereco.Estado;
 import com.control.ata.model.endereco.Pais;
 import com.control.ata.model.pessoa.Faixa;
-import com.control.ata.model.torneio.CategoriaTitulo;
+import com.control.ata.model.torneio.CategoriaTorneio;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
-import com.control.ata.repository.torneio.CategoriaTituloRepository;
+import com.control.ata.repository.torneio.CategoriaTorneioRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -35,19 +35,19 @@ public class PopulateBD {
     @Autowired
     private FaixaRepository faixaRepository;
     @Autowired
-    private CategoriaTituloRepository categoriaTituloRepository;
+    private CategoriaTorneioRepository categoriaTorneioRepository;
 
     public void populate() {
         this.addEndereco();
         this.addFaixa();
-        this.addCategoriaTitulo();
+        this.addCategoriaTorneio();
     }
 
     public void criaJSON() {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
 
-        FileWriter writeFile = null;
+        FileWriter writeFile;
 
         //Armazena dados em um Objeto JSON
 //        jsonObject.put("nome", "Mundial");
@@ -63,7 +63,7 @@ public class PopulateBD {
 
             jsonArray.add(jsonObject);
 
-            System.out.printf(jsonArray.toJSONString());
+            System.out.println(jsonArray.toJSONString());
         }
         //Trata as exceptions que podem ser lançadas no decorrer do processo
         catch (FileNotFoundException e) {
@@ -157,22 +157,22 @@ public class PopulateBD {
 
     }
 
-    private void addCategoriaTitulo() {
+    private void addCategoriaTorneio() {
 
 //        jsonParser = new JSONParser();
 
-        try (FileReader reader = new FileReader("src\\main\\resources\\static\\categoriaTitulo.json")) {
+        try (FileReader reader = new FileReader("src\\main\\resources\\static\\categoriaTorneio.json")) {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
 
             JSONArray faixas = (JSONArray) obj;
 
             for (Object object : faixas) {
-                JSONObject categoriaTitulo = (JSONObject) object;
-                CategoriaTitulo categoriaTituloObj = new CategoriaTitulo((String) categoriaTitulo.get("nome"),
-                                                                         (int) (long) categoriaTitulo.get(
+                JSONObject categoriaTorneio = (JSONObject) object;
+                CategoriaTorneio categoriaTorneioObj = new CategoriaTorneio((String) categoriaTorneio.get("nome"),
+                                                                           (int) (long) categoriaTorneio.get(
                                                                                  "prioridade"));
-                categoriaTituloRepository.save(categoriaTituloObj);
+                categoriaTorneioRepository.save(categoriaTorneioObj);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
