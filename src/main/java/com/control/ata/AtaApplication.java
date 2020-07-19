@@ -226,7 +226,7 @@ public class AtaApplication implements CommandLineRunner {
                 chaveListaIndividual.setNotaJuizC(s.getRandomInt(1, 10));
                 listaIndividual.setChavePlanilha(chaveListaIndividual);
             }
-
+//todo testar ranking time
             rankingIndividual.setRankingLista(planilhaListaIndividual);
 
             PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual = chaveIndividual.createPlanilha(

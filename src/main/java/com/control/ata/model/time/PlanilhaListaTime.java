@@ -1,8 +1,10 @@
 package com.control.ata.model.time;
 
 import com.control.ata.model.torneio.CategoriaCompeticao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class PlanilhaListaTime {
@@ -12,56 +14,25 @@ public class PlanilhaListaTime {
     private Integer id;
 
     @ManyToOne
-    private Time time;
-
-    private Integer notaJuizA;
-
-    private Integer notaJuizB;
-
-    private Integer notaJuizC;
-
-    @ManyToOne
     private RingueTime ringueTime;
 
     @ManyToOne
     private CategoriaCompeticao categoriaCompeticao;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "planilhaListaTime", cascade = CascadeType.ALL)
+    private Collection<ChaveListaTime> chaveListaTimeLista;
+
     public PlanilhaListaTime() {
     }
 
-    public PlanilhaListaTime(Time time, RingueTime ringueTime,
-            CategoriaCompeticao categoriaCompeticao) {
-        this.time = time;
+    public PlanilhaListaTime(RingueTime ringueTime, CategoriaCompeticao categoriaCompeticao) {
         this.ringueTime = ringueTime;
         this.categoriaCompeticao = categoriaCompeticao;
     }
 
-    public Time getTime() {
-        return time;
-    }
-
-    public Integer getNotaJuizA() {
-        return notaJuizA;
-    }
-
-    public void setNotaJuizA(Integer notaJuizA) {
-        this.notaJuizA = notaJuizA;
-    }
-
-    public Integer getNotaJuizB() {
-        return notaJuizB;
-    }
-
-    public void setNotaJuizB(Integer notaJuizB) {
-        this.notaJuizB = notaJuizB;
-    }
-
-    public Integer getNotaJuizC() {
-        return notaJuizC;
-    }
-
-    public void setNotaJuizC(Integer notaJuizC) {
-        this.notaJuizC = notaJuizC;
+    public Integer getId() {
+        return id;
     }
 
     public RingueTime getRingueTime() {
@@ -70,5 +41,13 @@ public class PlanilhaListaTime {
 
     public CategoriaCompeticao getCategoriaCompeticao() {
         return categoriaCompeticao;
+    }
+
+    public Collection<ChaveListaTime> getChaveListaTimeLista() {
+        return chaveListaTimeLista;
+    }
+
+    public void setChaveListaTimeLista(Collection<ChaveListaTime> chaveListaTimeLista) {
+        this.chaveListaTimeLista = chaveListaTimeLista;
     }
 }

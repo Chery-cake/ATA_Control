@@ -26,8 +26,7 @@ public class PlanilhaListaIndividual {
     public PlanilhaListaIndividual() {
     }
 
-    public PlanilhaListaIndividual(CategoriaCompeticao categoriaCompeticao,
-            RingueIndividual ringueIndividual) {
+    public PlanilhaListaIndividual(CategoriaCompeticao categoriaCompeticao, RingueIndividual ringueIndividual) {
         this.categoriaCompeticao = categoriaCompeticao;
         this.ringueIndividual = ringueIndividual;
     }

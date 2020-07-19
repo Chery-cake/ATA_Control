@@ -1,40 +1,38 @@
-package com.control.ata.model.individual;
-
-import com.control.ata.model.tipo_pessoa.Competidor;
+package com.control.ata.model.time;
 
 import javax.persistence.*;
 
 @Entity
-public class ChaveListaIndividual {
+public class ChaveListaTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    private Competidor competidor;
+    private Time time;
 
     private Integer notaJuizA;
     private Integer notaJuizB;
     private Integer notaJuizC;
 
     @ManyToOne
-    private PlanilhaListaIndividual planilhaListaIndividual;
+    private PlanilhaListaTime planilhaListaTime;
 
-    public ChaveListaIndividual() {
+    public ChaveListaTime() {
     }
 
-    public ChaveListaIndividual(Competidor competidor, PlanilhaListaIndividual planilhaListaIndividual) {
-        this.competidor = competidor;
-        this.planilhaListaIndividual = planilhaListaIndividual;
+    public ChaveListaTime(Time time, PlanilhaListaTime planilhaListaTime) {
+        this.time = time;
+        this.planilhaListaTime = planilhaListaTime;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public Competidor getCompetidor() {
-        return competidor;
+    public Time getTime() {
+        return time;
     }
 
     public Integer getNotaJuizA() {
@@ -61,11 +59,11 @@ public class ChaveListaIndividual {
         this.notaJuizC = notaJuizC;
     }
 
-    public PlanilhaListaIndividual getPlanilhaListaIndividual() {
-        return planilhaListaIndividual;
+    public PlanilhaListaTime getPlanilhaListaTime() {
+        return planilhaListaTime;
     }
 
     public Integer getSoma() {
-        return notaJuizA + notaJuizB + notaJuizC;
+        return this.notaJuizA + this.notaJuizB + this.notaJuizC;
     }
 }

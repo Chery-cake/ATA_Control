@@ -21,4 +21,32 @@ public class RankingTime {
 	@ManyToOne
 	private CategoriaCompeticao categoriaCompeticao;
 
+	public RankingTime() {
+	}
+
+	public RankingTime(Time time, Integer pontuacao, CategoriaCompeticao categoriaCompeticao) {
+		this.time = time;
+		this.pontuacao = pontuacao;
+		this.categoriaCompeticao = categoriaCompeticao;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public Time getTime() {
+		return time;
+	}
+
+	public Integer getPontuacao() {
+		return pontuacao;
+	}
+
+	public void setPontuacao(Integer pontuacao) {
+		this.pontuacao = pontuacao;
+	}
+
+	public CategoriaCompeticao getCategoriaCompeticao() {
+		return categoriaCompeticao;
+	}
 }
