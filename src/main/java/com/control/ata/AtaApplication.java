@@ -1,14 +1,11 @@
 package com.control.ata;
 
-import com.control.ata.dao.EnderecoDAO;
-import com.control.ata.dao.PessoaDAO;
-import com.control.ata.dao.RingueDAO;
-import com.control.ata.dao.TipoPessoaDAO;
+import com.control.ata.dao.*;
 import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Bairro;
 import com.control.ata.model.endereco.Endereco;
-import com.control.ata.model.individual.*;
 import com.control.ata.model.pessoa.Pessoa;
+import com.control.ata.model.time.*;
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.tipo_pessoa.Instrutor;
 import com.control.ata.model.tipo_pessoa.Juiz;
@@ -17,6 +14,7 @@ import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.individual.ChaveLutaIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
+import com.control.ata.repository.time.ChaveLutaTimeRepository;
 import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import com.control.ata.repository.torneio.CategoriaTorneioRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
@@ -24,6 +22,9 @@ import com.control.ata.service.PopulateBD;
 import com.control.ata.service.planilhaIndividual.ChaveIndividual;
 import com.control.ata.service.planilhaIndividual.ListaIndividual;
 import com.control.ata.service.planilhaIndividual.RankIndividual;
+import com.control.ata.service.planilhaTime.ChaveTime;
+import com.control.ata.service.planilhaTime.ListaTime;
+import com.control.ata.service.planilhaTime.RankTime;
 import org.directwebremoting.spring.DwrSpringServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -62,6 +63,16 @@ public class AtaApplication implements CommandLineRunner {
     private ChaveIndividual chaveIndividual;
     @Autowired
     private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
+    @Autowired
+    private ChaveTime chaveTime;
+    @Autowired
+    private ListaTime listaTime;
+    @Autowired
+    private TimeDAO timeDAO;
+    @Autowired
+    private RankTime rankTime;
+    @Autowired
+    private ChaveLutaTimeRepository chaveLutaTimeRepository;
 
     @Autowired
     private TipoPessoaDAO tipoPessoaDAO;
@@ -183,27 +194,6 @@ public class AtaApplication implements CommandLineRunner {
             Competidor competidor2 = new Competidor(1.0, 1.0, "nivel", pessoa2, categoriaCompeticaoArrayList);
             Competidor competidor3 = new Competidor(1.0, 1.0, "nivel", pessoa3, categoriaCompeticaoArrayList);
 
-            ArrayList<Titulo> titulos = new ArrayList<>();
-            Titulo titulo = new Titulo(2020, categoriaCompeticao, categoriaTorneio, competidor);
-            titulos.add(titulo);
-
-            ArrayList<Titulo> titulos1 = new ArrayList<>();
-            Titulo titulo1 = new Titulo(2019, categoriaCompeticao, categoriaTorneio1, competidor1);
-            titulos1.add(titulo1);
-
-            ArrayList<Titulo> titulos2 = new ArrayList<>();
-            Titulo titulo2 = new Titulo(2020, categoriaCompeticao, categoriaTorneio2, competidor2);
-            titulos2.add(titulo2);
-
-            ArrayList<Titulo> titulos3 = new ArrayList<>();
-            Titulo titulo3 = new Titulo(2020, categoriaCompeticao, categoriaTorneio3, competidor3);
-            titulos3.add(titulo3);
-
-            competidor.setTituloList(titulos);
-            competidor1.setTituloList(titulos1);
-            competidor2.setTituloList(titulos2);
-            competidor3.setTituloList(titulos3);
-
             ArrayList<Competidor> competidorArrayList = new ArrayList<>();
             competidorArrayList.add(competidor);
             competidorArrayList.add(competidor1);
@@ -212,44 +202,74 @@ public class AtaApplication implements CommandLineRunner {
 
             competidorArrayList = (ArrayList<Competidor>) tipoPessoaDAO.saveAll(competidorArrayList);
 
-            RingueIndividual ringueIndividual = new RingueIndividual(false, 1, juizArrayList, competidorArrayList,
-                                                                     torneio, categoriaCompeticaoArrayList);
+            Time time = new Time("representa", false, competidorArrayList);
+            Time time1 = new Time("representa", false, competidorArrayList);
+            Time time2 = new Time("representa", false, competidorArrayList);
+            Time time3 = new Time("representa", false, competidorArrayList);
 
-            ringueIndividual = ringueDAO.save(ringueIndividual);
 
-            PlanilhaListaIndividual planilhaListaIndividual = listaIndividual.createPlanilha(ringueIndividual,
-                                                                                             categoriaCompeticao);
+            ArrayList<Titulo> titulos = new ArrayList<>();
+            Titulo titulo = new Titulo(2020, categoriaCompeticao, categoriaTorneio, time);
+            titulos.add(titulo);
 
-            for (ChaveListaIndividual chaveListaIndividual : planilhaListaIndividual.getChaveListaIndividualList()) {
-                chaveListaIndividual.setNotaJuizA(s.getRandomInt(1, 10));
-                chaveListaIndividual.setNotaJuizB(s.getRandomInt(1, 10));
-                chaveListaIndividual.setNotaJuizC(s.getRandomInt(1, 10));
-                listaIndividual.setChavePlanilha(chaveListaIndividual);
+            ArrayList<Titulo> titulos1 = new ArrayList<>();
+            Titulo titulo1 = new Titulo(2019, categoriaCompeticao, categoriaTorneio1, time1);
+            titulos1.add(titulo1);
+
+            ArrayList<Titulo> titulos2 = new ArrayList<>();
+            Titulo titulo2 = new Titulo(2020, categoriaCompeticao, categoriaTorneio2, time2);
+            titulos2.add(titulo2);
+
+            ArrayList<Titulo> titulos3 = new ArrayList<>();
+            Titulo titulo3 = new Titulo(2020, categoriaCompeticao, categoriaTorneio3, time3);
+            titulos3.add(titulo3);
+
+            time.setTituloList(titulos);
+            time1.setTituloList(titulos1);
+            time2.setTituloList(titulos2);
+            time3.setTituloList(titulos3);
+
+            ArrayList<Time> timeArrayList = new ArrayList<>();
+            timeArrayList.add(time);
+            timeArrayList.add(time1);
+            timeArrayList.add(time2);
+            timeArrayList.add(time3);
+
+            timeArrayList = (ArrayList<Time>) timeDAO.saveAll(timeArrayList);
+
+            RingueTime ringueTime = new RingueTime(false, 0, juizArrayList, timeArrayList, torneio,
+                                                   categoriaCompeticaoArrayList);
+
+            ringueTime = ringueDAO.save(ringueTime);
+
+            PlanilhaListaTime planilhaListaTime = listaTime.createPlanilha(ringueTime, categoriaCompeticao);
+
+            for (ChaveListaTime chaveListaTime : planilhaListaTime.getChaveListaTimeList()) {
+                chaveListaTime.setNotaJuizA(s.getRandomInt(1, 10));
+                chaveListaTime.setNotaJuizB(s.getRandomInt(1, 10));
+                chaveListaTime.setNotaJuizC(s.getRandomInt(1, 10));
+                listaTime.setChavePlanilha(chaveListaTime);
             }
-//todo testar ranking time
-            rankingIndividual.setRankingLista(planilhaListaIndividual);
 
-            PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual = chaveIndividual.createPlanilha(
-                    ringueIndividual, categoriaCompeticao);
+            rankTime.setRankingLista(planilhaListaTime);
 
-            ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList = new ArrayList<>(
-                    chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(planilhaChaveamentoIndividual));
+            PlanilhaChaveamentoTime planilhaChaveamentoTime = chaveTime.createPlanilha(ringueTime, categoriaCompeticao);
 
-            for (ChaveLutaIndividual chaveLutaIndividual : chaveLutaIndividualArrayList) {
-                chaveLutaIndividual.setDesqualificacaoVermelha(true);
-                chaveIndividual.updateChave(chaveLutaIndividual);
+            for (ChaveLutaTime chaveLutaTime : chaveLutaTimeRepository.getAllByPlanilhaChaveamentoTime(
+                    planilhaChaveamentoTime)) {
+                chaveLutaTime.setDesqualificacaoVermelha(true);
+                chaveTime.updateChave(chaveLutaTime);
             }
 
-            ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList1 = new ArrayList<>(
-                    chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(planilhaChaveamentoIndividual));
-            for (ChaveLutaIndividual chaveLutaIndividual : chaveLutaIndividualArrayList1) {
-                if (!chaveLutaIndividual.getDesqualificacaoVermelha()) {
-                    chaveLutaIndividual.setDesqualificacaoVermelha(true);
-                    chaveIndividual.updateChave(chaveLutaIndividual);
+            for (ChaveLutaTime chaveLutaTime : chaveLutaTimeRepository.getAllByPlanilhaChaveamentoTime(
+                    planilhaChaveamentoTime)) {
+                if (!chaveLutaTime.getDesqualificacaoVermelha()) {
+                    chaveLutaTime.setDesqualificacaoVermelha(true);
+                    chaveTime.updateChave(chaveLutaTime);
                 }
             }
 
-            rankingIndividual.setRankingChave(planilhaChaveamentoIndividual);
+            rankTime.setRankingChave(planilhaChaveamentoTime);
 
         } catch (Exception e) {
             System.out.println(e);

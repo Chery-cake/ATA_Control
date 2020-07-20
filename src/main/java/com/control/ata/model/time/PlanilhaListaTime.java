@@ -21,7 +21,7 @@ public class PlanilhaListaTime {
 
     @JsonIgnore
     @OneToMany(mappedBy = "planilhaListaTime", cascade = CascadeType.ALL)
-    private Collection<ChaveListaTime> chaveListaTimeLista;
+    private Collection<ChaveListaTime> chaveListaTimeList;
 
     public PlanilhaListaTime() {
     }
@@ -43,11 +43,11 @@ public class PlanilhaListaTime {
         return categoriaCompeticao;
     }
 
-    public Collection<ChaveListaTime> getChaveListaTimeLista() {
-        return chaveListaTimeLista;
+    public Collection<ChaveListaTime> getChaveListaTimeList() {
+        return chaveListaTimeList;
     }
 
-    public void setChaveListaTimeLista(Collection<ChaveListaTime> chaveListaTimeLista) {
-        this.chaveListaTimeLista = chaveListaTimeLista;
+    public void setChaveListaTimeList(Collection<ChaveListaTime> ChaveListaTimeList) {
+        this.chaveListaTimeList = ChaveListaTimeList;
     }
 }

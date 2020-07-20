@@ -86,8 +86,8 @@ public class RankTime {
                 list.add(rankingTimeRepository.save(new RankingTime(chaveListaTime.getTime(), valorBase,
                                                                     planilhaListaTime.getCategoriaCompeticao())));
             }
+            valorBase = s.getValorBase(valorBase);
         }
-        valorBase = s.getValorBase(valorBase);
         return list;
     }
 

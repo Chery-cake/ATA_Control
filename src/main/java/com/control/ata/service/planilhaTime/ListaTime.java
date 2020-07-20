@@ -51,7 +51,7 @@ public class ListaTime {
             list.add(chaveListaTimeRepository.save(new ChaveListaTime(timeTitulo, planilhaListaTime)));
         }
 
-        planilhaListaTime.setChaveListaTimeLista(list);
+        planilhaListaTime.setChaveListaTimeList(list);
 
         return planilhaListaTimeRepository.save(planilhaListaTime);
     }
