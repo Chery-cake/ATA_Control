@@ -37,7 +37,6 @@ public class RankIndividual {
                 if (j + 1 != chaveArray.length) {
                     chave2 = chaveArray[j + 1];
                 }
-
                 if ((chave1 != null) && (chave2 != null)) {
                     if (chave1.getSoma() > chave2.getSoma()) {
                         chaveArrayAux[0] = chaveArray[j];
@@ -53,7 +52,6 @@ public class RankIndividual {
                 }
             }
         }
-
         return this.reverse(Arrays.asList(chaveArray));
     }
 
@@ -74,9 +72,8 @@ public class RankIndividual {
         CategoriaTorneio categoriaTorneio = planilhaListaIndividual.getRingueIndividual().getTorneio().getCategoriaTorneio();
         valorBase = valorBase * categoriaTorneio.getPrioridade();
 
-        ArrayList<ChaveListaIndividual> chaveListaIndividualArrayList = new ArrayList<>(
-                this.sort(
-                        chaveListaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(planilhaListaIndividual)));
+        ArrayList<ChaveListaIndividual> chaveListaIndividualArrayList = new ArrayList<>(this.sort(
+                chaveListaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(planilhaListaIndividual)));
 
 
         for (ChaveListaIndividual chaveListaIndividual : chaveListaIndividualArrayList) {
@@ -87,7 +84,7 @@ public class RankIndividual {
                         chaveListaIndividual.getCompetidor().getPessoa(),
                         planilhaListaIndividual.getCategoriaCompeticao());
                 rankingIndividual.setPontuacao(rankingIndividual.getPontuacao() + valorBase);
-                rankingIndividualRepository.save(rankingIndividual);
+                list.add(rankingIndividualRepository.save(rankingIndividual));
             } else {
                 list.add(rankingIndividualRepository.save(
                         new RankingIndividual(chaveListaIndividual.getCompetidor().getPessoa(), valorBase,
@@ -128,7 +125,6 @@ public class RankIndividual {
             }
             valorBase = s.getValorBase(valorBase);
         }
-
         return list;
     }
 
@@ -140,7 +136,7 @@ public class RankIndividual {
                     chaveLutaIndividual.getCompetidorVermelho().getPessoa(),
                     chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao());
             rankingIndividual.setPontuacao(rankingIndividual.getPontuacao() + valorBase);
-            rankingIndividualRepository.save(rankingIndividual);
+            list.add(rankingIndividualRepository.save(rankingIndividual));
         } else {
             list.add(rankingIndividualRepository.save(
                     new RankingIndividual(chaveLutaIndividual.getCompetidorVermelho().getPessoa(), valorBase,
@@ -156,7 +152,7 @@ public class RankIndividual {
                     chaveLutaIndividual.getCompetidorBranco().getPessoa(),
                     chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao());
             rankingIndividual.setPontuacao(rankingIndividual.getPontuacao() + valorBase);
-            rankingIndividualRepository.save(rankingIndividual);
+            list.add(rankingIndividualRepository.save(rankingIndividual));
         } else {
             list.add(rankingIndividualRepository.save(
                     new RankingIndividual(chaveLutaIndividual.getCompetidorBranco().getPessoa(), valorBase,
