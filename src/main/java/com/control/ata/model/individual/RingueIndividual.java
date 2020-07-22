@@ -21,6 +21,9 @@ public class RingueIndividual {
     private Boolean fechado;
     private Integer numero;
 
+    private String idade;
+    private String nivel;
+
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Juiz> juiz;
 
@@ -54,11 +57,13 @@ public class RingueIndividual {
     public RingueIndividual() {
     }
 
-    public RingueIndividual(Boolean fechado, Integer numero,
+    public RingueIndividual(Boolean fechado, Integer numero, String idade, String nivel,
             Collection<Juiz> juiz, Collection<Competidor> competidor, Torneio torneio,
             Collection<CategoriaCompeticao> categoriaCompeticao) {
         this.fechado = fechado;
         this.numero = numero;
+        this.idade = idade;
+        this.nivel = nivel;
         this.juiz = juiz;
         this.competidor = competidor;
         this.torneio = torneio;
@@ -79,6 +84,14 @@ public class RingueIndividual {
 
     public void setNumero(Integer numero) {
         this.numero = numero;
+    }
+
+    public String getIdade() {
+        return idade;
+    }
+
+    public String getNivel() {
+        return nivel;
     }
 
     public Collection<Competidor> getCompetidor() {

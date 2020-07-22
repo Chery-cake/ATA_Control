@@ -18,9 +18,13 @@ public class Torneio {
 
     private Date dataInicio;
     private Date dataTermino;
+    private Integer maxNumeroRingues;
 
     @ManyToOne
     private Endereco endereco;
+
+    @ManyToOne
+    private CategoriaTorneio categoriaTorneio;
 
     @JsonIgnore
     @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
@@ -34,17 +38,20 @@ public class Torneio {
     @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
     private Collection<RingueTime> ringueTimeCollection;
 
-    @ManyToOne
-    private CategoriaTorneio categoriaTorneio;
-
     public Torneio() {
     }
 
-    public Torneio(Date dataInicio, Date dataTermino, Endereco endereco, CategoriaTorneio categoriaTorneio) {
+    public Torneio(Date dataInicio, Date dataTermino, Integer maxNumeroRingues, Endereco endereco,
+            CategoriaTorneio categoriaTorneio) {
         this.dataInicio = dataInicio;
         this.dataTermino = dataTermino;
+        this.maxNumeroRingues = maxNumeroRingues;
         this.endereco = endereco;
         this.categoriaTorneio = categoriaTorneio;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public Date getDataInicio() {
@@ -53,6 +60,10 @@ public class Torneio {
 
     public Date getDataTermino() {
         return dataTermino;
+    }
+
+    public Integer getMaxNumeroRingues() {
+        return maxNumeroRingues;
     }
 
     public Endereco getEndereco() {

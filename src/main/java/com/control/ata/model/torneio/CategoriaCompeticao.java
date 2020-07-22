@@ -84,6 +84,10 @@ public class CategoriaCompeticao {
         this.maximoTotal = maximoTotal;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getNome() {
         return nome;
     }

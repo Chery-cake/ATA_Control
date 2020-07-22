@@ -99,7 +99,7 @@ public class AtaApplication implements CommandLineRunner {
             Endereco endereco = new Endereco("rua", new Bairro("bairro", cidadeRepository.getOne(1)));
             endereco = enderecoDAO.save(endereco);
 
-            Torneio torneio = new Torneio(new Date(), new Date(), endereco, categoriaTorneioRepository.getOne(5));
+            Torneio torneio = new Torneio(new Date(), new Date(), 5, endereco, categoriaTorneioRepository.getOne(5));
             torneioRepository.save(torneio);
 
             CategoriaCompeticao categoriaCompeticao = new CategoriaCompeticao("nome", false, false, 1, 1, 1, 1, 1);

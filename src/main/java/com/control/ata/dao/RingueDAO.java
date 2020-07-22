@@ -19,7 +19,8 @@ public class RingueDAO {
     private RingueTimeRepository ringueTimeRepository;
 
     public RingueIndividual save(RingueIndividual ringueIndividual) {
-        RingueIndividual aux = new RingueIndividual(ringueIndividual.getFechado(), ringueIndividual.getNumero(), null,
+        RingueIndividual aux = new RingueIndividual(ringueIndividual.getFechado(), ringueIndividual.getNumero(),
+                                                    ringueIndividual.getIdade(), ringueIndividual.getNivel(), null,
                                                     null, ringueIndividual.getTorneio(), null);
         aux = ringueIndividualRepository.save(aux);
         aux.setCompetidor(ringueIndividual.getCompetidor());
