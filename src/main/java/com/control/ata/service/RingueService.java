@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class RingueService {
+public class RingueService {//todo fazer as funcoes para os ringues de times
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
     @Autowired
@@ -62,19 +62,18 @@ public class RingueService {
                 }
             }
         }
-//todo terminar a funcao para criar os ringues e balancealos. Ainda n tem nenhuma funcao especial no repositorio.
         int maxComp;
         if (fechado) {
             maxComp = 32;
         } else {
             maxComp = 16;
         }
-        list = criaRingues(arrayList, fechado, maxComp, torneio, categoriaCompeticoes);
+        list = criaRingueIndividuais(arrayList, fechado, maxComp, torneio, categoriaCompeticoes);
 
         return list;
     }
 
-    private List<Competidor> criaArrayCompetidorRingue(ArrayList<ArrayList<Competidor>> arrayList) {
+    private List<Competidor> criaArrayCompetidorRingueIndividual(ArrayList<ArrayList<Competidor>> arrayList) {
         List<Competidor> list = new ArrayList<>();
 
         ArrayList<Competidor> competidorArrayList = arrayList.get(0);
@@ -100,13 +99,13 @@ public class RingueService {
         return this.sortAltura(list);
     }
 
-    private List<RingueIndividual> criaRingues(ArrayList<ArrayList<Competidor>> arrayList, Boolean fechado,
-            //todo precisa contar a quantidade de competidores por categoria
+    private List<RingueIndividual> criaRingueIndividuais(ArrayList<ArrayList<Competidor>> arrayList, Boolean fechado,
             Integer maxComp, Torneio torneio, Collection<CategoriaCompeticao> categoriaCompeticoes) {
         List<RingueIndividual> list = new ArrayList<>();
 
         while (!arrayList.isEmpty()) {
-            ArrayList<Competidor> competidorArrayList = (ArrayList<Competidor>) criaArrayCompetidorRingue(arrayList);
+            ArrayList<Competidor> competidorArrayList = (ArrayList<Competidor>) criaArrayCompetidorRingueIndividual(
+                    arrayList);
 
             String nivel = competidorArrayList.get(0).getNivel();
 
@@ -138,55 +137,123 @@ public class RingueService {
                 idadeRingue = ">= 60";
             }
 
-            if (ringueIndividualRepository.getAllByIdadeAndNivel(idadeRingue, nivel).isEmpty()) {//adicionar os ringues
-
-                int quant = competidorArrayList.size();
-
-                if (quant > maxComp) {
-
-                    Integer quantCompRing = null;
-
-                    for (int i = maxComp; i >= 10; i--) {
-                        if (quant % i == 0) {
-                            quantCompRing = i;
-                            break;
-                        }
+            if (ringueIndividualRepository.getAllByIdadeAndNivel(idadeRingue, nivel).isEmpty()) {
+                list = insereRingueIndividuais(competidorArrayList, maxComp, fechado, idadeRingue, nivel, torneio,
+                                               categoriaCompeticoes);
+            } else {
+                for (RingueIndividual ringueIndividual : ringueIndividualRepository.getAllByIdadeAndNivel(idadeRingue,
+                                                                                                          nivel)) {
+                    for (Competidor competidor : ringueIndividual.getCompetidor()) {
+                        competidorArrayList.add(competidor);
                     }
-
-                    if (quantCompRing != null) {
-                        ArrayList<ArrayList<Competidor>> arrayListCompetidor = new ArrayList<>();
-                        ArrayList<Competidor> arrayListAux = new ArrayList<>();
-                        int aux = 0;
-
-                        while (!competidorArrayList.isEmpty()) {
-                            arrayListAux.add(competidorArrayList.get(aux));
-                            aux++;
-                            if (aux == 10) {
-                                aux = 0;
-                                arrayListCompetidor.add(arrayListAux);
-                                arrayListAux.clear();
-                            }
-                        }
-
-                        for (ArrayList<Competidor> competidores : arrayListCompetidor) {
-                            list.add(new RingueIndividual(fechado, 0, idadeRingue, nivel, null, competidores, torneio,
-                                                          categoriaCompeticoes));
-                        }
-                    } else {//todo terminar os cauculos pra pre-encher os ringues
-
-                    }
-
-                } else {
-                    list.add(new RingueIndividual(fechado, 0, idadeRingue, nivel, null, competidorArrayList, torneio,
-                                                  categoriaCompeticoes));
                 }
+                ringueIndividualRepository.deleteAll(
+                        ringueIndividualRepository.getAllByIdadeAndNivel(idadeRingue, nivel));
+                competidorArrayList = (ArrayList<Competidor>) sortAltura(competidorArrayList);
+                list = insereRingueIndividuais(competidorArrayList, maxComp, fechado, idadeRingue, nivel, torneio,
+                                               categoriaCompeticoes);
+            }
+        }
+        return list;
+    }
 
-            } else {// pegar os ringues e re-adicionalos
+    private List<RingueIndividual> insereRingueIndividuais(ArrayList<Competidor> competidorArrayList, Integer maxComp,
+            Boolean fechado, String idadeRingue, String nivel, Torneio torneio,
+            Collection<CategoriaCompeticao> categoriaCompeticoes) {
+        List<RingueIndividual> list = new ArrayList<>();
+        int quant = competidorArrayList.size();
 
+        if (quant > maxComp) {
+
+            Integer quantCompRing = null;
+
+            for (int i = maxComp; i >= 10; i--) {
+                if (quant % i == 0) {
+                    quantCompRing = i;
+                    break;
+                }
             }
 
-        }
+            if (quantCompRing != null) {
+                ArrayList<ArrayList<Competidor>> arrayListCompetidor = new ArrayList<>();
+                ArrayList<Competidor> arrayListAux = new ArrayList<>();
+                int aux = 0;
 
+                while (!competidorArrayList.isEmpty()) {
+                    arrayListAux.add(competidorArrayList.get(aux));
+                    aux++;
+                    if (aux == quantCompRing) {
+                        aux = 0;
+                        arrayListCompetidor.add(arrayListAux);
+                        arrayListAux.clear();
+                    }
+                }
+
+                for (ArrayList<Competidor> competidores : arrayListCompetidor) {
+                    list.add(ringueDAO.save(
+                            new RingueIndividual(fechado, 0, idadeRingue, nivel, null, competidores, torneio,
+                                                 categoriaCompeticoes)));
+                }
+            } else {
+                double quantRing = quant / maxComp;
+                int aux = (int) Math.round(quantRing);
+
+                double aux1 = quantRing++;
+                aux1 -= aux;
+                int quatComp = (int) (maxComp / aux1);
+                int aux2 = maxComp;
+
+                while (true) {
+                    if (quatComp < aux2) {
+                        if (quatComp + 1 > aux2 - 1) {// 7--8 8--7
+                            break;
+                        } else {
+                            quatComp++;
+                            aux2--;
+                        }
+                    } else if (quatComp == aux2) {
+                        break;
+                    }
+                }
+
+                ArrayList<ArrayList<Competidor>> arrayListCompetidor = new ArrayList<>();
+                ArrayList<Competidor> arrayListAux = new ArrayList<>();
+                int countAux1 = 0;
+                int countAux2 = 0;
+
+                while (!competidorArrayList.isEmpty()) {
+                    arrayListAux.add(competidorArrayList.get(aux));
+                    countAux1++;
+                    if (countAux1 == maxComp && countAux2 < quantRing - 1) {
+                        countAux1 = 0;
+                        countAux2++;
+                        arrayListCompetidor.add(arrayListAux);
+                        arrayListAux.clear();
+                    } else if (countAux1 == quatComp && countAux2 < quantRing) {
+                        countAux1 = 0;
+                        countAux2++;
+                        arrayListCompetidor.add(arrayListAux);
+                        arrayListAux.clear();
+                    } else if (countAux1 == aux2 && countAux2 < quantRing + 1) {
+                        countAux1 = 0;
+                        countAux2++;
+                        arrayListCompetidor.add(arrayListAux);
+                        arrayListAux.clear();
+                    }
+                }
+
+                for (ArrayList<Competidor> competidores : arrayListCompetidor) {
+                    list.add(ringueDAO.save(
+                            new RingueIndividual(fechado, 0, idadeRingue, nivel, null, competidores, torneio,
+                                                 categoriaCompeticoes)));
+                }
+            }
+
+        } else {
+            list.add(ringueDAO.save(
+                    new RingueIndividual(fechado, 0, idadeRingue, nivel, null, competidorArrayList, torneio,
+                                         categoriaCompeticoes)));
+        }
         return list;
     }
 
