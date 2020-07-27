@@ -50,8 +50,8 @@ public class PopulateBD {
         FileWriter writeFile;
 
         //Armazena dados em um Objeto JSON
-//        jsonObject.put("nome", "Mundial");
-//        jsonObject.put("prioridade", 4);
+        jsonObject.put("nome", "Mundial");
+        jsonObject.put("prioridade", 4);
 
         //Cria o parse de tratamento
         JSONParser parser = new JSONParser();

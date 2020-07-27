@@ -2,10 +2,13 @@ package com.control.ata.service;
 
 import com.control.ata.dao.RingueDAO;
 import com.control.ata.model.individual.RingueIndividual;
+import com.control.ata.model.time.RingueTime;
+import com.control.ata.model.time.Time;
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.Torneio;
 import com.control.ata.repository.individual.RingueIndividualRepository;
+import com.control.ata.repository.time.RingueTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,54 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
     private RingueDAO ringueDAO;
     @Autowired
     private RingueIndividualRepository ringueIndividualRepository;
+    @Autowired
+    private RingueTimeRepository ringueTimeRepository;
+
+    public List<RingueTime> createRingueTime(Collection<Time> collection, Boolean fechado, Torneio torneio,
+            Collection<CategoriaCompeticao> categoriaCompeticoes) {
+        List<RingueTime> list = new ArrayList<>();
+
+        ArrayList<Time> timeArrayList = new ArrayList<>(collection);
+        ArrayList<Time> timeJuniorArrayList = new ArrayList<>();
+
+        for (Time time : timeArrayList) {
+            if (time.getJunior()) {
+                timeJuniorArrayList.add(time);
+            }
+        }
+        if (!timeJuniorArrayList.isEmpty()) {
+            for (Time time : timeJuniorArrayList) {
+                timeArrayList.remove(time);
+            }
+        }
+
+        if (!ringueTimeRepository.getAllByFechadoAndTorneioAndCategoriaCompeticao(fechado, torneio,
+                                                                                  categoriaCompeticoes).isEmpty()) {
+            for (RingueTime ringueTime : ringueTimeRepository.findAll()) {
+                ArrayList<Time> times = (ArrayList<Time>) ringueTime.getTime();
+                if (times.get(0).getJunior()) {
+                    if (!timeJuniorArrayList.isEmpty()) {
+                        for (Time time : timeJuniorArrayList) {
+                            times.add(time);
+                        }
+                    }
+                } else {
+                    for (Time time : timeArrayList) {
+                        times.add(time);
+                    }
+                }
+                ringueTime.setTime(times);
+                list.add(ringueDAO.save(ringueTime));
+            }
+        } else {
+            if (!timeJuniorArrayList.isEmpty()) {
+                list.add(ringueDAO.save(
+                        new RingueTime(fechado, 0, null, timeJuniorArrayList, torneio, categoriaCompeticoes)));
+            }
+            list.add(ringueDAO.save(new RingueTime(fechado, 0, null, timeArrayList, torneio, categoriaCompeticoes)));
+        }
+        return list;
+    }
 
     public List<RingueIndividual> createRingueIndividual(Collection<Competidor> collection, Boolean fechado,
             Torneio torneio, Collection<CategoriaCompeticao> categoriaCompeticoes) {
@@ -69,7 +120,6 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
             maxComp = 16;
         }
         list = criaRingueIndividuais(arrayList, fechado, maxComp, torneio, categoriaCompeticoes);
-
         return list;
     }
 
