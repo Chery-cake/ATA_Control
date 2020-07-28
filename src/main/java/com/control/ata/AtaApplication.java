@@ -1,30 +1,26 @@
 package com.control.ata;
 
-import com.control.ata.dao.*;
+import com.control.ata.dao.EnderecoDAO;
+import com.control.ata.dao.PessoaDAO;
+import com.control.ata.dao.TimeDAO;
+import com.control.ata.dao.TipoPessoaDAO;
 import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Bairro;
 import com.control.ata.model.endereco.Endereco;
 import com.control.ata.model.pessoa.Pessoa;
-import com.control.ata.model.time.*;
+import com.control.ata.model.time.Time;
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.tipo_pessoa.Instrutor;
 import com.control.ata.model.tipo_pessoa.Juiz;
 import com.control.ata.model.torneio.*;
 import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
-import com.control.ata.repository.individual.ChaveLutaIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
-import com.control.ata.repository.time.ChaveLutaTimeRepository;
 import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import com.control.ata.repository.torneio.CategoriaTorneioRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
 import com.control.ata.service.PopulateBD;
-import com.control.ata.service.planilhaIndividual.ChaveIndividual;
-import com.control.ata.service.planilhaIndividual.ListaIndividual;
-import com.control.ata.service.planilhaIndividual.RankIndividual;
-import com.control.ata.service.planilhaTime.ChaveTime;
-import com.control.ata.service.planilhaTime.ListaTime;
-import com.control.ata.service.planilhaTime.RankTime;
+import com.control.ata.service.RingueService;
 import org.directwebremoting.spring.DwrSpringServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -54,25 +50,11 @@ public class AtaApplication implements CommandLineRunner {
     @Autowired
     private CategoriaTorneioRepository categoriaTorneioRepository;
     @Autowired
-    private RingueDAO ringueDAO;
-    @Autowired
     private AcademiaRepository academiaRepository;
-    @Autowired
-    private ListaIndividual listaIndividual;
-    @Autowired
-    private ChaveIndividual chaveIndividual;
-    @Autowired
-    private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
-    @Autowired
-    private ChaveTime chaveTime;
-    @Autowired
-    private ListaTime listaTime;
     @Autowired
     private TimeDAO timeDAO;
     @Autowired
-    private RankTime rankTime;
-    @Autowired
-    private ChaveLutaTimeRepository chaveLutaTimeRepository;
+    private RingueService ringueService;
 
     @Autowired
     private TipoPessoaDAO tipoPessoaDAO;
@@ -82,8 +64,6 @@ public class AtaApplication implements CommandLineRunner {
     private CidadeRepository cidadeRepository;
     @Autowired
     private PessoaDAO pessoaDAO;
-    @Autowired
-    private RankIndividual rankingIndividual;
 
     public static void main(String[] args) {
         SpringApplication.run(AtaApplication.class, args);
@@ -91,8 +71,9 @@ public class AtaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        populateBD.populate();
+//        populateBD.populate();
         Singleton s = Singleton.getSingleton();
+        System.out.println("Teminou a iniciacao");
 
         try {
 
@@ -104,6 +85,7 @@ public class AtaApplication implements CommandLineRunner {
 
             CategoriaCompeticao categoriaCompeticao = new CategoriaCompeticao("nome", false, false, 1, 1, 1, 1, 1);
             categoriaCompeticao = categoriaCompeticaoRepository.save(categoriaCompeticao);
+//            CategoriaCompeticao categoriaCompeticao = categoriaCompeticaoRepository.getOne(1);
             ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList = new ArrayList<>();
             categoriaCompeticaoArrayList.add(categoriaCompeticao);
 
@@ -237,39 +219,7 @@ public class AtaApplication implements CommandLineRunner {
 
             timeArrayList = (ArrayList<Time>) timeDAO.saveAll(timeArrayList);
 
-            RingueTime ringueTime = new RingueTime(false, 0, juizArrayList, timeArrayList, torneio,
-                                                   categoriaCompeticaoArrayList);
-
-            ringueTime = ringueDAO.save(ringueTime);
-
-            PlanilhaListaTime planilhaListaTime = listaTime.createPlanilha(ringueTime, categoriaCompeticao);
-
-            for (ChaveListaTime chaveListaTime : planilhaListaTime.getChaveListaTimeList()) {
-                chaveListaTime.setNotaJuizA(s.getRandomInt(1, 10));
-                chaveListaTime.setNotaJuizB(s.getRandomInt(1, 10));
-                chaveListaTime.setNotaJuizC(s.getRandomInt(1, 10));
-                listaTime.setChavePlanilha(chaveListaTime);
-            }
-
-            rankTime.setRankingLista(planilhaListaTime);
-
-            PlanilhaChaveamentoTime planilhaChaveamentoTime = chaveTime.createPlanilha(ringueTime, categoriaCompeticao);
-
-            for (ChaveLutaTime chaveLutaTime : chaveLutaTimeRepository.getAllByPlanilhaChaveamentoTime(
-                    planilhaChaveamentoTime)) {
-                chaveLutaTime.setDesqualificacaoVermelha(true);
-                chaveTime.updateChave(chaveLutaTime);
-            }
-
-            for (ChaveLutaTime chaveLutaTime : chaveLutaTimeRepository.getAllByPlanilhaChaveamentoTime(
-                    planilhaChaveamentoTime)) {
-                if (!chaveLutaTime.getDesqualificacaoVermelha()) {
-                    chaveLutaTime.setDesqualificacaoVermelha(true);
-                    chaveTime.updateChave(chaveLutaTime);
-                }
-            }
-
-            rankTime.setRankingChave(planilhaChaveamentoTime);
+            ringueService.createRingueIndividual(competidorArrayList, false, torneio, categoriaCompeticaoArrayList);
 
         } catch (Exception e) {
             System.out.println(e);

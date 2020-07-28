@@ -23,7 +23,7 @@ public class RingueTime {
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Juiz> juiz;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Collection<Time> time;
 
     @ManyToOne

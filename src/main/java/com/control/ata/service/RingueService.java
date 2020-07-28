@@ -154,8 +154,7 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
         List<RingueIndividual> list = new ArrayList<>();
 
         while (!arrayList.isEmpty()) {
-            ArrayList<Competidor> competidorArrayList = (ArrayList<Competidor>) criaArrayCompetidorRingueIndividual(
-                    arrayList);
+            ArrayList<Competidor> competidorArrayList = new ArrayList<>(criaArrayCompetidorRingueIndividual(arrayList));
 
             String nivel = competidorArrayList.get(0).getNivel();
 
@@ -194,12 +193,21 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
                 for (RingueIndividual ringueIndividual : ringueIndividualRepository.getAllByIdadeAndNivel(idadeRingue,
                                                                                                           nivel)) {
                     for (Competidor competidor : ringueIndividual.getCompetidor()) {
-                        competidorArrayList.add(competidor);
+                        if (!competidorArrayList.contains(competidor)) {
+                            competidorArrayList.add(competidor);
+                        }
+                    }
+                }
+                for (int i = 0; i < competidorArrayList.size(); i++) {
+                    if (i + 1 < competidorArrayList.size()) {
+                        if (competidorArrayList.get(i).equals(competidorArrayList.get(i + 1))) {
+                            competidorArrayList.remove(competidorArrayList.get(i + 1));
+                        }
                     }
                 }
                 ringueIndividualRepository.deleteAll(
                         ringueIndividualRepository.getAllByIdadeAndNivel(idadeRingue, nivel));
-                competidorArrayList = (ArrayList<Competidor>) sortAltura(competidorArrayList);
+                competidorArrayList = new ArrayList<>(sortAltura(competidorArrayList));
                 list = insereRingueIndividuais(competidorArrayList, maxComp, fechado, idadeRingue, nivel, torneio,
                                                categoriaCompeticoes);
             }
@@ -390,12 +398,9 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
     }
 
     private List<Competidor> sortAltura(Collection<Competidor> collection) {
-
         Competidor[] competidorArray = collection.toArray(new Competidor[0]);
-
         for (int i = 0; i < competidorArray.length; i++) {
             for (int j = 0; j < competidorArray.length; j++) {
-
                 Competidor competidor1 = competidorArray[j];
 
                 Competidor competidor2 = null;
