@@ -123,41 +123,16 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
         return list;
     }
 
-    private List<Competidor> criaArrayCompetidorRingueIndividual(ArrayList<ArrayList<Competidor>> arrayList) {
-        List<Competidor> list = new ArrayList<>();
-
-        ArrayList<Competidor> competidorArrayList = arrayList.get(0);
-        arrayList.remove(competidorArrayList);
-
-        Competidor competidorBase = competidorArrayList.get(0);
-        String nivel = competidorBase.getNivel();
-        list.add(competidorBase);
-
-        for (Competidor competidor : competidorArrayList) {
-            if (competidor.getNivel().equals(nivel)) {
-                list.add(competidor);
-            }
-        }
-
-        for (Competidor competidor : list) {
-            competidorArrayList.remove(competidor);
-        }
-        if (!competidorArrayList.isEmpty()) {
-            arrayList.add(competidorArrayList);
-        }
-
-        return this.sortAltura(list);
-    }
-
     private List<RingueIndividual> criaRingueIndividuais(ArrayList<ArrayList<Competidor>> arrayList, Boolean fechado,
             Integer maxComp, Torneio torneio, Collection<CategoriaCompeticao> categoriaCompeticoes) {
         List<RingueIndividual> list = new ArrayList<>();
 
         while (!arrayList.isEmpty()) {
-            ArrayList<Competidor> competidorArrayList = new ArrayList<>(criaArrayCompetidorRingueIndividual(arrayList));
+            ArrayList<Competidor> competidorArrayList = new ArrayList<>(arrayList.get(0));
+            arrayList.remove(competidorArrayList);
+            competidorArrayList = new ArrayList<>(sortAltura(competidorArrayList));
 
             String nivel = competidorArrayList.get(0).getNivel();
-
 
             int anoAtual = Integer.parseInt(dateFormat.format(new Date()));
             int anoNasc = Integer.parseInt(
@@ -220,93 +195,100 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
             Collection<CategoriaCompeticao> categoriaCompeticoes) {
         List<RingueIndividual> list = new ArrayList<>();
         int quant = competidorArrayList.size();
-
         if (quant > maxComp) {
-
             Integer quantCompRing = null;
-
             for (int i = maxComp; i >= 10; i--) {
                 if (quant % i == 0) {
                     quantCompRing = i;
                     break;
                 }
             }
-
             if (quantCompRing != null) {
-                ArrayList<ArrayList<Competidor>> arrayListCompetidor = new ArrayList<>();
                 ArrayList<Competidor> arrayListAux = new ArrayList<>();
                 int aux = 0;
-
                 while (!competidorArrayList.isEmpty()) {
                     arrayListAux.add(competidorArrayList.get(aux));
                     aux++;
                     if (aux == quantCompRing) {
                         aux = 0;
-                        arrayListCompetidor.add(arrayListAux);
+                        for (Competidor competidor : arrayListAux) {
+                            competidorArrayList.remove(competidor);
+                        }
+                        list.add(ringueDAO.save(
+                                new RingueIndividual(fechado, 0, idadeRingue, nivel, null, arrayListAux, torneio,
+                                                     categoriaCompeticoes)));
                         arrayListAux.clear();
                     }
                 }
-
-                for (ArrayList<Competidor> competidores : arrayListCompetidor) {
-                    list.add(ringueDAO.save(
-                            new RingueIndividual(fechado, 0, idadeRingue, nivel, null, competidores, torneio,
-                                                 categoriaCompeticoes)));
-                }
             } else {
-                double quantRing = quant / maxComp;
-                int aux = (int) Math.round(quantRing);
 
-                double aux1 = quantRing++;
-                aux1 -= aux;
-                int quatComp = (int) (maxComp / aux1);
-                int aux2 = maxComp;
+                float quantRing = (float) quant / maxComp;
+                float aux = Math.round(quantRing);
+                if (aux == quant / maxComp) {
+                    aux++;
+                }
+
+                float quantComp = maxComp / aux;
+                int aux1 = maxComp;
 
                 while (true) {
-                    if (quatComp < aux2) {
-                        if (quatComp + 1 > aux2 - 1) {// 7--8 8--7
-                            break;
-                        } else {
-                            quatComp++;
-                            aux2--;
-                        }
-                    } else if (quatComp == aux2) {
+                    if (quantComp < aux1) {
+                        quantComp++;
+                        aux1--;
+                    } else if (aux1 < quantComp) {
+                        quantComp--;
+                        aux1++;
+                    } else if (quantComp == aux1) {
+                        break;
+                    }
+                    if ((quantComp + 1 > aux1 - 1) && (aux1 + 1 > quantComp - 1)) {
                         break;
                     }
                 }
+                if (((aux - 2) * maxComp) + quantComp + aux1 != competidorArrayList.size()) {
+                    aux1++;
+                }
 
-                ArrayList<ArrayList<Competidor>> arrayListCompetidor = new ArrayList<>();
                 ArrayList<Competidor> arrayListAux = new ArrayList<>();
-                int countAux1 = 0;
-                int countAux2 = 0;
+                int count = 0;
+                boolean ringEsp1 = false;
+                boolean ringEsp2 = false;
 
                 while (!competidorArrayList.isEmpty()) {
-                    arrayListAux.add(competidorArrayList.get(aux));
-                    countAux1++;
-                    if (countAux1 == maxComp && countAux2 < quantRing - 1) {
-                        countAux1 = 0;
-                        countAux2++;
-                        arrayListCompetidor.add(arrayListAux);
+                    arrayListAux.add(competidorArrayList.get(count));
+                    count++;
+                    if (count == maxComp && ringEsp1 && ringEsp2) {
+                        for (Competidor competidor : arrayListAux) {
+                            competidorArrayList.remove(competidor);
+                        }
+                        count = 0;
+                        list.add(ringueDAO.save(
+                                new RingueIndividual(fechado, 0, idadeRingue, nivel, null, arrayListAux, torneio,
+                                                     categoriaCompeticoes)));
                         arrayListAux.clear();
-                    } else if (countAux1 == quatComp && countAux2 < quantRing) {
-                        countAux1 = 0;
-                        countAux2++;
-                        arrayListCompetidor.add(arrayListAux);
+                    } else if (count == quantComp && !ringEsp1) {
+                        for (Competidor competidor : arrayListAux) {
+                            competidorArrayList.remove(competidor);
+                        }
+                        count = 0;
+                        list.add(ringueDAO.save(
+                                new RingueIndividual(fechado, 0, idadeRingue, nivel, null, arrayListAux, torneio,
+                                                     categoriaCompeticoes)));
+                        ringEsp1 = true;
                         arrayListAux.clear();
-                    } else if (countAux1 == aux2 && countAux2 < quantRing + 1) {
-                        countAux1 = 0;
-                        countAux2++;
-                        arrayListCompetidor.add(arrayListAux);
+                    } else if (count == aux1 && !ringEsp2) {
+                        for (Competidor competidor : arrayListAux) {
+                            competidorArrayList.remove(competidor);
+                        }
+                        count = 0;
+                        ringEsp2 = true;
+                        list.add(ringueDAO.save(
+                                new RingueIndividual(fechado, 0, idadeRingue, nivel, null, arrayListAux, torneio,
+                                                     categoriaCompeticoes)));
                         arrayListAux.clear();
                     }
                 }
-
-                for (ArrayList<Competidor> competidores : arrayListCompetidor) {
-                    list.add(ringueDAO.save(
-                            new RingueIndividual(fechado, 0, idadeRingue, nivel, null, competidores, torneio,
-                                                 categoriaCompeticoes)));
-                }
             }
-
         } else {
             list.add(ringueDAO.save(
                     new RingueIndividual(fechado, 0, idadeRingue, nivel, null, competidorArrayList, torneio,
@@ -323,66 +305,67 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
         Boolean adicionado = false;
 
         for (ArrayList<Competidor> competidorArrayList : arrayList) {
-            int anoNasc = Integer.parseInt(dateFormat.format(competidor.getPessoa().getDataNascimento()));
+            int anoNasc = Integer.parseInt(
+                    dateFormat.format(competidorArrayList.get(0).getPessoa().getDataNascimento()));
             int idadeA = anoAtual - anoNasc;
             if (idade >= 7 && idade < 9 && idadeA >= 7 && idadeA < 9) {// 7 e 8
-                ArrayList<Competidor> aux = new ArrayList<>();
-                aux.add(competidor);
-                arrayList.add(aux);
+                arrayList.remove(competidorArrayList);
+                competidorArrayList.add(competidor);
+                arrayList.add(competidorArrayList);
                 adicionado = true;
                 break;
             } else if (idade < 11 && idadeA < 11) {// 9 e 10
-                ArrayList<Competidor> aux = new ArrayList<>();
-                aux.add(competidor);
-                arrayList.add(aux);
+                arrayList.remove(competidorArrayList);
+                competidorArrayList.add(competidor);
+                arrayList.add(competidorArrayList);
                 adicionado = true;
                 break;
             } else if (idade < 13 && idadeA < 13) {// 11 e 12
-                ArrayList<Competidor> aux = new ArrayList<>();
-                aux.add(competidor);
-                arrayList.add(aux);
+                arrayList.remove(competidorArrayList);
+                competidorArrayList.add(competidor);
+                arrayList.add(competidorArrayList);
                 adicionado = true;
                 break;
             } else if (idade < 15 && idadeA < 15) {// 13 e 14
-                ArrayList<Competidor> aux = new ArrayList<>();
-                aux.add(competidor);
-                arrayList.add(aux);
+                arrayList.remove(competidorArrayList);
+                competidorArrayList.add(competidor);
+                arrayList.add(competidorArrayList);
                 adicionado = true;
                 break;
             } else if (idade < 18 && idadeA < 18) {// 15 a 17
-                ArrayList<Competidor> aux = new ArrayList<>();
-                aux.add(competidor);
-                arrayList.add(aux);
+                arrayList.remove(competidorArrayList);
+                competidorArrayList.add(competidor);
+                arrayList.add(competidorArrayList);
                 adicionado = true;
                 break;
             } else if (idade < 30 && idadeA < 30) {// 18 a 29
-                ArrayList<Competidor> aux = new ArrayList<>();
-                aux.add(competidor);
-                arrayList.add(aux);
+                arrayList.remove(competidorArrayList);
+                competidorArrayList.add(competidor);
+                arrayList.add(competidorArrayList);
                 adicionado = true;
                 break;
             } else if (idade < 40 && idadeA < 40) {// 30 a 39
-                ArrayList<Competidor> aux = new ArrayList<>();
-                aux.add(competidor);
-                arrayList.add(aux);
+                arrayList.remove(competidorArrayList);
+                competidorArrayList.add(competidor);
+                arrayList.add(competidorArrayList);
                 adicionado = true;
                 break;
             } else if (idade < 50 && idadeA < 50) {// 40 a 49
-                ArrayList<Competidor> aux = new ArrayList<>();
-                aux.add(competidor);
-                arrayList.add(aux);
+                arrayList.remove(competidorArrayList);
+                competidorArrayList.add(competidor);
+                arrayList.add(competidorArrayList);
                 adicionado = true;
                 break;
             } else if (idade < 60 && idadeA < 60) {// 50 a 59
-                ArrayList<Competidor> aux = new ArrayList<>();
-                aux.add(competidor);
-                arrayList.add(aux);
+                arrayList.remove(competidorArrayList);
+                competidorArrayList.add(competidor);
+                arrayList.add(competidorArrayList);
                 adicionado = true;
                 break;
             } else if (idade >= 60 && idadeA >= 60) {// >= 60
-                ArrayList<Competidor> aux = new ArrayList<>();
-                aux.add(competidor);
-                arrayList.add(aux);
+                arrayList.remove(competidorArrayList);
+                competidorArrayList.add(competidor);
+                arrayList.add(competidorArrayList);
                 adicionado = true;
                 break;
             }
