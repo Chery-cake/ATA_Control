@@ -4,7 +4,12 @@ import com.control.ata.dao.EnderecoDAO;
 import com.control.ata.dao.PessoaDAO;
 import com.control.ata.dao.TimeDAO;
 import com.control.ata.dao.TipoPessoaDAO;
+import com.control.ata.model.endereco.Academia;
+import com.control.ata.model.endereco.Bairro;
+import com.control.ata.model.endereco.Endereco;
+import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.tipo_pessoa.Competidor;
+import com.control.ata.model.tipo_pessoa.Instrutor;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.Torneio;
 import com.control.ata.repository.endereco.AcademiaRepository;
@@ -27,6 +32,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @ImportResource(locations = "classpath:dwr-spring.xml")
 @SpringBootApplication
@@ -70,60 +76,59 @@ public class AtaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        populateBD.populate();
+        populateBD.populate();
         Singleton s = Singleton.getSingleton();
 
         try {
-            ringueIndividualRepository.deleteAll();
 
-//            Endereco endereco = new Endereco("rua", new Bairro("bairro", cidadeRepository.getOne(1)));
-//            endereco = enderecoDAO.save(endereco);
+            Endereco endereco = new Endereco("rua", new Bairro("bairro", cidadeRepository.getOne(1)));
+            endereco = enderecoDAO.save(endereco);
 
-//            Torneio torneio = new Torneio(new Date(), new Date(), 5, endereco, categoriaTorneioRepository.getOne(5));
-//            torneioRepository.save(torneio);
-            Torneio torneio = torneioRepository.getOne(1);
+            Torneio torneio = new Torneio(new Date(), new Date(), 5, endereco, categoriaTorneioRepository.getOne(5));
+            torneioRepository.save(torneio);
+//            Torneio torneio = torneioRepository.getOne(1);
 
-//            CategoriaCompeticao categoriaCompeticao = new CategoriaCompeticao("nome", false, false, 1, 1, 1, 1, 1);
-//            categoriaCompeticao = categoriaCompeticaoRepository.save(categoriaCompeticao);
-            CategoriaCompeticao categoriaCompeticao = categoriaCompeticaoRepository.getOne(1);
+            CategoriaCompeticao categoriaCompeticao = new CategoriaCompeticao("nome", false, false, 1, 1, 1, 1, 1);
+            categoriaCompeticao = categoriaCompeticaoRepository.save(categoriaCompeticao);
+//            CategoriaCompeticao categoriaCompeticao = categoriaCompeticaoRepository.getOne(1);
             ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList = new ArrayList<>();
             categoriaCompeticaoArrayList.add(categoriaCompeticao);
 
-//            Pessoa pessoaIns = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto",
-//                                          "ataWorld", "ataBrasil", true, faixaRepository.getOne(1), endereco);
-//
-//            pessoaIns = pessoaDAO.save(pessoaIns);
-//
-//            Academia academia = new Academia("academia", endereco);
-//
-//            academia = academiaRepository.save(academia);
-//
-//            Instrutor instrutor = new Instrutor(academia, pessoaIns);
-//
-//            ArrayList<Instrutor> instrutorArrayList = new ArrayList<>();
-//            instrutorArrayList.add(instrutor);
-//
-//            instrutorArrayList = (ArrayList<Instrutor>) tipoPessoaDAO.saveAll(instrutorArrayList);
-//
-//            instrutor = instrutorArrayList.get(0);
-//
-//            ArrayList<Pessoa> pessoas = new ArrayList<>();
-//
-//            for (int i = 0; i < 1; i++) {
-//                pessoas.add(new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto",
-//                                       "ataWorld", "ataBrasil", false, faixaRepository.getOne(1), endereco, instrutor));
-//            }
-//
-//            pessoas = (ArrayList<Pessoa>) pessoaDAO.saveAll(pessoas);
+            Pessoa pessoaIns = new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto",
+                                          "ataWorld", "ataBrasil", true, faixaRepository.getOne(1), endereco);
+
+            pessoaIns = pessoaDAO.save(pessoaIns);
+
+            Academia academia = new Academia("academia", endereco);
+
+            academia = academiaRepository.save(academia);
+
+            Instrutor instrutor = new Instrutor(academia, pessoaIns);
+
+            ArrayList<Instrutor> instrutorArrayList = new ArrayList<>();
+            instrutorArrayList.add(instrutor);
+
+            instrutorArrayList = (ArrayList<Instrutor>) tipoPessoaDAO.saveAll(instrutorArrayList);
+
+            instrutor = instrutorArrayList.get(0);
+
+            ArrayList<Pessoa> pessoas = new ArrayList<>();
+
+            for (int i = 0; i < 100; i++) {
+                pessoas.add(new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto",
+                                       "ataWorld", "ataBrasil", false, faixaRepository.getOne(1), endereco, instrutor));
+            }
+
+            pessoas = (ArrayList<Pessoa>) pessoaDAO.saveAll(pessoas);
 
             ArrayList<Competidor> competidorArrayList = new ArrayList<>(competidorRepository.findAll());
 
-//            competidorArrayList.clear();
-//            for (Pessoa pessoa : pessoas) {
-//                competidorArrayList.add(new Competidor(1.0, 1.0, "nivel", pessoa, categoriaCompeticaoArrayList));
-//            }
-//
-//            competidorArrayList = (ArrayList<Competidor>) tipoPessoaDAO.saveAll(competidorArrayList);
+            competidorArrayList.clear();
+            for (Pessoa pessoa : pessoas) {
+                competidorArrayList.add(new Competidor(1.0, 1.0, "nivel", pessoa, categoriaCompeticaoArrayList));
+            }
+
+            competidorArrayList = (ArrayList<Competidor>) tipoPessoaDAO.saveAll(competidorArrayList);
 
             ringueService.createRingueIndividual(competidorArrayList, false, torneio, categoriaCompeticaoArrayList);
 

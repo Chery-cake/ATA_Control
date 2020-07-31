@@ -161,10 +161,7 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
                 idadeRingue = ">= 60";
             }
 
-            if (ringueIndividualRepository.getAllByIdadeAndNivel(idadeRingue, nivel).isEmpty()) {
-                list = insereRingueIndividuais(competidorArrayList, maxComp, fechado, idadeRingue, nivel, torneio,
-                                               categoriaCompeticoes);
-            } else {
+            if (!ringueIndividualRepository.getAllByIdadeAndNivel(idadeRingue, nivel).isEmpty()) {
                 for (RingueIndividual ringueIndividual : ringueIndividualRepository.getAllByIdadeAndNivel(idadeRingue,
                                                                                                           nivel)) {
                     for (Competidor competidor : ringueIndividual.getCompetidor()) {
@@ -183,9 +180,9 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
                 ringueIndividualRepository.deleteAll(
                         ringueIndividualRepository.getAllByIdadeAndNivel(idadeRingue, nivel));
                 competidorArrayList = new ArrayList<>(sortAltura(competidorArrayList));
-                list = insereRingueIndividuais(competidorArrayList, maxComp, fechado, idadeRingue, nivel, torneio,
-                                               categoriaCompeticoes);
             }
+            list = insereRingueIndividuais(competidorArrayList, maxComp, fechado, idadeRingue, nivel, torneio,
+                                       categoriaCompeticoes);
         }
         return list;
     }
@@ -245,8 +242,10 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
                         break;
                     }
                 }
-                if (((aux - 2) * maxComp) + quantComp + aux1 != competidorArrayList.size()) {
+                if (((aux - 2) * maxComp) + quantComp + aux1 < competidorArrayList.size()) {
                     aux1++;
+                }else if (((aux - 2) * maxComp) + quantComp + aux1 > competidorArrayList.size()){
+                    aux1--;
                 }
 
                 ArrayList<Competidor> arrayListAux = new ArrayList<>();
