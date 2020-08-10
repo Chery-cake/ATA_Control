@@ -182,12 +182,12 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
                 competidorArrayList = new ArrayList<>(sortAltura(competidorArrayList));
             }
             list = insereRingueIndividuais(competidorArrayList, maxComp, fechado, idadeRingue, nivel, torneio,
-                                       categoriaCompeticoes);
+                                           categoriaCompeticoes);
         }
         return list;
     }
 
-    private List<RingueIndividual> insereRingueIndividuais(ArrayList<Competidor> competidorArrayList, Integer maxComp,
+    private List<RingueIndividual> insereRingueIndividuais(ArrayList<Competidor> competidorArrayList, Integer maxComp,//todo ARRUMAR PROBLEMA
             Boolean fechado, String idadeRingue, String nivel, Torneio torneio,
             Collection<CategoriaCompeticao> categoriaCompeticoes) {
         List<RingueIndividual> list = new ArrayList<>();
@@ -225,7 +225,12 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
                     aux++;
                 }
 
-                float quantComp = maxComp / aux;
+                float quantCompAux = maxComp / aux;
+                int quantComp = Math.round(quantCompAux);
+                if (quantComp < quantCompAux) {
+                    quantComp++;
+                }
+
                 int aux1 = maxComp;
 
                 while (true) {
@@ -242,10 +247,17 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
                         break;
                     }
                 }
-                if (((aux - 2) * maxComp) + quantComp + aux1 < competidorArrayList.size()) {
-                    aux1++;
-                }else if (((aux - 2) * maxComp) + quantComp + aux1 > competidorArrayList.size()){
+
+                float v = ((aux - 2) * maxComp) + quantComp + aux1;
+                if (v < competidorArrayList.size()) {
+                    aux1 += competidorArrayList.size() - v;
+                } else if (v > competidorArrayList.size()) {
+                    aux1 -= v - competidorArrayList.size();
+                }
+
+                while (aux1 > maxComp) {
                     aux1--;
+                    quantComp++;
                 }
 
                 ArrayList<Competidor> arrayListAux = new ArrayList<>();

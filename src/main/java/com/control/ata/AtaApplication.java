@@ -77,7 +77,7 @@ public class AtaApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         populateBD.populate();
-        Singleton s = Singleton.getSingleton();
+        Singleton.getSingleton();
 
         try {
 
@@ -112,25 +112,34 @@ public class AtaApplication implements CommandLineRunner {
 
             instrutor = instrutorArrayList.get(0);
 
-            ArrayList<Pessoa> pessoas = new ArrayList<>();
+            for (int j = 0; j < 100; j++) {
 
-            for (int i = 0; i < 100; i++) {
-                pessoas.add(new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto",
-                                       "ataWorld", "ataBrasil", false, faixaRepository.getOne(1), endereco, instrutor));
+                System.out.println("Loop:" + j);
+
+                ArrayList<Pessoa> pessoas = new ArrayList<>();
+
+                for (int i = 0; i < j; i++) {
+                    pessoas.add(new Pessoa("nome", "sobrenome", false, new Date(), "usuario", "senha", 1, "foto",
+                                           "ataWorld", "ataBrasil", false, faixaRepository.getOne(1), endereco,
+                                           instrutor));
+                }
+
+                pessoas = (ArrayList<Pessoa>) pessoaDAO.saveAll(pessoas);
+
+                ArrayList<Competidor> competidorArrayList = new ArrayList<>(competidorRepository.findAll());
+
+                competidorArrayList.clear();
+                for (Pessoa pessoa : pessoas) {
+                    competidorArrayList.add(new Competidor(1.0, 1.0, "nivel", pessoa, categoriaCompeticaoArrayList));
+                }
+
+                competidorArrayList = (ArrayList<Competidor>) tipoPessoaDAO.saveAll(competidorArrayList);
+
+                ringueService.createRingueIndividual(competidorArrayList, false, torneio, categoriaCompeticaoArrayList);
+
             }
 
-            pessoas = (ArrayList<Pessoa>) pessoaDAO.saveAll(pessoas);
-
-            ArrayList<Competidor> competidorArrayList = new ArrayList<>(competidorRepository.findAll());
-
-            competidorArrayList.clear();
-            for (Pessoa pessoa : pessoas) {
-                competidorArrayList.add(new Competidor(1.0, 1.0, "nivel", pessoa, categoriaCompeticaoArrayList));
-            }
-
-            competidorArrayList = (ArrayList<Competidor>) tipoPessoaDAO.saveAll(competidorArrayList);
-
-            ringueService.createRingueIndividual(competidorArrayList, false, torneio, categoriaCompeticaoArrayList);
+            System.out.println("TERMINOU");
 
         } catch (Exception e) {
             System.out.println(e);
