@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class RingueService {//todo fazer as funcoes para os ringues de times
+public class RingueService {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
     @Autowired
@@ -27,12 +27,11 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
     private RingueTimeRepository ringueTimeRepository;
 
     public List<RingueTime> createRingueTime(Collection<Time> collection, Boolean fechado, Torneio torneio,
-            Collection<CategoriaCompeticao> categoriaCompeticoes) {
+            CategoriaCompeticao categoriaCompeticao) {
         List<RingueTime> list = new ArrayList<>();
 
         ArrayList<Time> timeArrayList = new ArrayList<>(collection);
         ArrayList<Time> timeJuniorArrayList = new ArrayList<>();
-
         for (Time time : timeArrayList) {
             if (time.getJunior()) {
                 timeJuniorArrayList.add(time);
@@ -43,21 +42,16 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
                 timeArrayList.remove(time);
             }
         }
-
         if (!ringueTimeRepository.getAllByFechadoAndTorneioAndCategoriaCompeticao(fechado, torneio,
-                                                                                  categoriaCompeticoes).isEmpty()) {
+                                                                                  categoriaCompeticao).isEmpty()) {
             for (RingueTime ringueTime : ringueTimeRepository.findAll()) {
-                ArrayList<Time> times = (ArrayList<Time>) ringueTime.getTime();
+                ArrayList<Time> times = new ArrayList<>(ringueTime.getTime());
                 if (times.get(0).getJunior()) {
                     if (!timeJuniorArrayList.isEmpty()) {
-                        for (Time time : timeJuniorArrayList) {
-                            times.add(time);
-                        }
+                        times.addAll(timeJuniorArrayList);
                     }
                 } else {
-                    for (Time time : timeArrayList) {
-                        times.add(time);
-                    }
+                    times.addAll(timeArrayList);
                 }
                 ringueTime.setTime(times);
                 list.add(ringueDAO.save(ringueTime));
@@ -65,16 +59,18 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
         } else {
             if (!timeJuniorArrayList.isEmpty()) {
                 list.add(ringueDAO.save(
-                        new RingueTime(fechado, 0, null, timeJuniorArrayList, torneio, categoriaCompeticoes)));
+                        new RingueTime(fechado, 0, null, timeJuniorArrayList, torneio, categoriaCompeticao)));
             }
-            list.add(ringueDAO.save(new RingueTime(fechado, 0, null, timeArrayList, torneio, categoriaCompeticoes)));
+            list.add(
+                    ringueDAO.save(
+                            new RingueTime(fechado, 0, null, timeArrayList, torneio, categoriaCompeticao)));
         }
         return list;
     }
 
     public List<RingueIndividual> createRingueIndividual(Collection<Competidor> collection, Boolean fechado,
             Torneio torneio, Collection<CategoriaCompeticao> categoriaCompeticoes) {
-        List<RingueIndividual> list = new ArrayList<>();
+        List<RingueIndividual> list;
 
         ArrayList<Competidor> competidorArrayList = new ArrayList<>(collection);
         ArrayList<ArrayList<Competidor>> arrayList = new ArrayList<>();
@@ -187,7 +183,7 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
         return list;
     }
 
-    private List<RingueIndividual> insereRingueIndividuais(ArrayList<Competidor> competidorArrayList, Integer maxComp,//todo ARRUMAR PROBLEMA
+    private List<RingueIndividual> insereRingueIndividuais(ArrayList<Competidor> competidorArrayList, Integer maxComp,
             Boolean fechado, String idadeRingue, String nivel, Torneio torneio,
             Collection<CategoriaCompeticao> categoriaCompeticoes) {
         List<RingueIndividual> list = new ArrayList<>();
@@ -313,7 +309,7 @@ public class RingueService {//todo fazer as funcoes para os ringues de times
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
         int anoAtual = Integer.parseInt(dateFormat.format(new Date()));
-        Boolean adicionado = false;
+        boolean adicionado = false;
 
         for (ArrayList<Competidor> competidorArrayList : arrayList) {
             int anoNasc = Integer.parseInt(

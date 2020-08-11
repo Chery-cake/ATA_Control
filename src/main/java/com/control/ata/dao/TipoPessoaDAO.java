@@ -31,28 +31,30 @@ public class TipoPessoaDAO {
     private TituloRepository tituloRepository;
 
     public Administrador save(Administrador administrador) {
-        administrador = administradorRepository.save(administrador);
-        return administrador;
+        return administradorRepository.save(administrador);
     }
 
     public Competidor save(Competidor competidor) {
-        Competidor aux = new Competidor(competidor.getPeso(), competidor.getAltura(), competidor.getNivel(),
-                                        competidor.getPessoa(), competidor.getCategoriaCompeticao(),
-                                        competidor.getTime());
-        aux.setCategoriaCompeticao(null);
-        aux = competidorRepository.save(aux);
-        aux.setCategoriaCompeticao(competidor.getCategoriaCompeticao());
-        if(competidor.getTituloList() != null){
-            if(!competidor.getTituloList().isEmpty()){
-                ArrayList<Titulo> titulos = new ArrayList<>();//todo melhorar a incersao dos titulos
-                for (Titulo titulo:competidor.getTituloList()){
-                    titulo.setCompetidor(aux);
-                    titulos.add(tituloRepository.save(titulo));
+        if (competidor.getId() == null) {
+            Competidor aux = new Competidor(competidor.getPeso(), competidor.getAltura(), competidor.getNivel(),
+                                            competidor.getPessoa(), competidor.getCategoriaCompeticao(),
+                                            competidor.getTime());
+            aux.setCategoriaCompeticao(null);
+            aux = competidorRepository.save(aux);
+            aux.setCategoriaCompeticao(competidor.getCategoriaCompeticao());
+            if (competidor.getTituloList() != null) {
+                if (!competidor.getTituloList().isEmpty()) {
+                    ArrayList<Titulo> titulos = new ArrayList<>();//todo melhorar a incersao dos titulos
+                    for (Titulo titulo : competidor.getTituloList()) {
+                        titulo.setCompetidor(aux);
+                        titulos.add(tituloRepository.save(titulo));
+                    }
+                    aux.setTituloList(titulos);
                 }
-                aux.setTituloList(titulos);
             }
+            return competidorRepository.save(aux);
         }
-        return competidorRepository.save(aux);
+        return competidorRepository.save(competidor);
     }
 
     public Instrutor save(Instrutor instrutor) {

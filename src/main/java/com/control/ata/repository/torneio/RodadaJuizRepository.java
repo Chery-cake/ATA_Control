@@ -10,9 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RodadaJuizRepository extends JpaRepository<RodadaJuiz, Integer> {
 
-//    @Query("select b from Bairro b where b.nome = :bairro")
-//    Bairro getBairroByNome(@Param("bairro") String bairro);
-
     @Query("select r from RodadaJuiz r where r.juiz = :juiz")
     RodadaJuiz getRodadaJuizByJuiz(@Param("juiz") Juiz juiz);
 

@@ -13,8 +13,11 @@ import java.util.Collection;
 @Repository
 public interface RingueTimeRepository extends JpaRepository<RingueTime, Integer> {
 
-    @Query("select r from RingueTime r where r.fechado = :fechado and r.torneio = :torneio and r.categoriaCompeticao = :categorias")
-    Collection<RingueTime> getAllByFechadoAndTorneioAndCategoriaCompeticao(@Param("fechado") Boolean fechado, @Param("torneio")
-            Torneio torneio, @Param("categorias")Collection<CategoriaCompeticao> categorias);
+    @Query("select r from RingueTime r where r.fechado = :fechado and r.torneio = :torneio and r.categoriaCompeticao = :categoriaCompeticao")
+    Collection<RingueTime> getAllByFechadoAndTorneioAndCategoriaCompeticao(@Param("fechado") Boolean fechado,
+            @Param("torneio") Torneio torneio, @Param("categoriaCompeticao") CategoriaCompeticao categoriaCompeticao);
+
+    @Query("select r from RingueTime r where r.categoriaCompeticao = :categoria")
+    Collection<RingueTime> getAllByCategoriaCompeticao(@Param("categoria") Collection<CategoriaCompeticao> categoriaCompeticao);
 
 }

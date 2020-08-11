@@ -19,24 +19,30 @@ public class RingueDAO {
     private RingueTimeRepository ringueTimeRepository;
 
     public RingueIndividual save(RingueIndividual ringueIndividual) {
-        RingueIndividual aux = new RingueIndividual(ringueIndividual.getFechado(), ringueIndividual.getNumero(),
-                                                    ringueIndividual.getIdade(), ringueIndividual.getNivel(), null,
-                                                    null, ringueIndividual.getTorneio(), null);
-        aux = ringueIndividualRepository.save(aux);
-        aux.setCompetidor(ringueIndividual.getCompetidor());
-        aux.setJuiz(ringueIndividual.getJuiz());
-        aux.setCategoriaCompeticao(ringueIndividual.getCategoriaCompeticao());
-        return ringueIndividualRepository.save(aux);
+        if (ringueIndividual.getId() == null) {
+            RingueIndividual aux = new RingueIndividual(ringueIndividual.getFechado(), ringueIndividual.getNumero(),
+                                                        ringueIndividual.getIdade(), ringueIndividual.getNivel(), null,
+                                                        null, ringueIndividual.getTorneio(), null);
+            aux = ringueIndividualRepository.save(aux);
+            aux.setCompetidor(ringueIndividual.getCompetidor());
+            aux.setJuiz(ringueIndividual.getJuiz());
+            aux.setCategoriaCompeticao(ringueIndividual.getCategoriaCompeticao());
+            return ringueIndividualRepository.save(aux);
+        }
+        return ringueIndividualRepository.save(ringueIndividual);
     }
 
     public RingueTime save(RingueTime ringueTime) {
-        RingueTime aux = new RingueTime(ringueTime.getFechado(), ringueTime.getNumero(), null, null,
-                                        ringueTime.getTorneio(), null);
-        aux = ringueTimeRepository.save(aux);
-        aux.setJuiz(ringueTime.getJuiz());
-        aux.setTime(ringueTime.getTime());
-        aux.setCategoriaCompeticao(ringueTime.getCategoriaCompeticao());
-        return ringueTimeRepository.save(aux);
+        if(ringueTime.getId() == null){
+            RingueTime aux = new RingueTime(ringueTime.getFechado(), ringueTime.getNumero(), null, null,
+                                            ringueTime.getTorneio(), null);
+            aux = ringueTimeRepository.save(aux);
+            aux.setJuiz(ringueTime.getJuiz());
+            aux.setTime(ringueTime.getTime());
+            aux.setCategoriaCompeticao(ringueTime.getCategoriaCompeticao());
+            return ringueTimeRepository.save(aux);
+        }
+        return ringueTimeRepository.save(ringueTime);
     }
 
     private <T> T saveObj(Object obj) {
