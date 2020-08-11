@@ -27,7 +27,7 @@ public class ListaIndividual {
     @Autowired
     private ChaveListaIndividualRepository chaveListaIndividualRepository;
 
-    public PlanilhaListaIndividual createPlanilha(RingueIndividual ringueIndividual,
+    public PlanilhaListaIndividual createPlanilha(RingueIndividual ringueIndividual,//todo verificar a categoria dos competidores e da planilha
             CategoriaCompeticao categoriaCompeticao) {
         ArrayList<Competidor> competidorArrayList = new ArrayList<>(ringueIndividual.getCompetidor());
         Competidor competidorTitulo = null;

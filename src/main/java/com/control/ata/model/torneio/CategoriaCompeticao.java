@@ -62,7 +62,8 @@ public class CategoriaCompeticao {
     @ManyToMany(mappedBy = "categoriaCompeticao")
     private Collection<RingueIndividual> ringueIndividualList;
 
-    @ManyToMany(mappedBy = "categoriaCompeticao")
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
     private Collection<RingueTime> ringueTimeList;
 
     @JsonIgnore
@@ -82,6 +83,10 @@ public class CategoriaCompeticao {
         this.minimoMasculino = minimoMasculino;
         this.minimoFeminino = minimoFeminino;
         this.maximoTotal = maximoTotal;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getNome() {

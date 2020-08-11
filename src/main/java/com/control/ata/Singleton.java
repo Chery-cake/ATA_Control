@@ -13,10 +13,10 @@ public class Singleton {
 
     private static Singleton single_instance = null;
 
-    public Integer valorBase = 5;
+    public Integer valorBase;
 
     private Singleton() {
-
+        valorBase = 5;
     }
 
     public static Singleton getSingleton() {

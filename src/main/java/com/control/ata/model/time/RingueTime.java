@@ -23,7 +23,7 @@ public class RingueTime {
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Juiz> juiz;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Collection<Time> time;
 
     @ManyToOne
@@ -47,14 +47,14 @@ public class RingueTime {
     @ManyToOne
     private Placar placar;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    private Collection<CategoriaCompeticao> categoriaCompeticao;
+    @ManyToOne
+    private CategoriaCompeticao categoriaCompeticao;
 
     public RingueTime() {
     }
 
     public RingueTime(Boolean fechado, Integer numero, Collection<Juiz> juiz, Collection<Time> time,
-            Torneio torneio, Collection<CategoriaCompeticao> categoriaCompeticao) {
+            Torneio torneio, CategoriaCompeticao categoriaCompeticao) {
         this.fechado = fechado;
         this.numero = numero;
         this.juiz = juiz;
@@ -128,12 +128,11 @@ public class RingueTime {
         this.placar = placar;
     }
 
-    public Collection<CategoriaCompeticao> getCategoriaCompeticao() {
+    public CategoriaCompeticao getCategoriaCompeticao() {
         return categoriaCompeticao;
     }
 
-    public void setCategoriaCompeticao(
-            Collection<CategoriaCompeticao> categoriaCompeticao) {
+    public void setCategoriaCompeticao(CategoriaCompeticao categoriaCompeticao) {
         this.categoriaCompeticao = categoriaCompeticao;
     }
 }
