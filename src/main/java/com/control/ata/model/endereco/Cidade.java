@@ -29,6 +29,10 @@ public class Cidade {
 		this.estado = estado;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
 	public String getNome() {
 		return nome;
 	}

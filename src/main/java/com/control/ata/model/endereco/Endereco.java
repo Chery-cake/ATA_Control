@@ -39,6 +39,10 @@ public class Endereco {
         this.bairro = bairro;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getRua() {
         return rua;
     }

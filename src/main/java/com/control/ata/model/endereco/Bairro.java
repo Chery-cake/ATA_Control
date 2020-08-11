@@ -29,6 +29,10 @@ public class Bairro {
 		this.cidade = cidade;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
 	public String getNome() {
 		return nome;
 	}

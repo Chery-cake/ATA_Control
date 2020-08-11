@@ -39,6 +39,10 @@ public class Treinador {
         this.timeList = times;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public Pessoa getPessoa() {
         return pessoa;
     }

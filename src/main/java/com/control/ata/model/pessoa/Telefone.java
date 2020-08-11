@@ -25,6 +25,10 @@ public class Telefone {
         this.pessoa = pessoa;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getTelefone() {
         return telefone;
     }

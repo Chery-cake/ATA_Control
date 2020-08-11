@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ChaveIndividual {
@@ -69,7 +70,7 @@ public class ChaveIndividual {
                         chaveLutaIndividual3 = chaveLutaIndividual1;
                     }
                 }
-                chaveLutaIndividual2.setCompetidorBranco(competidor);
+                Objects.requireNonNull(chaveLutaIndividual2).setCompetidorBranco(competidor);
                 chaveLutaIndividualRepository.save(chaveLutaIndividual2);
                 Competidor competidor1;
                 if (competidor == chaveLutaIndividual.getCompetidorBranco()) {
@@ -77,7 +78,7 @@ public class ChaveIndividual {
                 } else {
                     competidor1 = chaveLutaIndividual.getCompetidorBranco();
                 }
-                chaveLutaIndividual3.setCompetidorBranco(competidor1);
+                Objects.requireNonNull(chaveLutaIndividual3).setCompetidorBranco(competidor1);
                 chaveLutaIndividualRepository.save(chaveLutaIndividual3);
             } else {
                 this.setChave(competidor, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), 1,
@@ -244,7 +245,7 @@ public class ChaveIndividual {
         return Singleton.getCompetidorTitulo(competidorList, categoriaCompeticao, tituloRepository);
     }
 
-    private class Sorteio {
+    private static class Sorteio {
         Competidor a;
         Competidor b;
         Singleton s = Singleton.getSingleton();

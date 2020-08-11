@@ -21,6 +21,10 @@ public class Administrador {
         this.pessoa = pessoa;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public Pessoa getPessoa() {
         return pessoa;
     }

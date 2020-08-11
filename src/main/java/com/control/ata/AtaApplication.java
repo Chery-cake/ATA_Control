@@ -16,7 +16,6 @@ import com.control.ata.model.torneio.Torneio;
 import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
-import com.control.ata.repository.time.RingueTimeRepository;
 import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
 import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import com.control.ata.repository.torneio.CategoriaTorneioRepository;
@@ -57,8 +56,6 @@ public class AtaApplication implements CommandLineRunner {
     private TimeDAO timeDAO;
     @Autowired
     private RingueService ringueService;
-    @Autowired
-    private RingueTimeRepository ringueTimeRepository;
     @Autowired
     private CompetidorRepository competidorRepository;
 
@@ -148,7 +145,7 @@ public class AtaApplication implements CommandLineRunner {
             System.out.println("TERMINOU");
 
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

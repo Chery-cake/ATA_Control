@@ -17,13 +17,12 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 @Service
-public class PopulateBD {
+public class PopulateBD {//todo criar method para inserir e criar JSON's
 
     private final JSONParser jsonParser = new JSONParser();
     @Autowired
@@ -66,11 +65,7 @@ public class PopulateBD {
             System.out.println(jsonArray.toJSONString());
         }
         //Trata as exceptions que podem ser lançadas no decorrer do processo
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 
@@ -118,14 +113,8 @@ public class PopulateBD {
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
     }
@@ -145,14 +134,8 @@ public class PopulateBD {
                 Faixa faixaObj = new Faixa((String) faixa.get("nome"));
                 faixaRepository.save(faixaObj);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
     }
@@ -174,14 +157,8 @@ public class PopulateBD {
                                                                                  "prioridade"));
                 categoriaTorneioRepository.save(categoriaTorneioObj);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
     }

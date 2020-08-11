@@ -32,6 +32,10 @@ public class Instrutor {
         this.pessoa = pessoa;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public Academia getAcademia() {
         return academia;
     }

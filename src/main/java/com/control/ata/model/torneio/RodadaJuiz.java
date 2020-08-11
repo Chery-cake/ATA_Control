@@ -24,4 +24,16 @@ public class RodadaJuiz {
         this.torneio = torneio;
         this.juiz = juiz;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Torneio getTorneio() {
+        return torneio;
+    }
+
+    public Juiz getJuiz() {
+        return juiz;
+    }
 }

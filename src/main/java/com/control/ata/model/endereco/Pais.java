@@ -25,6 +25,10 @@ public class Pais {
 		this.nome = nome;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
 	public String getNome() {
 		return nome;
 	}

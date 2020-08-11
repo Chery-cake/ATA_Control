@@ -14,11 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 public class ChaveTime {
-
-    private final Singleton s = Singleton.getSingleton();
 
     @Autowired
     private PlanilhaChaveamentoTimeRepository planilhaChaveamentoTimeRepository;
@@ -68,7 +67,7 @@ public class ChaveTime {
                         chaveLutaTime3 = chaveLutaTime1;
                     }
                 }
-                chaveLutaTime2.setTimeBranco(time);
+                Objects.requireNonNull(chaveLutaTime2).setTimeBranco(time);
                 chaveLutaTimeRepository.save(chaveLutaTime2);
                 Time time1;
                 if (time == chaveLutaTime.getTimeBranco()) {
@@ -76,7 +75,7 @@ public class ChaveTime {
                 } else {
                     time1 = chaveLutaTime.getTimeBranco();
                 }
-                chaveLutaTime3.setTimeBranco(time1);
+                Objects.requireNonNull(chaveLutaTime3).setTimeBranco(time1);
                 chaveLutaTimeRepository.save(chaveLutaTime3);
             } else {
                 this.setChave(time, null, chaveLutaTime.getPlanilhaChaveamentoTime(), 1,
@@ -189,7 +188,7 @@ public class ChaveTime {
         return Singleton.getTimeTitulo(timeList, categoriaCompeticao, tituloRepository);
     }
 
-    private class Sorteio {
+    private static class Sorteio {
         Time a;
         Time b;
         Singleton s = Singleton.getSingleton();
