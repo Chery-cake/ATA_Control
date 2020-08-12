@@ -1,43 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css" rel="stylesheet">
 </head>
 
 <body>
-  <div class="py-5 text-center">
+<div class="py-5 text-center">
     <div class="container">
-      <div class="row">
-        <div class="mx-auto col-lg-6 col-10">
-          <h1>Crie sua conta</h1>
-          <p class="mb-3" style=""></p>
-          <form class="text-left">
-            <div class="form-group"> <label for="form16">Nome</label> <input type="text" class="form-control" id="form16" placeholder="Stephen Edwin King" required="required"> </div>
-            <div class="form-group"> <label for="form17">Sobrenome</label> <input type="text" class="form-control" id="form17" placeholder="Stephen Edwin King" required="required"> </div>
-            <div class="form-group"> <label for="form18">Email</label> <input type="email" class="form-control" id="form19" required="required" placeholder="stephen.king@gmail.com"> </div>            <div class="form-group"> <label for="form16">Endereço</label> <input type="text" class="form-control" id="form16" placeholder="Stephen Edwin King" required="required"> </div>
-            <div class="form-group"> <label for="form16">Instrutor</label> <input type="text" class="form-control" id="form16" placeholder="Stephen Edwin King" required="required"> </div>
-            <div class="form-group"> <label for="form16">Faixa</label> <input type="text" class="form-control" id="form16" placeholder="Stephen Edwin King" required="required"> </div>
-            <div class="form-group"> <label for="form18">Endereço</label> <input type="email" class="form-control" id="form19" required="required" placeholder="stephen.king@gmail.com"> </div>
-            <div class="form-group"> <label for="form18">Email</label> <input type="email" class="form-control" id="form19" required="required" placeholder="stephen.king@gmail.com"> </div>
-            <div class="form-row">
-              <div class="form-group col-md-6"> <label for="form19">Senha</label> <input type="password" class="form-control" id="form20" placeholder="••••" required="required"> </div>
-              <div class="form-group col-md-6"> <label for="form20">Confirmar senha<br></label> <input type="password" class="form-control" id="form21" placeholder="••••" required="required"> </div>
+        <div class="row">
+            <div class="mx-auto col-lg-6 col-10">
+                <h1>Crie sua conta</h1>
+                <p class="mb-3" style=""></p>
+
+                <form action="#" class="text-left" id="form-register-pessoa">
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input class="form-control" id="nome" placeholder="Stephen Edwin King" required="required"
+                               type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sobrenome">Sobrenome</label>
+                        <input class="form-control" id="sobrenome" placeholder="Stephen Edwin King" required="required"
+                               type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="label_genero_M">Genero</label>
+                        <label id="label_genero_M">Masculino</label>
+                        <input class="form-control" name="genero" type="radio" value="true" checked>
+                        <label id="label-genero-F">Feminino</label>
+                        <input class="form-control" name="genero" type="radio" value="false">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input class="form-control" id="email" placeholder="stephen.king@gmail.com" required="required"
+                               type="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="label_nao_instrutor">Genero</label>
+                        <label id="label_instrutor">Não é um instrutor</label>
+                        <input class="form-control" name="isInstrutor" id="isInstrutor_f" type="radio" value="false" checked>
+                        <label id="label_nao_instrutor">É um instrutor</label>
+                        <input class="form-control" name="isInstrutor" id="isInstrutor_t" type="radio" value="true">
+                    </div>
+
+                    <div class="form-group" id="instrutor_div">
+                        <label for="instrutor">Instrutor</label>
+                        <select class="form-control" id="instrutor" name="faixa">
+                            <option value="">Selecione</option>
+                            <option th:each="i : ${instrutores}" th:text="${i.pessoa.nome}" th:value="${i.id}">...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="faixa">Faixa</label>
+                        <select class="form-control" id="faixa" name="faixa">
+                            <option value="">Selecione</option>
+                            <option th:each="f : ${faixas}" th:text="${f.nome}" th:value="${f.id}">...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="senha">Senha</label>
+                            <input class="form-control" id="senha" placeholder="••••" required="required"
+                                   type="password">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="confi_senha">Confirmar senha<br></label>
+                            <input class="form-control" id="confi_senha" placeholder="••••" required="required"
+                                   type="password">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-check"><input class="form-check-input" id="termos" type="checkbox" value="on">
+                            <label class="form-check-label" for="termos"> I Agree with <a href="#">Term and
+                                Conditions</a> of the service </label></div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Register</button>
+                </form>
+
             </div>
-            <div class="form-group">
-              <div class="form-check"> <input class="form-check-input" type="checkbox" id="form22" value="on"> <label class="form-check-label" for="form21"> I Agree with <a href="#">Term and Conditions</a> of the service </label> </div>
-            </div> <button type="submit" class="btn btn-primary">Sign in</button>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</div>
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script th:fragment="js" th:src="@{/js/register.js}"></script>
 </body>
 
 </html>
