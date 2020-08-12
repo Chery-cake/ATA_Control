@@ -1,5 +1,6 @@
 package com.control.ata.dao;
 
+import com.control.ata.dto.PessoaDTO;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.pessoa.Telefone;
 import com.control.ata.repository.pessoa.PessoaRepository;
@@ -17,6 +18,17 @@ public class PessoaDAO {
     private PessoaRepository pessoaRepository;
     @Autowired
     private TelefoneRepository telefoneRepository;
+    @Autowired
+    private EnderecoDAO enderecoDAO;
+
+    public Pessoa save(PessoaDTO pessoaDTO) {
+        Pessoa pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
+                                   pessoaDTO.getDataNascimento(), pessoaDTO.getNomeUsuario(), pessoaDTO.getSenha(),
+                                   pessoaDTO.getStatus(), pessoaDTO.getFoto(), pessoaDTO.getAtaNumberWorld(),
+                                   pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getFaixa(),
+                                   enderecoDAO.save(pessoaDTO.getEndereco()), pessoaDTO.getInstrutor());
+        return this.save(pessoa);
+    }
 
     public Pessoa save(Pessoa pessoa) {
         pessoa = pessoaRepository.save(pessoa);
@@ -31,10 +43,16 @@ public class PessoaDAO {
         return pessoa;
     }
 
-    public List<Pessoa> saveAll(Iterable<Pessoa> iterable) {
+    public List<Pessoa> saveAll(Iterable<?> iterable) {
         List<Pessoa> pessoas = new ArrayList<>();
-        for (Pessoa pessoa : iterable) {
-            pessoas.add(this.save(pessoa));
+        if (Pessoa.class.equals(iterable.getClass())) {
+            for (Object o : iterable) {
+                pessoas.add(this.save((Pessoa) o));
+            }
+        } else if (PessoaDTO.class.equals(iterable.getClass())) {
+            for (Object o : iterable) {
+                pessoas.add(this.save((PessoaDTO) o));
+            }
         }
         return pessoas;
     }
