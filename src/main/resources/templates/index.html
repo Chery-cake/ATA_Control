@@ -1,147 +1,173 @@
 <!DOCTYPE html>
-<html>
-  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- PAGE settings -->
-  <link rel="icon" href="https://templates.pingendo.com/assets/Pingendo_favicon.ico">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <!-- PAGE settings -->
+    <link href="https://templates.pingendo.com/assets/Pingendo_favicon.ico" rel="icon">
 
-  <title th:text="#{sistema.titulo}">ATA Control</title>
+    <title th:text="#{sistema.titulo}">ATA Control</title>
 
-  <meta name="description" content="Wireframe design of a landing page by Pingendo">
-  <meta name="keywords" content="Pingendo bootstrap example template wireframe landing">
-  <meta name="author" content="Pingendo">
-  <!-- CSS dependencies -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="wireframe.css">
-  <link rel="stylesheet" href="styles.css">
+    <meta content="Wireframe design of a landing page by Pingendo" name="description">
+    <meta content="Pingendo bootstrap example template wireframe landing" name="keywords">
+    <meta content="Pingendo" name="author">
+    <!-- CSS dependencies -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="wireframe.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
 
-  <link href="style.css" 
-  th:href="@{style.css}" rel="stylesheet"/>
+    <link href="style.css"
+          rel="stylesheet" th:href="@{style.css}"/>
 </head>
 
 <body class="">
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark" name="navb">
-    <div class="container"> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar12">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbar12"> <a class="navbar-brand d-none d-md-block" href="#" style="">
-          <a href="index.html" class="custom-logo-link" rel="home">
-          
-            <img 
-              src="logo-ata.png" 
-              class="custom-logo" 
-              alt="Fênix Fansub" 
-              sizes="(max-width: 155px) 100vw, 200px" 
-              width="100" 
-              height="50">
-          
-          </a>
-        
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" name="navb">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right border-0" data-target="#navbar12" data-toggle="collapse"
+                type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar12"><a class="navbar-brand d-none d-md-block" href="#" style="">
+            <a class="custom-logo-link" href="index.html" rel="home">
+
+                <img
+                        alt="Fênix Fansub"
+                        class="custom-logo"
+                        height="50"
+                        sizes="(max-width: 155px) 100vw, 200px"
+                        src="logo-ata.png"
+                        width="100">
+
+            </a>
+
         </a>
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item"> <a class="nav-link square_btn" href="#">Home</a> </li>
-          <li class="nav-item"> <a class="nav-link square_btn" href="#">Tabelas</a> </li>
-          <li class="nav-item"> <a class="nav-link square_btn" href="#">Torneio</a> </li>
-        </ul>
-        <ul class="navbar-nav">
-          <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;"> <a class="nav-link" href="register.html"><i class="fa fa-user fa-fw"></i>Sign in</a> </li>
-          <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;"> <a class="nav-link" href="login.html"><i class="fa fa-user fa-fw"></i>Log in</a> </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <div class="h-50 d-flex align-items-center bg-info" style="	background-image: url(&quot;../All/GOLD/8.jpg&quot;);	background-position: top left;	background-size: 100%;	background-repeat: no-repeat;">
-    <div class="container">
-      <div class="row">
-        <div class="mx-auto text-center col-md-9">
-          <p class="lead text-primary">Lead paragraph -&nbsp;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link square_btn" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link square_btn" href="#">Tabelas</a></li>
+                <li class="nav-item"><a class="nav-link square_btn" href="#">Torneio</a></li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;"><a class="nav-link"
+                                                                                              href="register"><i
+                        class="fa fa-user fa-fw"></i>Sign in</a></li>
+                <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;"><a class="nav-link"
+                                                                                              href="login"><i
+                        class="fa fa-user fa-fw"></i>Log in</a></li>
+            </ul>
         </div>
-      </div>
     </div>
-  </div>
+</nav>
+<div class="h-50 d-flex align-items-center bg-info"
+     style="	background-image: url(&quot;../All/GOLD/8.jpg&quot;);	background-position: top left;	background-size: 100%;	background-repeat: no-repeat;">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto text-center col-md-9">
+                <p class="lead text-primary">Lead paragraph -&nbsp;Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-  <div class="py-5" style="">
+<div class="py-5" style="">
     <div class="container">
-      <div class="row">
-        <div class="p-4 col-lg-8">
-          <h4 class="mb-3 text-white">Heading 4</h4>
-          <div class="blockquote text-muted">
-            <p class="mb-0">Blockquoute -&nbsp;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-            <div class="blockquote-footer">Someone famous in My memories</div>
-          </div>
-          <a class="btn btn-info" href="#">Button </a>
+        <div class="row">
+            <div class="p-4 col-lg-8">
+                <h4 class="mb-3 text-white">Heading 4</h4>
+                <div class="blockquote text-muted">
+                    <p class="mb-0">Blockquoute -&nbsp;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                        nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                    <div class="blockquote-footer">Someone famous in My memories</div>
+                </div>
+                <a class="btn btn-info" href="#">Button </a>
+            </div>
+            <div class="col-md-4 align-self-center">
+                <img class="img-fluid d-block" src="../../../../../../../../Downloads/asdasd.png"></div>
         </div>
-        <div class="col-md-4 align-self-center">
-          <img class="img-fluid d-block" src="../../../../../../../../Downloads/asdasd.png"> </div>
-      </div>
     </div>
-  </div>
-  <div class="py-5 text-center">
+</div>
+<div class="py-5 text-center">
     <div class="container">
-      <div class="row">
-        <div class="mx-auto col-md-12">
-          <h1 class="mb-3">Mestres<br></h1>
+        <div class="row">
+            <div class="mx-auto col-md-12">
+                <h1 class="mb-3">Mestres<br></h1>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-3 col-6 p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="https://static.pingendo.com/img-placeholder-1.svg" width="100" alt="Card image cap">
-          <h4> <b>Johann</b> </h4>
-          <p>CEO and founder</p>
-          <p class="mb-0"> <i>"I throw myself down among the tall grass by the trickling"</i> </p>
+        <div class="row">
+            <div class="col-lg-3 col-6 p-4"><img alt="Card image cap"
+                                                 class="img-fluid d-block mb-3 mx-auto rounded-circle"
+                                                 src="https://static.pingendo.com/img-placeholder-1.svg"
+                                                 width="100">
+                <h4><b>Johann</b></h4>
+                <p>CEO and founder</p>
+                <p class="mb-0"><i>"I throw myself down among the tall grass by the trickling"</i></p>
+            </div>
+            <div class="col-lg-3 col-6 p-4"><img alt="Card image cap"
+                                                 class="img-fluid d-block mb-3 mx-auto rounded-circle"
+                                                 src="https://static.pingendo.com/img-placeholder-2.svg"
+                                                 width="100">
+                <h4><b>Gregory</b></h4>
+                <p>Co-founder</p>
+                <p class="mb-0"><i>"As I lie close to the earth, a thousand unknown plants"</i></p>
+            </div>
+            <div class="col-lg-3 col-6 p-4"><img class="img-fluid d-block mb-3 mx-auto rounded-circle"
+                                                 src="https://static.pingendo.com/img-placeholder-3.svg" width="100">
+                <h4><b>James</b></h4>
+                <p>CFO</p>
+                <p class="mb-0"><i>"Then, my friend, when darkness overspreads my eyes"</i></p>
+            </div>
+            <div class="col-lg-3 col-6 p-4"><img class="img-fluid d-block mb-3 mx-auto rounded-circle"
+                                                 src="https://static.pingendo.com/img-placeholder-4.svg" width="100">
+                <h4><b>Amadeus</b></h4>
+                <p>CTO</p>
+                <p class="mb-0"><i>"Heaven and earth seem to dwell in my soul"</i></p>
+            </div>
         </div>
-        <div class="col-lg-3 col-6 p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="https://static.pingendo.com/img-placeholder-2.svg" width="100" alt="Card image cap">
-          <h4> <b>Gregory</b> </h4>
-          <p>Co-founder</p>
-          <p class="mb-0"> <i>"As I lie close to the earth, a thousand unknown plants"</i> </p>
-        </div>
-        <div class="col-lg-3 col-6 p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="https://static.pingendo.com/img-placeholder-3.svg" width="100">
-          <h4> <b>James</b> </h4>
-          <p>CFO</p>
-          <p class="mb-0"> <i>"Then, my friend, when darkness overspreads my eyes"</i> </p>
-        </div>
-        <div class="col-lg-3 col-6 p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="https://static.pingendo.com/img-placeholder-4.svg" width="100">
-          <h4> <b>Amadeus</b> </h4>
-          <p>CTO</p>
-          <p class="mb-0"> <i>"Heaven and earth seem to dwell in my soul"</i> </p>
-        </div>
-      </div>
     </div>
-  </div>
-  <div class="py-3">
+</div>
+<div class="py-3">
     <div class="container">
-      <div class="row">
-        <div class="col-md-12 text-center d-md-flex align-items-center"> <i class="d-block fa fa-stop-circle fa-2x mr-md-5 text-primary"></i>
-          <ul class="nav mx-md-auto d-flex justify-content-center">
-            <li class="nav-item"> <a class="nav-link active" href="#">Home</a> </li>
-            <li class="nav-item"> <a class="nav-link" href="#">Features</a> </li>
-            <li class="nav-item"> <a class="nav-link" href="#">Pricing</a> </li>
-            <li class="nav-item"> <a class="nav-link" href="#">About</a> </li>
-          </ul>
-          <div class="row">
-            <div class="col-md-12 d-flex align-items-center justify-content-md-between justify-content-center my-2"> <a href="#">
-                <i class="d-block fa fa-facebook-official text-muted fa-lg mx-2"></i>
-              </a> <a href="#">
-                <i class="d-block fa fa-instagram text-muted fa-lg mx-2"></i>
-              </a> <a href="#">
-                <i class="d-block fa fa-twitter text-muted fa-lg ml-2"></i>
-              </a> </div>
-          </div>
+        <div class="row">
+            <div class="col-md-12 text-center d-md-flex align-items-center"><i
+                    class="d-block fa fa-stop-circle fa-2x mr-md-5 text-primary"></i>
+                <ul class="nav mx-md-auto d-flex justify-content-center">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                </ul>
+                <div class="row">
+                    <div class="col-md-12 d-flex align-items-center justify-content-md-between justify-content-center my-2">
+                        <a href="#">
+                            <i class="d-block fa fa-facebook-official text-muted fa-lg mx-2"></i>
+                        </a> <a href="#">
+                        <i class="d-block fa fa-instagram text-muted fa-lg mx-2"></i>
+                    </a> <a href="#">
+                        <i class="d-block fa fa-twitter text-muted fa-lg ml-2"></i>
+                    </a></div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <p class="mt-2 mb-0">© 2014-2018 Pingendo. All rights reserved</p>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p class="mt-2 mb-0">© 2014-2018 Pingendo. All rights reserved</p>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  
+</div>
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>
