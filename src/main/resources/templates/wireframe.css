@@ -2805,7 +2805,7 @@ input[type="button"].btn-block {
 .nav-link {
   display: block;
   font-size: 17px;
-  padding: 0.rem 1rem; }
+  padding: 0rem 1rem; }
   .nav-link:hover, .nav-link:focus {
     text-decoration: none; }
   .nav-link.disabled {

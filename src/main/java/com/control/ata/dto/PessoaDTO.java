@@ -13,7 +13,7 @@ public class PessoaDTO {
     private String sobrenome;
     private Boolean genero;
     private Date dataNascimento;
-    private String nomeUsuario;
+    private String Email;
     private String senha;
     private Integer status;
     private String foto;
@@ -57,12 +57,12 @@ public class PessoaDTO {
         this.dataNascimento = dataNascimento;
     }
 
-    public String getNomeUsuario() {
-        return nomeUsuario;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
+    public void setEmail(String email) {
+        Email = email;
     }
 
     public String getSenha() {
