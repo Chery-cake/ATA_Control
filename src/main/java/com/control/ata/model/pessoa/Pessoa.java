@@ -20,7 +20,7 @@ public class Pessoa {
     private String sobrenome;
     private Boolean genero;
     private Date dataNascimento;
-    private String nomeUsuario;
+    private String email;
     private String senha;
     private Integer status;
     private String foto;
@@ -63,14 +63,14 @@ public class Pessoa {
     public Pessoa() {
     }
 
-    public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String nomeUsuario, String senha,
+    public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String email, String senha,
             Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
             Faixa faixa, Endereco endereco) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.genero = genero;
         this.dataNascimento = dataNascimento;
-        this.nomeUsuario = nomeUsuario;
+        this.email = email;
         this.senha = senha;
         this.status = status;
         this.foto = foto;
@@ -81,14 +81,14 @@ public class Pessoa {
         this.endereco = endereco;
     }
 
-    public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String nomeUsuario, String senha,
+    public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String email, String senha,
             Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
             Faixa faixa, Endereco endereco, Instrutor instrutor) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.genero = genero;
         this.dataNascimento = dataNascimento;
-        this.nomeUsuario = nomeUsuario;
+        this.email = email;
         this.senha = senha;
         this.status = status;
         this.foto = foto;
@@ -120,8 +120,8 @@ public class Pessoa {
         return dataNascimento;
     }
 
-    public String getNomeUsuario() {
-        return nomeUsuario;
+    public String getEmail() {
+        return email;
     }
 
     public String getSenha() {

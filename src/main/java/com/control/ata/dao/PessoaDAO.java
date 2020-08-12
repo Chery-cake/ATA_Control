@@ -23,7 +23,7 @@ public class PessoaDAO {
 
     public Pessoa save(PessoaDTO pessoaDTO) {
         Pessoa pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
-                                   pessoaDTO.getDataNascimento(), pessoaDTO.getNomeUsuario(), pessoaDTO.getSenha(),
+                                   pessoaDTO.getDataNascimento(), pessoaDTO.getEmail(), pessoaDTO.getSenha(),
                                    pessoaDTO.getStatus(), pessoaDTO.getFoto(), pessoaDTO.getAtaNumberWorld(),
                                    pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getFaixa(),
                                    enderecoDAO.save(pessoaDTO.getEndereco()), pessoaDTO.getInstrutor());
