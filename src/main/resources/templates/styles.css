@@ -1,0 +1,22 @@
+.nav1 {
+
+}
+
+.square_btn {
+    position: relative;
+    display: inline-block;
+    font-weight: bold;
+    padding: 12px 0 8px;
+    text-decoration: none;
+    color: #ffffff;
+    transition: .4s;
+}
+
+.square_btn:hover:before {
+    top: -webkit-calc(100% - 3px);
+    top: calc(100% - 3px);
+}
+
+.square_btn:hover:after {
+    top: 3px;
+}
