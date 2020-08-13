@@ -45,10 +45,67 @@ function getRadio(radio_name) {
     }
 }
 
-function loop(){//todo arrumar para que a opcao de instrutores suma de acordo com o radio
+function hideInstrutor() {
     if (document.getElementById('isInstrutor_f').checked === true) {
         document.getElementById("instrutor_div").removeAttribute("hidden");
     } else {
         document.getElementById("instrutor_div").setAttribute("hidden", "hidden");
+    }
+}
+
+function select(id) {
+    var option = document.getElementById(id).value;
+    if (id === "pais") {
+        document.getElementById("estado").removeAttribute("hidden");
+        $.ajax({
+            method: "POST",
+            url: 'register/pais/' + option,
+            success: function (response) {
+                var array = [];
+                var i = 0;
+                while (true) {
+                    if (response[i] !== undefined || response[i] != null) {
+                        array[i] = response[i];
+                    } else {
+                        break;
+                    }
+                    i++;
+                }
+                for (i = 0; i < array.length; i++) {
+                    var optionElement = document.createElement("option");
+                    optionElement.value = array[i].id;
+                    optionElement.text = array[i].nome + " -/- " + array[i].sigla;
+                    document.getElementById("estado").appendChild(optionElement);
+                }
+            }
+        });
+    }
+    if (id === "estado") {
+        document.getElementById("cidade").removeAttribute("hidden");
+        $.ajax({
+            method: "POST",
+            url: 'register/estado/' + option,
+            success: function (response){
+                // var array = [];
+                // var i = 0;
+                // while (true) {
+                //     if (response[i] !== undefined || response[i] != null) {
+                //         array[i] = response[i];
+                //     } else {
+                //         break;
+                //     }
+                //     i++;
+                // }
+                // for (var i = 0; i < array.length; i++) {
+                //     var optionElement = document.createElement("option");
+                //     optionElement.value = array[i].id;
+                //     optionElement.text = array[i].nome;
+                //     document.getElementById("cidade").appendChild(optionElement);
+                // }
+                console.log(response);
+            }
+        });
+    }
+    if (id === "cidade") {
     }
 }

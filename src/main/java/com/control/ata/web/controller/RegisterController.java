@@ -2,8 +2,12 @@ package com.control.ata.web.controller;
 
 import com.control.ata.dao.PessoaDAO;
 import com.control.ata.dto.PessoaDTO;
+import com.control.ata.model.endereco.Pais;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.tipo_pessoa.Instrutor;
+import com.control.ata.repository.endereco.CidadeRepository;
+import com.control.ata.repository.endereco.EstadoRepository;
+import com.control.ata.repository.endereco.PaisRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
 import org.slf4j.Logger;
@@ -13,10 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -33,6 +34,12 @@ public class RegisterController {
     private FaixaRepository faixaRepository;
     @Autowired
     private InstrutorRepository instrutorRepository;
+    @Autowired
+    private PaisRepository paisRepository;
+    @Autowired
+    private EstadoRepository estadoRepository;
+    @Autowired
+    private CidadeRepository cidadeRepository;
 
     private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
 
@@ -58,16 +65,32 @@ public class RegisterController {
         return instrutorRepository.findAll();
     }
 
+    @ModelAttribute("paises")
+    public List<Pais> getPaises(){
+        return paisRepository.findAll();
+    }
+
+    @PostMapping("/register/pais/{id}")
+    @ModelAttribute("estados")
+    public ResponseEntity<?> getEstados(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(estadoRepository.getAllByPais(paisRepository.getOne(id)));
+    }
+
+    @PostMapping("/register/estado/{id}")
+    public ResponseEntity<?> getCidades(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(cidadeRepository.getAllByEstado(estadoRepository.getOne(id)));
+    }
+
     @GetMapping("/register")
     public String abrirCadastro() {
-        return "register.html";
+        return "register";
     }
 
     // ======================================LOGIN=============================================
 
     @GetMapping("/login")
     public String abrirLogin() {
-        return "login.html";
+        return "login";
     }
 
     // ======================================FUNCTIONS=============================================
