@@ -24,23 +24,27 @@
                     <form action="#" class="text-left" id="form-register-pessoa">
                         <div class="form-group">
                             <label for="nome">Nome</label>
-                            <input class="form-control" id="nome" placeholder="Stephen Edwin King" required="required"
+                            <input class="form-control" id="nome" placeholder="Stephen" required="required"
                                    type="text">
                         </div>
 
                         <div class="form-group">
                             <label for="sobrenome">Sobrenome</label>
-                            <input class="form-control" id="sobrenome" placeholder="Stephen Edwin King"
+                            <input class="form-control" id="sobrenome" placeholder="Edwin King"
                                    required="required"
                                    type="text">
                         </div>
 
                         <div class="form-group">
-                            <label for="label_genero_M">Genero</label>
-                            <label id="label_genero_M">Masculino</label>
-                            <input checked class="form-control" name="genero" type="radio" value="true">
-                            <label id="label-genero-F">Feminino</label>
-                            <input class="form-control" name="genero" type="radio" value="false">
+                            <label>Genero: </label></br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions genero" id="inlineRadio1" value="option1">
+                                <label class="form-check-label" id="label-genero-M" for="inlineRadio1">Masculino</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions genero" id="inlineRadio2" value="option2">
+                                <label class="form-check-label" id="label-genero-F" for="inlineRadio2">Feminino</label>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -51,13 +55,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="label_nao_instrutor">Genero</label>
-                            <label id="label_nao_instrutor">Não é um instrutor</label>
-                            <input checked class="form-control" id="isInstrutor_f" name="isInstrutor" onclick="hideInstrutor()"
-                                   type="radio" value="false">
-                            <label id="label_instrutor">É um instrutor</label>
-                            <input class="form-control" id="isInstrutor_t" name="isInstrutor" onclick="hideInstrutor()" type="radio"
-                                   value="true">
+                            <label for="">Instrutor: </label></br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions isInstrutor" onclick="hideInstrutor()" id="inlineRadio1 isInstrutor_t" value="true">
+                                <label class="form-check-label" id="label-genero-M" for="inlineRadio1">Sim</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions isInstrutor" id="inlineRadio2 isInstrutor_f" value="false" onclick="hideInstrutor()">
+                                <label class="form-check-label" id="label-genero-F" for="inlineRadio2">Não</label>
+                            </div>
                         </div>
 
                         <div class="form-group" id="instrutor_div">
