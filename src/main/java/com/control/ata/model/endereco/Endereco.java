@@ -17,7 +17,7 @@ public class Endereco {
     private String rua;
 
     @ManyToOne
-    private Bairro bairro;
+    private Cidade cidade;
 
     @JsonIgnore
     @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL)
@@ -34,9 +34,9 @@ public class Endereco {
     public Endereco() {
     }
 
-    public Endereco(String rua, Bairro bairro) {
+    public Endereco(String rua, Cidade cidade) {
         this.rua = rua;
-        this.bairro = bairro;
+        this.cidade = cidade;
     }
 
     public Integer getId() {
@@ -47,7 +47,7 @@ public class Endereco {
         return rua;
     }
 
-    public Bairro getBairro() {
-        return bairro;
+    public Cidade getCidade() {
+        return cidade;
     }
 }

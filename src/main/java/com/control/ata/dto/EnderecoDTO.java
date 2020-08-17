@@ -3,20 +3,14 @@ package com.control.ata.dto;
 public class EnderecoDTO {
 
     private String rua;
-    private String bairro;
-    private String cidade;
-    private String estado;
-    private String pais;
+    private Integer cidade;
 
     public EnderecoDTO() {
     }
 
-    public EnderecoDTO(String rua, String bairro, String cidade, String estado, String pais) {
+    public EnderecoDTO(String rua, Integer cidade) {
         this.rua = rua;
-        this.bairro = bairro;
         this.cidade = cidade;
-        this.estado = estado;
-        this.pais = pais;
     }
 
     public String getRua() {
@@ -27,35 +21,19 @@ public class EnderecoDTO {
         this.rua = rua;
     }
 
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
-    public String getCidade() {
+    public Integer getCidade() {
         return cidade;
     }
 
-    public void setCidade(String cidade) {
+    public void setCidade(Integer cidade) {
         this.cidade = cidade;
     }
 
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
+    @Override
+    public String toString() {
+        return "EnderecoDTO{" +
+                "rua='" + rua + '\'' +
+                ", cidade=" + cidade +
+                '}';
     }
 }

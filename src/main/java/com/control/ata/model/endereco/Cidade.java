@@ -1,6 +1,7 @@
 package com.control.ata.model.endereco;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -15,11 +16,12 @@ public class Cidade {
 	private String nome;
 
 	@ManyToOne
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Estado estado;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL)
-	private Collection<Bairro> bairros;
+	private Collection<Endereco> enderecos;
 
 	public Cidade() {
 	}

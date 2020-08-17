@@ -22,7 +22,7 @@ public class PessoaDTO {
     private Boolean isInstrutor;
     private Collection<Telefone> telefoneCollection;
     private Faixa faixa;
-    private EnderecoDTO endereco;
+    private EnderecoDTO enderecoDTO;
     private Instrutor instrutor;
 
     public String getNome() {
@@ -109,16 +109,16 @@ public class PessoaDTO {
         return isInstrutor;
     }
 
+    public void setIsInstrutor(Boolean instrutor) {
+        isInstrutor = instrutor;
+    }
+
     public Instrutor getInstrutor() {
         return instrutor;
     }
 
     public void setInstrutor(Instrutor instrutor) {
         this.instrutor = instrutor;
-    }
-
-    public void setIsInstrutor(Boolean instrutor) {
-        isInstrutor = instrutor;
     }
 
     public Collection<Telefone> getTelefoneCollection() {
@@ -138,10 +138,30 @@ public class PessoaDTO {
     }
 
     public EnderecoDTO getEndereco() {
-        return endereco;
+        return enderecoDTO;
     }
 
-    public void setEndereco(EnderecoDTO endereco) {
-        this.endereco = endereco;
+    public void setEndereco(EnderecoDTO enderecoDTO) {
+        this.enderecoDTO = enderecoDTO;
+    }
+
+    @Override
+    public String toString() {
+        return "PessoaDTO{" +
+                "nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", genero=" + genero +
+                ", dataNascimento=" + dataNascimento +
+                ", Email='" + Email + '\'' +
+                ", senha='" + senha + '\'' +
+                ", status=" + status +
+                ", foto='" + foto + '\'' +
+                ", ataNumberWorld='" + ataNumberWorld + '\'' +
+                ", ataNumberBrasil='" + ataNumberBrasil + '\'' +
+                ", isInstrutor=" + isInstrutor +
+                ", faixa=" + faixa +
+                ", enderecoDTO=" + enderecoDTO +
+                ", instrutor=" + instrutor +
+                '}';
     }
 }

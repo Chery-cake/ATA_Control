@@ -1,6 +1,7 @@
 package com.control.ata.web.controller;
 
 import com.control.ata.dao.PessoaDAO;
+import com.control.ata.dto.EnderecoDTO;
 import com.control.ata.dto.PessoaDTO;
 import com.control.ata.model.endereco.Pais;
 import com.control.ata.model.pessoa.Faixa;
@@ -10,6 +11,7 @@ import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +48,13 @@ public class RegisterController {
     // ======================================REGISTER=============================================
 
     @PostMapping("/save")
-    public ResponseEntity<?> registraPessoa(@Valid PessoaDTO pessoaDTO, BindingResult result) {
+    public ResponseEntity<?> registraPessoa(@Valid JSONObject jsonObject, BindingResult result) {
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
 
-        log.info("PessoaDTO {}", pessoaDTO.toString());
-        pessoaDAO.save(pessoaDTO);
+        log.info("JSONObject {}", jsonObject.toString());
+        System.out.println(jsonObject);
+//        pessoaDAO.save(pessoaDTO);
         return ResponseEntity.ok().build();
     }
 
@@ -104,6 +107,13 @@ public class RegisterController {
             return ResponseEntity.unprocessableEntity().body(errors);
         }
         return null;
+    }
+
+    // ======================================CLASSES=============================================
+
+    private class PessoaRegister{
+        public PessoaDTO pessoaDTO;
+        public EnderecoDTO enderecoDTO;
     }
 
 }
