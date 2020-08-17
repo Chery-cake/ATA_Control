@@ -156,8 +156,8 @@ public class Pessoa {
         return instrutor;
     }
 
-    public void setInstrutor(Boolean instrutor) {
-        isInstrutor = instrutor;
+    public void setIsInstrutor(Boolean isInstrutor) {
+        isInstrutor = isInstrutor;
     }
 
     public void setInstrutor(Instrutor instrutor) {

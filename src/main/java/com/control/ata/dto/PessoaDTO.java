@@ -1,6 +1,5 @@
 package com.control.ata.dto;
 
-import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Telefone;
 import com.control.ata.model.tipo_pessoa.Instrutor;
 
@@ -21,7 +20,7 @@ public class PessoaDTO {
     private String ataNumberBrasil;
     private Boolean isInstrutor;
     private Collection<Telefone> telefoneCollection;
-    private Faixa faixa;
+    private Integer faixa;
     private EnderecoDTO enderecoDTO;
     private Instrutor instrutor;
 
@@ -129,19 +128,19 @@ public class PessoaDTO {
         this.telefoneCollection = telefoneCollection;
     }
 
-    public Faixa getFaixa() {
+    public Integer getFaixa() {
         return faixa;
     }
 
-    public void setFaixa(Faixa faixa) {
+    public void setFaixa(Integer faixa) {
         this.faixa = faixa;
     }
 
-    public EnderecoDTO getEndereco() {
+    public EnderecoDTO getEnderecoDTO() {
         return enderecoDTO;
     }
 
-    public void setEndereco(EnderecoDTO enderecoDTO) {
+    public void setEnderecoDTO(EnderecoDTO enderecoDTO) {
         this.enderecoDTO = enderecoDTO;
     }
 

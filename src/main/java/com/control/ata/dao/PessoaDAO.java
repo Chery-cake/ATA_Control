@@ -3,6 +3,7 @@ package com.control.ata.dao;
 import com.control.ata.dto.PessoaDTO;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.pessoa.Telefone;
+import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
 import com.control.ata.repository.pessoa.TelefoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,17 @@ public class PessoaDAO {
     @Autowired
     private TelefoneRepository telefoneRepository;
     @Autowired
+    private FaixaRepository faixaRepository;
+    @Autowired
     private EnderecoDAO enderecoDAO;
 
     public Pessoa save(PessoaDTO pessoaDTO) {
         Pessoa pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
                                    pessoaDTO.getDataNascimento(), pessoaDTO.getEmail(), pessoaDTO.getSenha(),
                                    pessoaDTO.getStatus(), pessoaDTO.getFoto(), pessoaDTO.getAtaNumberWorld(),
-                                   pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getFaixa(),
-                                   enderecoDAO.save(pessoaDTO.getEndereco()), pessoaDTO.getInstrutor());
+                                   pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(),
+                                   faixaRepository.getOne(pessoaDTO.getFaixa()),
+                                   enderecoDAO.save(pessoaDTO.getEnderecoDTO()), pessoaDTO.getInstrutor());
         return this.save(pessoa);
     }
 

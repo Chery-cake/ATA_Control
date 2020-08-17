@@ -11,7 +11,8 @@ import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,7 @@ import java.util.Map;
 @RequestMapping("/pessoa")
 public class RegisterController {
 
+    private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
     @Autowired
     private PessoaDAO pessoaDAO;
     @Autowired
@@ -43,44 +46,51 @@ public class RegisterController {
     @Autowired
     private CidadeRepository cidadeRepository;
 
-    private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
-
     // ======================================REGISTER=============================================
 
     @PostMapping("/save")
-    public ResponseEntity<?> registraPessoa(@Valid JSONObject jsonObject, BindingResult result) {
+    public ResponseEntity<?> registraPessoa(@Valid @RequestBody String json,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
 
-        log.info("JSONObject {}", jsonObject.toString());
-        System.out.println(jsonObject);
-//        pessoaDAO.save(pessoaDTO);
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        PessoaRegister pessoaRegister = jacksonObjectMapper.readValue(decodedJson, PessoaRegister.class);
+
+        log.info("PessoaDTO {}", pessoaRegister.pessoaDTO.toString());
+        log.info("EnderecoDTO {}", pessoaRegister.enderecoDTO.toString());
+
+        PessoaDTO pessoaDTO = pessoaRegister.pessoaDTO;
+        pessoaDTO.setEnderecoDTO(pessoaRegister.enderecoDTO);
+
+        pessoaDAO.save(pessoaDTO);
         return ResponseEntity.ok().build();
     }
 
     @ModelAttribute("faixas")
-    public List<Faixa> getFaixas(){
+    public List<Faixa> getFaixas() {
         return faixaRepository.findAll();
     }
 
     @ModelAttribute("instrutores")
-    public List<Instrutor> getInstrutores(){
+    public List<Instrutor> getInstrutores() {
         return instrutorRepository.findAll();
     }
 
     @ModelAttribute("paises")
-    public List<Pais> getPaises(){
+    public List<Pais> getPaises() {
         return paisRepository.findAll();
     }
 
     @PostMapping("/register/pais/{id}")
     @ModelAttribute("estados")
-    public ResponseEntity<?> getEstados(@PathVariable("id") Integer id){
+    public ResponseEntity<?> getEstados(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(estadoRepository.getAllByPais(paisRepository.getOne(id)));
     }
 
     @PostMapping("/register/estado/{id}")
-    public ResponseEntity<?> getCidades(@PathVariable("id") Integer id){
+    public ResponseEntity<?> getCidades(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(cidadeRepository.getAllByEstado(estadoRepository.getOne(id)));
     }
 
@@ -111,9 +121,25 @@ public class RegisterController {
 
     // ======================================CLASSES=============================================
 
-    private class PessoaRegister{
+    private static class PessoaRegister {
         public PessoaDTO pessoaDTO;
         public EnderecoDTO enderecoDTO;
+
+        public PessoaRegister(PessoaDTO pessoaDTO, EnderecoDTO enderecoDTO) {
+            this.pessoaDTO = pessoaDTO;
+            this.enderecoDTO = enderecoDTO;
+        }
+
+        public PessoaRegister() {
+        }
+
+        @Override
+        public String toString() {
+            return "PessoaRegister{" +
+                    "pessoaDTO=" + pessoaDTO +
+                    ", enderecoDTO=" + enderecoDTO +
+                    '}';
+        }
     }
 
 }

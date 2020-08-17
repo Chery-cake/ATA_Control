@@ -16,7 +16,7 @@ $("#form-register-pessoa").submit(function (evt) {
     pessoaDTO.ataNumberBrasil = $("#ataNumberBrasil").val();
     pessoaDTO.isInstrutor = getRadio("isInstrutor");
     pessoaDTO.faixa = $("#faixa").val();
-    pessoaDTO.telefones = null;
+    pessoaDTO.telefoneCollection = null;
     pessoaDTO.foto = null;
     pessoaDTO.enderecoDTO = null;
 
@@ -38,10 +38,11 @@ $("#form-register-pessoa").submit(function (evt) {
     $.ajax({
         method: "POST",
         url: "/pessoa/save",
-        contentType: "application/json; charset=utf-8",
+        contentType: 'application/json',
         dataType: "json",
         data: JSON.stringify(data),
-        success: function () {//todo adicionar login automatico
+        success: function (result) {//todo adicionar login automatico
+            console.log(result);
             // top.location.href = "/";
         },
         error: function (xhr) {
@@ -140,7 +141,7 @@ $(document).on("change", "select[id='estado']", function () {
 
 $(document).on("change", "select[id='cidade']", function () {
     if (document.getElementById("endereco") != null) {
-        document.getElementById("cidade").remove();
+        document.getElementById("endereco").remove();
     } else {
         var div = document.getElementById("endereco_div");
         var input = document.createElement("input");
