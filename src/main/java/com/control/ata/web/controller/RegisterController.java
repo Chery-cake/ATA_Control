@@ -132,14 +132,6 @@ public class RegisterController {
 
         public PessoaRegister() {
         }
-
-        @Override
-        public String toString() {
-            return "PessoaRegister{" +
-                    "pessoaDTO=" + pessoaDTO +
-                    ", enderecoDTO=" + enderecoDTO +
-                    '}';
-        }
     }
 
 }

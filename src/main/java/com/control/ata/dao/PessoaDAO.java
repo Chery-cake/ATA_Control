@@ -2,10 +2,8 @@ package com.control.ata.dao;
 
 import com.control.ata.dto.PessoaDTO;
 import com.control.ata.model.pessoa.Pessoa;
-import com.control.ata.model.pessoa.Telefone;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
-import com.control.ata.repository.pessoa.TelefoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +16,6 @@ public class PessoaDAO {
     @Autowired
     private PessoaRepository pessoaRepository;
     @Autowired
-    private TelefoneRepository telefoneRepository;
-    @Autowired
     private FaixaRepository faixaRepository;
     @Autowired
     private EnderecoDAO enderecoDAO;
@@ -28,23 +24,14 @@ public class PessoaDAO {
         Pessoa pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
                                    pessoaDTO.getDataNascimento(), pessoaDTO.getEmail(), pessoaDTO.getSenha(),
                                    pessoaDTO.getStatus(), pessoaDTO.getFoto(), pessoaDTO.getAtaNumberWorld(),
-                                   pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(),
+                                   pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getTelefone(),
                                    faixaRepository.getOne(pessoaDTO.getFaixa()),
                                    enderecoDAO.save(pessoaDTO.getEnderecoDTO()), pessoaDTO.getInstrutor());
         return this.save(pessoa);
     }
 
     public Pessoa save(Pessoa pessoa) {
-        pessoa = pessoaRepository.save(pessoa);
-        ArrayList<Telefone> aux = new ArrayList<>();
-        if (pessoa.getTelefoneCollection() != null) {
-            ArrayList<Telefone> telefones = new ArrayList<>(pessoa.getTelefoneCollection());
-            for (Telefone telefone : telefones) {
-                aux.add(telefoneRepository.save(telefone));
-            }
-        }
-        pessoa.setTelefoneCollection(aux);
-        return pessoa;
+        return pessoaRepository.save(pessoa);
     }
 
     public List<Pessoa> saveAll(Iterable<?> iterable) {

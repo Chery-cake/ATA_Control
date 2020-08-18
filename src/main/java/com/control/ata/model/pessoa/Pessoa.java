@@ -27,6 +27,7 @@ public class Pessoa {
     private String ataNumberWorld;
     private String ataNumberBrasil;
     private Boolean isInstrutor;
+    private String telefone;
 
     @ManyToOne
     private Faixa faixa;
@@ -36,10 +37,6 @@ public class Pessoa {
 
     @ManyToOne
     private Instrutor instrutor;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<Telefone> telefoneCollection;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
     private Administrador administrador;
@@ -65,7 +62,7 @@ public class Pessoa {
 
     public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String email, String senha,
             Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
-            Faixa faixa, Endereco endereco) {
+            String telefone, Faixa faixa, Endereco endereco) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.genero = genero;
@@ -77,13 +74,14 @@ public class Pessoa {
         this.ataNumberWorld = ataNumberWorld;
         this.ataNumberBrasil = ataNumberBrasil;
         this.isInstrutor = isInstrutor;
+        this.telefone = telefone;
         this.faixa = faixa;
         this.endereco = endereco;
     }
 
     public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String email, String senha,
             Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
-            Faixa faixa, Endereco endereco, Instrutor instrutor) {
+            String telefone, Faixa faixa, Endereco endereco, Instrutor instrutor) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.genero = genero;
@@ -95,6 +93,7 @@ public class Pessoa {
         this.ataNumberWorld = ataNumberWorld;
         this.ataNumberBrasil = ataNumberBrasil;
         this.isInstrutor = isInstrutor;
+        this.telefone = telefone;
         this.faixa = faixa;
         this.endereco = endereco;
         this.instrutor = instrutor;
@@ -152,24 +151,20 @@ public class Pessoa {
         return isInstrutor;
     }
 
-    public Instrutor getInstrutor() {
-        return instrutor;
-    }
-
     public void setIsInstrutor(Boolean isInstrutor) {
         isInstrutor = isInstrutor;
+    }
+
+    public Instrutor getInstrutor() {
+        return instrutor;
     }
 
     public void setInstrutor(Instrutor instrutor) {
         this.instrutor = instrutor;
     }
 
-    public Collection<Telefone> getTelefoneCollection() {
-        return telefoneCollection;
-    }
-
-    public void setTelefoneCollection(Collection<Telefone> telefoneCollection) {
-        this.telefoneCollection = telefoneCollection;
+    public String getTelefone() {
+        return telefone;
     }
 
     public Faixa getFaixa() {

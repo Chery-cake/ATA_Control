@@ -1,7 +1,7 @@
 //submit do formulario para o controller
 $("#form-register-pessoa").submit(function (evt) {
     //bloqueia o comportamento padrao do submit
-    evt.preventDefault();//todo adicionar ataNumbers, dataNasc, telefone e foto
+    evt.preventDefault();//todo adicionar ataNumbers e foto
 
     var data = {};
     var pessoaDTO = {};
@@ -11,18 +11,19 @@ $("#form-register-pessoa").submit(function (evt) {
     pessoaDTO.dataNascimento = $("#dataNascimento").val();
     pessoaDTO.email = $("#email").val();
     pessoaDTO.senha = $("#senha").val();
-    pessoaDTO.status = null;
-    pessoaDTO.ataNumberWorld = $("#ataNumberWorld").val();
-    pessoaDTO.ataNumberBrasil = $("#ataNumberBrasil").val();
+    pessoaDTO.status = 1;//ativo e pode ser mudado pelo instrutor
+    pessoaDTO.ataNumberWorld = null;//adicionado pelo instrutor ou se for um instrutor
+    pessoaDTO.ataNumberBrasil = null;//adicionado pelo instrutor ou se for um instrutor
     pessoaDTO.isInstrutor = getRadio("isInstrutor");
     pessoaDTO.faixa = $("#faixa").val();
-    pessoaDTO.telefoneCollection = null;
+    pessoaDTO.telefone = $("#telefone").val();
     pessoaDTO.foto = null;
     pessoaDTO.enderecoDTO = null;
+    pessoaDTO.academia = null;
 
     if (pessoaDTO.isInstrutor === false) {
         pessoaDTO.instrutor = $("#instrutor").val();
-    }else {
+    } else {
         pessoaDTO.instrutor = null;
     }
 
@@ -32,8 +33,6 @@ $("#form-register-pessoa").submit(function (evt) {
     enderecoDTO.cidade = $("#cidade").val();
     enderecoDTO.rua = $("#endereco").val();
     data.enderecoDTO = enderecoDTO;
-
-    console.log(JSON.stringify(data));
 
     $.ajax({
         method: "POST",
@@ -76,19 +75,24 @@ $(document).on("change", "select[id='pais']", function () {
         beforeSend: function () {
             if (document.getElementById("estado") != null) {
                 document.getElementById("estado").remove();
-            } else {
-                var div = document.getElementById("endereco_div");
-                var select = document.createElement("select");
-                select.className = "form-control";
-                select.id = "estado";
-                select.name = "estado";
-                select.onchange = "select('estado')";
-                var option = document.createElement("option");
-                option.value = "";
-                option.text = "Selecione";
-                select.appendChild(option);
-                div.appendChild(select);
+                if (document.getElementById("cidade") != null) {
+                    document.getElementById("cidade").remove();
+                    if (document.getElementById("endereco") != null) {
+                        document.getElementById("endereco").remove();
+                    }
+                }
             }
+            var div = document.getElementById("endereco_div");
+            var select = document.createElement("select");
+            select.className = "form-control";
+            select.id = "estado";
+            select.name = "estado";
+            select.onchange = "select('estado')";
+            var option = document.createElement("option");
+            option.value = "";
+            option.text = "Selecione";
+            select.appendChild(option);
+            div.appendChild(select);
         },
         success: function (response) {
             for (var i in response) {
@@ -111,19 +115,21 @@ $(document).on("change", "select[id='estado']", function () {
         beforeSend: function () {
             if (document.getElementById("cidade") != null) {
                 document.getElementById("cidade").remove();
-            } else {
-                var div = document.getElementById("endereco_div");
-                var select = document.createElement("select");
-                select.className = "form-control";
-                select.id = "cidade";
-                select.name = "cidade";
-                select.onchange = "select('cidade')";
-                var option = document.createElement("option");
-                option.value = "";
-                option.text = "Selecione";
-                select.appendChild(option);
-                div.appendChild(select);
+                if (document.getElementById("endereco") != null) {
+                    document.getElementById("endereco").remove();
+                }
             }
+            var div = document.getElementById("endereco_div");
+            var select = document.createElement("select");
+            select.className = "form-control";
+            select.id = "cidade";
+            select.name = "cidade";
+            select.onchange = "select('cidade')";
+            var option = document.createElement("option");
+            option.value = "";
+            option.text = "Selecione";
+            select.appendChild(option);
+            div.appendChild(select);
         },
         success: function (response) {
             for (var i in response) {
@@ -142,14 +148,13 @@ $(document).on("change", "select[id='estado']", function () {
 $(document).on("change", "select[id='cidade']", function () {
     if (document.getElementById("endereco") != null) {
         document.getElementById("endereco").remove();
-    } else {
-        var div = document.getElementById("endereco_div");
-        var input = document.createElement("input");
-        input.className = "form-control";
-        input.id = "endereco";
-        input.placeholder = "Rua Afonso, 805";
-        input.required = "required";
-        input.type = "text";
-        div.appendChild(input);
     }
+    var div = document.getElementById("endereco_div");
+    var input = document.createElement("input");
+    input.className = "form-control";
+    input.id = "endereco";
+    input.placeholder = "Rua Afonso, 805";
+    input.required = "required";
+    input.type = "text";
+    div.appendChild(input);
 });

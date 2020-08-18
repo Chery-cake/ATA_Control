@@ -1,9 +1,7 @@
 package com.control.ata.dto;
 
-import com.control.ata.model.pessoa.Telefone;
 import com.control.ata.model.tipo_pessoa.Instrutor;
 
-import java.util.Collection;
 import java.util.Date;
 
 public class PessoaDTO {
@@ -19,10 +17,11 @@ public class PessoaDTO {
     private String ataNumberWorld;
     private String ataNumberBrasil;
     private Boolean isInstrutor;
-    private Collection<Telefone> telefoneCollection;
+    private String telefone;
     private Integer faixa;
     private EnderecoDTO enderecoDTO;
     private Instrutor instrutor;
+    private Integer academia;
 
     public String getNome() {
         return nome;
@@ -120,12 +119,12 @@ public class PessoaDTO {
         this.instrutor = instrutor;
     }
 
-    public Collection<Telefone> getTelefoneCollection() {
-        return telefoneCollection;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setTelefoneCollection(Collection<Telefone> telefoneCollection) {
-        this.telefoneCollection = telefoneCollection;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public Integer getFaixa() {
@@ -144,6 +143,14 @@ public class PessoaDTO {
         this.enderecoDTO = enderecoDTO;
     }
 
+    public Integer getAcademia() {
+        return academia;
+    }
+
+    public void setAcademia(Integer academia) {
+        this.academia = academia;
+    }
+
     @Override
     public String toString() {
         return "PessoaDTO{" +
@@ -158,9 +165,11 @@ public class PessoaDTO {
                 ", ataNumberWorld='" + ataNumberWorld + '\'' +
                 ", ataNumberBrasil='" + ataNumberBrasil + '\'' +
                 ", isInstrutor=" + isInstrutor +
+                ", telefone=" + telefone +
                 ", faixa=" + faixa +
                 ", enderecoDTO=" + enderecoDTO +
                 ", instrutor=" + instrutor +
+                ", academia=" + academia +
                 '}';
     }
 }

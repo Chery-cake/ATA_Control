@@ -43,10 +43,22 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="telefone">Telefone para contato</label>
+                            <input class="form-control" id="telefone" placeholder="(xxx)xxxx-xxxx"
+                                   required="required"
+                                   type="text">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dataNascimento">Data de Nascimento</label>
+                            <input class="form-control" id="dataNascimento" required="required" type="date">
+                        </div>
+
+                        <div class="form-group">
                             <label>Genero: </label></br>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" id="inlineRadio1" name="genero"
-                                       type="radio" value="true" checked>
+                                <input checked class="form-check-input" id="inlineRadio1"
+                                       name="genero" type="radio" value="true">
                                 <label class="form-check-label" for="inlineRadio1" id="label-genero-M">Masculino</label>
                             </div>
                             <div class="form-check form-check-inline">
@@ -64,8 +76,8 @@
                                 <label class="form-check-label" for="inlineRadio1 isInstrutor_T" id="label-instrutor-T">Sim</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" id="inlineRadio2 isInstrutor_F" name="isInstrutor"
-                                       onclick="hideInstrutor()" type="radio" value="false" checked>
+                                <input checked class="form-check-input" id="inlineRadio2 isInstrutor_F"
+                                       name="isInstrutor" onclick="hideInstrutor()" type="radio" value="false">
                                 <label class="form-check-label" for="inlineRadio2 isInstrutor_F" id="label-instrutor-F">Não</label>
                             </div>
                         </div>
@@ -78,6 +90,18 @@
                                 </option>
                             </select>
                         </div>
+
+<!--                        adicionar academia e atanumbers-->
+
+                        <div class="form-group" id="academia_div" hidden>
+                            <label for="instrutor">Instrutor</label>
+                            <select class="form-control" id="instrutor" name="instrutor">
+                                <option value="">Selecione</option>
+                                <option th:each="i : ${instrutores}" th:text="${i.pessoa.nome}" th:value="${i.id}">...
+                                </option>
+                            </select>
+                        </div>
+
 
                         <div class="form-group">
                             <label for="faixa">Faixa</label>
