@@ -2,11 +2,13 @@ package com.control.ata.web.controller;
 
 import com.control.ata.dao.EnderecoDAO;
 import com.control.ata.dao.PessoaDAO;
+import com.control.ata.dao.TipoPessoaDAO;
 import com.control.ata.dto.EnderecoDTO;
 import com.control.ata.dto.PessoaDTO;
 import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Pais;
 import com.control.ata.model.pessoa.Faixa;
+import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.tipo_pessoa.Instrutor;
 import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
@@ -40,6 +42,8 @@ public class RegisterController {
     private PessoaDAO pessoaDAO;
     @Autowired
     private EnderecoDAO enderecoDAO;
+    @Autowired
+    private TipoPessoaDAO tipoPessoaDAO;
     @Autowired
     private FaixaRepository faixaRepository;
     @Autowired
@@ -96,7 +100,13 @@ public class RegisterController {
         PessoaDTO pessoaDTO = pessoaRegister.pessoaDTO;
         pessoaDTO.setEnderecoDTO(pessoaRegister.enderecoDTO);
 
-        pessoaDAO.save(pessoaDTO);
+        if (pessoaDTO.getIsInstrutor()){
+            Pessoa pessoa = pessoaDAO.save(pessoaDTO);
+             pessoa.setInstrutor(tipoPessoaDAO.save(new Instrutor(academiaRepository.getOne(pessoaDTO.getAcademia()), pessoa)));
+             pessoaDAO.save(pessoa);
+        }else {
+            pessoaDAO.save(pessoaDTO);
+        }
         return ResponseEntity.ok().build();
     }
 
