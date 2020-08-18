@@ -113,7 +113,7 @@
 
                         <div class="form-group">
                             <label for="faixa">Faixa</label>
-                            <select class="form-control" id="faixa" name="faixa">
+                            <select class="form-control" id="faixa" name="faixa" required="required">
                                 <option value="">Selecione</option>
                                 <option th:each="f : ${faixas}" th:text="${f.nome}" th:value="${f.id}">...</option>
                             </select>
@@ -121,7 +121,7 @@
 
                         <div class="form-group" id="endereco_div">
                             <label>Endereco</label>
-                            <select class="form-control" id="pais" name="pais">
+                            <select class="form-control" id="pais" name="pais" required="required">
                                 <option value="">Selecione</option>
                                 <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
                                 </option>

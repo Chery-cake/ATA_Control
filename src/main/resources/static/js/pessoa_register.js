@@ -68,14 +68,18 @@ function hideInstrutor() {
     if (document.getElementById('inlineRadio2 isInstrutor_F').checked === true) {
         document.getElementById("instrutor_div").removeAttribute("hidden");
         document.getElementById("academia_div").setAttribute("hidden", "hidden");
+        document.getElementById("academia").removeAttribute("required");
         document.getElementById("ataNumber_div").setAttribute("hidden", "hidden");
         document.getElementById("ataNumberWorld").removeAttribute("required");
         document.getElementById("ataNumberBrasil").removeAttribute("required");
+        document.getElementById("instrutor").setAttribute("required", "required");
     } else {
         document.getElementById("instrutor_div").setAttribute("hidden", "hidden");
         document.getElementById("academia_div").removeAttribute("hidden");
+        document.getElementById("academia").setAttribute("required", "required");
         document.getElementById("ataNumber_div").removeAttribute("hidden");
         document.getElementById("ataNumberWorld").setAttribute("required", "required");
         document.getElementById("ataNumberBrasil").setAttribute("required", "required");
+        document.getElementById("instrutor").removeAttribute("required");
     }
 }
