@@ -1,11 +1,14 @@
 package com.control.ata.web.controller;
 
+import com.control.ata.dao.EnderecoDAO;
 import com.control.ata.dao.PessoaDAO;
 import com.control.ata.dto.EnderecoDTO;
 import com.control.ata.dto.PessoaDTO;
+import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Pais;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.tipo_pessoa.Instrutor;
+import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
@@ -36,6 +39,8 @@ public class RegisterController {
     @Autowired
     private PessoaDAO pessoaDAO;
     @Autowired
+    private EnderecoDAO enderecoDAO;
+    @Autowired
     private FaixaRepository faixaRepository;
     @Autowired
     private InstrutorRepository instrutorRepository;
@@ -45,8 +50,35 @@ public class RegisterController {
     private EstadoRepository estadoRepository;
     @Autowired
     private CidadeRepository cidadeRepository;
+    @Autowired
+    private AcademiaRepository academiaRepository;
 
-    // ======================================REGISTER=============================================
+    // ======================================REGISTER ACADEMIA=============================================
+
+    @GetMapping("/academia")
+    public String cadastroAcademia(){
+        return "academia";
+    }
+
+    @PostMapping("/academia/save")
+    public ResponseEntity<?> registraAcademia(@Valid @RequestBody String json,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        AcademiaRegister academiaRegister = jacksonObjectMapper.readValue(decodedJson, AcademiaRegister.class);
+
+        log.info("Academia {}", academiaRegister.academia.toString());
+        log.info("EnderecoDTO {}", academiaRegister.enderecoDTO.toString());
+
+        academiaRepository.save(new Academia(academiaRegister.academia.getNome(), enderecoDAO.save(
+                academiaRegister.enderecoDTO)));
+        return ResponseEntity.ok().build();
+    }
+
+    // ======================================REGISTER PESSOA=============================================
 
     @PostMapping("/save")
     public ResponseEntity<?> registraPessoa(@Valid @RequestBody String json,
@@ -71,6 +103,11 @@ public class RegisterController {
     @ModelAttribute("faixas")
     public List<Faixa> getFaixas() {
         return faixaRepository.findAll();
+    }
+
+    @ModelAttribute("academias")
+    public List<Academia> getAcademias() {
+        return academiaRepository.findAll();
     }
 
     @ModelAttribute("instrutores")
@@ -131,6 +168,19 @@ public class RegisterController {
         }
 
         public PessoaRegister() {
+        }
+    }
+
+    private static class AcademiaRegister{
+        public Academia academia;
+        public EnderecoDTO enderecoDTO;
+
+        public AcademiaRegister() {
+        }
+
+        public AcademiaRegister(Academia academia, EnderecoDTO enderecoDTO) {
+            this.academia = academia;
+            this.enderecoDTO = enderecoDTO;
         }
     }
 

@@ -91,15 +91,17 @@
                             </select>
                         </div>
 
-<!--                        adicionar academia e atanumbers-->
+                        <!--                        adicionar academia e atanumbers-->
 
-                        <div class="form-group" id="academia_div" hidden>
-                            <label for="instrutor">Instrutor</label>
-                            <select class="form-control" id="instrutor" name="instrutor">
+                        <div class="form-group" hidden id="academia_div">
+                            <label for="academia">Academias</label>
+                            <select class="form-control" id="academia" name="instrutor">
                                 <option value="">Selecione</option>
-                                <option th:each="i : ${instrutores}" th:text="${i.pessoa.nome}" th:value="${i.id}">...
+                                <option th:each="a : ${academias}" th:text="${a.nome}" th:value="${a.id}">...
                                 </option>
                             </select>
+                            <a class="nav-link" th:href="@{/pessoa/academia}">Se a sua academia não aparecer na lista
+                                clique aqui</a>
                         </div>
 
 
@@ -112,7 +114,7 @@
                         </div>
 
                         <div class="form-group" id="endereco_div">
-                            <label for="instrutor">Endereco</label>
+                            <label>Endereco</label>
                             <select class="form-control" id="pais" name="pais">
                                 <option value="">Selecione</option>
                                 <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
@@ -149,7 +151,7 @@
 
 </div>
 
-<script th:fragment="js" th:src="@{/js/register.js}"></script>
+<script th:fragment="js" th:src="@{/js/pessoa_register.js}"></script>
 
 </body>
 

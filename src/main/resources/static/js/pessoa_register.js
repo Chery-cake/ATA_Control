@@ -38,7 +38,6 @@ $("#form-register-pessoa").submit(function (evt) {
         method: "POST",
         url: "/pessoa/save",
         contentType: 'application/json',
-        dataType: "json",
         data: JSON.stringify(data),
         success: function (result) {//todo adicionar login automatico
             console.log(result);
@@ -63,8 +62,10 @@ function getRadio(radio_name) {
 function hideInstrutor() {
     if (document.getElementById('inlineRadio2 isInstrutor_F').checked === true) {
         document.getElementById("instrutor_div").removeAttribute("hidden");
+        document.getElementById("academia_div").setAttribute("hidden", "hidden");
     } else {
         document.getElementById("instrutor_div").setAttribute("hidden", "hidden");
+        document.getElementById("academia_div").removeAttribute("hidden");
     }
 }
 
@@ -87,7 +88,6 @@ $(document).on("change", "select[id='pais']", function () {
             select.className = "form-control";
             select.id = "estado";
             select.name = "estado";
-            select.onchange = "select('estado')";
             var option = document.createElement("option");
             option.value = "";
             option.text = "Selecione";
@@ -124,7 +124,6 @@ $(document).on("change", "select[id='estado']", function () {
             select.className = "form-control";
             select.id = "cidade";
             select.name = "cidade";
-            select.onchange = "select('cidade')";
             var option = document.createElement("option");
             option.value = "";
             option.text = "Selecione";
