@@ -1,4 +1,3 @@
-
 $(document).on("change", "select[id='pais']", function () {
     $.ajax({
         method: "POST",

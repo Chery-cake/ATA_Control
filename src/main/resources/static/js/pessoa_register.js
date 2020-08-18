@@ -21,7 +21,7 @@ $("#form-register-pessoa").submit(function (evt) {
     pessoaDTO.enderecoDTO = null;
     pessoaDTO.academia = null;
 
-    if (pessoaDTO.isInstrutor === false) {
+    if (pessoaDTO.isInstrutor === "false") {
         pessoaDTO.instrutor = $("#instrutor").val();
     } else {
         pessoaDTO.instrutor = null;
@@ -36,6 +36,8 @@ $("#form-register-pessoa").submit(function (evt) {
     enderecoDTO.cidade = $("#cidade").val();
     enderecoDTO.rua = $("#endereco").val();
     data.enderecoDTO = enderecoDTO;
+
+    console.log(data);
 
     $.ajax({
         method: "POST",
@@ -67,9 +69,13 @@ function hideInstrutor() {
         document.getElementById("instrutor_div").removeAttribute("hidden");
         document.getElementById("academia_div").setAttribute("hidden", "hidden");
         document.getElementById("ataNumber_div").setAttribute("hidden", "hidden");
+        document.getElementById("ataNumberWorld").removeAttribute("required");
+        document.getElementById("ataNumberBrasil").removeAttribute("required");
     } else {
         document.getElementById("instrutor_div").setAttribute("hidden", "hidden");
         document.getElementById("academia_div").removeAttribute("hidden");
         document.getElementById("ataNumber_div").removeAttribute("hidden");
+        document.getElementById("ataNumberWorld").setAttribute("required", "required");
+        document.getElementById("ataNumberBrasil").setAttribute("required", "required");
     }
 }

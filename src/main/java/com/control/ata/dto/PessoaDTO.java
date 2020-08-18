@@ -1,7 +1,5 @@
 package com.control.ata.dto;
 
-import com.control.ata.model.tipo_pessoa.Instrutor;
-
 import java.util.Date;
 
 public class PessoaDTO {
@@ -20,7 +18,7 @@ public class PessoaDTO {
     private String telefone;
     private Integer faixa;
     private EnderecoDTO enderecoDTO;
-    private Instrutor instrutor;
+    private Integer instrutor;
     private Integer academia;
 
     public String getNome() {
@@ -111,11 +109,11 @@ public class PessoaDTO {
         isInstrutor = instrutor;
     }
 
-    public Instrutor getInstrutor() {
+    public Integer getInstrutor() {
         return instrutor;
     }
 
-    public void setInstrutor(Instrutor instrutor) {
+    public void setInstrutor(Integer instrutor) {
         this.instrutor = instrutor;
     }
 
