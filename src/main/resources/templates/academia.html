@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorate="~{styleguide}"
+<html layout:decorate="~{styleguidejs}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="utf-8">
@@ -12,25 +12,30 @@
 
 <div class="corpo" layout:fragment="corpo">
 
-    <form action="#" id="form-register-academia">
+    <div class="container">
+        <div class="row">
+            <div class="p-5 col-lg-6" >
+                        <form action="#" id="form-register-academia">
+                            <div class="form-group">
+                                <label for="nome">Nome</label>
+                                <input class="form-control" id="nome" placeholder="ATA" required="required"
+                                       type="text">
+                            </div>
 
-        <div class="form-group">
-            <label for="nome">Nome</label>
-            <input class="form-control" id="nome" placeholder="Stephen" required="required"
-                   type="text">
+                            <div class="form-group" id="endereco_div">
+                                <label>Endereco</label>
+                                <select class="form-control" id="pais" name="pais">
+                                    <option value="">Selecione</option>
+                                    <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
+                                    </option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-primary" type="submit">Register</button>
+                        </form>
+            </div>
         </div>
-
-        <div class="form-group" id="endereco_div">
-            <label>Endereco</label>
-            <select class="form-control" id="pais" name="pais">
-                <option value="">Selecione</option>
-                <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
-                </option>
-            </select>
-        </div>
-
-        <button class="btn btn-primary" type="submit">Register</button>
-    </form>
+    </div>
 
 </div>
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html layout:decorate="~{styleguide}">
+<html layout:decorate="~{styleguidejs}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <meta charset="utf-8">
@@ -7,62 +8,59 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           type="text/css">
     <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css">
+
 </head>
 
 <body class="">
-<nav class="navbar navbar-light">
-    <div class="container d-flex justify-content-center"><a class="navbar-brand text-primary" href="#">
-        <i class="fa d-inline fa-lg fa-circle-o"></i>
-        <b> BRAND-2</b>
-    </a></div>
-</nav>
-<div class="py-5"
-     style="	background-image: url(../static/assets/img/img4.jpg);	background-position: top left;	background-size: 100%;	background-repeat: no-repeat;">
-    <div class="container">
-        <div class="row">
+<div class="corpo" layout:fragment="corpo">
+    <div class="py-5"
+         style="background-image: url(img4.jpg);	background-position: top left;	background-size: 100%;	background-repeat: no-repeat;">
+        <div class="container">
+            <div class="row">
 
-            <div class="p-5 col-lg-6">
-                <h1 class="text-white">Entre em sua conta</h1>
-                <p class="mb-3" contenteditable="true"></p>
-                <form>
-                    <div class="form-group"><input type="email" class="form-control" placeholder="Enter email"
-                                                   id="form11"></div>
-                    <div class="form-group"><input type="password" class="form-control" placeholder="Password"
-                                                   id="form12"> <small class="form-text text-muted text-right">
-                        <a href="#"> Forgot your password?</a>
-                    </small></div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="py-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center d-md-flex align-items-center"><i
-                    class="d-block fa fa-stop-circle fa-2x mr-md-5 text-primary"></i>
-                <ul class="nav mx-md-auto d-flex justify-content-center">
-                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                </ul>
-                <div class="row">
-                    <div class="col-md-12 d-flex align-items-center justify-content-md-between justify-content-center my-2">
-                        <a href="#">
-                            <i class="d-block fa fa-facebook-official text-muted fa-lg mx-2"></i>
-                        </a> <a href="#">
-                        <i class="d-block fa fa-instagram text-muted fa-lg mx-2"></i>
-                    </a> <a href="#">
-                        <i class="d-block fa fa-twitter text-muted fa-lg ml-2"></i>
-                    </a></div>
+                <div class="p-5 col-lg-6">
+                    <h1 class="text-white">Entre em sua conta</h1>
+                    <p class="mb-3" contenteditable="true"></p>
+                    <form>
+                        <div class="form-group"><input type="email" class="form-control" placeholder="Enter email"
+                                                       id="form11"></div>
+                        <div class="form-group"><input type="password" class="form-control" placeholder="Password"
+                                                       id="form12"> <small class="form-text text-muted text-right">
+                            <a href="#"> Forgot your password?</a>
+                        </small></div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <p class="mt-2 mb-0">© 2014-2018 Pingendo. All rights reserved</p>
+    </div>
+    <div class="py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center d-md-flex align-items-center"><i
+                        class="d-block fa fa-stop-circle fa-2x mr-md-5 text-primary"></i>
+                    <ul class="nav mx-md-auto d-flex justify-content-center">
+                        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    </ul>
+                    <div class="row">
+                        <div class="col-md-12 d-flex align-items-center justify-content-md-between justify-content-center my-2">
+                            <a href="#">
+                                <i class="d-block fa fa-facebook-official text-muted fa-lg mx-2"></i>
+                            </a> <a href="#">
+                            <i class="d-block fa fa-instagram text-muted fa-lg mx-2"></i>
+                        </a> <a href="#">
+                            <i class="d-block fa fa-twitter text-muted fa-lg ml-2"></i>
+                        </a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="mt-2 mb-0">© 2014-2018 Pingendo. All rights reserved</p>
+                </div>
             </div>
         </div>
     </div>
