@@ -22,7 +22,7 @@
 
         <div class="form-group" id="endereco_div">
             <label>Endereco</label>
-            <select class="form-control" id="pais" name="pais" required="required">
+            <select class="form-control" disabled id="pais" name="pais" required="required" selected>
                 <option value="">Selecione</option>
                 <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
                 </option>

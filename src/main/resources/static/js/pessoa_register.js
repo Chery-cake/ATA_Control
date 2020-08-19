@@ -46,7 +46,7 @@ $("#form-register-pessoa").submit(function (evt) {
         data: JSON.stringify(data),
         success: function (result) {//todo adicionar login automatico
             console.log(result);
-            // top.location.href = "/";
+            top.location.href = "/";
         },
         error: function (xhr) {
             console.log("error: ", xhr.responseText);

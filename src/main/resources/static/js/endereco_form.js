@@ -20,6 +20,8 @@ $(document).on("change", "select[id='pais']", function () {
             select.required = "required";
             var option = document.createElement("option");
             option.value = "";
+            option.disabled = true;
+            option.selected = true;
             option.text = "Selecione";
             select.appendChild(option);
             div.appendChild(select);
@@ -57,6 +59,8 @@ $(document).on("change", "select[id='estado']", function () {
             select.required = "required";
             var option = document.createElement("option");
             option.value = "";
+            option.disabled = true;
+            option.selected = true;
             option.text = "Selecione";
             select.appendChild(option);
             div.appendChild(select);
