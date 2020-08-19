@@ -96,18 +96,24 @@
                         <div class="form-group" id="instrutor_div">
                             <label for="instrutor">Instrutor</label>
                             <select class="form-control" id="instrutor" name="instrutor">
-                                <option value="">Selecione</option>
-                                <option th:each="i : ${instrutores}" th:text="${i.pessoa.nome}" th:value="${i.id}">...
+                                <option disabled selected value="">Selecione</option>
+                                <option th:each="i : ${instrutores}"
+                                        th:text="${i.pessoa.nome + ' ' +i.pessoa.sobrenome}" th:value="${i.id}">...
                                 </option>
                             </select>
                         </div>
 
-                        <!--                        adicionar academia e atanumbers-->
+                        <div class="form-group" hidden id="ataNumber_div">
+                            <label for="ataNumberWorld">ATA Number World</label>
+                            <input class="form-control" id="ataNumberWorld" placeholder="xxxx-xxxxx" type="text">
+                            <label for="ataNumberBrasil">ATA Number Brasil</label>
+                            <input class="form-control" id="ataNumberBrasil" placeholder="xxxx-xxxxx" type="text">
+                        </div>
 
                         <div class="form-group" hidden id="academia_div">
                             <label for="academia">Academias</label>
-                            <select class="form-control" id="academia" name="instrutor">
-                                <option value="">Selecione</option>
+                            <select class="form-control" id="academia" name="academia">
+                                <option disabled selected value="">Selecione</option>
                                 <option th:each="a : ${academias}" th:text="${a.nome}" th:value="${a.id}">...
                                 </option>
                             </select>
@@ -118,16 +124,16 @@
 
                         <div class="form-group">
                             <label for="faixa">Faixa</label>
-                            <select class="form-control" id="faixa" name="faixa">
-                                <option value="">Selecione</option>
+                            <select class="form-control" id="faixa" name="faixa" required="required">
+                                <option disabled selected value="">Selecione</option>
                                 <option th:each="f : ${faixas}" th:text="${f.nome}" th:value="${f.id}">...</option>
                             </select>
                         </div>
 
                         <div class="form-group" id="endereco_div">
                             <label>Endereco</label>
-                            <select class="form-control" id="pais" name="pais">
-                                <option value="">Selecione</option>
+                            <select class="form-control" id="pais" name="pais" required="required">
+                                <option disabled selected value="">Selecione</option>
                                 <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
                                 </option>
                             </select>
@@ -163,6 +169,7 @@
 </div>
 
 <script th:fragment="js" th:src="@{/js/pessoa_register.js}"></script>
+<script th:fragment="js" th:src="@{/js/endereco_form.js}"></script>
 
 </body>
 
