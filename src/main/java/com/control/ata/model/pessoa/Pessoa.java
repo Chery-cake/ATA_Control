@@ -124,6 +124,10 @@ public class Pessoa {
         return senha;
     }
 
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     public Integer getStatus() {
         return status;
     }

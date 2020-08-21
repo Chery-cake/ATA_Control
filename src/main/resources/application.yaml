@@ -20,3 +20,4 @@ spring:
   # THYMELEAF
   thymeleaf:
     cache: false
+

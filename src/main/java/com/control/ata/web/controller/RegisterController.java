@@ -146,13 +146,6 @@ public class RegisterController {
         return "register";
     }
 
-    // ======================================LOGIN=============================================
-
-    @GetMapping("/login")
-    public String abrirLogin() {
-        return "login";
-    }
-
     // ======================================FUNCTIONS=============================================
 
     private ResponseEntity<?> getErrors(BindingResult result) {
