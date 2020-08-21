@@ -17,7 +17,6 @@ $("#form-register-pessoa").submit(function (evt) {
     pessoaDTO.isInstrutor = getRadio("isInstrutor");
     pessoaDTO.faixa = $("#faixa").val();
     pessoaDTO.telefone = $("#telefone").val();
-    pessoaDTO.foto = null;
     pessoaDTO.enderecoDTO = null;
     pessoaDTO.academia = null;
 

@@ -30,14 +30,14 @@ public class PessoaDAO {
         if (pessoaDTO.getIsInstrutor()) {
             pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
                                 pessoaDTO.getDataNascimento(), pessoaDTO.getEmail(), pessoaDTO.getSenha(),
-                                pessoaDTO.getStatus(), pessoaDTO.getFoto(), pessoaDTO.getAtaNumberWorld(),
+                                pessoaDTO.getStatus(), pessoaDTO.getAtaNumberWorld(),
                                 pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getTelefone(),
                                 faixaRepository.getOne(pessoaDTO.getFaixa()),
                                 enderecoDAO.save(pessoaDTO.getEnderecoDTO()), null);
         } else {
             pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
                                 pessoaDTO.getDataNascimento(), pessoaDTO.getEmail(), pessoaDTO.getSenha(),
-                                pessoaDTO.getStatus(), pessoaDTO.getFoto(), pessoaDTO.getAtaNumberWorld(),
+                                pessoaDTO.getStatus(), pessoaDTO.getAtaNumberWorld(),
                                 pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getTelefone(),
                                 faixaRepository.getOne(pessoaDTO.getFaixa()),
                                 enderecoDAO.save(pessoaDTO.getEnderecoDTO()),

@@ -23,7 +23,6 @@ public class Pessoa {
     private String email;
     private String senha;
     private Integer status;
-    private String foto;
     private String ataNumberWorld;
     private String ataNumberBrasil;
     private Boolean isInstrutor;
@@ -61,7 +60,7 @@ public class Pessoa {
     }
 
     public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String email, String senha,
-            Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
+            Integer status, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
             String telefone, Faixa faixa, Endereco endereco) {
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -70,7 +69,6 @@ public class Pessoa {
         this.email = email;
         this.senha = senha;
         this.status = status;
-        this.foto = foto;
         this.ataNumberWorld = ataNumberWorld;
         this.ataNumberBrasil = ataNumberBrasil;
         this.isInstrutor = isInstrutor;
@@ -80,7 +78,7 @@ public class Pessoa {
     }
 
     public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String email, String senha,
-            Integer status, String foto, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
+            Integer status, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
             String telefone, Faixa faixa, Endereco endereco, Instrutor instrutor) {
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -89,7 +87,6 @@ public class Pessoa {
         this.email = email;
         this.senha = senha;
         this.status = status;
-        this.foto = foto;
         this.ataNumberWorld = ataNumberWorld;
         this.ataNumberBrasil = ataNumberBrasil;
         this.isInstrutor = isInstrutor;
@@ -133,10 +130,6 @@ public class Pessoa {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public String getFoto() {
-        return foto;
     }
 
     public String getAtaNumberWorld() {
