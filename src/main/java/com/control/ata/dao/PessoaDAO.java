@@ -5,7 +5,8 @@ import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
 import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
-import com.control.ata.service.BCrypt;
+import com.control.ata.security.service.BCrypt;
+import com.control.ata.security.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,9 @@ public class PessoaDAO {
     private EnderecoDAO enderecoDAO;
     @Autowired
     private InstrutorRepository instrutorRepository;
+
+    @Autowired
+    private PessoaService pessoaService;
 
     public Pessoa save(PessoaDTO pessoaDTO) {
 
@@ -49,6 +53,7 @@ public class PessoaDAO {
 
     public Pessoa save(Pessoa pessoa) {
         pessoa.setSenha(BCrypt.gerarBCrypt(pessoa.getSenha()));
+        pessoaService.singUpPessoa(pessoa);
         return pessoaRepository.save(pessoa);
     }
 
