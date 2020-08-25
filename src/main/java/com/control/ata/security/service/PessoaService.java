@@ -50,8 +50,9 @@ public class PessoaService implements UserDetailsService {
 
     public void singUpPessoa(Pessoa pessoa){
         ConfirmationToken confirmationToken = new ConfirmationToken(pessoa);
-        confirmationTokenRepository.save(confirmationToken);
-        sendConfirmationMail(pessoa.getEmail(), confirmationToken.getConfirmationToken());
+        confirmationTokenRepository.save(confirmationToken);//todo arrumar email
+//        sendConfirmationMail(pessoa.getEmail(), confirmationToken.getConfirmationToken());
+        confirmarPessoa(confirmationToken);
     }
 
     public Pessoa confirmarPessoa(ConfirmationToken confirmationToken) {

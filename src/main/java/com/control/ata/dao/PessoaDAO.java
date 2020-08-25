@@ -53,6 +53,7 @@ public class PessoaDAO {
 
     public Pessoa save(Pessoa pessoa) {
         pessoa.setSenha(BCrypt.gerarBCrypt(pessoa.getSenha()));
+        pessoa = pessoaRepository.save(pessoa);
         pessoaService.singUpPessoa(pessoa);
         return pessoaRepository.save(pessoa);
     }

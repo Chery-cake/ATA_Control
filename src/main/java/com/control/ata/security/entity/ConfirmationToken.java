@@ -46,4 +46,14 @@ public class ConfirmationToken {
     public Pessoa getPessoa() {
         return pessoa;
     }
+
+    @Override
+    public String toString() {
+        return "ConfirmationToken{" +
+                "id=" + id +
+                ", confirmationToken='" + confirmationToken + '\'' +
+                ", createdDate=" + createdDate +
+                ", pessoa=" + pessoa +
+                '}';
+    }
 }

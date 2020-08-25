@@ -13,12 +13,12 @@ $("#form-register-academia").submit(function (evt) {
 
     $.ajax({
         method: "POST",
-        url: "/pessoa/academia/save",
+        url: "/academia/save",
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (result) {
             console.log(result);
-            window.location.href = "/pessoa/register";
+            window.location.href = "/register";
         },
         error: function (xhr) {
             console.log("error: ", xhr.responseText);

@@ -5,7 +5,9 @@ import com.control.ata.model.individual.RankingIndividual;
 import com.control.ata.model.tipo_pessoa.*;
 import com.control.ata.security.enuns.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,9 +42,9 @@ public class Pessoa implements UserDetails {
     @Builder.Default
     private UserRole userRole = UserRole.USER;
     @Builder.Default
-    private Boolean locked = false;
+    private boolean locked = false;
     @Builder.Default
-    private Boolean enabled = false;
+    private boolean enabled = false;
 
     @ManyToOne
     private Faixa faixa;

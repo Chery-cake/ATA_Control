@@ -40,7 +40,7 @@ $("#form-register-pessoa").submit(function (evt) {
 
     $.ajax({
         method: "POST",
-        url: "/pessoa/save",
+        url: "/save",
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (result) {//todo adicionar login automatico

@@ -16,10 +16,11 @@ import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
+import com.control.ata.security.entity.ConfirmationToken;
+import com.control.ata.security.repository.ConfirmationTokenRepository;
+import com.control.ata.security.service.PessoaService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,12 +33,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
-@RequestMapping("/pessoa")
 public class RegisterController {
 
-    private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
     @Autowired
     private PessoaDAO pessoaDAO;
     @Autowired
@@ -57,6 +57,11 @@ public class RegisterController {
     @Autowired
     private AcademiaRepository academiaRepository;
 
+    @Autowired
+    private ConfirmationTokenRepository confirmationTokenRepository;
+    @Autowired
+    private PessoaService pessoaService;
+
     // ======================================REGISTER ACADEMIA=============================================
 
     @GetMapping("/academia")
@@ -74,9 +79,6 @@ public class RegisterController {
         ObjectMapper jacksonObjectMapper = new ObjectMapper();
         AcademiaRegister academiaRegister = jacksonObjectMapper.readValue(decodedJson, AcademiaRegister.class);
 
-        log.info("Academia {}", academiaRegister.academia.toString());
-        log.info("EnderecoDTO {}", academiaRegister.enderecoDTO.toString());
-
         academiaRepository.save(new Academia(academiaRegister.academia.getNome(), enderecoDAO.save(
                 academiaRegister.enderecoDTO)));
         return ResponseEntity.ok().build();
@@ -93,9 +95,6 @@ public class RegisterController {
         String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
         ObjectMapper jacksonObjectMapper = new ObjectMapper();
         PessoaRegister pessoaRegister = jacksonObjectMapper.readValue(decodedJson, PessoaRegister.class);
-
-        log.info("PessoaDTO {}", pessoaRegister.pessoaDTO.toString());
-        log.info("EnderecoDTO {}", pessoaRegister.enderecoDTO.toString());
 
         PessoaDTO pessoaDTO = pessoaRegister.pessoaDTO;
         pessoaDTO.setEnderecoDTO(pessoaRegister.enderecoDTO);
@@ -131,7 +130,6 @@ public class RegisterController {
     }
 
     @PostMapping("/register/pais/{id}")
-    @ModelAttribute("estados")
     public ResponseEntity<?> getEstados(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(estadoRepository.getAllByPais(paisRepository.getOne(id)));
     }
@@ -144,6 +142,14 @@ public class RegisterController {
     @GetMapping("/register")
     public String abrirCadastro() {
         return "register";
+    }
+
+    @GetMapping("/register/confirm") //todo arrumar
+    public String confirmMail(@RequestParam("toke") String token){
+        Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenRepository.findConfirmationTokenByConfirmationToken(token);
+
+        optionalConfirmationToken.ifPresent(pessoaService::confirmarPessoa);
+        return "redirect:/";
     }
 
     // ======================================FUNCTIONS=============================================

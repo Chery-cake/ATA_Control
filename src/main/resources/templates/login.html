@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html layout:decorate="~{styleguide}"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -23,6 +24,7 @@
                     <h1 class="text-white">Entre em sua conta</h1>
                     <p class="mb-3" contenteditable="true"></p>
                     <form role="form" th:action="@{/login}" th:method="post">
+                        <p th:if="${param.error}" class="error">Wrong user or password</p>
                         <div class="form-group">
                             <input class="form-control" id="username" name="username" placeholder="Enter email"
                                    type="text">
@@ -34,7 +36,7 @@
                                 <a href="#"> Forgot your password?</a>
                             </small>
                         </div>
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary" type="submit">Login</button>
                     </form>
                 </div>
             </div>
@@ -71,6 +73,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>
