@@ -1,6 +1,6 @@
 package com.control.ata.security.config;
 
-import com.control.ata.security.service.PessoaService;
+import com.control.ata.security.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private PessoaService pessoaService;
+    private UsuarioService usuarioService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(pessoaService)
+        auth.userDetailsService(usuarioService)
                 .passwordEncoder(bCryptPasswordEncoder());
     }
 }

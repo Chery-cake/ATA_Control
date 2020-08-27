@@ -17,8 +17,9 @@ import com.control.ata.repository.endereco.PaisRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
 import com.control.ata.security.entity.ConfirmationToken;
+import com.control.ata.security.entity.Usuario;
 import com.control.ata.security.repository.ConfirmationTokenRepository;
-import com.control.ata.security.service.PessoaService;
+import com.control.ata.security.service.UsuarioService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class RegisterController {
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
     @Autowired
-    private PessoaService pessoaService;
+    private UsuarioService usuarioService;
 
     // ======================================REGISTER ACADEMIA=============================================
 
@@ -99,13 +100,17 @@ public class RegisterController {
         PessoaDTO pessoaDTO = pessoaRegister.pessoaDTO;
         pessoaDTO.setEnderecoDTO(pessoaRegister.enderecoDTO);
 
+        Pessoa pessoa = pessoaDAO.save(pessoaDTO);
+
         if (pessoaDTO.getIsInstrutor()){
-            Pessoa pessoa = pessoaDAO.save(pessoaDTO);
              pessoa.setInstrutor(tipoPessoaDAO.save(new Instrutor(academiaRepository.getOne(pessoaDTO.getAcademia()), pessoa)));
-             pessoaDAO.save(pessoa);
+            pessoa = pessoaDAO.save(pessoa);
         }else {
-            pessoaDAO.save(pessoaDTO);
+            pessoa = pessoaDAO.save(pessoaDTO);
         }
+
+        usuarioService.signUpUser(new Usuario(pessoa, pessoaRegister.usuario.getEmail(), pessoaRegister.usuario.getPassword()));
+
         return ResponseEntity.ok().build();
     }
 
@@ -148,7 +153,7 @@ public class RegisterController {
     public String confirmMail(@RequestParam("toke") String token){
         Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenRepository.findConfirmationTokenByConfirmationToken(token);
 
-        optionalConfirmationToken.ifPresent(pessoaService::confirmarPessoa);
+//        optionalConfirmationToken.ifPresent(pessoaService::confirmarPessoa); //todo arrumar
         return "redirect:/";
     }
 
@@ -170,10 +175,12 @@ public class RegisterController {
     private static class PessoaRegister {
         public PessoaDTO pessoaDTO;
         public EnderecoDTO enderecoDTO;
+        public Usuario usuario;
 
-        public PessoaRegister(PessoaDTO pessoaDTO, EnderecoDTO enderecoDTO) {
+        public PessoaRegister(PessoaDTO pessoaDTO, EnderecoDTO enderecoDTO, Usuario usuario) {
             this.pessoaDTO = pessoaDTO;
             this.enderecoDTO = enderecoDTO;
+            this.usuario = usuario;
         }
 
         public PessoaRegister() {
@@ -187,7 +194,7 @@ public class RegisterController {
         public AcademiaRegister() {
         }
 
-        public AcademiaRegister(Academia academia, EnderecoDTO enderecoDTO) {
+        public AcademiaRegister(Academia academia, EnderecoDTO enderecoDTO, Usuario user) {
             this.academia = academia;
             this.enderecoDTO = enderecoDTO;
         }

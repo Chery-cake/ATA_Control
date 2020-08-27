@@ -1,14 +1,10 @@
 package com.control.ata.security.entity;
 
-import com.control.ata.model.pessoa.Pessoa;
-import lombok.AllArgsConstructor;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@AllArgsConstructor
 public class ConfirmationToken {
 
     @Id
@@ -18,15 +14,14 @@ public class ConfirmationToken {
     private String confirmationToken;
     private LocalDate createdDate;
 
-    @OneToOne(targetEntity = Pessoa.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false)
-    private Pessoa pessoa;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Usuario user;
 
     public ConfirmationToken() {
     }
 
-    public ConfirmationToken(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public ConfirmationToken(Usuario user) {
+        this.user = user;
         this.createdDate = LocalDate.now();
         this.confirmationToken = UUID.randomUUID().toString();
     }
@@ -39,12 +34,16 @@ public class ConfirmationToken {
         return confirmationToken;
     }
 
+    public void setConfirmationToken(String confirmationToken) {
+        this.confirmationToken = confirmationToken;
+    }
+
     public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Usuario getUser() {
+        return user;
     }
 
     @Override
@@ -53,7 +52,7 @@ public class ConfirmationToken {
                 "id=" + id +
                 ", confirmationToken='" + confirmationToken + '\'' +
                 ", createdDate=" + createdDate +
-                ", pessoa=" + pessoa +
+                ", user=" + user +
                 '}';
     }
 }

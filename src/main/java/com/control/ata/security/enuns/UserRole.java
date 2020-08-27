@@ -2,6 +2,8 @@ package com.control.ata.security.enuns;
 
 public enum UserRole {
 
-    ADMIN, USER
+    ROLE_ADMIN,
+    ROLE_USER,
+    ROLE_PLANILHA;
 
 }
