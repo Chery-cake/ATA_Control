@@ -66,7 +66,7 @@ public class RegisterController {
     // ======================================REGISTER ACADEMIA=============================================
 
     @GetMapping("/academia")
-    public String cadastroAcademia(){
+    public String cadastroAcademia() {
         return "academia";
     }
 
@@ -102,14 +102,14 @@ public class RegisterController {
 
         Pessoa pessoa = pessoaDAO.save(pessoaDTO);
 
-        if (pessoaDTO.getIsInstrutor()){
-             pessoa.setInstrutor(tipoPessoaDAO.save(new Instrutor(academiaRepository.getOne(pessoaDTO.getAcademia()), pessoa)));
+        if (pessoaDTO.getIsInstrutor()) {
+            pessoa.setInstrutor(
+                    tipoPessoaDAO.save(new Instrutor(academiaRepository.getOne(pessoaDTO.getAcademia()), pessoa)));
             pessoa = pessoaDAO.save(pessoa);
-        }else {
-            pessoa = pessoaDAO.save(pessoaDTO);
         }
 
-        usuarioService.signUpUser(new Usuario(pessoa, pessoaRegister.usuario.getEmail(), pessoaRegister.usuario.getPassword()));
+        usuarioService.signUpUser(
+                new Usuario(pessoa, pessoaRegister.usuario.getEmail(), pessoaRegister.usuario.getPassword()));
 
         return ResponseEntity.ok().build();
     }
@@ -150,11 +150,19 @@ public class RegisterController {
     }
 
     @GetMapping("/register/confirm") //todo arrumar
-    public String confirmMail(@RequestParam("toke") String token){
-        Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenRepository.findConfirmationTokenByConfirmationToken(token);
+    public String confirmMail(@RequestParam("toke") String token) {
+        Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenRepository.findConfirmationTokenByConfirmationToken(
+                token);
 
 //        optionalConfirmationToken.ifPresent(pessoaService::confirmarPessoa); //todo arrumar
         return "redirect:/";
+    }
+
+    // ======================================LOGIN=============================================
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 
     // ======================================FUNCTIONS=============================================
@@ -187,7 +195,7 @@ public class RegisterController {
         }
     }
 
-    private static class AcademiaRegister{
+    private static class AcademiaRegister {
         public Academia academia;
         public EnderecoDTO enderecoDTO;
 

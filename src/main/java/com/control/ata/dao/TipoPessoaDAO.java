@@ -37,8 +37,8 @@ public class TipoPessoaDAO {
     public Competidor save(Competidor competidor) {
         if (competidor.getId() == null) {
             Competidor aux = new Competidor(competidor.getPeso(), competidor.getAltura(), competidor.getNivel(),
-                                            competidor.getPessoa(), competidor.getCategoriaCompeticao(),
-                                            competidor.getTime());
+                                            competidor.getPessoa(), competidor.getTorneio(),
+                                            competidor.getCategoriaCompeticao(), competidor.getTime());
             aux.setCategoriaCompeticao(null);
             aux = competidorRepository.save(aux);
             aux.setCategoriaCompeticao(competidor.getCategoriaCompeticao());

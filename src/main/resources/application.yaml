@@ -47,6 +47,7 @@ spring:
           timeout: 3000
           writetimeout: 5000
 
+# LOG
 logging:
   level:
     root: WARN

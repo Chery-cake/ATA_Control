@@ -3,6 +3,7 @@ package com.control.ata.model.torneio;
 import com.control.ata.model.endereco.Endereco;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.time.RingueTime;
+import com.control.ata.model.tipo_pessoa.Competidor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -25,6 +26,9 @@ public class Torneio {
 
     @ManyToOne
     private CategoriaTorneio categoriaTorneio;
+
+    @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
+    private Collection<Competidor> competidorCollection;
 
     @JsonIgnore
     @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
