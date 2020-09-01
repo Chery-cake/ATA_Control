@@ -7,6 +7,7 @@ import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.time.Time;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.Titulo;
+import com.control.ata.model.torneio.Torneio;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -25,6 +26,9 @@ public class Competidor {
 
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     private Pessoa pessoa;
+
+    @ManyToOne
+    private Torneio torneio;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<CategoriaCompeticao> categoriaCompeticao;
@@ -54,21 +58,23 @@ public class Competidor {
     public Competidor() {
     }
 
-    public Competidor(Double peso, Double altura, String nivel, Pessoa pessoa,
+    public Competidor(Double peso, Double altura, String nivel, Pessoa pessoa, Torneio torneio,
             Collection<CategoriaCompeticao> categoriaCompeticao) {
         this.peso = peso;
         this.altura = altura;
         this.nivel = nivel;
         this.pessoa = pessoa;
+        this.torneio = torneio;
         this.categoriaCompeticao = categoriaCompeticao;
     }
 
-    public Competidor(Double peso, Double altura, String nivel, Pessoa pessoa,
+    public Competidor(Double peso, Double altura, String nivel, Pessoa pessoa, Torneio torneio,
             Collection<CategoriaCompeticao> categoriaCompeticao, Collection<Time> time) {
         this.peso = peso;
         this.altura = altura;
         this.nivel = nivel;
         this.pessoa = pessoa;
+        this.torneio = torneio;
         this.categoriaCompeticao = categoriaCompeticao;
         this.time = time;
     }
@@ -87,6 +93,10 @@ public class Competidor {
 
     public String getNivel() {
         return nivel;
+    }
+
+    public Torneio getTorneio() {
+        return torneio;
     }
 
     public Collection<CategoriaCompeticao> getCategoriaCompeticao() {

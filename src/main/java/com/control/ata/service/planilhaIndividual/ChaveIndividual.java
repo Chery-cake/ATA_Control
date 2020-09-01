@@ -20,14 +20,15 @@ import java.util.Objects;
 @Service
 public class ChaveIndividual {
 
-        @Autowired
+    @Autowired
     private PlanilhaChaveamentoIndividualRepository planilhaChaveamentoIndividualRepository;
     @Autowired
     private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
     @Autowired
     private TituloRepository tituloRepository;
 
-    public PlanilhaChaveamentoIndividual createPlanilha(RingueIndividual ringueIndividual,//todo verificar a categoria dos competidores e da planilha
+    public PlanilhaChaveamentoIndividual createPlanilha(RingueIndividual ringueIndividual,
+//todo verificar a categoria dos competidores e da planilha
             CategoriaCompeticao categoriaCompeticao) {
         ArrayList<Competidor> competidorArrayList = new ArrayList<>(ringueIndividual.getCompetidor());
         PlanilhaChaveamentoIndividual planilha = new PlanilhaChaveamentoIndividual(categoriaCompeticao,

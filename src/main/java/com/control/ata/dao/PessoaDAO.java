@@ -5,7 +5,6 @@ import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
 import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
-import com.control.ata.service.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,25 +29,22 @@ public class PessoaDAO {
 
         if (pessoaDTO.getIsInstrutor()) {
             pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
-                                pessoaDTO.getDataNascimento(), pessoaDTO.getEmail(), pessoaDTO.getSenha(),
-                                pessoaDTO.getStatus(), pessoaDTO.getAtaNumberWorld(),
+                                pessoaDTO.getDataNascimento(), pessoaDTO.getStatus(), pessoaDTO.getAtaNumberWorld(),
                                 pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getTelefone(),
                                 faixaRepository.getOne(pessoaDTO.getFaixa()),
-                                enderecoDAO.save(pessoaDTO.getEnderecoDTO()), null);
+                                enderecoDAO.save(pessoaDTO.getEnderecoDTO()), pessoaDTO.getUsuario());
         } else {
             pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
-                                pessoaDTO.getDataNascimento(), pessoaDTO.getEmail(), pessoaDTO.getSenha(),
-                                pessoaDTO.getStatus(), pessoaDTO.getAtaNumberWorld(),
+                                pessoaDTO.getDataNascimento(), pessoaDTO.getStatus(), pessoaDTO.getAtaNumberWorld(),
                                 pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getTelefone(),
                                 faixaRepository.getOne(pessoaDTO.getFaixa()),
                                 enderecoDAO.save(pessoaDTO.getEnderecoDTO()),
-                                instrutorRepository.getOne(pessoaDTO.getInstrutor()));
+                                instrutorRepository.getOne(pessoaDTO.getInstrutor()), pessoaDTO.getUsuario());
         }
         return this.save(pessoa);
     }
 
     public Pessoa save(Pessoa pessoa) {
-        pessoa.setSenha(BCrypt.gerarBCrypt(pessoa.getSenha()));
         return pessoaRepository.save(pessoa);
     }
 

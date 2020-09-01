@@ -1,5 +1,10 @@
 package com.control.ata;
 
+import com.control.ata.dao.EnderecoDAO;
+import com.control.ata.model.endereco.Academia;
+import com.control.ata.model.endereco.Endereco;
+import com.control.ata.repository.endereco.AcademiaRepository;
+import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.service.PopulateBD;
 import org.directwebremoting.spring.DwrSpringServlet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +21,12 @@ public class AtaApplication implements CommandLineRunner {
 
     @Autowired
     private PopulateBD populateBD;
+    @Autowired
+    private CidadeRepository cidadeRepository;
+    @Autowired
+    private AcademiaRepository academiaRepository;
+    @Autowired
+    private EnderecoDAO enderecoDAO;
 
     public static void main(String[] args) {
         SpringApplication.run(AtaApplication.class, args);
@@ -26,6 +37,9 @@ public class AtaApplication implements CommandLineRunner {
         populateBD.populate();
         Singleton.getSingleton();
         System.out.println("TERMINOU");
+
+        academiaRepository.save(new Academia("nome",enderecoDAO.save(new Endereco("rua", cidadeRepository.getOne(1)))));
+
     }
 
     @Bean

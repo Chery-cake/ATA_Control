@@ -1,5 +1,7 @@
 package com.control.ata.dto;
 
+import com.control.ata.security.entity.Usuario;
+
 import java.util.Date;
 
 public class PessoaDTO {
@@ -8,8 +10,6 @@ public class PessoaDTO {
     private String sobrenome;
     private Boolean genero;
     private Date dataNascimento;
-    private String Email;
-    private String senha;
     private Integer status;
     private String foto;
     private String ataNumberWorld;
@@ -20,6 +20,7 @@ public class PessoaDTO {
     private EnderecoDTO enderecoDTO;
     private Integer instrutor;
     private Integer academia;
+    private Usuario usuario;
 
     public String getNome() {
         return nome;
@@ -51,22 +52,6 @@ public class PessoaDTO {
 
     public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String email) {
-        Email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public Integer getStatus() {
@@ -149,6 +134,14 @@ public class PessoaDTO {
         this.academia = academia;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     @Override
     public String toString() {
         return "PessoaDTO{" +
@@ -156,8 +149,6 @@ public class PessoaDTO {
                 ", sobrenome='" + sobrenome + '\'' +
                 ", genero=" + genero +
                 ", dataNascimento=" + dataNascimento +
-                ", Email='" + Email + '\'' +
-                ", senha='" + senha + '\'' +
                 ", status=" + status +
                 ", foto='" + foto + '\'' +
                 ", ataNumberWorld='" + ataNumberWorld + '\'' +
@@ -168,6 +159,7 @@ public class PessoaDTO {
                 ", enderecoDTO=" + enderecoDTO +
                 ", instrutor=" + instrutor +
                 ", academia=" + academia +
+                ", usuario=" + usuario +
                 '}';
     }
 }

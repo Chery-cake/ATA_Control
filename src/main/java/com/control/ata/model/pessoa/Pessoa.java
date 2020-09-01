@@ -3,6 +3,7 @@ package com.control.ata.model.pessoa;
 import com.control.ata.model.endereco.Endereco;
 import com.control.ata.model.individual.RankingIndividual;
 import com.control.ata.model.tipo_pessoa.*;
+import com.control.ata.security.entity.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -20,8 +21,6 @@ public class Pessoa {
     private String sobrenome;
     private Boolean genero;
     private Date dataNascimento;
-    private String email;
-    private String senha;
     private Integer status;
     private String ataNumberWorld;
     private String ataNumberBrasil;
@@ -56,18 +55,19 @@ public class Pessoa {
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private Collection<RankingIndividual> rankingIndividualList;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
+    private Usuario usuario;
+
     public Pessoa() {
     }
 
-    public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String email, String senha,
-            Integer status, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
-            String telefone, Faixa faixa, Endereco endereco) {
+    public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, Integer status,
+            String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
+            String telefone, Faixa faixa, Endereco endereco, Usuario usuario) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.genero = genero;
         this.dataNascimento = dataNascimento;
-        this.email = email;
-        this.senha = senha;
         this.status = status;
         this.ataNumberWorld = ataNumberWorld;
         this.ataNumberBrasil = ataNumberBrasil;
@@ -75,17 +75,16 @@ public class Pessoa {
         this.telefone = telefone;
         this.faixa = faixa;
         this.endereco = endereco;
+        this.usuario = usuario;
     }
 
-    public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, String email, String senha,
-            Integer status, String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor,
-            String telefone, Faixa faixa, Endereco endereco, Instrutor instrutor) {
+    public Pessoa(String nome, String sobrenome, Boolean genero, Date dataNascimento, Integer status,
+            String ataNumberWorld, String ataNumberBrasil, Boolean isInstrutor, String telefone, Faixa faixa,
+            Endereco endereco, Instrutor instrutor, Usuario usuario) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.genero = genero;
         this.dataNascimento = dataNascimento;
-        this.email = email;
-        this.senha = senha;
         this.status = status;
         this.ataNumberWorld = ataNumberWorld;
         this.ataNumberBrasil = ataNumberBrasil;
@@ -94,6 +93,7 @@ public class Pessoa {
         this.faixa = faixa;
         this.endereco = endereco;
         this.instrutor = instrutor;
+        this.usuario = usuario;
     }
 
     public Integer getId() {
@@ -114,18 +114,6 @@ public class Pessoa {
 
     public Date getDataNascimento() {
         return dataNascimento;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public Integer getStatus() {
@@ -178,6 +166,14 @@ public class Pessoa {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Collection<RankingIndividual> getRankingIndividualList() {

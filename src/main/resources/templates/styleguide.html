@@ -2,23 +2,20 @@
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
-
+<!--/*@thymesVar id="usuario" type="com.control.ata.security.entity.Usuario"*/-->
 <head>
 
+    <title th:text="#{sistema.titulo}">ATA Control</title>
+    <!-- CSS dependencies -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css" rel="stylesheet">
+    <link href="wireframe.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+
+    <link href="style.css" rel="stylesheet" th:href="@{style.css}"/>
+
 </head>
-<title th:text="#{sistema.titulo}">ATA Control</title>
-
-<meta content="Wireframe design of a landing page by Pingendo" name="description">
-<meta content="Pingendo bootstrap example template wireframe landing" name="keywords">
-<meta content="Pingendo" name="author">
-<!-- CSS dependencies -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-      type="text/css">
-<link href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css" rel="stylesheet">
-<link href="wireframe.css" rel="stylesheet">
-<link href="styles.css" rel="stylesheet">
-
-<link href="style.css" rel="stylesheet" th:href="@{style.css}"/>
 <body>
 
 <header>
@@ -30,14 +27,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar12">
                 <a class="navbar-brand d-none d-md-block" href="#" style="">
-                    <a class="custom-logo-link" th:href="@{/home}" rel="home">
+                    <a class="custom-logo-link" rel="home" th:href="@{/home}">
 
                         <img
                                 alt="Ata-Control"
                                 class="custom-logo"
                                 height="50"
-                                sizes="(max-width: 155px) 100vw, 200px"
-                                img th:src="@{../assets/img/logo-ata.png}"
+                                img
+                                sizes="(max-width: 155px) 100vw, 200px" th:src="@{../assets/img/logo-ata.png}"
                                 width="100">
 
                     </a>
@@ -48,13 +45,28 @@
                     <li class="nav-item"><a class="nav-link square_btn" th:href="@{/}">Tabelas</a></li>
                     <li class="nav-item"><a class="nav-link square_btn" th:href="@{/}">Torneio</a></li>
                 </ul>
-                <ul class="navbar-nav">
+
+                <ul class="navbar-nav" th:if="${usuario != null}">
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
-                        <a class="nav-link" th:href="@{/pessoa/register}">
+                        <p class="nav-link">Logged in user:
+                            <b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b>
+                        </p>
+                    </li>
+                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                        <a class="nav-link" th:href="@{/perfil}">
+                            <i class="fa fa-user fa-fw"></i>Perfil</a>
+                        <a class="nav-link" th:href="@{/logout}">
+                            <i class="fa fa-user fa-fw"></i>Log out</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav" th:if="${usuario == null}">
+                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                        <a class="nav-link" th:href="@{/register}">
                             <i class="fa fa-user fa-fw"></i>Sign in</a>
                     </li>
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
-                        <a class="nav-link" th:href="@{/pessoa/login}">
+                        <a class="nav-link" th:href="@{/login}">
                             <i class="fa fa-user fa-fw"></i>Log in</a>
                     </li>
                 </ul>

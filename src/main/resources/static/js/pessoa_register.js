@@ -9,8 +9,6 @@ $("#form-register-pessoa").submit(function (evt) {
     pessoaDTO.sobrenome = $("#sobrenome").val();
     pessoaDTO.genero = getRadio("genero");
     pessoaDTO.dataNascimento = $("#dataNascimento").val();
-    pessoaDTO.email = $("#email").val();
-    pessoaDTO.senha = $("#senha").val();
     pessoaDTO.status = 1;//ativo e pode ser mudado pelo instrutor
     pessoaDTO.ataNumberWorld = null;//adicionado pelo instrutor ou se for um instrutor
     pessoaDTO.ataNumberBrasil = null;//adicionado pelo instrutor ou se for um instrutor
@@ -31,6 +29,11 @@ $("#form-register-pessoa").submit(function (evt) {
 
     data.pessoaDTO = pessoaDTO;
 
+    var usuario = {};
+    usuario.email = $("#email").val();
+    usuario.password = $("#senha").val();
+    data.usuario = usuario;
+
     var enderecoDTO = {};
     enderecoDTO.cidade = $("#cidade").val();
     enderecoDTO.rua = $("#endereco").val();
@@ -40,7 +43,7 @@ $("#form-register-pessoa").submit(function (evt) {
 
     $.ajax({
         method: "POST",
-        url: "/pessoa/save",
+        url: "/save",
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (result) {//todo adicionar login automatico
