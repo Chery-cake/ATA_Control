@@ -50,13 +50,13 @@ public class RegisterController {
     @Autowired
     private InstrutorRepository instrutorRepository;
     @Autowired
-    private PaisRepository paisRepository;
+    private AcademiaRepository academiaRepository;
     @Autowired
     private EstadoRepository estadoRepository;
     @Autowired
     private CidadeRepository cidadeRepository;
     @Autowired
-    private AcademiaRepository academiaRepository;
+    private PaisRepository paisRepository;
 
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
@@ -114,6 +114,21 @@ public class RegisterController {
         return ResponseEntity.ok().build();
     }
 
+    @ModelAttribute("paises")
+    public List<Pais> getPaises() {
+        return paisRepository.findAll();
+    }
+
+    @PostMapping("/pais/{id}")
+    public ResponseEntity<?> getEstados(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(estadoRepository.getAllByPais(paisRepository.getOne(id)));
+    }
+
+    @PostMapping("/estado/{id}")
+    public ResponseEntity<?> getCidades(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(cidadeRepository.getAllByEstado(estadoRepository.getOne(id)));
+    }
+
     @ModelAttribute("faixas")
     public List<Faixa> getFaixas() {
         return faixaRepository.findAll();
@@ -127,21 +142,6 @@ public class RegisterController {
     @ModelAttribute("instrutores")
     public List<Instrutor> getInstrutores() {
         return instrutorRepository.findAll();
-    }
-
-    @ModelAttribute("paises")
-    public List<Pais> getPaises() {
-        return paisRepository.findAll();
-    }
-
-    @PostMapping("/register/pais/{id}")
-    public ResponseEntity<?> getEstados(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(estadoRepository.getAllByPais(paisRepository.getOne(id)));
-    }
-
-    @PostMapping("/register/estado/{id}")
-    public ResponseEntity<?> getCidades(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(cidadeRepository.getAllByEstado(estadoRepository.getOne(id)));
     }
 
     @GetMapping("/register")

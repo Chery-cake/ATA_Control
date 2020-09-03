@@ -89,6 +89,10 @@ public class Usuario implements UserDetails {
         return pessoa;
     }
 
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
     public String getEmail() {
         return email;
     }

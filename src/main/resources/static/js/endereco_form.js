@@ -1,7 +1,7 @@
 $(document).on("change", "select[id='pais']", function () {
     $.ajax({
         method: "POST",
-        url: '/register/pais/' + document.getElementById("pais").value,
+        url: 'pais/' + document.getElementById("pais").value,
         beforeSend: function () {
             if (document.getElementById("estado") != null) {
                 document.getElementById("estado").remove();
@@ -43,7 +43,7 @@ $(document).on("change", "select[id='pais']", function () {
 $(document).on("change", "select[id='estado']", function () {
     $.ajax({
         method: "POST",
-        url: '/register/estado/' + document.getElementById("estado").value,
+        url: 'estado/' + document.getElementById("estado").value,
         beforeSend: function () {
             if (document.getElementById("cidade") != null) {
                 document.getElementById("cidade").remove();

@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class PessoaDTO {
 
+    private Integer id;
     private String nome;
     private String sobrenome;
     private Boolean genero;
@@ -21,6 +22,14 @@ public class PessoaDTO {
     private Integer instrutor;
     private Integer academia;
     private Usuario usuario;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;

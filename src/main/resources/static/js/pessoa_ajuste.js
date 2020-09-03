@@ -1,17 +1,18 @@
 //submit do formulario para o controller
-$("#form-register-pessoa").submit(function (evt) {
+$("#form-ajustar-pessoa").submit(function (evt) {
     //bloqueia o comportamento padrao do submit
-    evt.preventDefault();//todo adicionar ataNumbers
+    evt.preventDefault();
 
     var data = {};
     var pessoaDTO = {};
+    pessoaDTO.id = $("#id_pessoa").val();
     pessoaDTO.nome = $("#nome").val();
     pessoaDTO.sobrenome = $("#sobrenome").val();
     pessoaDTO.genero = getRadio("genero");
     pessoaDTO.dataNascimento = $("#dataNascimento").val();
-    pessoaDTO.status = 1;//ativo e pode ser mudado pelo instrutor
-    pessoaDTO.ataNumberWorld = null;//adicionado pelo instrutor ou se for um instrutor
-    pessoaDTO.ataNumberBrasil = null;//adicionado pelo instrutor ou se for um instrutor
+    pessoaDTO.status = $("#status").val();
+    pessoaDTO.ataNumberWorld = $("#ataNumberWorld").val();
+    pessoaDTO.ataNumberBrasil = $("#ataNumberBrasil").val();
     pessoaDTO.isInstrutor = getRadio("isInstrutor");
     pessoaDTO.faixa = $("#faixa").val();
     pessoaDTO.telefone = $("#telefone").val();
@@ -23,8 +24,6 @@ $("#form-register-pessoa").submit(function (evt) {
     } else {
         pessoaDTO.instrutor = null;
         pessoaDTO.academia = $("#academia").val();
-        pessoaDTO.ataNumberWorld = $("#ataNumberWorld").val();
-        pessoaDTO.ataNumberBrasil = $("#ataNumberBrasil").val();
     }
 
     data.pessoaDTO = pessoaDTO;
@@ -32,6 +31,7 @@ $("#form-register-pessoa").submit(function (evt) {
     var usuario = {};
     usuario.email = $("#email").val();
     usuario.password = $("#senha").val();
+    usuario.id = $("#id_usuario").val();
     data.usuario = usuario;
 
     var enderecoDTO = {};
@@ -43,12 +43,12 @@ $("#form-register-pessoa").submit(function (evt) {
 
     $.ajax({
         method: "POST",
-        url: "/save",
+        url: "/ajustar/save",
         contentType: 'application/json',
         data: JSON.stringify(data),
-        success: function (result) {//todo adicionar login automatico
+        success: function (result) {
             console.log(result);
-            top.location.href = "/";
+            top.location.href = "/perfil";
         },
         error: function (xhr) {
             console.log("error: ", xhr.responseText);
