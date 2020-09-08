@@ -25,7 +25,7 @@ public class PessoaDAO {
 
     public Pessoa save(PessoaDTO pessoaDTO) {
 
-        Pessoa pessoa = null;
+        Pessoa pessoa;
 
         if(pessoaDTO.getId() == null) {
             if (pessoaDTO.getIsInstrutor()) {

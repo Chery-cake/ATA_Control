@@ -12,6 +12,6 @@ import java.util.Collection;
 public interface RingueIndividualRepository extends JpaRepository<RingueIndividual, Integer> {
 
     @Query("select r from RingueIndividual r where r.idade = :idade and r.nivel = :nivel")
-    Collection<RingueIndividual> getAllByIdadeAndNivel(@Param("idade") String idade, @Param("nivel") String nivel);
+    Collection<RingueIndividual> getAllByIdadeAndNivel(@Param("idade") String idade, @Param("nivel") Integer nivel);
 
 }

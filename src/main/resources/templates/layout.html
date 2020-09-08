@@ -45,9 +45,24 @@
                     <li class="nav-item"><a class="nav-link square_btn" th:href="@{/}">Tabelas</a></li>
                     <li class="nav-item"><a class="nav-link square_btn" th:href="@{/}">Torneio</a></li>
                 </ul>
-                <ul class="navbar-nav">
+                
+                <ul class="navbar-nav" th:if="${usuario != null}">
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
-                        <a class="nav-link" th:href="@{/register}">
+                        <p class="nav-link">Logged in user:
+                            <b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b>
+                        </p>
+                    </li>
+                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                        <a class="nav-link" th:href="@{/perfil}">
+                            <i class="fa fa-user fa-fw"></i>Perfil</a>
+                        <a class="nav-link" th:href="@{/logout}">
+                            <i class="fa fa-user fa-fw"></i>Log out</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav" th:if="${usuario == null}">
+                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                        <a class="nav-link" th:href="@{/register/pessoa}">
                             <i class="fa fa-user fa-fw"></i>Sign in</a>
                     </li>
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">

@@ -20,6 +20,7 @@ public class Torneio {
     private Date dataInicio;
     private Date dataTermino;
     private Integer maxNumeroRingues;
+    private Boolean pontuar;
 
     @ManyToOne
     private Endereco endereco;
@@ -45,11 +46,12 @@ public class Torneio {
     public Torneio() {
     }
 
-    public Torneio(Date dataInicio, Date dataTermino, Integer maxNumeroRingues, Endereco endereco,
+    public Torneio(Date dataInicio, Date dataTermino, Integer maxNumeroRingues, Boolean pontuar, Endereco endereco,
             CategoriaTorneio categoriaTorneio) {
         this.dataInicio = dataInicio;
         this.dataTermino = dataTermino;
         this.maxNumeroRingues = maxNumeroRingues;
+        this.pontuar = pontuar;
         this.endereco = endereco;
         this.categoriaTorneio = categoriaTorneio;
     }
@@ -68,6 +70,10 @@ public class Torneio {
 
     public Integer getMaxNumeroRingues() {
         return maxNumeroRingues;
+    }
+
+    public Boolean getPontuar() {
+        return pontuar;
     }
 
     public Endereco getEndereco() {

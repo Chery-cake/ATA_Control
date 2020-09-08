@@ -1,0 +1,80 @@
+<html layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="usuario" type="com.control.ata.security.entity.Usuario"*/-->
+<head>
+</head>
+<body>
+<div class="corpo" layout:fragment="corpo">
+
+    <div class="py-5 text-center">
+        <div class="container">
+            <div class="row">
+                <div class="mx-auto col-lg-6 col-10">
+                    <h1>Crie sua conta</h1>
+                    <p class="mb-3" style=""></p>
+
+                    <form action="#" class="text-left" id="form-register-torneio">
+
+                        <div class="form-group">
+                            <label for="dataInicio">Data de Inicio</label>
+                            <input class="form-control" id="dataInicio" required="required" type="date">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dataTermino">Data de Termino</label>
+                            <input class="form-control" id="dataTermino" required="required" type="date">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dataTermino">Maximo numero de ringues</label>
+                            <input class="form-control" id="maxNumeroRingues" required="required" type="number">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Vale pontuacao: </label></br>
+                            <div class="form-check form-check-inline">
+                                <input checked class="form-check-input" id="inlineRadio1"
+                                       name="pontuar" type="radio" value="true">
+                                <label class="form-check-label" for="inlineRadio1" id="label-pontuar-T">Sim</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" id="inlineRadio2" name="pontuar"
+                                       type="radio" value="false">
+                                <label class="form-check-label" for="inlineRadio2" id="label-pontuar-F">Nao</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Categoria do torneio</label>
+                            <select class="form-control" id="categoriaTorneio" name="categoriaTorneio" required="required">
+                                <option disabled selected value="">Selecione</option>
+                                <option th:each="ct : ${categoriasTorneio}" th:text="${ct.nome}" th:value="${ct.id}">...
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="endereco_div">
+                            <label>Endereco</label>
+                            <select class="form-control" id="pais" name="pais" required="required">
+                                <option disabled selected value="">Selecione</option>
+                                <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
+                                </option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Criar</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script th:fragment="js" th:src="@{/js/torneio_form.js}"></script>
+<script th:fragment="js" th:src="@{/js/endereco_form.js}"></script>
+
+</body>
+</html>

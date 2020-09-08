@@ -4,6 +4,7 @@ $("#form-register-pessoa").submit(function (evt) {
     evt.preventDefault();//todo adicionar ataNumbers
 
     var data = {};
+
     var pessoaDTO = {};
     pessoaDTO.nome = $("#nome").val();
     pessoaDTO.sobrenome = $("#sobrenome").val();
@@ -39,15 +40,12 @@ $("#form-register-pessoa").submit(function (evt) {
     enderecoDTO.rua = $("#endereco").val();
     data.enderecoDTO = enderecoDTO;
 
-    console.log(data);
-
     $.ajax({
         method: "POST",
-        url: "/save",
+        url: "/save/pessoa",
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (result) {//todo adicionar login automatico
-            console.log(result);
             top.location.href = "/";
         },
         error: function (xhr) {

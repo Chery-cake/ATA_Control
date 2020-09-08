@@ -13,7 +13,7 @@ $("#form-register-academia").submit(function (evt) {
 
     $.ajax({
         method: "POST",
-        url: "/academia/save",
+        url: "/save/academia",
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (result) {

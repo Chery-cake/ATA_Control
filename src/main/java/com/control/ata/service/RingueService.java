@@ -128,7 +128,7 @@ public class RingueService {
             arrayList.remove(competidorArrayList);
             competidorArrayList = new ArrayList<>(sortAltura(competidorArrayList));
 
-            String nivel = competidorArrayList.get(0).getNivel();
+            Integer nivel = competidorArrayList.get(0).getNivel();
 
             int anoAtual = Integer.parseInt(dateFormat.format(new Date()));
             int anoNasc = Integer.parseInt(
@@ -184,7 +184,7 @@ public class RingueService {
     }
 
     private List<RingueIndividual> insereRingueIndividuais(ArrayList<Competidor> competidorArrayList, Integer maxComp,
-            Boolean fechado, String idadeRingue, String nivel, Torneio torneio,
+            Boolean fechado, String idadeRingue, Integer nivel, Torneio torneio,
             Collection<CategoriaCompeticao> categoriaCompeticoes) {
         List<RingueIndividual> list = new ArrayList<>();
         int quant = competidorArrayList.size();

@@ -12,7 +12,6 @@ public class PessoaDTO {
     private Boolean genero;
     private Date dataNascimento;
     private Integer status;
-    private String foto;
     private String ataNumberWorld;
     private String ataNumberBrasil;
     private Boolean isInstrutor;
@@ -69,14 +68,6 @@ public class PessoaDTO {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
     }
 
     public String getAtaNumberWorld() {
@@ -159,7 +150,6 @@ public class PessoaDTO {
                 ", genero=" + genero +
                 ", dataNascimento=" + dataNascimento +
                 ", status=" + status +
-                ", foto='" + foto + '\'' +
                 ", ataNumberWorld='" + ataNumberWorld + '\'' +
                 ", ataNumberBrasil='" + ataNumberBrasil + '\'' +
                 ", isInstrutor=" + isInstrutor +
