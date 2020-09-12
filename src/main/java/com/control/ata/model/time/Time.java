@@ -22,6 +22,7 @@ public class Time {
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Treinador> treinadorList;
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Competidor> competidores;
 

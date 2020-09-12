@@ -7,6 +7,7 @@ import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import com.control.ata.security.entity.Usuario;
 import com.control.ata.security.enuns.UserRole;
 import com.control.ata.security.repository.UsuarioRepository;
+import com.control.ata.security.service.BCrypt;
 import com.control.ata.service.PopulateBD;
 import org.directwebremoting.spring.DwrSpringServlet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Date;
 
@@ -52,8 +52,7 @@ public class AtaApplication implements CommandLineRunner {
 
         Usuario usuario = new Usuario(pessoa, "email", "root");
         usuario.setUserRole(UserRole.ROLE_ADMIN);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        usuario.setPassword(encoder.encode(usuario.getPassword()));
+        usuario.setPassword(BCrypt.gerarBCrypt(usuario.getPassword()));
         usuario.setEnabled(true);
 
         usuarioRepository.save(usuario);

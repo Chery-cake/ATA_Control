@@ -2,6 +2,7 @@ package com.control.ata.security.entity;
 
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.security.enuns.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     private Pessoa pessoa;
 

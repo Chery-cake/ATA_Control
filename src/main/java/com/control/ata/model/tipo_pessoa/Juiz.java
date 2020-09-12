@@ -20,7 +20,7 @@ public class Juiz {
     private Pessoa pessoa;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "juiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<RodadaJuiz> rodadaJuizList;
 
     @ManyToMany(mappedBy = "juiz")
@@ -32,8 +32,9 @@ public class Juiz {
     public Juiz() {
     }
 
-    public Juiz(Pessoa pessoa) {
+    public Juiz(Pessoa pessoa, Collection<RodadaJuiz> rodadaJuizList) {
         this.pessoa = pessoa;
+        this.rodadaJuizList = rodadaJuizList;
     }
 
     public Integer getId() {

@@ -13,8 +13,10 @@ import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.tipo_pessoa.Instrutor;
+import com.control.ata.model.tipo_pessoa.Juiz;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.CategoriaTorneio;
+import com.control.ata.model.torneio.RodadaJuiz;
 import com.control.ata.model.torneio.Torneio;
 import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
@@ -25,6 +27,7 @@ import com.control.ata.repository.pessoa.PessoaRepository;
 import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
 import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import com.control.ata.repository.torneio.CategoriaTorneioRepository;
+import com.control.ata.repository.torneio.RodadaJuizRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
 import com.control.ata.security.entity.ConfirmationToken;
 import com.control.ata.security.entity.Usuario;
@@ -72,6 +75,8 @@ public class FormController {
     private CategoriaCompeticaoRepository categoriaCompeticaoRepository;
     @Autowired
     private PessoaRepository pessoaRepository;
+    @Autowired
+    private RodadaJuizRepository rodadaJuizRepository;
 
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
@@ -297,11 +302,51 @@ public class FormController {
         TorneioDTO torneioDTO = torneioRegister.torneioDTO;
         torneioDTO.setEnderecoDTO(torneioRegister.enderecoDTO);
 
-        torneioRepository.save(
+        Torneio torneio = torneioRepository.save(
                 new Torneio(torneioDTO.getDataInicio(), torneioDTO.getDataTermino(), torneioDTO.getMaxNumeroRingues(),
                             torneioDTO.getPontuar(),
                             enderecoDAO.save(torneioDTO.getEnderecoDTO()),
                             categoriaTorneioRepository.getOne(torneioDTO.getCategoriaTorneio())));
+
+        ArrayList<String> stringArrayList_ini = torneioRegister.inicio;
+        ArrayList<String> stringArrayList_ter = torneioRegister.termino;
+        ArrayList<Date> dateArrayList = torneioRegister.dia;
+        for (int i = 0; i < stringArrayList_ini.size(); i++) {
+            rodadaJuizRepository.save(
+                    new RodadaJuiz(stringArrayList_ini.get(i), stringArrayList_ter.get(i), dateArrayList.get(i),
+                                   torneio));
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    // ======================================CADASTRAR JUIZ=============================================
+
+    @GetMapping("/register/juiz")
+    public String abrirCadastroJuiz() {
+        return "cadastro_juiz";
+    }
+
+    @PostMapping("/save/juiz")
+    public ResponseEntity<?> cadastrarJuiz(@Valid @RequestBody String json,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        RegistroJuiz registroJuiz = jacksonObjectMapper.readValue(decodedJson, RegistroJuiz.class);
+
+        Pessoa pessoa = pessoaRepository.getOne(registroJuiz.pessoa);
+
+        ArrayList<RodadaJuiz> rodadaJuizArrayList = new ArrayList<>();
+        ArrayList<Integer> integerArrayList = registroJuiz.rodadas;
+
+        for (int i = 0; i < integerArrayList.size(); i++) {
+            rodadaJuizArrayList.add(rodadaJuizRepository.getOne(integerArrayList.get(i)));
+        }
+
+        tipoPessoaDAO.save(new Juiz(pessoa, rodadaJuizArrayList));
 
         return ResponseEntity.ok().build();
     }
@@ -353,6 +398,11 @@ public class FormController {
         return ResponseEntity.ok(categoriaCompeticaoRepository.findAll());
     }
 
+    @PostMapping("/rodadas/torneio/{id}")
+    public ResponseEntity<?> getRodadaJuiz(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(rodadaJuizRepository.getAllByTorneio(torneioRepository.getOne(id)));
+    }
+
     // ======================================FUNCTIONS=============================================
 
     private ResponseEntity<?> getErrors(BindingResult result) {
@@ -380,15 +430,6 @@ public class FormController {
         }
 
         public PessoaRegister() {
-        }
-
-        @Override
-        public String toString() {
-            return "PessoaRegister{" +
-                    "pessoaDTO=" + pessoaDTO +
-                    ", enderecoDTO=" + enderecoDTO +
-                    ", usuario=" + usuario +
-                    '}';
         }
     }
 
@@ -423,13 +464,33 @@ public class FormController {
     private static class TorneioRegister {
         public TorneioDTO torneioDTO;
         public EnderecoDTO enderecoDTO;
+        public ArrayList<String> inicio;
+        public ArrayList<String> termino;
+        public ArrayList<Date> dia;
 
         public TorneioRegister() {
         }
 
-        public TorneioRegister(TorneioDTO torneioDTO, EnderecoDTO enderecoDTO) {
+        public TorneioRegister(TorneioDTO torneioDTO, EnderecoDTO enderecoDTO, ArrayList<String> inicio,
+                ArrayList<String> termino, ArrayList<Date> dia) {
             this.torneioDTO = torneioDTO;
             this.enderecoDTO = enderecoDTO;
+            this.inicio = inicio;
+            this.termino = termino;
+            this.dia = dia;
+        }
+    }
+
+    private static class RegistroJuiz {
+        public Integer pessoa;
+        public ArrayList<Integer> rodadas;
+
+        public RegistroJuiz() {
+        }
+
+        public RegistroJuiz(Integer pessoa, ArrayList<Integer> rodadas) {
+            this.pessoa = pessoa;
+            this.rodadas = rodadas;
         }
     }
 

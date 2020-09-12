@@ -17,7 +17,7 @@ $(document).on("change", "select[id='pais']", function () {
             select.className = "form-control";
             select.id = "estado";
             select.name = "estado";
-            select.required = "required";
+            select.required;
             var option = document.createElement("option");
             option.value = "";
             option.disabled = true;
@@ -56,7 +56,7 @@ $(document).on("change", "select[id='estado']", function () {
             select.className = "form-control";
             select.id = "cidade";
             select.name = "cidade";
-            select.required = "required";
+            select.required;
             var option = document.createElement("option");
             option.value = "";
             option.disabled = true;
@@ -88,7 +88,7 @@ $(document).on("change", "select[id='cidade']", function () {
     input.className = "form-control";
     input.id = "endereco";
     input.placeholder = "Rua Afonso, 805";
-    input.required = "required";
+    input.required;
     input.type = "text";
     div.appendChild(input);
 });

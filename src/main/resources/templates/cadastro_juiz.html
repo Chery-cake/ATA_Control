@@ -17,21 +17,9 @@
                     <h1>Crie sua conta</h1>
                     <p class="mb-3" style=""></p>
 
-                    <form action="#" class="text-left" id="form-register-competidor">
+                    <form action="#" class="text-left" id="form-register-juiz">
 
                         <input hidden id="pessoa_id" th:value="${usuario.pessoa.id}">
-
-                        <div class="form-group">
-                            <label for="peso">Peso</label>
-                            <input class="form-control" id="peso" placeholder="76"
-                                   required type="number">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="altura">Altura em centimetros</label>
-                            <input class="form-control" id="altura" placeholder="160"
-                                   required type="number">
-                        </div>
 
                         <div class="form-group">
                             <label for="torneio">Torneio</label>
@@ -45,17 +33,14 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="quantidade-categorias">Quantas categorias vai participar</label>
-                            <input class="form-control" id="quantidade-categorias" name="quantidade-categorias"
-                                   placeholder="2" required type="number">
+                            <label>Quantidade de rodadas</label>
+                            <input class="form-control" id="quant_rodada" name="quant_rodada" placeholder="0"
+                                   required type="number">
                         </div>
 
-                        <div class="form-group" id="categorias_select_div">
-
-                        </div>
+                        <div class="form-group" id="rodadas_div"></div>
 
                         <button class="btn btn-primary" type="submit">Register</button>
-
                     </form>
 
                 </div>
@@ -65,7 +50,7 @@
 
 </div>
 
-<script th:fragment="js" th:src="@{/js/competidor_register.js}"></script>
+<script th:fragment="js" th:src="@{/js/cadastro_juiz.js}"></script>
 
 </body>
 

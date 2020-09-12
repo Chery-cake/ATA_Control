@@ -28,7 +28,6 @@ $("#form-register-competidor").submit(function (evt) {
 });
 
 $("#quantidade-categorias").change(function (evt) {
-
     $.ajax({
         method: "POST",
         url: "/categorias/competicao",
@@ -44,7 +43,7 @@ $("#quantidade-categorias").change(function (evt) {
                 select.className = "form-control";
                 select.id = "select_categoria_" + i;
                 select.name = "select_categoria_" + i;
-                select.required = "required";
+                select.required;
                 var option = document.createElement("option");
                 option.value = "";
                 option.disabled = true;
