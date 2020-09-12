@@ -4,6 +4,7 @@ import com.control.ata.model.endereco.Endereco;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.time.RingueTime;
 import com.control.ata.model.tipo_pessoa.Competidor;
+import com.control.ata.model.tipo_pessoa.Juiz;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -30,6 +31,9 @@ public class Torneio {
 
     @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
     private Collection<Competidor> competidorCollection;
+
+    @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
+    private Collection<Juiz> juizCollection;
 
     @JsonIgnore
     @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)

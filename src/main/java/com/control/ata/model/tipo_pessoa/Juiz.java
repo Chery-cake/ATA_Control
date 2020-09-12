@@ -4,7 +4,7 @@ import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.time.RingueTime;
 import com.control.ata.model.torneio.RodadaJuiz;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.control.ata.model.torneio.Torneio;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -19,7 +19,9 @@ public class Juiz {
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     private Pessoa pessoa;
 
-    @JsonIgnore
+    @ManyToOne
+    private Torneio torneio;
+
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<RodadaJuiz> rodadaJuizList;
 
@@ -32,8 +34,10 @@ public class Juiz {
     public Juiz() {
     }
 
-    public Juiz(Pessoa pessoa, Collection<RodadaJuiz> rodadaJuizList) {
+    public Juiz(Pessoa pessoa, Torneio torneio,
+            Collection<RodadaJuiz> rodadaJuizList) {
         this.pessoa = pessoa;
+        this.torneio = torneio;
         this.rodadaJuizList = rodadaJuizList;
     }
 
@@ -43,6 +47,10 @@ public class Juiz {
 
     public Pessoa getPessoa() {
         return pessoa;
+    }
+
+    public Torneio getTorneio() {
+        return torneio;
     }
 
     public Collection<RodadaJuiz> getRodadaJuizList() {

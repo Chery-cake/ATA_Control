@@ -69,7 +69,7 @@ function troca_rodada() {
                     for (var j in response) {
                         option = document.createElement("option");
                         option.value = response[j].id;
-                        option.text = "Horario de inicio: " + response[j].inicio + " -/- Horario de Termino" + response[j].termino;
+                        option.text = "Horario de inicio: " + response[j].inicio + " -/- Horario de Termino: " + response[j].termino + " -/- Dia: " + response[i].rodadaJuizList[j].dia.substr(0, 10).replaceAll("-", "/");
                         select.appendChild(option);
                     }
                     p.appendChild(select);

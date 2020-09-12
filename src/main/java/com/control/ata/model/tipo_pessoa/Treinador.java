@@ -2,6 +2,7 @@ package com.control.ata.model.tipo_pessoa;
 
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.time.Time;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Treinador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     private Pessoa pessoa;
 

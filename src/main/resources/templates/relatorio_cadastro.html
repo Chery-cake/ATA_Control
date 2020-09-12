@@ -7,6 +7,46 @@
 <body>
 <div class="corpo" layout:fragment="corpo">
 
+    <div class="form-group">
+        <label for="torneio">Torneio</label>
+        <select class="form-control" id="torneio" name="instrutor">
+            <option disabled selected value="">Selecione</option>
+            <option th:each="t : ${torneios}"
+                    th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
+                    th:value="${t.id}">...
+            </option>
+        </select>
+    </div>
+
+    <div id="juiz_table">
+        <table class="table-bordered">
+            <tr>
+                <th>Juiz</th>
+                <th>Genero</th>
+                <th>Idade</th>
+                <th>Faixa</th>
+                <th>Rodadas</th>
+            </tr>
+        </table>
+    </div>
+
+    <div id="competidor_table">
+        <table class="table-bordered">
+            <tr>
+                <th>Competidor</th>
+                <th>Genero</th>
+                <th>Idade</th>
+                <th>Faixa</th>
+                <th>Peso</th>
+                <th>Altura</th>
+                <th>Categorias</th>
+            </tr>
+        </table>
+    </div>
+
 </div>
+
+<script th:fragment="js" th:src="@{/js/cadastro_relatorio.js}"></script>
+
 </body>
 </html>

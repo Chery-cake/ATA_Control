@@ -1,6 +1,7 @@
 package com.control.ata.model.torneio;
 
 import com.control.ata.model.tipo_pessoa.Juiz;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -20,6 +21,7 @@ public class RodadaJuiz {
     @ManyToOne
     private Torneio torneio;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "rodadaJuizList")
     private Collection<Juiz> juiz;
 

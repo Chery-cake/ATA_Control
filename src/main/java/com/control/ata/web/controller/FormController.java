@@ -24,7 +24,9 @@ import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
+import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
 import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
+import com.control.ata.repository.tipo_pessoa.JuizRepository;
 import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import com.control.ata.repository.torneio.CategoriaTorneioRepository;
 import com.control.ata.repository.torneio.RodadaJuizRepository;
@@ -77,6 +79,10 @@ public class FormController {
     private PessoaRepository pessoaRepository;
     @Autowired
     private RodadaJuizRepository rodadaJuizRepository;
+    @Autowired
+    private JuizRepository juizRepository;
+    @Autowired
+    private CompetidorRepository competidorRepository;
 
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
@@ -346,9 +352,16 @@ public class FormController {
             rodadaJuizArrayList.add(rodadaJuizRepository.getOne(integerArrayList.get(i)));
         }
 
-        tipoPessoaDAO.save(new Juiz(pessoa, rodadaJuizArrayList));
+        tipoPessoaDAO.save(new Juiz(pessoa, rodadaJuizArrayList.get(0).getTorneio(), rodadaJuizArrayList));
 
         return ResponseEntity.ok().build();
+    }
+
+    // ======================================RELATORIO=============================================
+
+    @GetMapping("/relatorio/cadastros")
+    public String getRelatorioCadastro() {
+        return "relatorio_cadastro";
     }
 
     // ======================================MODEL ATTRIBUTES=============================================
@@ -401,6 +414,16 @@ public class FormController {
     @PostMapping("/rodadas/torneio/{id}")
     public ResponseEntity<?> getRodadaJuiz(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(rodadaJuizRepository.getAllByTorneio(torneioRepository.getOne(id)));
+    }
+
+    @PostMapping("/competidor/torneio/{id}")
+    public ResponseEntity<?> getCompetidor(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(competidorRepository.getAllByTorneio(torneioRepository.getOne(id)));
+    }
+
+    @PostMapping("/juiz/torneio/{id}")
+    public ResponseEntity<?> getJuiz(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(juizRepository.getAllByTorneio(torneioRepository.getOne(id)));
     }
 
     // ======================================FUNCTIONS=============================================
