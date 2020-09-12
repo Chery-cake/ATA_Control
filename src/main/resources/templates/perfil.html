@@ -1,4 +1,4 @@
-<html layout:decorate="~{styleguide}"
+<html layout:decorate="~{layout/base}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="usuario" type="com.control.ata.security.entity.Usuario"*/-->
@@ -7,9 +7,13 @@
 <body>
 <div class="corpo" layout:fragment="corpo">
     <p><a th:href="@{/ajustar}">Mudar informacoes de registro</a></p>
-    <p><a th:href="@{/register/competidor}">Registro para competicao</a></p>
+    <p><a th:href="@{/register/competidor}">Registro para competidor</a></p>
     <p><a th:href="@{/register/juiz}">Registro para juiz</a></p>
     <p th:if="${usuario.pessoa.isInstrutor == true}"><a th:href="@{/alunos}">Informacoes dos alunos</a></p>
+    <div th:if="${usuario.userRole == userRole_enum.ROLE_ADMIN}">
+        <p><a th:href="@{/criar/torneio}">Criar torneio</a></p>
+        <p><a th:href="@{/relatorio/cadastros}">Ver pessoas cadastradas</a></p>
+    </div>
 </div>
 </body>
 </html>

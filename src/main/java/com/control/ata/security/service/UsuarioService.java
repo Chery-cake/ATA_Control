@@ -52,11 +52,24 @@ public class UsuarioService implements UserDetailsService {
 
     }
 
+    public Usuario updateUser(Usuario usuario) {
+
+        Usuario usuarioBd = usuarioRepository.getOne(usuario.getId());
+
+        final String encryptedPassword = bCryptPasswordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(encryptedPassword);
+
+        usuarioBd.setPassword(encryptedPassword);
+        usuarioBd.setEmail(usuario.getEmail());
+        usuarioBd.setPessoa(usuario.getPessoa());
+
+        return usuarioRepository.save(usuarioBd);
+    }
+
     public Usuario signUpUser(Usuario usuario) {
 
         final String encryptedPassword = bCryptPasswordEncoder.encode(usuario.getPassword());
 
-        System.out.println(encryptedPassword);
         usuario.setPassword(encryptedPassword);
 
         final Usuario createdUser = usuarioRepository.save(usuario);

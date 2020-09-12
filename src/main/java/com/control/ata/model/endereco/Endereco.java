@@ -47,7 +47,15 @@ public class Endereco {
         return rua;
     }
 
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
     public Cidade getCidade() {
         return cidade;
+    }
+
+    public void setCidade(Cidade cidade) {
+        this.cidade = cidade;
     }
 }

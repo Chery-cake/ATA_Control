@@ -6,12 +6,12 @@ import java.util.Date;
 
 public class PessoaDTO {
 
+    private Integer id;
     private String nome;
     private String sobrenome;
     private Boolean genero;
     private Date dataNascimento;
     private Integer status;
-    private String foto;
     private String ataNumberWorld;
     private String ataNumberBrasil;
     private Boolean isInstrutor;
@@ -21,6 +21,14 @@ public class PessoaDTO {
     private Integer instrutor;
     private Integer academia;
     private Usuario usuario;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -60,14 +68,6 @@ public class PessoaDTO {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
     }
 
     public String getAtaNumberWorld() {
@@ -150,7 +150,6 @@ public class PessoaDTO {
                 ", genero=" + genero +
                 ", dataNascimento=" + dataNascimento +
                 ", status=" + status +
-                ", foto='" + foto + '\'' +
                 ", ataNumberWorld='" + ataNumberWorld + '\'' +
                 ", ataNumberBrasil='" + ataNumberBrasil + '\'' +
                 ", isInstrutor=" + isInstrutor +

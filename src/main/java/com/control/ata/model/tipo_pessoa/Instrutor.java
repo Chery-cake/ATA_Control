@@ -17,6 +17,7 @@ public class Instrutor {
     @ManyToOne
     private Academia academia;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     private Pessoa pessoa;
 

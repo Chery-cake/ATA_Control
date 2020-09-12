@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorate="~{styleguide}"
+<html layout:decorate="~{layout/base}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
 
@@ -15,59 +15,31 @@
 
 <div class="corpo" layout:fragment="corpo">
 
-    <div class="py-5"
-         style="background-image: url(static/assets/img/img4.jpg);	background-position: top left;	background-size: 100%;	background-repeat: no-repeat;">
-        <div class="container">
-            <div class="row">
-
-                <div class="p-5 col-lg-6">
-                    <h1 class="text-white">Entre em sua conta</h1>
-                    <p class="mb-3" contenteditable="true"></p>
-                    <form role="form" th:action="@{/login}" th:method="post">
-                        <p th:if="${param.error}" class="error">Wrong user or password</p>
-                        <div class="form-group">
-                            <input class="form-control" id="username" name="username" placeholder="Enter email"
-                                   type="text">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" id="password" name="password" placeholder="Password"
-                                   type="password">
-                            <small class="form-text text-muted text-right">
-                                <a href="#"> Forgot your password?</a>
-                            </small>
-                        </div>
-                        <button class="btn btn-primary" type="submit">Login</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="py-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center d-md-flex align-items-center"><i
-                        class="d-block fa fa-stop-circle fa-2x mr-md-5 text-primary"></i>
-                    <ul class="nav mx-md-auto d-flex justify-content-center">
-                        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                    </ul>
-                    <div class="row">
-                        <div class="col-md-12 d-flex align-items-center justify-content-md-between justify-content-center my-2">
-                            <a href="#">
-                                <i class="d-block fa fa-facebook-official text-muted fa-lg mx-2"></i>
-                            </a> <a href="#">
-                            <i class="d-block fa fa-instagram text-muted fa-lg mx-2"></i>
-                        </a> <a href="#">
-                            <i class="d-block fa fa-twitter text-muted fa-lg ml-2"></i>
-                        </a></div>
+    <div class="py-5" style="
+    background-image: url(../assets/img/img2.jpg); background-size: 100%;
+    background-position: top left;	background-repeat: no-repeat;">
+        <div class="py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="p-5 col-lg-6">
+                        <h1 class="text-white">Entre em sua conta</h1>
+                        <p class="mb-3" contenteditable="true"></p>
+                        <form role="form" th:action="@{/login}" th:method="post">
+                            <p class="error text-white" th:if="${param.error}">Wrong user or password</p>
+                            <div class="form-group">
+                                <input class="form-control" id="username" name="username" placeholder="Enter email"
+                                       type="text">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" id="password" name="password" placeholder="Password"
+                                       type="password">
+                                <small class="form-text text-muted text-right">
+                                    <a href="#"> Forgot your password?</a>
+                                </small>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Login</button>
+                        </form>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <p class="mt-2 mb-0">© 2014-2018 Pingendo. All rights reserved</p>
                 </div>
             </div>
         </div>

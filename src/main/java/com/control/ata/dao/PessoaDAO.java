@@ -27,19 +27,42 @@ public class PessoaDAO {
 
         Pessoa pessoa;
 
-        if (pessoaDTO.getIsInstrutor()) {
-            pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
-                                pessoaDTO.getDataNascimento(), pessoaDTO.getStatus(), pessoaDTO.getAtaNumberWorld(),
-                                pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getTelefone(),
-                                faixaRepository.getOne(pessoaDTO.getFaixa()),
-                                enderecoDAO.save(pessoaDTO.getEnderecoDTO()), pessoaDTO.getUsuario());
-        } else {
-            pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
-                                pessoaDTO.getDataNascimento(), pessoaDTO.getStatus(), pessoaDTO.getAtaNumberWorld(),
-                                pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getTelefone(),
-                                faixaRepository.getOne(pessoaDTO.getFaixa()),
-                                enderecoDAO.save(pessoaDTO.getEnderecoDTO()),
-                                instrutorRepository.getOne(pessoaDTO.getInstrutor()), pessoaDTO.getUsuario());
+        if(pessoaDTO.getId() == null) {
+            if (pessoaDTO.getIsInstrutor()) {
+                pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
+                                    pessoaDTO.getDataNascimento(), pessoaDTO.getStatus(), pessoaDTO.getAtaNumberWorld(),
+                                    pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getTelefone(),
+                                    faixaRepository.getOne(pessoaDTO.getFaixa()),
+                                    enderecoDAO.save(pessoaDTO.getEnderecoDTO()), pessoaDTO.getUsuario());
+            } else {
+                pessoa = new Pessoa(pessoaDTO.getNome(), pessoaDTO.getSobrenome(), pessoaDTO.getGenero(),
+                                    pessoaDTO.getDataNascimento(), pessoaDTO.getStatus(), pessoaDTO.getAtaNumberWorld(),
+                                    pessoaDTO.getAtaNumberBrasil(), pessoaDTO.getIsInstrutor(), pessoaDTO.getTelefone(),
+                                    faixaRepository.getOne(pessoaDTO.getFaixa()),
+                                    enderecoDAO.save(pessoaDTO.getEnderecoDTO()),
+                                    instrutorRepository.getOne(pessoaDTO.getInstrutor()), pessoaDTO.getUsuario());
+            }
+        }else {
+
+            pessoa = pessoaRepository.getOne(pessoaDTO.getId());
+            pessoa.setEndereco(enderecoDAO.updateEndViaDTO(pessoa.getEndereco(), pessoaDTO.getEnderecoDTO()));
+            pessoa.setFaixa(faixaRepository.getOne(pessoaDTO.getFaixa()));
+
+            pessoa.setStatus(pessoaDTO.getStatus());
+            pessoa.setTelefone(pessoaDTO.getTelefone());
+            pessoa.setAtaNumberBrasil(pessoaDTO.getAtaNumberBrasil());
+            pessoa.setAtaNumberWorld(pessoaDTO.getAtaNumberWorld());
+            pessoa.setDataNascimento(pessoaDTO.getDataNascimento());
+            pessoa.setNome(pessoaDTO.getNome());
+            pessoa.setSobrenome(pessoaDTO.getSobrenome());
+            pessoa.setGenero(pessoaDTO.getGenero());
+
+            pessoa.setIsInstrutor(pessoaDTO.getIsInstrutor());
+            if (pessoaDTO.getInstrutor() != null) {
+                pessoa.setInstrutor(instrutorRepository.getOne(pessoaDTO.getInstrutor()));
+            }else {
+                pessoa.setInstrutor(null);
+            }
         }
         return this.save(pessoa);
     }

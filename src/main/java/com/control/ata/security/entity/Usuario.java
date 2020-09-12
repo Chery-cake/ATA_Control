@@ -2,6 +2,7 @@ package com.control.ata.security.entity;
 
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.security.enuns.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     private Pessoa pessoa;
 
@@ -89,6 +91,10 @@ public class Usuario implements UserDetails {
         return pessoa;
     }
 
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -119,5 +125,19 @@ public class Usuario implements UserDetails {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", pessoa=" + pessoa +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userRole=" + userRole +
+                ", locked=" + locked +
+                ", enabled=" + enabled +
+                ", confirmationToken=" + confirmationToken +
+                '}';
     }
 }

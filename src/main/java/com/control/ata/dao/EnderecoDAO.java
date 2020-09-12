@@ -26,6 +26,12 @@ public class EnderecoDAO {
         return this.save(new Endereco(enderecoDTO.getRua(), cidadeRepository.getOne(enderecoDTO.getCidade())));
     }
 
+    public Endereco updateEndViaDTO(Endereco endereco, EnderecoDTO enderecoDTO){
+        endereco.setCidade(cidadeRepository.getOne(enderecoDTO.getCidade()));
+        endereco.setRua(enderecoDTO.getRua());
+        return endereco;
+    }
+
     public List<Endereco> saveAll(Iterable<?> iterable) {
         List<Endereco> enderecos = new ArrayList<>();
         if (Endereco.class.equals(iterable.getClass())) {
@@ -38,6 +44,10 @@ public class EnderecoDAO {
             }
         }
         return enderecos;
+    }
+
+    public void delete(Endereco endereco){
+        enderecoRepository.delete(endereco);
     }
 
 }

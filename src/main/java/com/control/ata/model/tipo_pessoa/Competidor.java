@@ -22,7 +22,7 @@ public class Competidor {
 
     private Double peso;
     private Double altura;
-    private String nivel;
+    private Integer nivel;
 
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     private Pessoa pessoa;
@@ -58,7 +58,7 @@ public class Competidor {
     public Competidor() {
     }
 
-    public Competidor(Double peso, Double altura, String nivel, Pessoa pessoa, Torneio torneio,
+    public Competidor(Double peso, Double altura, Integer nivel, Pessoa pessoa, Torneio torneio,
             Collection<CategoriaCompeticao> categoriaCompeticao) {
         this.peso = peso;
         this.altura = altura;
@@ -68,7 +68,7 @@ public class Competidor {
         this.categoriaCompeticao = categoriaCompeticao;
     }
 
-    public Competidor(Double peso, Double altura, String nivel, Pessoa pessoa, Torneio torneio,
+    public Competidor(Double peso, Double altura, Integer nivel, Pessoa pessoa, Torneio torneio,
             Collection<CategoriaCompeticao> categoriaCompeticao, Collection<Time> time) {
         this.peso = peso;
         this.altura = altura;
@@ -91,7 +91,7 @@ public class Competidor {
         return altura;
     }
 
-    public String getNivel() {
+    public Integer getNivel() {
         return nivel;
     }
 

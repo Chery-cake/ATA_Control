@@ -37,9 +37,6 @@ public class Pessoa {
     private Instrutor instrutor;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
-    private Administrador administrador;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
     private Competidor competidor;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
@@ -104,16 +101,32 @@ public class Pessoa {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public String getSobrenome() {
         return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
     }
 
     public Boolean getGenero() {
         return genero;
     }
 
+    public void setGenero(Boolean genero) {
+        this.genero = genero;
+    }
+
     public Date getDataNascimento() {
         return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     public Integer getStatus() {
@@ -128,8 +141,16 @@ public class Pessoa {
         return ataNumberWorld;
     }
 
+    public void setAtaNumberWorld(String ataNumberWorld) {
+        this.ataNumberWorld = ataNumberWorld;
+    }
+
     public String getAtaNumberBrasil() {
         return ataNumberBrasil;
+    }
+
+    public void setAtaNumberBrasil(String ataNumberBrasil) {
+        this.ataNumberBrasil = ataNumberBrasil;
     }
 
     public Boolean getIsInstrutor() {
@@ -150,6 +171,10 @@ public class Pessoa {
 
     public String getTelefone() {
         return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public Faixa getFaixa() {
