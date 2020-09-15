@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/base_js}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+
+<body>
+
+<div class="corpo" layout:fragment="corpo">
+
+    <div class="py-5 text-center">
+        <div class="container">
+            <div class="row">
+                <div class="mx-auto col-lg-6 col-10">
+                    <h1>Crie sua conta</h1>
+                    <p class="mb-3" style=""></p>
+
+                    <form action="#" class="text-left" id="form-register-pessoa">
+
+                        <div class="form-group">
+                            <label for="nome">Nome</label>
+                            <input class="form-control" id="nome" placeholder="Formula"
+                                   required
+                                   type="text">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Chaveamento: </label></br>
+                            <div class="form-check form-check-inline">
+                                <input checked class="form-check-input" id="tipo-chave-T"
+                                       name="chaves" type="radio" value="true" onclick="hideChaveInfo()">
+                                <label class="form-check-label" for="tipo-chave-T">Sim</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" id="tipo-chave-F" name="chaves"
+                                       type="radio" value="false" onclick="hideChaveInfo()">
+                                <label class="form-check-label" for="tipo-chave-F">Nao</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            <label>Time: </label></br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" id="inlineRadio1 isInstrutor_T" name="time"
+                                        type="radio" value="true">
+                                <label class="form-check-label" for="inlineRadio1 isInstrutor_T" id="tipo-time-T">Sim</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input checked class="form-check-input" id="inlineRadio2 isInstrutor_F"
+                                       name="time" type="radio" value="false">
+                                <label class="form-check-label" for="inlineRadio2 isInstrutor_F" id="tipo-time-F">Não</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="tempo_div">
+                            <label>Limite de tempo:</label>
+                            <input class="form-control" type="number" value="0" name="tempo" id="tempo">
+                        </div>
+
+                        <div class="form-group" id="ponto_div">
+                            <label>Limite de pontos:</label>
+                            <input class="form-control" type="number" value="0" id="ponto" name="ponto">
+                        </div>
+
+                        <div id="info_time" hidden>
+                            <label>Limite de participantes:</label>
+                            <input class="form-control" type="number" value="0" id="maxParticipantes" name="ponto">
+
+                            <label>Minimo de participantes masculinos:</label>
+                            <input class="form-control" type="number" value="0" id="mimMasc" name="ponto">
+
+                            <label>Minimo de participantes femininos:</label>
+                            <input class="form-control" type="number" value="0" id="mimFem" name="ponto">
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Register</button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script th:fragment="js" th:src="@{/js/categoria_register.js}"></script>
+
+</body>
+
+</html>

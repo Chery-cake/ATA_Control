@@ -364,6 +364,28 @@ public class FormController {
         return "relatorio_cadastro";
     }
 
+    // ======================================CRIAR CATEGORIA=============================================
+
+    @GetMapping("/criar/categoria")
+    public String cadastroCategoria(){
+        return "registrar_categoria";
+    }
+
+    @PostMapping("/save/categoria")
+    public ResponseEntity<?> cadastrarCategoria(@Valid @RequestBody String json,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        CategoriaCompeticao categoriaCompeticao = jacksonObjectMapper.readValue(decodedJson, CategoriaCompeticao.class);
+
+        categoriaCompeticaoRepository.save(categoriaCompeticao);
+
+        return ResponseEntity.ok().build();
+    }
+
     // ======================================MODEL ATTRIBUTES=============================================
 
     @ModelAttribute("faixas")
