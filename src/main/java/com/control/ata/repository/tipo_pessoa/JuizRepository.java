@@ -15,4 +15,7 @@ public interface JuizRepository extends JpaRepository<Juiz, Integer> {
     @Query("select j from Juiz j where j.torneio = :torneio")
     List<Juiz> getAllByTorneio(@Param("torneio") Torneio torneio);
 
+    @Query("select j from Juiz j join j.rodadaJuizList r where r.id = :id")
+    List<Juiz> getAllByRodadaJuizList(@Param("id") Integer id);
+
 }
