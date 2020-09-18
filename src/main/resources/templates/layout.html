@@ -5,11 +5,11 @@
 <!--/*@thymesVar id="usuario" type="com.control.ata.security.entity.Usuario"*/-->
 <head>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 
     <title th:text="#{sistema.titulo}">ATA Control</title>
     <!-- CSS dependencies -->
-       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet">
@@ -21,9 +21,10 @@
     <link href="font-awesome.css" rel="stylesheet" th:href="@{../../assets/argon/assets/css/font-awesome.css}">
     <link href="nucleo-svg.css" rel="stylesheet" th:href="@{../../assets/argon/assets/css/nucleo-svg.css}">
     <!-- CSS Files -->
-    <link href="argon-design-system.css" rel="stylesheet" th:href="@{../../assets/argon/assets/css/argon-design-system.css}">
+    <link href="argon-design-system.css" rel="stylesheet"
+          th:href="@{../../assets/argon/assets/css/argon-design-system.css}">
 
-<!--    <link href="wireframe.css" rel="stylesheet" th:href="@{../../assets/css/wireframe.css}"/>-->
+    <!--    <link href="wireframe.css" rel="stylesheet" th:href="@{../../assets/css/wireframe.css}"/>-->
 
 </head>
 <body>
@@ -83,7 +84,6 @@
             </div>
         </div>
     </nav>
-
 </header>
 
 <main role="main">
@@ -97,10 +97,10 @@
                 <div class="col-md-12 text-center d-md-flex align-items-center"><i
                         class="d-block fa fa-stop-circle fa-2x mr-md-5 text-primary"></i>
                     <ul class="nav mx-md-auto d-flex justify-content-center">
-                        <li class="nav-item"><a class="nav-link active " href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link " href="#">Features</a></li>
-                        <li class="nav-item"><a class="nav-link " href="#">Pricing</a></li>
-                        <li class="nav-item"><a class="nav-link " href="#">About</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                     </ul>
                     <div class="row">
                         <div class="col-md-12 d-flex align-items-center justify-content-md-between justify-content-center my-2">
@@ -116,31 +116,30 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <p class="mt-2 mb-0 ">© 2014-2018 Ata Control. All rights reserved</p>
+                    <p class="mt-2 mb-0">© 2014-2018 Ata Control. All rights reserved</p>
                 </div>
             </div>
         </div>
     </footer>
-
 </main>
 
-
 <!--   Core JS Files   -->
-<script th:src="@{../..//assets/argon/assets/js/core/bootstrap.min.js}"></script>
-<script th:src="@{../../assets/argon/assets/js/core/jquery.min.js}"></script>
-<script th:src="@{../../assets/argon/assets/js/core/popper.min.js}"></script>
-<script th:src="@{../../assets/argon/assets/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<script th:fragment="js" th:src="@{../..//assets/argon/assets/js/core/bootstrap.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/core/jquery.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/core/popper.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
 <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-<script th:src="@{../../assets/argon/assets/js/plugins/bootstrap-switch.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/bootstrap-switch.js}"></script>
 <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-<script th:src="@{../../assets/argon/assets/js/plugins/nouislider.min.js}"></script>
-<script th:src="@{../../assets/argon/assets/js/plugins/moment.min.js}"></script>
-<script th:src="@{../../assets/argon/assets/js/plugins/datetimepicker.js}"></script>
-<script th:src="@{../../assets/argon/assets/js/plugins/bootstrap-datepicker.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/nouislider.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/moment.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/datetimepicker.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/bootstrap-datepicker.min.js}"></script>
 <!-- Control Center for Argon UI Kit: parallax effects, scripts for the example pages etc -->
 <!--  Google Maps Plugin    -->
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>-->
-<script th:src="@{../../assets/argon/assets/js/argon-design-system.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/argon-design-system.js}"></script>
+
 
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -153,6 +152,9 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script crossorigin="anonymous" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<!-- 	MEUS JS -->
+<script th:replace=":: js"></script>
 
 </body>
 
