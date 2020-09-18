@@ -5,13 +5,26 @@
 <!--/*@thymesVar id="usuario" type="com.control.ata.security.entity.Usuario"*/-->
 <head>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 
     <title th:text="#{sistema.titulo}">ATA Control</title>
     <!-- CSS dependencies -->
-    <!--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"-->
-    <!--          type="text/css">-->
-    <link href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- Nucleo Icons -->
+    <link href="nucleo-icons.css" rel="stylesheet" th:href="@{../../assets/argon/assets/css/nucleo-icons.css}">
+    <!-- Font Awesome Icons -->
+    <link href="font-awesome.css" rel="stylesheet" th:href="@{../../assets/argon/assets/css/font-awesome.css}">
+    <link href="nucleo-svg.css" rel="stylesheet" th:href="@{../../assets/argon/assets/css/nucleo-svg.css}">
+    <!-- CSS Files -->
+    <link href="argon-design-system.css" rel="stylesheet"
+          th:href="@{../../assets/argon/assets/css/argon-design-system.css}">
+
+    <!--    <link href="wireframe.css" rel="stylesheet" th:href="@{../../assets/css/wireframe.css}"/>-->
 
 </head>
 <body>
@@ -73,7 +86,7 @@
     </nav>
 </header>
 
-<main class="container" role="main">
+<main role="main">
     <div layout:fragment="corpo">
         <div>conteudo principal das páginas</div>
     </div>
@@ -108,26 +121,24 @@
             </div>
         </div>
     </footer>
-
 </main>
 
-
 <!--   Core JS Files   -->
-<script th:src="@{../static/assets/argon/assets/js/core/bootstrap.min.js}"></script>
-<script th:src="@{../static/assets/argon/assets/js/core/jquery.min.js}"></script>
-<script th:src="@{../static/assets/argon/assets/js/core/popper.min.js}"></script>
-<script th:src="@{../static/assets/argon/assets/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<script th:fragment="js" th:src="@{../..//assets/argon/assets/js/core/bootstrap.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/core/jquery.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/core/popper.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
 <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-<script th:src="@{../static/assets/argon/assets/js/plugins/bootstrap-switch.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/bootstrap-switch.js}"></script>
 <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-<script th:src="@{../static/assets/argon/assets/js/plugins/nouislider.min.js}"></script>
-<script th:src="@{../static/assets/argon/assets/js/plugins/moment.min.js}"></script>
-<script th:src="@{../static/assets/argon/assets/js/plugins/datetimepicker.js}"></script>
-<script th:src="@{../static/assets/argon/assets/js/plugins/bootstrap-datepicker.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/nouislider.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/moment.min.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/datetimepicker.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/plugins/bootstrap-datepicker.min.js}"></script>
 <!-- Control Center for Argon UI Kit: parallax effects, scripts for the example pages etc -->
 <!--  Google Maps Plugin    -->
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>-->
-<script th:src="@{../static/assets/argon/assets/js/argon-design-system.js}"></script>
+<script th:fragment="js" th:src="@{../../assets/argon/assets/js/argon-design-system.js}"></script>
 
 
 <!-- JS -->
@@ -141,6 +152,9 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script crossorigin="anonymous" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<!-- 	MEUS JS -->
+<script th:replace=":: js"></script>
 
 </body>
 
