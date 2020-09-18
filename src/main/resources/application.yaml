@@ -6,7 +6,7 @@ server:
 # Postgres
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/ata_control #?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    url: jdbc:postgresql://localhost:5432/ata_control
     username: postgres
     password: root
     driver-class-name: org.postgresql.Driver

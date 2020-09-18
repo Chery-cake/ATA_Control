@@ -1,6 +1,4 @@
-//submit do formulario para o controller
 $("#form-register-pessoa").submit(function (evt) {
-    //bloqueia o comportamento padrao do submit
     evt.preventDefault();//todo adicionar ataNumbers
 
     var data = {};

@@ -230,7 +230,7 @@ public class FormController {
                 nivel = 8;
                 break;
             case 19:
-                nivel = 9;
+                nivel = 8;
                 break;
             default:
                 nivel = 0;
@@ -364,6 +364,37 @@ public class FormController {
         return "relatorio_cadastro";
     }
 
+    // ======================================CRIAR CATEGORIA=============================================
+
+    @GetMapping("/criar/categoria")
+    public String cadastroCategoria(){
+        return "registrar_categoria";
+    }
+
+    @PostMapping("/save/categoria")
+    public ResponseEntity<?> cadastrarCategoria(@Valid @RequestBody String json,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        CategoriaCompeticao categoriaCompeticao = jacksonObjectMapper.readValue(decodedJson, CategoriaCompeticao.class);
+
+        categoriaCompeticaoRepository.save(categoriaCompeticao);
+
+        return ResponseEntity.ok().build();
+    }
+
+    // ======================================CRIAR RINGUES=============================================
+
+    @GetMapping("/cadastrar/ringues")
+    public String cadastrarRingues(){
+        return "cadastro_ringues";
+    }
+
+
+
     // ======================================MODEL ATTRIBUTES=============================================
 
     @ModelAttribute("faixas")
@@ -424,6 +455,16 @@ public class FormController {
     @PostMapping("/juiz/torneio/{id}")
     public ResponseEntity<?> getJuiz(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(juizRepository.getAllByTorneio(torneioRepository.getOne(id)));
+    }
+
+    @PostMapping("/qunatRingues/torneio/{id}")
+    public ResponseEntity<?> getQuantRingues(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(torneioRepository.getOne(id).getMaxNumeroRingues());
+    }
+
+    @PostMapping("/juiz/rodada/{id}")
+    public ResponseEntity<?> getJuizRodada(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(juizRepository.getAllByRodadaJuizList(id));
     }
 
     // ======================================FUNCTIONS=============================================
