@@ -9,24 +9,21 @@
 
     <title th:text="#{sistema.titulo}">ATA Control</title>
     <!-- CSS dependencies -->
-    <!--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"-->
-    <!--          type="text/css">-->
-    <link href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <!-- Nucleo Icons -->
-    <link th:href="@{../static/assets/argon/assets/css/nucleo-icons.css}">
+    <link href="nucleo-icons.css" rel="stylesheet" th:href="@{../../assets/argon/assets/css/nucleo-icons.css}">
     <!-- Font Awesome Icons -->
-    <link th:href="@{../static/assets/argon/assets/css/font-awesome.css}">
-    <link th:href="@{../static/assets/argon/assets/css/nucleo-svg.css}">
+    <link href="font-awesome.css" rel="stylesheet" th:href="@{../../assets/argon/assets/css/font-awesome.css}">
+    <link href="nucleo-svg.css" rel="stylesheet" th:href="@{../../assets/argon/assets/css/nucleo-svg.css}">
     <!-- CSS Files -->
-    <link th:href="@{../static/assets/argon/assets/css/argon-design-system.css}">
-    <!--    <link href="./assets/css/argon-design-system.css?v=1.2.0" rel="stylesheet" />-->
+    <link href="argon-design-system.css" rel="stylesheet" th:href="@{../../assets/argon/assets/css/argon-design-system.css}">
 
-    <link th:href="@{../static/assets/css/wireframe.css}">
+    <!--    <link href="wireframe.css" rel="stylesheet" th:href="@{../../assets/css/wireframe.css}"/>-->
 
 </head>
 <body>
@@ -88,7 +85,7 @@
     </nav>
 </header>
 
-<main class="container" role="main">
+<main role="main">
     <div layout:fragment="corpo">
         <div>conteudo principal das páginas</div>
     </div>
