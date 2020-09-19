@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="usuario" type="com.control.ata.security.entity.Usuario"*/-->
+<head>
+
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <title th:text="#{sistema.titulo}">ATA Control</title>
+    <!-- CSS dependencies -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://templates.pingendo.com/assets/Pingendo_favicon.ico" rel="icon">
+
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- Nucleo Icons -->
+    <link href="nucleo-icons.css" rel="stylesheet" th:href="@{/assets/argon/assets/css/nucleo-icons.css}">
+    <!-- Font Awesome Icons -->
+    <link href="font-awesome.css" rel="stylesheet" th:href="@{/assets/argon/assets/css/font-awesome.css}">
+    <link href="nucleo-svg.css" rel="stylesheet" th:href="@{/assets/argon/assets/css/nucleo-svg.css}">
+    <!-- CSS Files -->
+    <link href="argon-design-system.css" rel="stylesheet"
+          th:href="@{/assets/argon/assets/css/argon-design-system.css}">
+
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark" name="navb">
+        <div class="container">
+            <button class="navbar-toggler navbar-toggler-right border-0" data-target="#navbar12" data-toggle="collapse"
+                    type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar12">
+                <a class="navbar-brand d-none d-md-block" href="#" style="">
+                    <a class="custom-logo-link" rel="home" th:href="@{/home}">
+
+                        <img
+                                alt="Ata-Control"
+                                class="custom-logo"
+                                height="50"
+                                img
+                                sizes="(max-width: 155px) 100vw, 200px" th:src="@{../assets/img/logo-ata.png}"
+                                width="100">
+
+                    </a>
+
+                </a>
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link square_btn" th:href="@{/home}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link square_btn" th:href="@{/}">Tabelas</a></li>
+                    <li class="nav-item"><a class="nav-link square_btn" th:href="@{/}">Torneio</a></li>
+                </ul>
+
+                <ul class="navbar-nav" th:if="${usuario != null}">
+                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                        <p class="nav-link">Logged in user:
+                            <b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b>
+                        </p>
+                    </li>
+                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                        <a class="nav-link" th:href="@{/perfil}">
+                            <i class="fa fa-user fa-fw"></i>Perfil</a>
+                        <a class="nav-link" th:href="@{/logout}">
+                            <i class="fa fa-user fa-fw"></i>Log out</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav" th:if="${usuario == null}">
+                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                        <a class="nav-link" th:href="@{/register/pessoa}">
+                            <i class="fa fa-user fa-fw"></i>Sign in</a>
+                    </li>
+                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                        <a class="nav-link" th:href="@{/login}">
+                            <i class="fa fa-user fa-fw"></i>Log in</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main role="main">
+    <div layout:fragment="corpo">
+        <div>conteudo principal das páginas</div>
+    </div>
+
+    <footer class="py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center d-md-flex align-items-center"><i
+                        class="d-block fa fa-stop-circle fa-2x mr-md-5 text-primary"></i>
+                    <ul class="nav mx-md-auto d-flex justify-content-center">
+                        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    </ul>
+                    <div class="row">
+                        <div class="col-md-12 d-flex align-items-center justify-content-md-between justify-content-center my-2">
+                            <a href="#">
+                                <i class="d-block fa fa-facebook-official text-muted fa-lg mx-2"></i>
+                            </a> <a href="#">
+                            <i class="d-block fa fa-instagram text-muted fa-lg mx-2"></i>
+                        </a> <a href="#">
+                            <i class="d-block fa fa-twitter text-muted fa-lg ml-2"></i>
+                        </a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="mt-2 mb-0">© 2014-2018 Ata Control. All rights reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</main>
+
+<!--   Core JS Files   -->
+<script th:fragment="js" th:src="@{/assets/argon/assets/js/core/jquery.min.js}"></script>
+<script th:fragment="js" th:src="@{/assets/argon/assets/js/core/popper.min.js}"></script>
+<script th:fragment="js" th:src="@{/assets/argon/assets/js/core/bootstrap.min.js}"></script>
+<script th:fragment="js" th:src="@{/assets/argon/assets/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script th:fragment="js" th:src="@{/assets/argon/assets/js/plugins/bootstrap-switch.js}"></script>
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+<script th:fragment="js" th:src="@{/assets/argon/assets/js/plugins/nouislider.min.js}"></script>
+<script th:fragment="js" th:src="@{/assets/argon/assets/js/plugins/moment.min.js}"></script>
+<script th:fragment="js" th:src="@{/assets/argon/assets/js/plugins/datetimepicker.js}"></script>
+<script th:fragment="js" th:src="@{/assets/argon/assets/js/plugins/bootstrap-datepicker.min.js}"></script>
+<!-- Control Center for Argon UI Kit: parallax effects, scripts for the example pages etc -->
+<!--  Google Maps Plugin    -->
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>-->
+<script th:fragment="js" th:src="@{/assets/argon/assets/js/argon-design-system.js}"></script>
+
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+<!--<script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+<!--        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>-->
+<script crossorigin="anonymous" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
