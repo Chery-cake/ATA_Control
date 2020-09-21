@@ -19,7 +19,9 @@ public class RingueIndividual {
     private Integer id;
 
     private Boolean fechado;
-    private Integer numero;
+
+    private Integer numeroRingue;
+    private Integer numeroRodada;
 
     private String idade;
     private Integer nivel;
@@ -57,15 +59,14 @@ public class RingueIndividual {
     public RingueIndividual() {
     }
 
-    public RingueIndividual(Boolean fechado, Integer numero, String idade, Integer nivel,
-            Collection<Juiz> juiz, Collection<Competidor> competidor, Torneio torneio,
-            Collection<CategoriaCompeticao> categoriaCompeticao) {
+    public RingueIndividual(Boolean fechado, Integer numeroRingue, Integer numeroRodada, String idade, Integer nivel,
+            Collection<Juiz> juiz, Torneio torneio, Collection<CategoriaCompeticao> categoriaCompeticao) {
         this.fechado = fechado;
-        this.numero = numero;
+        this.numeroRingue = numeroRingue;
+        this.numeroRodada = numeroRodada;
         this.idade = idade;
         this.nivel = nivel;
         this.juiz = juiz;
-        this.competidor = competidor;
         this.torneio = torneio;
         this.categoriaCompeticao = categoriaCompeticao;
     }
@@ -78,12 +79,12 @@ public class RingueIndividual {
         return fechado;
     }
 
-    public Integer getNumero() {
-        return numero;
+    public Integer getNumeroRingue() {
+        return numeroRingue;
     }
 
-    public void setNumero(Integer numero) {
-        this.numero = numero;
+    public Integer getNumeroRodada() {
+        return numeroRodada;
     }
 
     public String getIdade() {

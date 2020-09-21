@@ -17,6 +17,9 @@ $("#torneio").change(function () {
         success: function (response) {
             quantRing = response[0].torneio.maxNumeroRingues;
             var div = document.getElementById("rodada");
+            var label = document.createElement("label");
+            label.textContent = "Rodada:";
+            div.appendChild(label);
             var select = document.createElement("select");// add select rodada
             select.id = "rodada_select";
             select.className = "form-control";
@@ -111,8 +114,8 @@ function addCadastroRingue(numeroRingue, numeroRodada, localDocumento) {//todo a
         div.appendChild(label);
         var select = document.createElement("select");
         select.className = "form-control";
-        select.id = "select_" + numeroRingue + "_" + numeroRodada;
-        select.name = "select_" + numeroRingue + "_" + numeroRodada;
+        select.id = "select_" + j + "_" + numeroRingue + "_" + numeroRodada;
+        select.name = "select_" + j + "_" + numeroRingue + "_" + numeroRodada;
         select.required;
         var option = document.createElement("option");
         option.value = "";
@@ -132,6 +135,58 @@ function addCadastroRingue(numeroRingue, numeroRodada, localDocumento) {//todo a
         }
         div.appendChild(select);
     }
+
+    label = document.createElement("label");//add input fechado
+    label.textContent = "O ringue é fechado:";
+    div.appendChild(label);
+    var input = document.createElement("input");
+    input.type = "radio";
+    input.name = "fechado_" + numeroRingue + "_" + numeroRodada;
+    input.value = true;
+    input.id = "fechado_T_" + numeroRingue + "_" + numeroRodada;
+    div.appendChild(input);
+    label = document.createElement("label");
+    label.textContent = "Fechado";
+    label.setAttribute("for", "genero_T_" + numeroRingue + "_" + numeroRodada)
+    div.appendChild(label);
+    input = document.createElement("input");
+    input.type = "radio";
+    input.name = "fechado_" + numeroRingue + "_" + numeroRodada;
+    input.value = false;
+    input.id = "genero_F_" + numeroRingue + "_" + numeroRodada;
+    input.setAttribute("checked", "checked");
+    div.appendChild(input);
+    label = document.createElement("label");
+    label.textContent = "Aberto";
+    label.setAttribute("for", "genero_F_" + numeroRingue + "_" + numeroRodada)
+    div.appendChild(label);
+    div.appendChild(document.createElement("br"));
+
+    label = document.createElement("label");//add input genero
+    label.textContent = "Genero do ringue:";
+    div.appendChild(label);
+    var input = document.createElement("input");
+    input.type = "radio";
+    input.name = "genero_" + numeroRingue + "_" + numeroRodada;
+    input.value = true;
+    input.id = "genero_M_" + numeroRingue + "_" + numeroRodada;
+    input.setAttribute("checked", "checked");
+    div.appendChild(input);
+    label = document.createElement("label");
+    label.textContent = "Masculino";
+    label.setAttribute("for", "genero_M_" + numeroRingue + "_" + numeroRodada)
+    div.appendChild(label);
+    input = document.createElement("input");
+    input.type = "radio";
+    input.name = "genero_" + numeroRingue + "_" + numeroRodada;
+    input.value = false;
+    input.id = "genero_F_" + numeroRingue + "_" + numeroRodada;
+    div.appendChild(input);
+    label = document.createElement("label");
+    label.textContent = "Feminino";
+    label.setAttribute("for", "genero_F_" + numeroRingue + "_" + numeroRodada)
+    div.appendChild(label);
+    div.appendChild(document.createElement("br"));
 
     label = document.createElement("label");// add select idades
     label.textContent = "Idade do ringue:";
@@ -258,9 +313,9 @@ function addCadastroRingue(numeroRingue, numeroRodada, localDocumento) {//todo a
     div.appendChild(input);
     div.appendChild(div_cat);
 
-    if(numeroRodada === 1){
+    if (numeroRodada === 1) {
         localDocumento.appendChild(div);
-    }else {
+    } else {
         localDocumento.append(div);
     }
 
@@ -298,3 +353,63 @@ function addCategorias(numeroRingue, numeroRodada, div) {
         }
     });
 }
+
+function getRadio(radio_name) {
+    var radios = document.getElementsByName(radio_name);
+    for (var i in radios) {
+        if (radios[i].checked) {
+            return radios[i].value;
+        }
+    }
+}
+
+$(document).on("click", "button[id='submit']", function () {
+
+    var data = {};
+    data.arrayRingue = [];
+
+    var div_numRingue = $("#cadastros").children("div");
+
+    for (var numeroRingue = 1; numeroRingue <= div_numRingue.length; numeroRingue++) {
+        var div_numRodada = $(div_numRingue[numeroRingue - 1]).children("div");
+        for (var numeroRodada = 1; numeroRodada <= div_numRodada.length; numeroRodada++) {
+
+            var torneio_individual_dto = {};
+            torneio_individual_dto.torneio = $("#torneio").val();
+            torneio_individual_dto.numeroRingue = numeroRingue;
+            torneio_individual_dto.numeroRodada = numeroRodada;
+
+            var juizes = [];
+            for (var i = 0; i < 3; i++) {
+                juizes.push($("#select_" + i + "_" + numeroRingue + "_" + numeroRodada).val());
+            }
+            torneio_individual_dto.juizes = juizes;
+
+            torneio_individual_dto.fechado = getRadio("fechado_" + numeroRingue + "_" + numeroRodada);
+            torneio_individual_dto.genero = getRadio("genero_" + numeroRingue + "_" + numeroRodada);
+            torneio_individual_dto.idade = $("#select_idade_" + numeroRingue + "_" + numeroRodada).val();
+            torneio_individual_dto.nivel = $("#select_nivel_" + numeroRingue + "_" + numeroRodada).val();
+
+            var quantCat = $("#quantCat_" + numeroRingue + "_" + numeroRodada).val();
+            var categorias = [];
+            for (var i = 0; i < quantCat; i++) {
+                categorias.push($("#select_cat_" + numeroRingue + "_" + numeroRodada + "_" + i).val());
+            }
+            torneio_individual_dto.categorias = categorias;
+
+            data.arrayRingue.push(torneio_individual_dto);
+
+        }
+    }
+
+    $.ajax({
+        method: "POST",
+        url: "/save/ringues",
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (result) {
+            // top.location.href = "/cadastrar/ringues";
+        }
+    });
+
+});
