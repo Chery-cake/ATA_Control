@@ -376,6 +376,7 @@ $(document).on("click", "button[id='submit']", function () {
 
             var torneio_individual_dto = {};
             torneio_individual_dto.torneio = $("#torneio").val();
+            torneio_individual_dto.rodada = $("#rodada_select").val();
             torneio_individual_dto.numeroRingue = numeroRingue;
             torneio_individual_dto.numeroRodada = numeroRodada;
 
@@ -408,7 +409,7 @@ $(document).on("click", "button[id='submit']", function () {
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (result) {
-            // top.location.href = "/cadastrar/ringues";
+            top.location.href = "/cadastrar/ringues";
         }
     });
 

@@ -19,6 +19,7 @@ public class RingueIndividualDTO {
     private ArrayList<Integer> categorias;
 
     private Integer torneio;
+    private Integer rodada;
 
     public Integer getId() {
         return id;
@@ -100,6 +101,14 @@ public class RingueIndividualDTO {
         this.torneio = torneio;
     }
 
+    public Integer getRodada() {
+        return rodada;
+    }
+
+    public void setRodada(Integer rodada) {
+        this.rodada = rodada;
+    }
+
     @Override
     public String toString() {
         return "RingueIndividualDTO{" +
@@ -113,6 +122,7 @@ public class RingueIndividualDTO {
                 ", juizes=" + juizes.size() +
                 ", categorias=" + categorias.size() +
                 ", torneio=" + torneio +
+                ", rodada=" + rodada +
                 '}';
     }
 }

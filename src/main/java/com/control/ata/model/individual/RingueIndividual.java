@@ -2,10 +2,7 @@ package com.control.ata.model.individual;
 
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.tipo_pessoa.Juiz;
-import com.control.ata.model.torneio.CategoriaCompeticao;
-import com.control.ata.model.torneio.Cronometro;
-import com.control.ata.model.torneio.Placar;
-import com.control.ata.model.torneio.Torneio;
+import com.control.ata.model.torneio.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -35,6 +32,9 @@ public class RingueIndividual {
     @ManyToOne
     private Torneio torneio;
 
+    @ManyToOne
+    private RodadaJuiz rodadaJuiz;
+
     //private Collection<Torneio> torneio;
 
     @JsonIgnore
@@ -60,7 +60,7 @@ public class RingueIndividual {
     }
 
     public RingueIndividual(Boolean fechado, Integer numeroRingue, Integer numeroRodada, String idade, Integer nivel,
-            Collection<Juiz> juiz, Torneio torneio, Collection<CategoriaCompeticao> categoriaCompeticao) {
+            Collection<Juiz> juiz, Torneio torneio, Collection<CategoriaCompeticao> categoriaCompeticao, RodadaJuiz rodadaJuiz) {
         this.fechado = fechado;
         this.numeroRingue = numeroRingue;
         this.numeroRodada = numeroRodada;
@@ -69,6 +69,7 @@ public class RingueIndividual {
         this.juiz = juiz;
         this.torneio = torneio;
         this.categoriaCompeticao = categoriaCompeticao;
+        this.rodadaJuiz = rodadaJuiz;
     }
 
     public Integer getId() {
@@ -113,6 +114,10 @@ public class RingueIndividual {
 
     public Torneio getTorneio() {
         return torneio;
+    }
+
+    public RodadaJuiz getRodadaJuiz() {
+        return rodadaJuiz;
     }
 
     public Collection<PlanilhaListaIndividual> getPlanilhaListaIndividual() {

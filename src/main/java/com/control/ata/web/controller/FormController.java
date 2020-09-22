@@ -353,7 +353,7 @@ public class FormController {
             rodadaJuizArrayList.add(rodadaJuizRepository.getOne(integerArrayList.get(i)));
         }
 
-        tipoPessoaDAO.save(new Juiz(pessoa, rodadaJuizArrayList.get(0).getTorneio(), rodadaJuizArrayList));
+        tipoPessoaDAO.save(new Juiz(pessoa, rodadaJuizArrayList));
 
         return ResponseEntity.ok().build();
     }
@@ -423,7 +423,9 @@ public class FormController {
                                                                      ringueIndividualDTO.getNivel(), juizArrayList,
                                                                      torneioRepository.getOne(
                                                                              ringueIndividualDTO.getTorneio()),
-                                                                     categoriaCompeticaoArrayList);
+                                                                     categoriaCompeticaoArrayList,
+                                                                     rodadaJuizRepository.getOne(
+                                                                             ringueIndividualDTO.getRodada()));
             ringueDAO.save(ringueIndividual);
         }
 
@@ -489,7 +491,16 @@ public class FormController {
 
     @PostMapping("/juiz/torneio/{id}")
     public ResponseEntity<?> getJuiz(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(juizRepository.getAllByTorneio(torneioRepository.getOne(id)));
+
+        ArrayList<RodadaJuiz> rodadaJuizArrayList = (ArrayList<RodadaJuiz>) rodadaJuizRepository.getAllByTorneio(
+                torneioRepository.getOne(id));
+
+        ArrayList<Juiz> juizArrayList = new ArrayList<>();
+        for (RodadaJuiz rodadaJuiz : rodadaJuizArrayList) {
+            juizArrayList.addAll(juizRepository.getAllByRodadaJuizList(rodadaJuiz.getId()));
+        }
+
+        return ResponseEntity.ok(juizArrayList);
     }
 
     @PostMapping("/qunatRingues/torneio/{id}")

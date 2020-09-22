@@ -56,7 +56,28 @@ public class TipoPessoaDAO {
     }
 
     public Juiz save(Juiz juiz) {
-        return juizRepository.save(juiz);
+        if (juizRepository.getJuizByPessoa(juiz.getPessoa()) != null) {
+            Juiz juizOri = juizRepository.getJuizByPessoa(juiz.getPessoa());
+            ArrayList<RodadaJuiz> rodadaJuizArrayList = new ArrayList<>(juizOri.getRodadaJuizList());
+            rodadaJuizArrayList.addAll(juiz.getRodadaJuizList());
+
+            int i = 0;
+            while (i < rodadaJuizArrayList.size()) {
+                for (int j = 0; j < rodadaJuizArrayList.size(); j++) {
+                    if ((rodadaJuizArrayList.get(i).equals(rodadaJuizArrayList.get(j))) && (i != j)) {
+                        rodadaJuizArrayList.remove(j);
+                        i--;
+                        break;
+                    }
+                }
+                i++;
+            }
+
+            juizOri.setRodadaJuizList(rodadaJuizArrayList);
+            return juizRepository.save(juizOri);
+        } else {
+            return juizRepository.save(juiz);
+        }
     }
 
     public Treinador save(Treinador treinador) {

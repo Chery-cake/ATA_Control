@@ -1,5 +1,6 @@
 package com.control.ata.model.torneio;
 
+import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.tipo_pessoa.Juiz;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -20,6 +21,10 @@ public class RodadaJuiz {
 
     @ManyToOne
     private Torneio torneio;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "rodadaJuiz", cascade = CascadeType.ALL)
+    private Collection<RingueIndividual> ringueIndividualCollection;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "rodadaJuizList")
@@ -65,6 +70,10 @@ public class RodadaJuiz {
 
     public Torneio getTorneio() {
         return torneio;
+    }
+
+    public Collection<RingueIndividual> getRingueIndividualCollection() {
+        return ringueIndividualCollection;
     }
 
     public Collection<Juiz> getJuiz() {

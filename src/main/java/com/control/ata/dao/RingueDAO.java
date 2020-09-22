@@ -24,10 +24,13 @@ public class RingueDAO {
                                                         ringueIndividual.getNumeroRingue(),
                                                         ringueIndividual.getNumeroRodada(),
                                                         ringueIndividual.getIdade(), ringueIndividual.getNivel(), null,
-                                                        ringueIndividual.getTorneio(), null);
+                                                        ringueIndividual.getTorneio(), null, ringueIndividual.getRodadaJuiz());
             aux = ringueIndividualRepository.save(aux);
-            if (!ringueIndividual.getCompetidor().isEmpty()) {
-                aux.setCompetidor(ringueIndividual.getCompetidor());
+            System.out.println(ringueIndividual.getCompetidor());
+            if(ringueIndividual.getCompetidor() != null) {
+                if (!ringueIndividual.getCompetidor().isEmpty()) {
+                    aux.setCompetidor(ringueIndividual.getCompetidor());
+                }
             }
             aux.setJuiz(ringueIndividual.getJuiz());
             aux.setCategoriaCompeticao(ringueIndividual.getCategoriaCompeticao());
