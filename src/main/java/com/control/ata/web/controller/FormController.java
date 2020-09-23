@@ -2,13 +2,12 @@ package com.control.ata.web.controller;
 
 import com.control.ata.dao.EnderecoDAO;
 import com.control.ata.dao.PessoaDAO;
+import com.control.ata.dao.RingueDAO;
 import com.control.ata.dao.TipoPessoaDAO;
-import com.control.ata.dto.CompetidorDTO;
-import com.control.ata.dto.EnderecoDTO;
-import com.control.ata.dto.PessoaDTO;
-import com.control.ata.dto.TorneioDTO;
+import com.control.ata.dto.*;
 import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Pais;
+import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.tipo_pessoa.Competidor;
@@ -83,6 +82,8 @@ public class FormController {
     private JuizRepository juizRepository;
     @Autowired
     private CompetidorRepository competidorRepository;
+    @Autowired
+    private RingueDAO ringueDAO;
 
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
@@ -352,7 +353,7 @@ public class FormController {
             rodadaJuizArrayList.add(rodadaJuizRepository.getOne(integerArrayList.get(i)));
         }
 
-        tipoPessoaDAO.save(new Juiz(pessoa, rodadaJuizArrayList.get(0).getTorneio(), rodadaJuizArrayList));
+        tipoPessoaDAO.save(new Juiz(pessoa, rodadaJuizArrayList));
 
         return ResponseEntity.ok().build();
     }
@@ -367,7 +368,7 @@ public class FormController {
     // ======================================CRIAR CATEGORIA=============================================
 
     @GetMapping("/criar/categoria")
-    public String cadastroCategoria(){
+    public String cadastroCategoria() {
         return "registrar_categoria";
     }
 
@@ -389,11 +390,47 @@ public class FormController {
     // ======================================CRIAR RINGUES=============================================
 
     @GetMapping("/cadastrar/ringues")
-    public String cadastrarRingues(){
+    public String cadastrarRingues() {
         return "cadastro_ringues";
     }
 
+    @PostMapping("/save/ringues")
+    public ResponseEntity<?> cadastrarRingues(@Valid @RequestBody String json,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
 
+        System.out.println(json);
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        RegistroRingueIndividual registroRingueIndividual = jacksonObjectMapper.readValue(decodedJson,
+                                                                                          RegistroRingueIndividual.class);
+
+        for (RingueIndividualDTO ringueIndividualDTO : registroRingueIndividual.arrayRingue) {
+            ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList = new ArrayList<>();
+            for (Integer i : ringueIndividualDTO.getCategorias()) {
+                categoriaCompeticaoArrayList.add(categoriaCompeticaoRepository.getOne(i));
+            }
+            ArrayList<Juiz> juizArrayList = new ArrayList<>();
+            for (Integer i : ringueIndividualDTO.getCategorias()) {
+                juizArrayList.add(juizRepository.getOne(i));
+            }
+            RingueIndividual ringueIndividual = new RingueIndividual(ringueIndividualDTO.getFechado(),
+                                                                     ringueIndividualDTO.getNumeroRingue(),
+                                                                     ringueIndividualDTO.getNumeroRodada(),
+                                                                     ringueIndividualDTO.getIdade(),
+                                                                     ringueIndividualDTO.getNivel(), juizArrayList,
+                                                                     torneioRepository.getOne(
+                                                                             ringueIndividualDTO.getTorneio()),
+                                                                     categoriaCompeticaoArrayList,
+                                                                     rodadaJuizRepository.getOne(
+                                                                             ringueIndividualDTO.getRodada()));
+            ringueDAO.save(ringueIndividual);
+        }
+
+        return ResponseEntity.ok().build();
+    }
 
     // ======================================MODEL ATTRIBUTES=============================================
 
@@ -454,7 +491,16 @@ public class FormController {
 
     @PostMapping("/juiz/torneio/{id}")
     public ResponseEntity<?> getJuiz(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(juizRepository.getAllByTorneio(torneioRepository.getOne(id)));
+
+        ArrayList<RodadaJuiz> rodadaJuizArrayList = (ArrayList<RodadaJuiz>) rodadaJuizRepository.getAllByTorneio(
+                torneioRepository.getOne(id));
+
+        ArrayList<Juiz> juizArrayList = new ArrayList<>();
+        for (RodadaJuiz rodadaJuiz : rodadaJuizArrayList) {
+            juizArrayList.addAll(juizRepository.getAllByRodadaJuizList(rodadaJuiz.getId()));
+        }
+
+        return ResponseEntity.ok(juizArrayList);
     }
 
     @PostMapping("/qunatRingues/torneio/{id}")
@@ -463,7 +509,7 @@ public class FormController {
     }
 
     @PostMapping("/juiz/rodada/{id}")
-    public ResponseEntity<?> getJuizRodada(@PathVariable("id") Integer id){
+    public ResponseEntity<?> getJuizRodada(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(juizRepository.getAllByRodadaJuizList(id));
     }
 
@@ -555,6 +601,17 @@ public class FormController {
         public RegistroJuiz(Integer pessoa, ArrayList<Integer> rodadas) {
             this.pessoa = pessoa;
             this.rodadas = rodadas;
+        }
+    }
+
+    private static class RegistroRingueIndividual {
+        public ArrayList<RingueIndividualDTO> arrayRingue;
+
+        public RegistroRingueIndividual() {
+        }
+
+        public RegistroRingueIndividual(ArrayList<RingueIndividualDTO> arrayRingue) {
+            this.arrayRingue = arrayRingue;
         }
     }
 

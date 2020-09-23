@@ -20,11 +20,18 @@ public class RingueDAO {
 
     public RingueIndividual save(RingueIndividual ringueIndividual) {
         if (ringueIndividual.getId() == null) {
-            RingueIndividual aux = new RingueIndividual(ringueIndividual.getFechado(), ringueIndividual.getNumero(),
+            RingueIndividual aux = new RingueIndividual(ringueIndividual.getFechado(),
+                                                        ringueIndividual.getNumeroRingue(),
+                                                        ringueIndividual.getNumeroRodada(),
                                                         ringueIndividual.getIdade(), ringueIndividual.getNivel(), null,
-                                                        null, ringueIndividual.getTorneio(), null);
+                                                        ringueIndividual.getTorneio(), null, ringueIndividual.getRodadaJuiz());
             aux = ringueIndividualRepository.save(aux);
-            aux.setCompetidor(ringueIndividual.getCompetidor());
+            System.out.println(ringueIndividual.getCompetidor());
+            if(ringueIndividual.getCompetidor() != null) {
+                if (!ringueIndividual.getCompetidor().isEmpty()) {
+                    aux.setCompetidor(ringueIndividual.getCompetidor());
+                }
+            }
             aux.setJuiz(ringueIndividual.getJuiz());
             aux.setCategoriaCompeticao(ringueIndividual.getCategoriaCompeticao());
             return ringueIndividualRepository.save(aux);
@@ -33,7 +40,7 @@ public class RingueDAO {
     }
 
     public RingueTime save(RingueTime ringueTime) {
-        if(ringueTime.getId() == null){
+        if (ringueTime.getId() == null) {
             RingueTime aux = new RingueTime(ringueTime.getFechado(), ringueTime.getNumero(), null, null,
                                             ringueTime.getTorneio(), null);
             aux = ringueTimeRepository.save(aux);

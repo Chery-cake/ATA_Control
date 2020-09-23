@@ -2,10 +2,7 @@ package com.control.ata.model.individual;
 
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.tipo_pessoa.Juiz;
-import com.control.ata.model.torneio.CategoriaCompeticao;
-import com.control.ata.model.torneio.Cronometro;
-import com.control.ata.model.torneio.Placar;
-import com.control.ata.model.torneio.Torneio;
+import com.control.ata.model.torneio.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -19,7 +16,9 @@ public class RingueIndividual {
     private Integer id;
 
     private Boolean fechado;
-    private Integer numero;
+
+    private Integer numeroRingue;
+    private Integer numeroRodada;
 
     private String idade;
     private Integer nivel;
@@ -32,6 +31,9 @@ public class RingueIndividual {
 
     @ManyToOne
     private Torneio torneio;
+
+    @ManyToOne
+    private RodadaJuiz rodadaJuiz;
 
     //private Collection<Torneio> torneio;
 
@@ -57,17 +59,17 @@ public class RingueIndividual {
     public RingueIndividual() {
     }
 
-    public RingueIndividual(Boolean fechado, Integer numero, String idade, Integer nivel,
-            Collection<Juiz> juiz, Collection<Competidor> competidor, Torneio torneio,
-            Collection<CategoriaCompeticao> categoriaCompeticao) {
+    public RingueIndividual(Boolean fechado, Integer numeroRingue, Integer numeroRodada, String idade, Integer nivel,
+            Collection<Juiz> juiz, Torneio torneio, Collection<CategoriaCompeticao> categoriaCompeticao, RodadaJuiz rodadaJuiz) {
         this.fechado = fechado;
-        this.numero = numero;
+        this.numeroRingue = numeroRingue;
+        this.numeroRodada = numeroRodada;
         this.idade = idade;
         this.nivel = nivel;
         this.juiz = juiz;
-        this.competidor = competidor;
         this.torneio = torneio;
         this.categoriaCompeticao = categoriaCompeticao;
+        this.rodadaJuiz = rodadaJuiz;
     }
 
     public Integer getId() {
@@ -78,12 +80,12 @@ public class RingueIndividual {
         return fechado;
     }
 
-    public Integer getNumero() {
-        return numero;
+    public Integer getNumeroRingue() {
+        return numeroRingue;
     }
 
-    public void setNumero(Integer numero) {
-        this.numero = numero;
+    public Integer getNumeroRodada() {
+        return numeroRodada;
     }
 
     public String getIdade() {
@@ -112,6 +114,10 @@ public class RingueIndividual {
 
     public Torneio getTorneio() {
         return torneio;
+    }
+
+    public RodadaJuiz getRodadaJuiz() {
+        return rodadaJuiz;
     }
 
     public Collection<PlanilhaListaIndividual> getPlanilhaListaIndividual() {
