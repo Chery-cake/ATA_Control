@@ -23,7 +23,7 @@
     <link href="nucleo-svg.css" rel="stylesheet" th:href="@{/assets/argon/assets/css/nucleo-svg.css}">
     <!-- CSS Files -->
     <link href="argon-design-system.css" rel="stylesheet"
-          th:href="@{/assets/argon/assets/css/argon-design-system.css}">
+          th:href="@{/assets/argon/assets/css/argon-design-system.min.css}">
 
 </head>
 <body>
@@ -40,14 +40,18 @@
                         sizes="(max-width: 155px) 100vw, 200px" th:src="@{../assets/img/logo-ata.png}"
                         width="100">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+            <button aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler"
+                    data-target="#navbar-default" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar-default">
                 <div class="navbar-collapse-header">
                     <div class="row">
                         <div class="col-6 collapse-close">
-                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+                            <button aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation"
+                                    class="navbar-toggler" data-target="#navbar-default" data-toggle="collapse"
+                                    type="button">
                                 <span></span>
                                 <span></span>
                             </button>
@@ -56,47 +60,48 @@
                 </div>
                 <ul class="navbar-nav ml-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:;">Home
+                        <a class="nav-link" href="javascript:">Home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:;">Torneio</a>
+                        <a class="nav-link" href="javascript:">Torneio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:;">Eventos</a>
+                        <a class="nav-link" href="javascript:">Eventos</a>
                     </li>
 
                 </ul>
                 <ul class="navbar-nav ml-lg-auto">
 
-                    <ul class="navbar-nav" >
+                    <ul class="navbar-nav">
                         <div class="dropdown" th:if="${usuario != null}">
-                            <div class="nav-link dropdown-toggle" href="javascript:;" id="navbar-primary_dropdown_1"
-                                 role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span><b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></span>
+                            <div aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+                                 data-toggle="dropdown" href="javascript:;" id="navbar-primary_dropdown_1"
+                                 role="button">
+                                <span><b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b></span>
                             </div>
                             <div class="dropdown-menu">
 
-                                <a href="javascript:;" class="dropdown-item" th:href="@{/perfil}">
+                                <a class="dropdown-item" href="javascript:" th:href="@{/perfil}">
                                     <i class="ni ni-single-02"></i>
                                     <span>My profile</span>
 
                                 </a>
-                                <a href="javascript:;" class="dropdown-item" >
+                                <a class="dropdown-item" href="javascript:">
                                     <i class="ni ni-settings-gear-65"></i>
                                     <span>Settings</span>
                                 </a>
-                                <a href="javascript:;" class="dropdown-item">
+                                <a class="dropdown-item" href="javascript:">
                                     <i class="ni ni-calendar-grid-58"></i>
                                     <span>Activity</span>
                                 </a>
-                                <a href="javascript:;" class="dropdown-item">
+                                <a class="dropdown-item" href="javascript:">
                                     <i class="ni ni-support-16"></i>
                                     <span>Support</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="javascript:;" class="dropdown-item" th:href="@{/logout}">
+                                <a class="dropdown-item" href="javascript:" th:href="@{/logout}">
                                     <i class="ni ni-user-run"></i>
                                     <span>Logout</span>
                                 </a>
@@ -126,7 +131,7 @@
                                </div>
                            </li>
                        </ul>-->
-
+                </ul>
             </div>
         </div>
     </nav>
@@ -145,16 +150,24 @@
                     <h4 class="mb-0 font-weight-light">Let's get in touch on any of these platforms.</h4>
                 </div>
                 <div class="col-lg-6 text-lg-center btn-wrapper">
-                    <button target="_blank" href="https://twitter.com/creativetim" rel="nofollow" class="btn btn-icon-only btn-twitter rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+                    <button class="btn btn-icon-only btn-twitter rounded-circle" data-original-title="Follow us" data-toggle="tooltip"
+                            href="https://twitter.com/creativetim" rel="nofollow"
+                            target="_blank">
                         <span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
                     </button>
-                    <button target="_blank" href="https://www.facebook.com/CreativeTim/" rel="nofollow" class="btn-icon-only rounded-circle btn btn-facebook" data-toggle="tooltip" data-original-title="Like us">
+                    <button class="btn-icon-only rounded-circle btn btn-facebook" data-original-title="Like us" data-toggle="tooltip"
+                            href="https://www.facebook.com/CreativeTim/" rel="nofollow"
+                            target="_blank">
                         <span class="btn-inner--icon"><i class="fab fa-facebook"></i></span>
                     </button>
-                    <button target="_blank" href="https://dribbble.com/creativetim" rel="nofollow" class="btn btn-icon-only btn-dribbble rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+                    <button class="btn btn-icon-only btn-dribbble rounded-circle" data-original-title="Follow us" data-toggle="tooltip"
+                            href="https://dribbble.com/creativetim" rel="nofollow"
+                            target="_blank">
                         <span class="btn-inner--icon"><i class="fa fa-dribbble"></i></span>
                     </button>
-                    <button target="_blank" href="https://github.com/creativetimofficial" rel="nofollow" class="btn btn-icon-only btn-github rounded-circle" data-toggle="tooltip" data-original-title="Star on Github">
+                    <button class="btn btn-icon-only btn-github rounded-circle" data-original-title="Star on Github" data-toggle="tooltip"
+                            href="https://github.com/creativetimofficial" rel="nofollow"
+                            target="_blank">
                         <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
                     </button>
                 </div>
@@ -169,16 +182,16 @@
                 <div class="col-md-6">
                     <ul class="nav nav-footer justify-content-end">
                         <li class="nav-item">
-                            <a href="" class="nav-link" target="_blank">Creative Tim</a>
+                            <a class="nav-link" href="" target="_blank">Creative Tim</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link" target="_blank">About Us</a>
+                            <a class="nav-link" href="" target="_blank">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link" target="_blank">Blog</a>
+                            <a class="nav-link" href="" target="_blank">Blog</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link" target="_blank">License</a>
+                            <a class="nav-link" href="" target="_blank">License</a>
                         </li>
                     </ul>
                 </div>
