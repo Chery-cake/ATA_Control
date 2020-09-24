@@ -8,6 +8,8 @@
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 
     <title th:text="#{sistema.titulo}">ATA Control</title>
+    <link rel="icon" th:href="@{../assets/img/favicon.ico}" type="image/png">
+
     <!-- CSS dependencies -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://templates.pingendo.com/assets/Pingendo_favicon.ico" rel="icon">
@@ -90,7 +92,7 @@
                     <div class="dropdown">
                         <div class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;"
                              id="navbar-primary_dropdown_1" role="button">
-                            <span><b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></span>
+                            <span><b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"> </b></span>
                         </div>
                         <div class="dropdown-menu">
 
@@ -202,6 +204,18 @@
         </div>
     </footer>
 </main>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+<!--<script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+<!--        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>-->
+<script crossorigin="anonymous" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
 <th:block layout:fragment="script">
 
