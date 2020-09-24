@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout/base_js}"
+<html layout:decorate="~{layout/base}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
 
@@ -40,7 +40,8 @@
 
                         <div class="form-group">
                             <label for="telefone">Telefone para contato</label>
-                            <input class="form-control" id="telefone"  data-mask="(00) 0 0000-0000" data-mask-selectonfocus="true"
+                            <input class="form-control" data-mask="(00) 0 0000-0000" data-mask-selectonfocus="true"
+                                   id="telefone"
                                    required
                                    type="text">
                         </div>
@@ -152,8 +153,11 @@
     </div>
 
 </div>
-<script th:fragment="js" th:src="@{/js/pessoa_register.js}"></script>
-<script th:fragment="js" th:src="@{/js/endereco_form.js}"></script>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/pessoa_register.js}"></script>
+    <script th:src="@{/js/endereco_form.js}"></script>
+</th:block>
 
 </body>
 

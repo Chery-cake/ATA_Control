@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout/base_js}"
+<html layout:decorate="~{layout/base}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -37,8 +37,10 @@
 
 </div>
 
-<script th:fragment="js" th:src="@{/js/academia_register.js}"></script>
-<script th:fragment="js" th:src="@{/js/endereco_form.js}"></script>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/academia_register.js}"></script>
+    <script th:src="@{/js/endereco_form.js}"></script>
+</th:block>
 
 </body>
 </html>

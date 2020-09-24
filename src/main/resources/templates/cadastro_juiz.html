@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout/base_js}"
+<html layout:decorate="~{layout/base}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="usuario" type="com.control.ata.security.entity.Usuario"*/-->
@@ -50,7 +50,9 @@
 
 </div>
 
-<script th:fragment="js" th:src="@{/js/cadastro_juiz.js}"></script>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/cadastro_juiz.js}"></script>
+</th:block>
 
 </body>
 
