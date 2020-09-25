@@ -105,14 +105,6 @@ public class AtaApplication implements CommandLineRunner {
             TypeReference<List<pais>> typeReferenceAddress = new TypeReference<List<pais>>() {
             };
             InputStream inputStreamAddress = TypeReference.class.getResourceAsStream("/json/endereco.json");
-
-            TypeReference<List<Faixa>> typeReferenceFaixa = new TypeReference<List<Faixa>>() {
-            };
-            InputStream inputStreamFaixa = TypeReference.class.getResourceAsStream("/json/faixa.json");
-
-            TypeReference<List<CategoriaTorneio>> typeReferenceCatTor = new TypeReference<List<CategoriaTorneio>>() {
-            };
-            InputStream inputStreamCatTor = TypeReference.class.getResourceAsStream("/json/categoriaTorneio.json");
             try {
                 List<pais> pais = mapper.readValue(inputStreamAddress, typeReferenceAddress);
                 for (AtaApplication.pais pais1 : pais) {
@@ -127,12 +119,30 @@ public class AtaApplication implements CommandLineRunner {
                 }
                 System.out.println("Address Saved!");
 
+            } catch (IOException e) {
+                System.out.println("Unable to save address: " + e.getMessage());
+            }
+
+            TypeReference<List<Faixa>> typeReferenceFaixa = new TypeReference<List<Faixa>>() {
+            };
+            InputStream inputStreamFaixa = TypeReference.class.getResourceAsStream("/json/faixa.json");
+
+            try {
                 List<Faixa> faixas = mapper.readValue(inputStreamFaixa, typeReferenceFaixa);
 
                 faixaRepository.saveAll(faixas);
 
                 System.out.println("Faixas Saved!");
 
+            } catch (IOException e) {
+                System.out.println("Unable to save faixas: " + e.getMessage());
+            }
+
+            TypeReference<List<CategoriaTorneio>> typeReferenceCatTor = new TypeReference<List<CategoriaTorneio>>() {
+            };
+            InputStream inputStreamCatTor = TypeReference.class.getResourceAsStream("/json/categoriaTorneio.json");
+
+            try {
                 List<CategoriaTorneio> categoriaTorneios = mapper.readValue(inputStreamCatTor, typeReferenceCatTor);
 
                 categoriaTorneioRepository.saveAll(categoriaTorneios);
@@ -140,7 +150,7 @@ public class AtaApplication implements CommandLineRunner {
                 System.out.println("Categorias Torneio Saved!");
 
             } catch (IOException e) {
-                System.out.println("Unable to save: " + e.getMessage());
+                System.out.println("Unable to save categorias Torneio: " + e.getMessage());
             }
         };
     }
