@@ -10,7 +10,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -22,8 +21,8 @@ public class UsuarioService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//    @Autowired
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
     @Autowired
@@ -56,7 +55,7 @@ public class UsuarioService implements UserDetailsService {
 
         Usuario usuarioBd = usuarioRepository.getOne(usuario.getId());
 
-        final String encryptedPassword = bCryptPasswordEncoder.encode(usuario.getPassword());
+        final String encryptedPassword = BCrypt.gerarBCrypt(usuario.getPassword());
         usuario.setPassword(encryptedPassword);
 
         usuarioBd.setPassword(encryptedPassword);
@@ -68,18 +67,20 @@ public class UsuarioService implements UserDetailsService {
 
     public Usuario signUpUser(Usuario usuario) {
 
-        final String encryptedPassword = bCryptPasswordEncoder.encode(usuario.getPassword());
+        final String encryptedPassword = BCrypt.gerarBCrypt(usuario.getPassword());
 
         usuario.setPassword(encryptedPassword);
 
+        usuario.setEnabled(true);//todo resolver
+
         final Usuario createdUser = usuarioRepository.save(usuario);
 
-        final ConfirmationToken confirmationToken = new ConfirmationToken(usuario);
+//        final ConfirmationToken confirmationToken = new ConfirmationToken(usuario);
 
-        confirmationTokenRepository.save(confirmationToken);
+//        confirmationTokenRepository.save(confirmationToken);
 
 //        sendConfirmationMail(usuario.getEmail(), confirmationToken.getConfirmationToken());//todo arrumar
-        confirmUser(confirmationToken);//todo remover
+//        confirmUser(confirmationToken);//todo remover
 
         return createdUser;
     }

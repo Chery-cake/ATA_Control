@@ -14,13 +14,13 @@
 <div class="corpo" layout:fragment="corpo">
 
     <div class="py-5" style="
-    background-image: url(../assets/img/img2.jpg); background-size: 100%;
+    background-image: url(../assets/img/img-fundo-home.jpg); background-size: 100%;
     background-position: top left;	background-repeat: no-repeat;">
         <div class="py-5">
             <div class="container">
                 <div class="row">
                     <div class="p-5 col-lg-6">
-                        <h1 class="text-white">Entre em sua conta</h1>
+                        <h1>Entre em sua conta</h1>
                         <p class="mb-3" contenteditable="true"></p>
                         <form role="form" th:action="@{/login}" th:method="post">
                             <p class="error text-white" th:if="${param.error}">Wrong user or password</p>
