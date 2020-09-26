@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-lg-6 col-10">
-                    <h1>Crie sua conta</h1>
+                    <h1>Mudar informações da conta</h1>
                     <p class="mb-3" style=""></p>
 
                     <form action="#" class="text-left" id="form-ajustar-pessoa">
@@ -27,32 +27,32 @@
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input class="form-control" id="email" placeholder="stephen.king@gmail.com"
-                                   th:value="${usuario.email}" type="email">
+                                   required th:value="${usuario.email}" type="email">
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="senha">Senha</label>
-                                <input class="form-control" id="senha" placeholder="••••" required
-                                       type="password">
+                                <input class="form-control" id="senha" placeholder="••••" required type="password">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="nome">Nome</label>
-                            <input class="form-control" id="nome" th:value="${usuario.pessoa.nome}"
+                            <input class="form-control" id="nome" required th:value="${usuario.pessoa.nome}"
                                    type="text">
                         </div>
 
                         <div class="form-group">
                             <label for="sobrenome">Sobrenome</label>
-                            <input class="form-control" id="sobrenome"
+                            <input class="form-control" id="sobrenome" required
                                    th:value="${usuario.pessoa.sobrenome}" type="text">
                         </div>
 
                         <div class="form-group">
                             <label for="telefone">Telefone para contato</label>
-                            <input class="form-control" id="telefone" th:value="${usuario.pessoa.telefone}" type="text">
+                            <input class="form-control" id="telefone" required th:value="${usuario.pessoa.telefone}"
+                                   type="text">
                         </div>
 
                         <div class="form-group">
@@ -85,7 +85,7 @@
 
                         <div class="form-group" id="instrutor_div">
                             <label for="instrutor">Instrutor</label>
-                            <select class="form-control" id="instrutor" name="instrutor">
+                            <select class="form-control" id="instrutor" name="instrutor" required>
                                 <option disabled selected value="">Selecione</option>
                                 <option th:each="i : ${instrutores}"
                                         th:text="${i.pessoa.nome + ' ' +i.pessoa.sobrenome}" th:value="${i.id}">...

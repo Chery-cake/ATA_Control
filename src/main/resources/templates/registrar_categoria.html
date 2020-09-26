@@ -14,28 +14,26 @@
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-lg-6 col-10">
-                    <h1>Crie sua conta</h1>
+                    <h1>Criar Categoria de Competição</h1>
                     <p class="mb-3" style=""></p>
 
                     <form action="#" class="text-left" id="form-register-pessoa">
 
                         <div class="form-group">
                             <label for="nome">Nome</label>
-                            <input class="form-control" id="nome" placeholder="Formula"
-                                   required
-                                   type="text">
+                            <input class="form-control" id="nome" placeholder="Formula" required type="text">
                         </div>
 
                         <div class="form-group">
                             <label>Chaveamento: </label></br>
                             <div class="form-check form-check-inline">
                                 <input checked class="form-check-input" id="tipo-chave-T"
-                                       name="chaves" onclick="hideChaveInfo()" type="radio" value="true">
+                                       name="chaves" onclick="hideChaveInfo()" required type="radio" value="true">
                                 <label class="form-check-label" for="tipo-chave-T">Sim</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" id="tipo-chave-F" name="chaves"
-                                       onclick="hideChaveInfo()" type="radio" value="false">
+                                       onclick="hideChaveInfo()" required type="radio" value="false">
                                 <label class="form-check-label" for="tipo-chave-F">Nao</label>
                             </div>
                         </div>
@@ -58,23 +56,24 @@
 
                         <div class="form-group" id="tempo_div">
                             <label>Limite de tempo:</label>
-                            <input class="form-control" id="tempo" name="tempo" type="number" value="0">
+                            <input class="form-control" id="tempo" name="tempo" required type="number" value="0">
                         </div>
 
                         <div class="form-group" id="ponto_div">
                             <label>Limite de pontos:</label>
-                            <input class="form-control" id="ponto" name="ponto" type="number" value="0">
+                            <input class="form-control" id="ponto" name="ponto" required type="number" value="0">
                         </div>
 
                         <div hidden id="info_time">
                             <label>Limite de participantes:</label>
-                            <input class="form-control" id="maxParticipantes" name="ponto" type="number" value="0">
+                            <input class="form-control" id="maxParticipantes" name="ponto" required type="number"
+                                   value="0">
 
                             <label>Minimo de participantes masculinos:</label>
-                            <input class="form-control" id="mimMasc" name="ponto" type="number" value="0">
+                            <input class="form-control" id="mimMasc" name="ponto" required type="number" value="0">
 
                             <label>Minimo de participantes femininos:</label>
-                            <input class="form-control" id="mimFem" name="ponto" type="number" value="0">
+                            <input class="form-control" id="mimFem" name="ponto" required type="number" value="0">
                         </div>
 
                         <button class="btn btn-primary" type="submit">Register</button>

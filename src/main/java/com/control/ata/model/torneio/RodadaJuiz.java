@@ -23,7 +23,7 @@ public class RodadaJuiz {
     private Torneio torneio;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "rodadaJuiz", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "rodadaJuiz", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<RingueIndividual> ringueIndividualCollection;
 
     @JsonIgnore

@@ -11,7 +11,7 @@
 
         <div class="form-group">
             <label for="torneio">Torneio</label>
-            <select class="form-control" id="torneio" name="instrutor" required>
+            <select class="form-control" id="torneio" name="instrutor">
                 <option disabled selected value="">Selecione</option>
                 <option th:each="t : ${torneios}"
                         th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
@@ -20,22 +20,28 @@
             </select>
         </div>
 
-        <div id="rodada">
-            <select hidden id="rodada_select" name="rodada_select"></select>
+        <div id="table">
+            <table class="table-bordered">
+                <tr>
+                    <th>Rodada</th>
+                    <th>Genero</th>
+                    <th>Idade</th>
+                    <th>Nivel</th>
+                    <th>Fechado</th>
+                    <th>Juizes</th>
+                    <th>Numero do ringue</th>
+                    <th>Lugar na seguencia na rodada</th>
+                    <th>Categorias</th>
+                </tr>
+            </table>
         </div>
-
-        <div id="cadastros">
-
-        </div>
-
-        <button class="btn btn-primary" id="submit">Register</button>
 
     </div>
 
 </div>
 
 <th:block layout:fragment="script">
-    <script th:src="@{/js/cadastro_ringues.js}"></script>
+    <script th:src="@{/js/relatorio_torneio.js}"></script>
 </th:block>
 
 </body>

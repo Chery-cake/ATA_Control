@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-lg-6 col-10">
-                    <h1>Crie sua conta</h1>
+                    <h1>Cadastro de juiz</h1>
                     <p class="mb-3" style=""></p>
 
                     <form action="#" class="text-left" id="form-register-juiz">
@@ -23,7 +23,7 @@
 
                         <div class="form-group">
                             <label for="torneio">Torneio</label>
-                            <select class="form-control" id="torneio" name="instrutor">
+                            <select class="form-control" id="torneio" name="instrutor" required>
                                 <option disabled selected value="">Selecione</option>
                                 <option th:each="t : ${torneios}"
                                         th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"

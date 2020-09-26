@@ -21,6 +21,7 @@ import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
+import com.control.ata.repository.individual.RingueIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
 import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
@@ -84,6 +85,8 @@ public class FormController {
     private CompetidorRepository competidorRepository;
     @Autowired
     private RingueDAO ringueDAO;
+    @Autowired
+    private RingueIndividualRepository ringueIndividualRepository;
 
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
@@ -358,11 +361,16 @@ public class FormController {
         return ResponseEntity.ok().build();
     }
 
-    // ======================================RELATORIO=============================================
+    // ======================================RELATORIOS=============================================
 
     @GetMapping("/relatorio/cadastros")
     public String getRelatorioCadastro() {
         return "relatorio_cadastro";
+    }
+
+    @GetMapping("/relatorio/torneio")
+    public String getRelatorioTorneio() {
+        return "relatorio_torneio";
     }
 
     // ======================================CRIAR CATEGORIA=============================================
@@ -416,7 +424,8 @@ public class FormController {
             for (Integer i : ringueIndividualDTO.getCategorias()) {
                 juizArrayList.add(juizRepository.getOne(i));
             }
-            RingueIndividual ringueIndividual = new RingueIndividual(ringueIndividualDTO.getFechado(),
+            RingueIndividual ringueIndividual = new RingueIndividual(ringueIndividualDTO.getGenero(),
+                                                                     ringueIndividualDTO.getFechado(),
                                                                      ringueIndividualDTO.getNumeroRingue(),
                                                                      ringueIndividualDTO.getNumeroRodada(),
                                                                      ringueIndividualDTO.getIdade(),
@@ -511,6 +520,11 @@ public class FormController {
     @PostMapping("/juiz/rodada/{id}")
     public ResponseEntity<?> getJuizRodada(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(juizRepository.getAllByRodadaJuizList(id));
+    }
+
+    @PostMapping("/ringueInd/rodada/{id}")
+    public ResponseEntity<?> getRingueInd(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(ringueIndividualRepository.getAllByRodadaJuiz(rodadaJuizRepository.getOne(id)));
     }
 
     // ======================================FUNCTIONS=============================================

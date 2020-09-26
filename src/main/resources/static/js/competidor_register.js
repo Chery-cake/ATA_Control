@@ -39,11 +39,14 @@ $("#quantidade-categorias").change(function (evt) {
         success: function (response) {
             for (var i = 0; i < $("#quantidade-categorias").val(); i++) {
                 var div = document.getElementById("categorias_select_div");
+                var label = document.createElement("label");
+                label.textContent = (i + 1) + "º Categoria:";
+                div.appendChild(label);
                 var select = document.createElement("select");
                 select.className = "form-control";
                 select.id = "select_categoria_" + i;
                 select.name = "select_categoria_" + i;
-                select.required;
+                select.required = true;
                 var option = document.createElement("option");
                 option.value = "";
                 option.disabled = true;

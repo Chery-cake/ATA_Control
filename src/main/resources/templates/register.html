@@ -20,30 +20,24 @@
                     <form action="#" class="text-left" id="form-register-pessoa">
                         <div class="form-group">
                             <label for="nome">Nome</label>
-                            <input class="form-control" id="nome" placeholder="Stephen" required
-                                   type="text">
+                            <input class="form-control" id="nome" placeholder="Stephen" required type="text">
                         </div>
 
                         <div class="form-group">
                             <label for="sobrenome">Sobrenome</label>
-                            <input class="form-control" id="sobrenome" placeholder="Edwin King"
-                                   required
-                                   type="text">
+                            <input class="form-control" id="sobrenome" placeholder="Edwin King" required type="text">
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input class="form-control" id="email" placeholder="stephen.king@gmail.com"
-                                   required
+                            <input class="form-control" id="email" placeholder="stephen.king@gmail.com" required
                                    type="email">
                         </div>
 
                         <div class="form-group">
                             <label for="telefone">Telefone para contato</label>
-                            <input class="form-control" data-mask="(00) 0 0000-0000" data-mask-selectonfocus="true"
-                                   id="telefone"
-                                   required
-                                   type="text">
+                            <input class="form-control" data-mask-selectonfocus="true" id="telefone"
+                                   placeholder="(00) 0 0000-0000" required type="text">
                         </div>
 
                         <div class="form-group">
@@ -81,7 +75,7 @@
 
                         <div class="form-group" id="instrutor_div">
                             <label for="instrutor">Instrutor</label>
-                            <select class="form-control" id="instrutor" name="instrutor">
+                            <select class="form-control" id="instrutor" name="instrutor" required>
                                 <option disabled selected value="">Selecione</option>
                                 <option th:each="i : ${instrutores}"
                                         th:text="${i.pessoa.nome + ' ' +i.pessoa.sobrenome}" th:value="${i.id}">...
@@ -138,7 +132,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" hidden>
                             <div class="form-check"><input class="form-check-input" id="termos" type="checkbox"
                                                            value="on">
                                 <label class="form-check-label" for="termos"> I Agree with <a href="#">Term and

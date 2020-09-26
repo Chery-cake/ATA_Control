@@ -23,7 +23,7 @@ $("#torneio").change(function () {
             var select = document.createElement("select");// add select rodada
             select.id = "rodada_select";
             select.className = "form-control";
-            select.required;
+            select.required = true;
             var option = document.createElement("option");
             option.value = "";
             option.disabled = true;
@@ -77,6 +77,7 @@ $(document).on("change", "select[id='rodada_select']", function () {
 
                     var button = document.createElement("button");
                     button.textContent = "Adicionar um ringue neste numero";
+                    button.className = "btn btn-primary";
                     button.onclick = function () {
                         var parent = $(this).parent();
 
@@ -96,7 +97,7 @@ $(document).on("change", "select[id='rodada_select']", function () {
     });
 });
 
-function addCadastroRingue(numeroRingue, numeroRodada, localDocumento) {//todo adicionar genero
+function addCadastroRingue(numeroRingue, numeroRodada, localDocumento) {
 
     var div = document.createElement("div");
     div.id = numeroRodada;
@@ -116,7 +117,7 @@ function addCadastroRingue(numeroRingue, numeroRodada, localDocumento) {//todo a
         select.className = "form-control";
         select.id = "select_" + j + "_" + numeroRingue + "_" + numeroRodada;
         select.name = "select_" + j + "_" + numeroRingue + "_" + numeroRodada;
-        select.required;
+        select.required = true;
         var option = document.createElement("option");
         option.value = "";
         option.disabled = true;
@@ -136,57 +137,85 @@ function addCadastroRingue(numeroRingue, numeroRodada, localDocumento) {//todo a
         div.appendChild(select);
     }
 
+    var div_FG = document.createElement("div");
+
     label = document.createElement("label");//add input fechado
     label.textContent = "O ringue é fechado:";
-    div.appendChild(label);
+    div_FG.appendChild(label);
+
+    var div_IG = document.createElement("div");
+
     var input = document.createElement("input");
     input.type = "radio";
     input.name = "fechado_" + numeroRingue + "_" + numeroRodada;
     input.value = true;
     input.id = "fechado_T_" + numeroRingue + "_" + numeroRodada;
-    div.appendChild(input);
+    div_IG.appendChild(input);
+
     label = document.createElement("label");
     label.textContent = "Fechado";
     label.setAttribute("for", "genero_T_" + numeroRingue + "_" + numeroRodada)
-    div.appendChild(label);
+    div_IG.appendChild(label);
+
+    div_FG.appendChild(div_IG);
+    div_IG = document.createElement("div");
+
     input = document.createElement("input");
     input.type = "radio";
     input.name = "fechado_" + numeroRingue + "_" + numeroRodada;
     input.value = false;
     input.id = "genero_F_" + numeroRingue + "_" + numeroRodada;
     input.setAttribute("checked", "checked");
-    div.appendChild(input);
+    div_IG.appendChild(input);
+
     label = document.createElement("label");
     label.textContent = "Aberto";
     label.setAttribute("for", "genero_F_" + numeroRingue + "_" + numeroRodada)
-    div.appendChild(label);
-    div.appendChild(document.createElement("br"));
+    div_IG.appendChild(label);
+
+    div_FG.appendChild(div_IG);
+
+    div.appendChild(div_FG);
+
+    div_FG = document.createElement("div");
+    div_IG = document.createElement("div");
 
     label = document.createElement("label");//add input genero
     label.textContent = "Genero do ringue:";
-    div.appendChild(label);
+    div_FG.appendChild(label);
+
     var input = document.createElement("input");
     input.type = "radio";
     input.name = "genero_" + numeroRingue + "_" + numeroRodada;
     input.value = true;
     input.id = "genero_M_" + numeroRingue + "_" + numeroRodada;
     input.setAttribute("checked", "checked");
-    div.appendChild(input);
+    div_IG.appendChild(input);
+
     label = document.createElement("label");
     label.textContent = "Masculino";
     label.setAttribute("for", "genero_M_" + numeroRingue + "_" + numeroRodada)
-    div.appendChild(label);
+    div_IG.appendChild(label);
+
+    div_FG.appendChild(div_IG);
+    div_IG = document.createElement("div");
+
     input = document.createElement("input");
     input.type = "radio";
     input.name = "genero_" + numeroRingue + "_" + numeroRodada;
     input.value = false;
     input.id = "genero_F_" + numeroRingue + "_" + numeroRodada;
-    div.appendChild(input);
+    div_IG.appendChild(input);
+
     label = document.createElement("label");
     label.textContent = "Feminino";
     label.setAttribute("for", "genero_F_" + numeroRingue + "_" + numeroRodada)
-    div.appendChild(label);
-    div.appendChild(document.createElement("br"));
+    div_IG.appendChild(label);
+
+    div_FG.appendChild(div_IG);
+    div.appendChild(div_FG);
+
+
 
     label = document.createElement("label");// add select idades
     label.textContent = "Idade do ringue:";
@@ -195,7 +224,7 @@ function addCadastroRingue(numeroRingue, numeroRodada, localDocumento) {//todo a
     select.className = "form-control";
     select.id = "select_idade_" + numeroRingue + "_" + numeroRodada;
     select.name = "select_idade_" + numeroRingue + "_" + numeroRodada;
-    select.required;
+    select.required = true;
     var option = document.createElement("option");
     option.value = "";
     option.disabled = true;
@@ -251,7 +280,7 @@ function addCadastroRingue(numeroRingue, numeroRodada, localDocumento) {//todo a
     select.className = "form-control";
     select.id = "select_nivel_" + numeroRingue + "_" + numeroRodada;
     select.name = "select_nivel_" + numeroRingue + "_" + numeroRodada;
-    select.required;
+    select.required = true;
     var option = document.createElement("option");
     option.value = "";
     option.disabled = true;
@@ -304,6 +333,8 @@ function addCadastroRingue(numeroRingue, numeroRodada, localDocumento) {//todo a
     input.type = "number";
     input.id = "quantCat_" + numeroRingue + "_" + numeroRodada;
     input.className = "form-control";
+    input.placeholder = "0";
+    input.required = true;
     input.onchange = function () {
         while (div_cat.firstChild) {
             div_cat.firstChild.remove();
@@ -335,7 +366,7 @@ function addCategorias(numeroRingue, numeroRodada, div) {
                 select.className = "form-control";
                 select.id = "select_cat_" + numeroRingue + "_" + numeroRodada + "_" + i;
                 select.name = "select_cat_" + numeroRingue + "_" + numeroRodada + "_" + i;
-                select.required;
+                select.required = true;
                 var option = document.createElement("option");
                 option.value = "";
                 option.disabled = true;
