@@ -7,7 +7,7 @@ server:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/ata_control
-    username: postgres
+    username: ata
     password: root
     driver-class-name: org.postgresql.Driver
 
