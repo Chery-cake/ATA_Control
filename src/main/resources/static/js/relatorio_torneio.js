@@ -21,6 +21,9 @@ $("#torneio").change(function () {
             th.textContent = "Genero";
             tr.appendChild(th);
             th = document.createElement("th");
+            th.textContent = "Idade";
+            tr.appendChild(th);
+            th = document.createElement("th");
             th.textContent = "Nivel";
             tr.appendChild(th);
             th = document.createElement("th");
@@ -46,6 +49,8 @@ $("#torneio").change(function () {
                     url: "/ringueInd/rodada/" + response[i].id,
                     data: response[i].id,
                     success: function (response2) {
+
+                        console.log(response2);
 
                         for (j in response2) {
                             tr = document.createElement("tr");
@@ -154,6 +159,17 @@ $("#torneio").change(function () {
                             tr.appendChild(td);
                             td = document.createElement("td");
                             td.textContent = response2[j].numeroRodada;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            var cat = "";
+                            for (var z = 0; z < response2[j].categoriaCompeticao.length; z++) {
+                                cat += response2[j].categoriaCompeticao[z].nome;
+                                if (response2[j].juiz[z + 1] != null) {
+                                    cat += ", ";
+                                }
+                            }
+                            td.textContent = cat;
                             tr.appendChild(td);
 
                             table.appendChild(tr);
