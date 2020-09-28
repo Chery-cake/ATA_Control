@@ -36,7 +36,7 @@ $("#torneio").change(function () {
             th.textContent = "Numero do ringue";
             tr.appendChild(th);
             th = document.createElement("th");
-            th.textContent = "Lugar na seguencia na rodada";
+            th.textContent = "Lugar na sequencia na rodada";
             tr.appendChild(th);
             th = document.createElement("th");
             th.textContent = "Categorias";
@@ -49,8 +49,6 @@ $("#torneio").change(function () {
                     url: "/ringueInd/rodada/" + response[i].id,
                     data: response[i].id,
                     success: function (response2) {
-
-                        console.log(response2);
 
                         for (j in response2) {
                             tr = document.createElement("tr");

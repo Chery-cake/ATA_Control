@@ -5,14 +5,12 @@ import com.control.ata.model.endereco.Estado;
 import com.control.ata.model.endereco.Pais;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
-import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.CategoriaTorneio;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
-import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import com.control.ata.repository.torneio.CategoriaTorneioRepository;
 import com.control.ata.security.entity.Usuario;
 import com.control.ata.security.enuns.UserRole;
@@ -44,19 +42,8 @@ public class AtaApplication implements CommandLineRunner {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private CategoriaCompeticaoRepository categoriaCompeticaoRepository;
-
-    @Autowired
-    private PaisRepository paisRepository;
-    @Autowired
-    private EstadoRepository estadoRepository;
-    @Autowired
-    private CidadeRepository cidadeRepository;
-    @Autowired
-    private FaixaRepository faixaRepository;
-    @Autowired
-    private CategoriaTorneioRepository categoriaTorneioRepository;
+//    @Autowired
+//    private CategoriaCompeticaoRepository categoriaCompeticaoRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(AtaApplication.class, args);
@@ -80,8 +67,8 @@ public class AtaApplication implements CommandLineRunner {
         usuarioRepository.save(usuario);
 
         //todo remover
-        categoriaCompeticaoRepository.save(new CategoriaCompeticao("nome", false, false, 0,
-                                                                   0, 0, 0, 0));
+//        categoriaCompeticaoRepository.save(new CategoriaCompeticao("nome", false, false, 0,
+//                                                                   0, 0, 0, 0));
 
     }
 
@@ -99,7 +86,9 @@ public class AtaApplication implements CommandLineRunner {
     }
 
     @Bean
-    CommandLineRunner runner(PaisRepository paisRepository) {
+    CommandLineRunner runner(PaisRepository paisRepository, EstadoRepository estadoRepository,
+            CidadeRepository cidadeRepository, FaixaRepository faixaRepository,
+            CategoriaTorneioRepository categoriaTorneioRepository) {
         return args -> {
             ObjectMapper mapper = new ObjectMapper();
             TypeReference<List<pais>> typeReferenceAddress = new TypeReference<List<pais>>() {

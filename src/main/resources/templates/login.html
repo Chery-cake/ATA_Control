@@ -22,7 +22,7 @@
                     <h1>Entre em sua conta</h1>
                     <p class="mb-3" contenteditable="true"></p>
                     <form role="form" th:action="@{/login}" th:method="post">
-                        <p class="error" th:if="${param.error}">Wrong user or password</p>
+                        <p class="error" th:if="${param.error}">Email ou senha incorreto(a)</p>
                         <div class="form-group">
                             <input class="form-control" id="username" name="username" placeholder="Enter email"
                                    type="text">
@@ -30,9 +30,9 @@
                         <div class="form-group">
                             <input class="form-control" id="password" name="password" placeholder="Password"
                                    type="password">
-                            <small class="form-text text-muted text-right">
-                                <a href="#"> Forgot your password?</a>
-                            </small>
+<!--                            <small class="form-text text-muted text-right">-->
+<!--                                <a href="#"> Forgot your password?</a>-->
+<!--                            </small>-->
                         </div>
                         <button class="btn btn-primary" type="submit">Login</button>
                     </form>

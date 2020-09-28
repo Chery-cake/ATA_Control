@@ -7,14 +7,14 @@ server:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/ata_control
-    username: ata
+    username: postgres
     password: root
     driver-class-name: org.postgresql.Driver
 
   #JPA
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     show-sql: true
     open-in-view: true
 

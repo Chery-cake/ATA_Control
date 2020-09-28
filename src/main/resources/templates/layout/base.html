@@ -61,32 +61,32 @@
                 </div>
                 <ul class="navbar-nav ml-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/home}">Home
+                        <a class="nav-link" th:href="@{/home}">Página Principal
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:">Torneio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:">Eventos</a>
-                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="javascript:">Torneio</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="javascript:">Eventos</a>-->
+<!--                    </li>-->
 
                 </ul>
-                <ul class="navbar-nav ml-lg-auto">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="#">
-                            <i class="ni ni-favourite-28"></i>
-                            <span class="nav-link-inner--text d-lg-none">Discover</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="#">
-                            <i class="ni ni-notification-70"></i>
-                            <span class="nav-link-inner--text d-lg-none">Profile</span>
-                        </a>
-                    </li>
-                </ul>
+<!--                <ul class="navbar-nav ml-lg-auto">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link nav-link-icon" href="#">-->
+<!--                            <i class="ni ni-favourite-28"></i>-->
+<!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Discover</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link nav-link-icon" href="#">-->
+<!--                            <i class="ni ni-notification-70"></i>-->
+<!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Profile</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
                 <ul class="navbar-nav" th:if="${usuario != null}">
                     <div class="dropdown">
                         <div class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;"
@@ -97,21 +97,20 @@
 
                             <a class="dropdown-item" href="javascript:" th:href="@{/perfil}">
                                 <i class="ni ni-single-02"></i>
-                                <span>My profile</span>
-
+                                <span>Menu</span>
                             </a>
-                            <a class="dropdown-item" href="javascript:">
-                                <i class="ni ni-settings-gear-65"></i>
-                                <span>Settings</span>
-                            </a>
-                            <a class="dropdown-item" href="javascript:">
-                                <i class="ni ni-calendar-grid-58"></i>
-                                <span>Activity</span>
-                            </a>
-                            <a class="dropdown-item" href="javascript:">
-                                <i class="ni ni-support-16"></i>
-                                <span>Support</span>
-                            </a>
+<!--                            <a class="dropdown-item" href="javascript:">-->
+<!--                                <i class="ni ni-settings-gear-65"></i>-->
+<!--                                <span>Settings</span>-->
+<!--                            </a>-->
+<!--                            <a class="dropdown-item" href="javascript:">-->
+<!--                                <i class="ni ni-calendar-grid-58"></i>-->
+<!--                                <span>Activity</span>-->
+<!--                            </a>-->
+<!--                            <a class="dropdown-item" href="javascript:">-->
+<!--                                <i class="ni ni-support-16"></i>-->
+<!--                                <span>Support</span>-->
+<!--                            </a>-->
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="javascript:" th:href="@{/logout}">
                                 <i class="ni ni-user-run"></i>
@@ -124,11 +123,15 @@
                 <ul class="navbar-nav" th:if="${usuario == null}">
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
                         <a class="nav-link" th:href="@{/register/pessoa}">
-                            <i class="fa fa-user fa-fw"></i>Sign in</a>
+                            <i class="fa fa-user fa-fw"></i>Cadastrar Usuario</a>
+                    </li>
+                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                        <a class="nav-link" th:href="@{/academia}">
+                            <i class="fa fa-user fa-fw"></i>Cadastrar Academia</a>
                     </li>
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
                         <a class="nav-link" th:href="@{/login}">
-                            <i class="fa fa-user fa-fw"></i>Log in</a>
+                            <i class="fa fa-user fa-fw"></i>Login</a>
                     </li>
                 </ul>
 
@@ -183,22 +186,22 @@
                         &copy; 2020 <a href="" target="_blank">Ata Control</a>.
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <ul class="nav nav-footer justify-content-end">
-                        <!--                        <li class="nav-item">-->
-                        <!--                            <a class="nav-link" href="" target="_blank">Creative Tim</a>-->
-                        <!--                        </li>-->
-                        <li class="nav-item">
-                            <a class="nav-link" href="" target="_blank">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="" target="_blank">Blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="" target="_blank">License</a>
-                        </li>
-                    </ul>
-                </div>
+<!--                <div class="col-md-6">-->
+<!--                    <ul class="nav nav-footer justify-content-end">-->
+<!--                        &lt;!&ndash;                        <li class="nav-item">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <a class="nav-link" href="" target="_blank">Creative Tim</a>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        </li>&ndash;&gt;-->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" href="" target="_blank">About Us</a>-->
+<!--                        </li>-->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" href="" target="_blank">Blog</a>-->
+<!--                        </li>-->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" href="" target="_blank">License</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
             </div>
         </div>
     </footer>
