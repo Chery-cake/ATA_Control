@@ -10,6 +10,7 @@ import com.control.ata.model.endereco.Pais;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
+import com.control.ata.model.pessoa.Planilheiro;
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.tipo_pessoa.Instrutor;
 import com.control.ata.model.tipo_pessoa.Juiz;
@@ -24,6 +25,7 @@ import com.control.ata.repository.endereco.PaisRepository;
 import com.control.ata.repository.individual.RingueIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
+import com.control.ata.repository.pessoa.PlanilheiroRepository;
 import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
 import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
 import com.control.ata.repository.tipo_pessoa.JuizRepository;
@@ -33,6 +35,7 @@ import com.control.ata.repository.torneio.RodadaJuizRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
 import com.control.ata.security.entity.ConfirmationToken;
 import com.control.ata.security.entity.Usuario;
+import com.control.ata.security.enuns.UserRole;
 import com.control.ata.security.repository.ConfirmationTokenRepository;
 import com.control.ata.security.service.UsuarioService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -87,6 +90,8 @@ public class FormController {
     private RingueDAO ringueDAO;
     @Autowired
     private RingueIndividualRepository ringueIndividualRepository;
+    @Autowired
+    private PlanilheiroRepository planilheiroRepository;
 
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
@@ -408,8 +413,6 @@ public class FormController {
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
 
-        System.out.println(json);
-
         String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
         ObjectMapper jacksonObjectMapper = new ObjectMapper();
         RegistroRingueIndividual registroRingueIndividual = jacksonObjectMapper.readValue(decodedJson,
@@ -440,6 +443,33 @@ public class FormController {
 
         return ResponseEntity.ok().build();
     }
+
+    // ======================================INICIAR TORNEIO=============================================
+
+    @GetMapping("/iniciar/torneio")
+    public String iniTorneio() {
+        return "iniciarTorneio";
+    }
+
+    @PostMapping("/inicia/torneio/{id}")
+    public ResponseEntity<?> iniciarTorneio(@Valid @RequestBody String json, @PathVariable("id") Integer id,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        usuarioDTO usuarioDTO = jacksonObjectMapper.readValue(decodedJson, FormController.usuarioDTO.class);
+
+        Planilheiro planilheiro = planilheiroRepository.save(new Planilheiro(torneioRepository.getOne(id)));
+
+        Usuario usuario = new Usuario(planilheiro, usuarioDTO.email, usuarioDTO.password);//todo adicionar preenchimento dos ringues com competidores
+        usuario.setUserRole(UserRole.ROLE_PLANILHA);
+        usuarioService.signUpUser(usuario);
+
+        return ResponseEntity.ok().build();
+    }
+
 
     // ======================================MODEL ATTRIBUTES=============================================
 
@@ -626,6 +656,19 @@ public class FormController {
 
         public RegistroRingueIndividual(ArrayList<RingueIndividualDTO> arrayRingue) {
             this.arrayRingue = arrayRingue;
+        }
+    }
+
+    private static class usuarioDTO {
+        public String email;
+        public String password;
+
+        public usuarioDTO() {
+        }
+
+        public usuarioDTO(String email, String password) {
+            this.email = email;
+            this.password = password;
         }
     }
 
