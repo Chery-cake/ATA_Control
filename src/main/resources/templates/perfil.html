@@ -14,6 +14,7 @@
             <p><a th:href="@{/relatorio/cadastros}">Listar pessoas cadastradas</a></p>
             <p><a th:href="@{/relatorio/torneio}">Listar ringues cadastrados</a></p>
             <p><a th:href="@{/iniciar/torneio}">Iniciar torneio</a></p>
+            <p><a th:href="@{/terminar/torneio}">Terminar torneio</a></p>
         </div>
         <div th:if="${usuario.userRole == ROLE_USER}">
             <p><a th:href="@{/register/competidor}">Registro para competidor</a></p>
@@ -22,7 +23,7 @@
             <p><a th:href="@{/ajustar}">Editar conta</a></p>
         </div>
         <div th:if="${usuario.userRole == ROLE_PLANILHA}">
-<!--            todo adicionar funcao para ver os ringues-->
+            <!--            todo adicionar funcao para ver os ringues-->
         </div>
     </div>
 </div>

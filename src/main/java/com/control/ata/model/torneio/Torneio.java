@@ -23,6 +23,9 @@ public class Torneio {
     private Integer maxNumeroRingues;
     private Boolean pontuar;
 
+    private Boolean iniciado;
+    private Boolean terminado;
+
     @ManyToOne
     private Endereco endereco;
 
@@ -58,6 +61,8 @@ public class Torneio {
         this.pontuar = pontuar;
         this.endereco = endereco;
         this.categoriaTorneio = categoriaTorneio;
+        this.iniciado = false;
+        this.terminado = false;
     }
 
     public Integer getId() {
@@ -86,5 +91,21 @@ public class Torneio {
 
     public CategoriaTorneio getCategoriaTorneio() {
         return categoriaTorneio;
+    }
+
+    public Boolean getIniciado() {
+        return iniciado;
+    }
+
+    public void setIniciado(Boolean iniciado) {
+        this.iniciado = iniciado;
+    }
+
+    public Boolean getTerminado() {
+        return terminado;
+    }
+
+    public void setTerminado(Boolean terminado) {
+        this.terminado = terminado;
     }
 }

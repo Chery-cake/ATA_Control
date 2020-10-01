@@ -463,13 +463,39 @@ public class FormController {
 
         Planilheiro planilheiro = planilheiroRepository.save(new Planilheiro(torneioRepository.getOne(id)));
 
-        Usuario usuario = new Usuario(planilheiro, usuarioDTO.email, usuarioDTO.password);//todo adicionar preenchimento dos ringues com competidores
+        Usuario usuario = new Usuario(planilheiro, usuarioDTO.email,
+                                      usuarioDTO.password);//todo adicionar preenchimento dos ringues com competidores
         usuario.setUserRole(UserRole.ROLE_PLANILHA);
         usuarioService.signUpUser(usuario);
+
+        Torneio torneio = torneioRepository.getOne(id);
+        torneio.setIniciado(true);
+        torneioRepository.save(torneio);
 
         return ResponseEntity.ok().build();
     }
 
+    // ======================================INICIAR TORNEIO=============================================
+
+    @GetMapping("/terminar/torneio")
+    public String terTorneio() {
+        return "terminarTorneio";
+    }
+
+    @PostMapping("/terminar/torneio/{id}")
+    public ResponseEntity<?> terminaTorneio(@PathVariable("id") Integer id,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        Torneio torneio = torneioRepository.getOne(id);
+        torneio.setTerminado(true);
+        torneioRepository.save(torneio);
+
+        planilheiroRepository.delete(planilheiroRepository.getByTorneio(torneio));
+
+        return ResponseEntity.ok().build();
+    }
 
     // ======================================MODEL ATTRIBUTES=============================================
 
@@ -491,6 +517,26 @@ public class FormController {
     @ModelAttribute("torneios")
     public List<Torneio> getTorneios() {
         return torneioRepository.findAll();
+    }
+
+    @ModelAttribute("torneiosNIni")
+    public List<Torneio> getTorneiosNIni() {
+        return torneioRepository.getAllByIniciado(false);
+    }
+
+    @ModelAttribute("torneiosIni")
+    public List<Torneio> getTorneiosIni() {
+        return torneioRepository.getAllByIniciado(true);
+    }
+
+    @ModelAttribute("torneiosNTer")
+    public List<Torneio> getTorneiosNTer() {
+        return torneioRepository.getAllByTerminado(false);
+    }
+
+    @ModelAttribute("torneiosTer")
+    public List<Torneio> getTorneiosTer() {
+        return torneioRepository.getAllByTerminado(true);
     }
 
     @ModelAttribute("categoriasTorneio")
