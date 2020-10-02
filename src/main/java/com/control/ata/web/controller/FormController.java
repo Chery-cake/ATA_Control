@@ -483,8 +483,8 @@ public class FormController {
     }
 
     @PostMapping("/terminar/torneio/{id}")
-    public ResponseEntity<?> terminaTorneio(@PathVariable("id") Integer id,
-            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+    public ResponseEntity<?> terminaTorneio(@Valid @RequestBody String json, @PathVariable("id") Integer id,
+            BindingResult result) {
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
 
@@ -537,6 +537,11 @@ public class FormController {
     @ModelAttribute("torneiosTer")
     public List<Torneio> getTorneiosTer() {
         return torneioRepository.getAllByTerminado(true);
+    }
+
+    @ModelAttribute("torneiosNTerIni")
+    public List<Torneio> getTorneiosNTerIni() {
+        return torneioRepository.getAllByIniciadoAndTerminado(true, false);
     }
 
     @ModelAttribute("categoriasTorneio")

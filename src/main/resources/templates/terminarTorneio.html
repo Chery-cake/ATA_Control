@@ -20,7 +20,7 @@
                     <label for="torneio">Torneio</label>
                     <select class="form-control" id="torneio" name="instrutor" required>
                         <option disabled selected value="">Selecione</option>
-                        <option th:each="t : ${torneiosIni}"
+                        <option th:each="t : ${torneiosNTerIni}"
                                 th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
                                 th:value="${t.id}">...
                         </option>
