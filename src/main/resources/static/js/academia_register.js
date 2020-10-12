@@ -3,7 +3,7 @@ $("#form-register-academia").submit(function (evt) {
     evt.preventDefault();
     var data = {};
     var academia = {};
-    academia.nome = $("#nome").val();
+    academia.nome = $("#academianome").val();
     data.academia = academia;
 
     var enderecoDTO = {};

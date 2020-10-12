@@ -59,6 +59,49 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Sign in </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form" th:action="@{/login}" th:method="post">
+                                    <p class="error" th:if="${param.error}">Email ou senha incorreto(a)</p>
+                                    <div class="form-group mb-3">
+                                        <div class="input-group input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                            </div>
+                                            <input class="form-control" id="username" name="username" placeholder="Email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group focused">
+                                        <div class="input-group input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                            </div>
+                                            <input class="form-control" id="password" name="password" placeholder="Password"
+                                                   type="password">
+                                        </div>
+                                    </div>
+                                    <div class="custom-control custom-control-alternative custom-checkbox">
+                                        <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
+                                        <label class="custom-control-label" for=" customCheckLogin"><span>Remember me</span></label>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary my-4">Sign in</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <ul class="navbar-nav ml-lg-auto">
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/home}">Página Principal
@@ -99,18 +142,6 @@
                                 <i class="ni ni-single-02"></i>
                                 <span>Menu</span>
                             </a>
-<!--                            <a class="dropdown-item" href="javascript:">-->
-<!--                                <i class="ni ni-settings-gear-65"></i>-->
-<!--                                <span>Settings</span>-->
-<!--                            </a>-->
-<!--                            <a class="dropdown-item" href="javascript:">-->
-<!--                                <i class="ni ni-calendar-grid-58"></i>-->
-<!--                                <span>Activity</span>-->
-<!--                            </a>-->
-<!--                            <a class="dropdown-item" href="javascript:">-->
-<!--                                <i class="ni ni-support-16"></i>-->
-<!--                                <span>Support</span>-->
-<!--                            </a>-->
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="javascript:" th:href="@{/logout}">
                                 <i class="ni ni-user-run"></i>
@@ -123,15 +154,13 @@
                 <ul class="navbar-nav" th:if="${usuario == null}">
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
                         <a class="nav-link" th:href="@{/register/pessoa}">
-                            <i class="fa fa-user fa-fw"></i>Cadastrar Usuario</a>
+                            <i class="fa fa-user fa-fw"></i>Inscreva-se</a>
                     </li>
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
-                        <a class="nav-link" th:href="@{/academia}">
-                            <i class="fa fa-user fa-fw"></i>Cadastrar Academia</a>
-                    </li>
-                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
-                        <a class="nav-link" th:href="@{/login}">
-                            <i class="fa fa-user fa-fw"></i>Login</a>
+                        <a class="nav-link"  data-toggle="modal" data-target="#exampleModal"
+                           th:href="@{/login}">
+
+                            <i class="fa fa-user fa-fw"></i>Fazer Login</a>
                     </li>
                 </ul>
 
@@ -145,66 +174,54 @@
         <div>conteudo principal das páginas</div>
     </div>
 
-    <footer class="footer">
+  <!--  <footer class="footer bg-darker">
         <div class="container">
-            <!--            <div class="row row-grid align-items-center mb-5">-->
-            <!--                <div class="col-lg-6">-->
-            <!--                    <h3 class="text-primary font-weight-light mb-2">Thank you for supporting us!</h3>-->
-            <!--                    <h4 class="mb-0 font-weight-light">Let's get in touch on any of these platforms.</h4>-->
-            <!--                </div>-->
-            <!--                <div class="col-lg-6 text-lg-center btn-wrapper">-->
-            <!--                    <button class="btn btn-icon-only btn-twitter rounded-circle" data-original-title="Follow us"-->
-            <!--                            data-toggle="tooltip"-->
-            <!--                            href="https://twitter.com/creativetim" rel="nofollow"-->
-            <!--                            target="_blank">-->
-            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-twitter"></i></span>-->
-            <!--                    </button>-->
-            <!--                    <button class="btn-icon-only rounded-circle btn btn-facebook" data-original-title="Like us"-->
-            <!--                            data-toggle="tooltip"-->
-            <!--                            href="https://www.facebook.com/CreativeTim/" rel="nofollow"-->
-            <!--                            target="_blank">-->
-            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fab fa-facebook"></i></span>-->
-            <!--                    </button>-->
-            <!--                    <button class="btn btn-icon-only btn-dribbble rounded-circle" data-original-title="Follow us"-->
-            <!--                            data-toggle="tooltip"-->
-            <!--                            href="https://dribbble.com/creativetim" rel="nofollow"-->
-            <!--                            target="_blank">-->
-            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-dribbble"></i></span>-->
-            <!--                    </button>-->
-            <!--                    <button class="btn btn-icon-only btn-github rounded-circle" data-original-title="Star on Github"-->
-            <!--                            data-toggle="tooltip"-->
-            <!--                            href="https://github.com/creativetimofficial" rel="nofollow"-->
-            <!--                            target="_blank">-->
-            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-github"></i></span>-->
-            <!--                    </button>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <hr>-->
+            <div class="row row-grid align-items-center mb-5">
+                <div class="col-lg-6">
+                              <h3 class="text-white font-weight-light mb-2">Thank you for supporting us!</h3>
+                             <h4 class="mb-0 text-white font-weight-light">Let's get in touch on any of these platforms.</h4>
+                </div>
+                <div class="col-lg-6 text-lg-center btn-wrapper">
+                    <button class="btn btn-icon-only btn-twitter rounded-circle" data-original-title="Follow us" data-toggle="tooltip"  href="https://twitter.com/creativetim" rel="nofollow"  target="_blank">
+                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-twitter"></i></span>
+                    </button>
+                    <button class="btn-icon-only rounded-circle btn btn-facebook" data-original-title="Like us" data-toggle="tooltip" href="https://www.facebook.com/CreativeTim/" rel="nofollow" target="_blank">
+                        <span class="btn-inner&#45;&#45;icon"><i class="fab fa-facebook"></i></span>
+                    </button>
+                    <button class="btn btn-icon-only btn-dribbble rounded-circle" data-original-title="Follow us" data-toggle="tooltip" href="https://dribbble.com/creativetim" rel="nofollow" target="_blank">
+                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-dribbble"></i></span>
+                    </button>
+                    <button class="btn btn-icon-only btn-github rounded-circle" data-original-title="Star on Github" data-toggle="tooltip" href="https://github.com/creativetimofficial" rel="nofollow" target="_blank">
+                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-github"></i></span>
+                    </button>
+                </div>
+            </div>
+
             <div class="row align-items-center justify-content-md-between">
                 <div class="col-md-6">
                     <div class="copyright">
-                        &copy; 2020 <a href="" target="_blank">Ata Control</a>.
+                         2020 <a href="" target="_blank">Ata Control</a>
                     </div>
                 </div>
-<!--                <div class="col-md-6">-->
-<!--                    <ul class="nav nav-footer justify-content-end">-->
-<!--                        &lt;!&ndash;                        <li class="nav-item">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <a class="nav-link" href="" target="_blank">Creative Tim</a>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        </li>&ndash;&gt;-->
-<!--                        <li class="nav-item">-->
-<!--                            <a class="nav-link" href="" target="_blank">About Us</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item">-->
-<!--                            <a class="nav-link" href="" target="_blank">Blog</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item">-->
-<!--                            <a class="nav-link" href="" target="_blank">License</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
+              <div class="col-md-6">
+                   <ul class="nav nav-footer justify-content-end">
+                       <li class="nav-item">
+                           <a class="nav-link" href="" target="_blank">Creative Tim</a>
+                       </li>
+                      <li class="nav-item">
+                           <a class="nav-link" href="" target="_blank">About Us</a>
+                       </li>
+                      <li class="nav-item">
+                           <a class="nav-link" href="" target="_blank">Blog</a>
+                      </li>
+                       <li class="nav-item">
+                           <a class="nav-link" href="" target="_blank">License</a>
+                       </li>
+                    </ul>
+<              </div>
             </div>
         </div>
-    </footer>
+    </footer>-->
 </main>
 
 <!-- JS -->

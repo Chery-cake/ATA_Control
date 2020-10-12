@@ -16,7 +16,6 @@
                 <div class="mx-auto col-lg-6 col-10 bg-secondary shadow border-0">
                     <h1>Crie sua conta</h1>
                     <p class="mb-3" style=""></p>
-
                     <div class="form-group">
                         <label>É Instrutor? </label></br>
                         <div class="form-check form-check-inline">
@@ -57,8 +56,7 @@
                             <option th:each="a : ${academias}" th:text="${a.nome}" th:value="${a.id}">...
                             </option>
                         </select>
-                        <a class="nav-link" th:href="@{/academia}">Se a sua academia não aparecer na lista
-                            clique aqui</a>
+                        <p>Se a sua academia não estiver na lista, <button style="text-decoration: none; color: #0b90a8; border: none;" data-toggle="modal" data-target="#AcademiaModal" type="button"> Clique Aqui</button></p>
                     </div>
 
                     <form action="#" class="text-left" id="form-register-pessoa">
@@ -111,14 +109,14 @@
                             </select>
                         </div>
 
-                        <div class="form-group" id="endereco_div">
+                        <!--<div class="form-group" id="endereco_div">
                             <label>Endereço</label>
                             <select class="form-control" id="pais" name="pais" required>
                                 <option disabled selected value="">Selecione</option>
                                 <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
                                 </option>
                             </select>
-                        </div>
+                        </div>-->
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -141,16 +139,64 @@
                         </div>
                         <button class="btn btn-primary" type="submit">Registrar</button>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
 
+
+
+
+
+    <!-- Modal da Academia -->
+    <div class="modal fade" id="AcademiaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="#" id="form-register-academia">
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Nome</span>
+                                </div>
+                                <input class="form-control" id="academianome" placeholder="ATA" required type="text">
+                            </div>
+                        </div>
+                        <div class="form-group mb-4" id="endereco_div">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Endereço</span>
+                                </div>
+                                <select class="form-control" id="pais" name="pais" required>
+                                    <option value="">Selecione</option>
+                                    <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary my-4">Cadastrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
 </div>
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/pessoa_register.js}"></script>
+    <script th:src="@{/js/endereco_form.js}"></script>
+    <script th:src="@{/js/academia_register.js}"></script>
     <script th:src="@{/js/endereco_form.js}"></script>
 </th:block>
 
