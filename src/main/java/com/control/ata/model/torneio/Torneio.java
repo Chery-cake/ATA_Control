@@ -93,6 +93,14 @@ public class Torneio {
         return categoriaTorneio;
     }
 
+    public Collection<Competidor> getCompetidorCollection() {
+        return competidorCollection;
+    }
+
+    public Collection<RingueIndividual> getRingueIndividualCollection() {
+        return ringueIndividualCollection;
+    }
+
     public Boolean getIniciado() {
         return iniciado;
     }
