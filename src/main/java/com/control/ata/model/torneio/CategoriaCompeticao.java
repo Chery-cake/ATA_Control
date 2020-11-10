@@ -56,6 +56,7 @@ public class CategoriaCompeticao {
     @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
     private Collection<RankingIndividual> rankingIndividualList;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "categoriaCompeticao")
     private Collection<Competidor> competidorList;
 

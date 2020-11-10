@@ -9,6 +9,7 @@ import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.Torneio;
 import com.control.ata.repository.individual.RingueIndividualRepository;
 import com.control.ata.repository.time.RingueTimeRepository;
+import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class RingueService {
     private RingueTimeRepository ringueTimeRepository;
     @Autowired
     private TorneioRepository torneioRepository;
+    @Autowired
+    private CompetidorRepository competidorRepository;
 
     public List<RingueTime> createRingueTime(Collection<Time> collection, Boolean fechado, Torneio torneio,
             CategoriaCompeticao categoriaCompeticao) {
@@ -72,51 +75,83 @@ public class RingueService {
     }
 
     public List<RingueIndividual> createRingueIndividual(Torneio torneio) {
-        List<RingueIndividual> list = null;
+        List<RingueIndividual> list = new ArrayList<>();
 
-        ArrayList<Competidor> competidorArrayList = new ArrayList<>(
-                torneioRepository.getOne(torneio.getId()).getCompetidorCollection());
-        ArrayList<ArrayList<Competidor>> arrayListCompetidor = new ArrayList<>();
+        ArrayList<Competidor> competidorArrayList = new ArrayList<>(competidorRepository.getAllByTorneio(torneio));
+        ArrayList<ArrayList<Competidor>> arrayListCompetidorT = new ArrayList<>();
+        ArrayList<ArrayList<Competidor>> arrayListCompetidorF = new ArrayList<>();
 
         for (Competidor competidor : competidorArrayList) {
-            if (arrayListCompetidor.isEmpty()) {
-                ArrayList<Competidor> aux = new ArrayList<>();
-                aux.add(competidor);
-                arrayListCompetidor.add(aux);
-            } else {
 
-                int anoAtual = Integer.parseInt(dateFormat.format(new Date()));
-                int anoNasc = Integer.parseInt(dateFormat.format(competidor.getPessoa().getDataNascimento()));
-                int idade = anoAtual - anoNasc;
+            if(competidor.getPessoa().getGenero()){
+                if (arrayListCompetidorT.isEmpty()) {
+                    ArrayList<Competidor> aux = new ArrayList<>();
+                    aux.add(competidor);
+                    arrayListCompetidorT.add(aux);
+                } else {
 
-                this.insereCompetidor(competidor, idade, arrayListCompetidor);
+                    int anoAtual = Integer.parseInt(dateFormat.format(new Date()));
+                    int anoNasc = Integer.parseInt(dateFormat.format(competidor.getPessoa().getDataNascimento()));
+                    int idade = anoAtual - anoNasc;
 
+                    this.insereCompetidor(competidor, idade, arrayListCompetidorT);
+                }
+            }else {
+                if (arrayListCompetidorF.isEmpty()) {
+                    ArrayList<Competidor> aux = new ArrayList<>();
+                    aux.add(competidor);
+                    arrayListCompetidorF.add(aux);
+                } else {
+
+                    int anoAtual = Integer.parseInt(dateFormat.format(new Date()));
+                    int anoNasc = Integer.parseInt(dateFormat.format(competidor.getPessoa().getDataNascimento()));
+                    int idade = anoAtual - anoNasc;
+
+                    this.insereCompetidor(competidor, idade, arrayListCompetidorF);
+                }
             }
         }
 
         ArrayList<RingueIndividual> ringueIndividualArrayList = new ArrayList<>(
-                torneioRepository.getOne(torneio.getId()).getRingueIndividualCollection());
-        ArrayList<RingueIndividual> arrayListRingue = new ArrayList<>();
-        ArrayList<RingueIndividual> arrayListRingueFechado = new ArrayList<>();
+                ringueIndividualRepository.getAllByTorneio(torneio));
+
+        ArrayList<RingueIndividual> arrayListRingueT = new ArrayList<>();
+        ArrayList<RingueIndividual> arrayListRingueF = new ArrayList<>();
+
+        ArrayList<RingueIndividual> arrayListRingueFechadoT = new ArrayList<>();
+        ArrayList<RingueIndividual> arrayListRingueFechadoF = new ArrayList<>();
 
         for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {
             if (ringueIndividual.getFechado()) {
-                arrayListRingueFechado.add(ringueIndividual);
+                if(ringueIndividual.getGenero()){
+                    arrayListRingueFechadoT.add(ringueIndividual);
+                }else {
+                    arrayListRingueFechadoF.add(ringueIndividual);
+                }
             } else {
-                arrayListRingue.add(ringueIndividual);
+                if (ringueIndividual.getGenero()){
+                    arrayListRingueT.add(ringueIndividual);
+                }else {
+                    arrayListRingueF.add(ringueIndividual);
+                }
             }
-        }//todo fazer sistema para ringues fechados
-        //todo arrumar sistema pra genero
+        }//todo fazer sistema para ringues fechados // meio pronto falta aa parte da inscricao dos competidores
+        //todo arrumar sistema pra genero // aparenta estar funcionando
         //todo arrumar sistema de categorias
 
-//        int maxComp;
-//        if (fechado) {
-//            maxComp = 32;
-//        } else {
-//            maxComp = 16;
-//        }
+        if (!arrayListRingueT.isEmpty()) {
+            list.addAll(insetCompetidoresRinguesIndividual(arrayListCompetidorT, arrayListRingueT));
+        }
+        if (!arrayListRingueF.isEmpty()) {
+            list.addAll(insetCompetidoresRinguesIndividual(arrayListCompetidorF, arrayListRingueF));
+        }
 
-        list.addAll(insetCompetidoresRinguesIndividual(arrayListCompetidor, arrayListRingue));
+        if(!arrayListRingueFechadoT.isEmpty()){
+            list.addAll(insetCompetidoresRinguesIndividual(arrayListCompetidorT, arrayListRingueFechadoT));
+        }
+        if(!arrayListRingueFechadoF.isEmpty()){
+            list.addAll(insetCompetidoresRinguesIndividual(arrayListCompetidorF, arrayListRingueFechadoF));
+        }
 
         return list;
     }
@@ -161,15 +196,16 @@ public class RingueService {
             }
 
             for (RingueIndividual ringueIndividual : arrayListRingue) {
-                if (idadeRingue == ringueIndividual.getIdade() && ringueIndividual.getNivel().equals(nivel)) {
+                if (idadeRingue == ringueIndividual.getIdade() /*&& ringueIndividual.getNivel().equals(nivel)*/) {
                     list.addAll(insereRingueIndividuais(competidorArrayList, ringueIndividual));
                 }
             }
         }
+
         return list;
     }
 
-    private List<RingueIndividual> insereRingueIndividuais(ArrayList<Competidor> competidorArrayList,
+    private List<RingueIndividual> insereRingueIndividuais(ArrayList<Competidor> competidorArrayList,//todo arrumar a criacao do array de competidores
             RingueIndividual ringueIndividual) {
 
         int maxComp;
@@ -200,13 +236,16 @@ public class RingueService {
                     if (aux == quantCompRing) {
                         aux = 0;
                         for (Competidor competidor : arrayListAux) {
+                            if (competidorArrayList.contains(competidor)){
+                                competidorArrayList.remove(competidor);
+                            }
                             competidorArrayList.remove(competidor);
                         }
                         arrayListComp.add(arrayListAux);
 //                        list.add(ringueDAO.save(
 //                                new RingueIndividual(fechado, 0, idadeRingue, nivel, null, arrayListAux, torneio,
 //                                                     categoriaCompeticoes)));
-                        arrayListAux.clear();
+                        arrayListAux = new ArrayList<>();
                     }
                 }
             } else {
@@ -269,7 +308,7 @@ public class RingueService {
 //                        list.add(ringueDAO.save(
 //                                new RingueIndividual(fechado, 0, idadeRingue, nivel, null, arrayListAux, torneio,
 //                                                     categoriaCompeticoes)));
-                        arrayListAux.clear();
+                        arrayListAux = new ArrayList<>();
                     } else if (count == quantComp && !ringEsp1) {
                         for (Competidor competidor : arrayListAux) {
                             competidorArrayList.remove(competidor);
@@ -280,7 +319,7 @@ public class RingueService {
 //                                new RingueIndividual(fechado, 0, idadeRingue, nivel, null, arrayListAux, torneio,
 //                                                     categoriaCompeticoes)));
                         ringEsp1 = true;
-                        arrayListAux.clear();
+                        arrayListAux = new ArrayList<>();
                     } else if (count == aux1 && !ringEsp2) {
                         for (Competidor competidor : arrayListAux) {
                             competidorArrayList.remove(competidor);
@@ -291,7 +330,7 @@ public class RingueService {
 //                        list.add(ringueDAO.save(
 //                                new RingueIndividual(fechado, 0, idadeRingue, nivel, null, arrayListAux, torneio,
 //                                                     categoriaCompeticoes)));
-                        arrayListAux.clear();
+                        arrayListAux = new ArrayList<>();
                     }
                 }
             }
@@ -301,7 +340,7 @@ public class RingueService {
                 ArrayList<RingueIndividual> ringuesRodada = (ArrayList<RingueIndividual>) ringueIndividualRepository.getAllByRodadaJuiz(
                         ringueIndividual.getRodadaJuiz());
 
-                if (ringuesRodada.size() > 1) {//todo testar criacao de ringues
+                if (ringuesRodada.size() > 1) {
 
                     for (RingueIndividual aux : ringuesRodada) {
                         if (aux.getNumeroRodada() > ringueIndividual.getNumeroRodada()) {
@@ -360,6 +399,7 @@ public class RingueService {
             ringueIndividual.setCompetidor(competidorArrayList);
             list.add(ringueDAO.save(ringueIndividual));
         }
+
         return list;
     }
 

@@ -170,7 +170,7 @@ public class FormController {
         return "competidor_form";
     }
 
-    @PostMapping("/save/competidor")//todo adicionar time e titulos
+    @PostMapping("/save/competidor")//todo adicionar titulos
     public ResponseEntity<?> salvarCompetidor(@Valid @RequestBody String json,
             BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
         ResponseEntity<?> errors = getErrors(result);
@@ -475,7 +475,7 @@ public class FormController {
         return ResponseEntity.ok().build();
     }
 
-    // ======================================INICIAR TORNEIO=============================================
+    // ======================================TERMINA TORNEIO=============================================
 
     @GetMapping("/terminar/torneio")
     public String terTorneio() {

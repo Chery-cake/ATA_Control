@@ -27,7 +27,6 @@ public class RingueDAO {
                                                         ringueIndividual.getTorneio(), null,
                                                         ringueIndividual.getRodadaJuiz());
             aux = ringueIndividualRepository.save(aux);
-            System.out.println(ringueIndividual.getCompetidor());
             if (ringueIndividual.getCompetidor() != null) {
                 if (!ringueIndividual.getCompetidor().isEmpty()) {
                     aux.setCompetidor(ringueIndividual.getCompetidor());

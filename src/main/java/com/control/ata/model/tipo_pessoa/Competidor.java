@@ -30,7 +30,7 @@ public class Competidor {
     @ManyToOne
     private Torneio torneio;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Collection<CategoriaCompeticao> categoriaCompeticao;
 
     @ManyToMany(mappedBy = "competidores")
