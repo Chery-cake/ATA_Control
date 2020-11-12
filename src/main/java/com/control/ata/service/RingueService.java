@@ -10,7 +10,7 @@ import com.control.ata.model.torneio.Torneio;
 import com.control.ata.repository.individual.RingueIndividualRepository;
 import com.control.ata.repository.time.RingueTimeRepository;
 import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
-import com.control.ata.repository.torneio.TorneioRepository;
+import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class RingueService {
     @Autowired
     private RingueTimeRepository ringueTimeRepository;
     @Autowired
-    private TorneioRepository torneioRepository;
+    private CategoriaCompeticaoRepository categoriaCompeticaoRepository;
     @Autowired
     private CompetidorRepository competidorRepository;
 
@@ -137,7 +137,7 @@ public class RingueService {
             }
         }//todo fazer sistema para ringues fechados // meio pronto falta aa parte da inscricao dos competidores
         //todo arrumar sistema pra genero // aparenta estar funcionando
-        //todo arrumar sistema de categorias
+        //todo arrumar sistema de categorias // aparenta estar funcionando
 
         if (!arrayListRingueT.isEmpty()) {
             list.addAll(insetCompetidoresRinguesIndividual(arrayListCompetidorT, arrayListRingueT));
@@ -165,8 +165,6 @@ public class RingueService {
             ArrayList<Competidor> competidorArrayList = new ArrayList<>(arrayListCompetidor.get(0));
             arrayListCompetidor.remove(competidorArrayList);
             competidorArrayList = new ArrayList<>(sortAltura(competidorArrayList));
-
-            Integer nivel = competidorArrayList.get(0).getNivel();
 
             int anoAtual = Integer.parseInt(dateFormat.format(new Date()));
             int anoNasc = Integer.parseInt(
@@ -196,8 +194,26 @@ public class RingueService {
             }
 
             for (RingueIndividual ringueIndividual : arrayListRingue) {
-                if (idadeRingue == ringueIndividual.getIdade() /*&& ringueIndividual.getNivel().equals(nivel)*/) {
-                    list.addAll(insereRingueIndividuais(competidorArrayList, ringueIndividual));
+                if (idadeRingue == ringueIndividual.getIdade()) {
+                    ArrayList<Competidor> ringComps = new ArrayList<>();
+                    for (Competidor competidor: competidorArrayList){
+                        if(ringueIndividual.getNivel().equals(competidor.getNivel())){
+                            for (CategoriaCompeticao categoriaCompeticao : categoriaCompeticaoRepository.getAllByCompetidor(competidor.getId())){
+                                boolean add = false;
+                                for (CategoriaCompeticao categoriaCompeticaoRing: categoriaCompeticaoRepository.getAllByRingueIndividual(ringueIndividual.getId())){
+                                    if (categoriaCompeticao.getId().equals(categoriaCompeticaoRing.getId())){
+                                        ringComps.add(competidor);
+                                        add = true;
+                                        break;
+                                    }
+                                }
+                                if (add){
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    list.addAll(insereRingueIndividuais(ringComps, ringueIndividual));
                 }
             }
         }
@@ -207,6 +223,8 @@ public class RingueService {
 
     private List<RingueIndividual> insereRingueIndividuais(ArrayList<Competidor> competidorArrayList,//todo arrumar a criacao do array de competidores
             RingueIndividual ringueIndividual) {
+
+        System.out.println(competidorArrayList);
 
         int maxComp;
         if (ringueIndividual.getFechado()) {

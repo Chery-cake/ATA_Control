@@ -64,6 +64,16 @@ public class AtaApplication implements CommandLineRunner {
     private RingueDAO ringueDAO;
     @Autowired
     private RingueService ringueService;
+    @Autowired
+    private PaisRepository paisRepository;
+    @Autowired
+    private EstadoRepository estadoRepository;
+    @Autowired
+    private CidadeRepository cidadeRepository;
+    @Autowired
+    private FaixaRepository faixaRepository;
+    @Autowired
+    private CategoriaTorneioRepository categoriaTorneioRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(AtaApplication.class, args);
@@ -87,8 +97,13 @@ public class AtaApplication implements CommandLineRunner {
         usuarioRepository.save(usuario);
 
         //todo remover
+
         ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList = new ArrayList<>();
         categoriaCompeticaoArrayList.add(
+                categoriaCompeticaoRepository.save(new CategoriaCompeticao("nome", false, false, 0, 0, 0, 0, 0)));
+
+        ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList1 = new ArrayList<>();
+        categoriaCompeticaoArrayList1.add(
                 categoriaCompeticaoRepository.save(new CategoriaCompeticao("nome", false, false, 0, 0, 0, 0, 0)));
 
         int quant = 20;
@@ -103,7 +118,6 @@ public class AtaApplication implements CommandLineRunner {
                                    "NumberWorld", "NumberBrasil", false,
                                    "telefone", null, null, null)));
             }else {
-                System.out.println("test -//- 1");
                 pessoaArrayList.add(pessoaRepository.save(
                         new Pessoa(String.valueOf(i), "pessoa", true, new GregorianCalendar(2013, Calendar.FEBRUARY, 11).getTime(), 0,// genero false = menina
                                    "NumberWorld", "NumberBrasil", false,
@@ -114,23 +128,32 @@ public class AtaApplication implements CommandLineRunner {
         torneio = torneioRepository.save(torneio);
         ArrayList<Competidor> competidorArrayList = new ArrayList<>();
         for (Pessoa pessoa1 : pessoaArrayList) {
-            competidorArrayList.add(
-                    tipoPessoaDAO.save(
-                            new Competidor(10d, Double.valueOf(s.getRandomInt(1, 5)), 2, pessoa1, torneio,
-                                           categoriaCompeticaoArrayList)));
+            if( s.getRandomInt(0, 2) == 0) {
+                competidorArrayList.add(
+                        tipoPessoaDAO.save(
+                                new Competidor(10d, Double.valueOf(s.getRandomInt(1, 5)), 1, pessoa1, torneio,
+                                               categoriaCompeticaoArrayList)));
+            }else {
+                competidorArrayList.add(
+                        tipoPessoaDAO.save(
+                                new Competidor(10d, Double.valueOf(s.getRandomInt(1, 5)), 1, pessoa1, torneio,
+                                               categoriaCompeticaoArrayList1)));
+            }
         }
         RodadaJuiz rodadaJuiz = new RodadaJuiz("ini", "ter", new Date(), torneio);
         rodadaJuizRepository.save(rodadaJuiz);
-        RingueIndividual ringueIndividualF = new RingueIndividual(false, false, 1, 1, 1, 0, null, torneio,
-                                                                 categoriaCompeticaoArrayList, rodadaJuiz);
-        RingueIndividual ringueIndividualT = new RingueIndividual(true, false, 1, 1, 1, 0, null, torneio,
-                                                                 categoriaCompeticaoArrayList, rodadaJuiz);
+        RingueIndividual ringueIndividualF = new RingueIndividual(false, false, 1, 1, 1, 1, null, torneio,
+                                                                  categoriaCompeticaoArrayList, rodadaJuiz);
+        RingueIndividual ringueIndividualT = new RingueIndividual(true, false, 1, 1, 1, 1, null, torneio,
+                                                                  categoriaCompeticaoArrayList, rodadaJuiz);
 
         ringueIndividualF = ringueDAO.save(ringueIndividualF);
 
         ringueIndividualT = ringueDAO.save(ringueIndividualT);
 
         ringueService.createRingueIndividual(torneio);
+
+        System.out.println("test ringues terminou");
 
     }
 
