@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html layout:decorate="~{layout/base}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -23,8 +24,8 @@
                     </div>
 
                     <div class="form-group" id="endereco_div">
-                        <label>Endereço</label>
-                        <select class="form-control" id="pais" name="pais" required>
+                        <label>Endereco</label>
+                        <select class="form-control" id="pais" name="pais">
                             <option value="">Selecione</option>
                             <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
                             </option>

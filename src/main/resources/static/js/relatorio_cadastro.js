@@ -31,7 +31,6 @@ $("#torneio").change(function () {
             tr.appendChild(th);
             th = document.createElement("th");
             th.textContent = "Editar";
-            th.className = "text-right";
             tr.appendChild(th);
 
             var tbody = document.createElement("tbody");

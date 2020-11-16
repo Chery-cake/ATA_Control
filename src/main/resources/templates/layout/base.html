@@ -25,6 +25,8 @@
     <!-- CSS Files -->
     <link href="argon-design-system.mim.css" rel="stylesheet"
           th:href="@{/assets/argon/assets/css/argon-design-system.min.css}">
+    <link href="argon-design-system.mim.css" rel="stylesheet"
+          th:href="@{/assets/argon/assets/css/background.css}">
 
 </head>
 <body>
@@ -94,8 +96,9 @@
                                         <label class="custom-control-label" for=" customCheckLogin"><span>Remember me</span></label>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary my-4">Sign in</button>
+                                        <button type="submit" class="btn btn-lg btn-github btn-icon my-4">Iniciar Sessão</button>
                                     </div>
+
                                 </form>
                             </div>
                         </div>
@@ -104,13 +107,13 @@
 
                 <ul class="navbar-nav flex-row mr-auto ml-4 d-none d-md-flex">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/home}">HOME
+                        <a class="navbar-brand font-weight-bold" th:href="@{/home}">home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
 
                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:">TORNEIO</a>
+                        <a class="navbar-brand font-weight-bold" href="javascript:">Torneio</a>
                     </li>
                 </ul>
 
@@ -150,17 +153,22 @@
                 </ul>
                 </ul>
                 <ul class="navbar-nav" th:if="${usuario == null}">
-                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                    <!--<li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
                         <a class="nav-link" th:href="@{/register/pessoa}">
                             <i class="fa fa-user fa-fw"></i>Inscreva-se</a>
-                    </li>
+                    </li>-->
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
-                        <a class="nav-link"  data-toggle="modal" data-target="#exampleModal"
+                        <<!--a class="nav-link"  data-toggle="modal" data-target="#exampleModal"
                            th:href="@{/login}">
 
-                            <i class="fa fa-user fa-fw"></i>Fazer Login</a>
+                            <i class="fa fa-user fa-fw"></i>Fazer Login</a>-->
+                        <a th:href="@{/login}" data-toggle="modal" data-target="#exampleModal" class="btn btn-lg btn-white btn-icon">
+                            <span class="btn-inner--text">INICIAR SESSÃO</span>
+                        </a>
                     </li>
                 </ul>
+
+
 
             </div>
         </div>
@@ -172,54 +180,6 @@
         <div>conteudo principal das páginas</div>
     </div>
 
-  <!--  <footer class="footer bg-darker">
-        <div class="container">
-            <div class="row row-grid align-items-center mb-5">
-                <div class="col-lg-6">
-                              <h3 class="text-white font-weight-light mb-2">Thank you for supporting us!</h3>
-                             <h4 class="mb-0 text-white font-weight-light">Let's get in touch on any of these platforms.</h4>
-                </div>
-                <div class="col-lg-6 text-lg-center btn-wrapper">
-                    <button class="btn btn-icon-only btn-twitter rounded-circle" data-original-title="Follow us" data-toggle="tooltip"  href="https://twitter.com/creativetim" rel="nofollow"  target="_blank">
-                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-twitter"></i></span>
-                    </button>
-                    <button class="btn-icon-only rounded-circle btn btn-facebook" data-original-title="Like us" data-toggle="tooltip" href="https://www.facebook.com/CreativeTim/" rel="nofollow" target="_blank">
-                        <span class="btn-inner&#45;&#45;icon"><i class="fab fa-facebook"></i></span>
-                    </button>
-                    <button class="btn btn-icon-only btn-dribbble rounded-circle" data-original-title="Follow us" data-toggle="tooltip" href="https://dribbble.com/creativetim" rel="nofollow" target="_blank">
-                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-dribbble"></i></span>
-                    </button>
-                    <button class="btn btn-icon-only btn-github rounded-circle" data-original-title="Star on Github" data-toggle="tooltip" href="https://github.com/creativetimofficial" rel="nofollow" target="_blank">
-                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-github"></i></span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="row align-items-center justify-content-md-between">
-                <div class="col-md-6">
-                    <div class="copyright">
-                         2020 <a href="" target="_blank">Ata Control</a>
-                    </div>
-                </div>
-              <div class="col-md-6">
-                   <ul class="nav nav-footer justify-content-end">
-                       <li class="nav-item">
-                           <a class="nav-link" href="" target="_blank">Creative Tim</a>
-                       </li>
-                      <li class="nav-item">
-                           <a class="nav-link" href="" target="_blank">About Us</a>
-                       </li>
-                      <li class="nav-item">
-                           <a class="nav-link" href="" target="_blank">Blog</a>
-                      </li>
-                       <li class="nav-item">
-                           <a class="nav-link" href="" target="_blank">License</a>
-                       </li>
-                    </ul>
-<              </div>
-            </div>
-        </div>
-    </footer>-->
 </main>
 
 <!-- JS -->
