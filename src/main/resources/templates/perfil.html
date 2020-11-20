@@ -19,7 +19,7 @@
         <div th:if="${usuario.userRole == ROLE_USER}">
             <p><a th:href="@{/register/competidor}">Registro para competidor</a></p>
             <p><a th:href="@{/register/juiz}">Registro para juiz</a></p>
-            <!--        <p th:if="${usuario.pessoa.isInstrutor == true}"><a th:href="@{/alunos}">Informacoes dos alunos</a></p>-->
+            <!--        <p th:if="${usuario.pessoa.isInstrutor == true}"><a th:href="@{/alunos}">Informacoes dos alunos</a></p> todo terminar essa bosta-->
             <p><a th:href="@{/ajustar}">Editar conta</a></p>
         </div>
         <div th:if="${usuario.userRole == ROLE_PLANILHA}">

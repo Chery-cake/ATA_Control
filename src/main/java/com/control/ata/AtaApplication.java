@@ -5,14 +5,10 @@ import com.control.ata.dao.TipoPessoaDAO;
 import com.control.ata.model.endereco.Cidade;
 import com.control.ata.model.endereco.Estado;
 import com.control.ata.model.endereco.Pais;
-import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
-import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.CategoriaTorneio;
-import com.control.ata.model.torneio.RodadaJuiz;
-import com.control.ata.model.torneio.Torneio;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
@@ -40,7 +36,9 @@ import org.springframework.context.annotation.ImportResource;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @ImportResource(locations = "classpath:dwr-spring.xml")
 @SpringBootApplication
@@ -101,59 +99,59 @@ public class AtaApplication implements CommandLineRunner {
         ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList = new ArrayList<>();
         categoriaCompeticaoArrayList.add(
                 categoriaCompeticaoRepository.save(new CategoriaCompeticao("nome", false, false, 0, 0, 0, 0, 0)));
-
-        ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList1 = new ArrayList<>();
-        categoriaCompeticaoArrayList1.add(
-                categoriaCompeticaoRepository.save(new CategoriaCompeticao("nome", false, false, 0, 0, 0, 0, 0)));
-
-        int quant = 20;
-
-        Singleton s = Singleton.getSingleton();
-
-        ArrayList<Pessoa> pessoaArrayList = new ArrayList<>();
-        for (int i = 0; i < quant; i++) {
-            if( s.getRandomInt(0, 2) == 0){
-                pessoaArrayList.add(pessoaRepository.save(
-                        new Pessoa(String.valueOf(i), "pessoa", false, new GregorianCalendar(2013, Calendar.FEBRUARY, 11).getTime(), 0,// genero false = menina
-                                   "NumberWorld", "NumberBrasil", false,
-                                   "telefone", null, null, null)));
-            }else {
-                pessoaArrayList.add(pessoaRepository.save(
-                        new Pessoa(String.valueOf(i), "pessoa", true, new GregorianCalendar(2013, Calendar.FEBRUARY, 11).getTime(), 0,// genero false = menina
-                                   "NumberWorld", "NumberBrasil", false,
-                                   "telefone", null, null, null)));
-            }
-        }
-        Torneio torneio = new Torneio(new Date(), new Date(), 3, false, null, null);
-        torneio = torneioRepository.save(torneio);
-        ArrayList<Competidor> competidorArrayList = new ArrayList<>();
-        for (Pessoa pessoa1 : pessoaArrayList) {
-            if( s.getRandomInt(0, 2) == 0) {
-                competidorArrayList.add(
-                        tipoPessoaDAO.save(
-                                new Competidor(10d, Double.valueOf(s.getRandomInt(1, 5)), 1, pessoa1, torneio,
-                                               categoriaCompeticaoArrayList)));
-            }else {
-                competidorArrayList.add(
-                        tipoPessoaDAO.save(
-                                new Competidor(10d, Double.valueOf(s.getRandomInt(1, 5)), 1, pessoa1, torneio,
-                                               categoriaCompeticaoArrayList1)));
-            }
-        }
-        RodadaJuiz rodadaJuiz = new RodadaJuiz("ini", "ter", new Date(), torneio);
-        rodadaJuizRepository.save(rodadaJuiz);
-        RingueIndividual ringueIndividualF = new RingueIndividual(false, false, 1, 1, 1, 1, null, torneio,
-                                                                  categoriaCompeticaoArrayList, rodadaJuiz);
-        RingueIndividual ringueIndividualT = new RingueIndividual(true, false, 1, 1, 1, 1, null, torneio,
-                                                                  categoriaCompeticaoArrayList, rodadaJuiz);
-
-        ringueIndividualF = ringueDAO.save(ringueIndividualF);
-
-        ringueIndividualT = ringueDAO.save(ringueIndividualT);
-
-        ringueService.createRingueIndividual(torneio);
-
-        System.out.println("test ringues terminou");
+//
+//        ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList1 = new ArrayList<>();
+//        categoriaCompeticaoArrayList1.add(
+//                categoriaCompeticaoRepository.save(new CategoriaCompeticao("nome", false, false, 0, 0, 0, 0, 0)));
+//
+//        int quant = 20;
+//
+//        Singleton s = Singleton.getSingleton();
+//
+//        ArrayList<Pessoa> pessoaArrayList = new ArrayList<>();
+//        for (int i = 0; i < quant; i++) {
+//            if( s.getRandomInt(0, 2) == 0){
+//                pessoaArrayList.add(pessoaRepository.save(
+//                        new Pessoa(String.valueOf(i), "pessoa", false, new GregorianCalendar(2013, Calendar.FEBRUARY, 11).getTime(), 0,// genero false = menina
+//                                   "NumberWorld", "NumberBrasil", false,
+//                                   "telefone", null, null, null)));
+//            }else {
+//                pessoaArrayList.add(pessoaRepository.save(
+//                        new Pessoa(String.valueOf(i), "pessoa", true, new GregorianCalendar(2013, Calendar.FEBRUARY, 11).getTime(), 0,// genero false = menina
+//                                   "NumberWorld", "NumberBrasil", false,
+//                                   "telefone", null, null, null)));
+//            }
+//        }
+//        Torneio torneio = new Torneio(new Date(), new Date(), 3, false, null, null);
+//        torneio = torneioRepository.save(torneio);
+//        ArrayList<Competidor> competidorArrayList = new ArrayList<>();
+//        for (Pessoa pessoa1 : pessoaArrayList) {
+//            if( s.getRandomInt(0, 2) == 0) {
+//                competidorArrayList.add(
+//                        tipoPessoaDAO.save(
+//                                new Competidor(10d, Double.valueOf(s.getRandomInt(1, 5)), 1, pessoa1, torneio,
+//                                               categoriaCompeticaoArrayList)));
+//            }else {
+//                competidorArrayList.add(
+//                        tipoPessoaDAO.save(
+//                                new Competidor(10d, Double.valueOf(s.getRandomInt(1, 5)), 1, pessoa1, torneio,
+//                                               categoriaCompeticaoArrayList1)));
+//            }
+//        }
+//        RodadaJuiz rodadaJuiz = new RodadaJuiz("ini", "ter", new Date(), torneio);
+//        rodadaJuizRepository.save(rodadaJuiz);
+//        RingueIndividual ringueIndividualF = new RingueIndividual(false, false, 1, 1, 1, 1, null, torneio,
+//                                                                  categoriaCompeticaoArrayList, rodadaJuiz);
+//        RingueIndividual ringueIndividualT = new RingueIndividual(true, false, 1, 1, 1, 1, null, torneio,
+//                                                                  categoriaCompeticaoArrayList, rodadaJuiz);
+//
+//        ringueIndividualF = ringueDAO.save(ringueIndividualF);
+//
+//        ringueIndividualT = ringueDAO.save(ringueIndividualT);
+//
+//        ringueService.createRingueIndividual(torneio);
+//
+//        System.out.println("test ringues terminou");
 
     }
 

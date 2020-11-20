@@ -9,6 +9,7 @@ public class CompetidorDTO {
     private Integer pessoa;
     private Integer torneio;
     private ArrayList<Integer> categoriaCompeticao;
+    private ArrayList<Integer> categoriaCompeticaoFechada;
 
     public Double getPeso() {
         return peso;
@@ -50,20 +51,30 @@ public class CompetidorDTO {
         this.categoriaCompeticao = categoriaCompeticao;
     }
 
+    public ArrayList<Integer> getCategoriaCompeticaoFechada() {
+        return categoriaCompeticaoFechada;
+    }
+
+    public void setCategoriaCompeticaoFechada(ArrayList<Integer> categoriaCompeticaoFechada) {
+        this.categoriaCompeticaoFechada = categoriaCompeticaoFechada;
+    }
+
     @Override
     public String toString() {
 
-        String aux = "CompetidorDTO{" +
-                "peso=" + peso +
-                ", altura=" + altura +
-                ", pessoa=" + pessoa +
-                ", torneio=" + torneio;
+        StringBuilder aux = new StringBuilder("CompetidorDTO{" +
+                                                      "peso=" + peso +
+                                                      ", altura=" + altura +
+                                                      ", pessoa=" + pessoa +
+                                                      ", torneio=" + torneio);
 
         for (int i = 0; i < categoriaCompeticao.size(); i++) {
-            aux = aux +
-                    ", categoriaCompeticao[" + i + "]=" + categoriaCompeticao.get(0);
+            aux.append(", categoriaCompeticao[").append(i).append("]=").append(categoriaCompeticao.get(0));
+        }
+        for (int i = 0; i < categoriaCompeticaoFechada.size(); i++) {
+            aux.append(", categoriaCompeticao[").append(i).append("]=").append(categoriaCompeticaoFechada.get(0));
         }
 
-        return aux + '}';
+        return aux.toString() + '}';
     }
 }

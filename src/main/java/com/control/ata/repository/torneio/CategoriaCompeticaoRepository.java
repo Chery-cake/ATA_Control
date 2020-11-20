@@ -17,4 +17,7 @@ public interface CategoriaCompeticaoRepository extends JpaRepository<CategoriaCo
     @Query("select c from CategoriaCompeticao c join c.ringueIndividualList r where r.id = :id")
     List<CategoriaCompeticao> getAllByRingueIndividual(@Param("id") Integer id);
 
+    @Query("select c from CategoriaCompeticao c join c.rankingIndividualList r where r.id = :id")
+    CategoriaCompeticao getAllByRankingIndividual(@Param("id") Integer id);
+
 }

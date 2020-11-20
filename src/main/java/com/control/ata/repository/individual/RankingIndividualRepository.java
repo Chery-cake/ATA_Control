@@ -8,11 +8,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RankingIndividualRepository extends JpaRepository<RankingIndividual, Integer> {
 
     @Query("select r from RankingIndividual r where r.pessoa = :pessoa and r.categoriaCompeticao = :categoriaCompeticao")
-    RankingIndividual getByPessoaAndCategoriaCompeticao(@Param("pessoa")Pessoa pessoa, @Param("categoriaCompeticao")
+    RankingIndividual getByPessoaAndCategoriaCompeticao(@Param("pessoa") Pessoa pessoa, @Param("categoriaCompeticao")
             CategoriaCompeticao categoriaCompeticao);
+
+    @Query("select r from RankingIndividual r where r.pessoa = :pessoa")
+    List<RankingIndividual> getAllByPessoa(@Param("pessoa") Pessoa pessoa);
 
 }

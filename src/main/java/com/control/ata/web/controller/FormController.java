@@ -7,6 +7,8 @@ import com.control.ata.dao.TipoPessoaDAO;
 import com.control.ata.dto.*;
 import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Pais;
+import com.control.ata.model.individual.ListaCategoriaCompetidorFechada;
+import com.control.ata.model.individual.RankingIndividual;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
@@ -22,6 +24,8 @@ import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
+import com.control.ata.repository.individual.ListaCategoriaCompetidorFechadaRepository;
+import com.control.ata.repository.individual.RankingIndividualRepository;
 import com.control.ata.repository.individual.RingueIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
@@ -92,6 +96,10 @@ public class FormController {
     private RingueIndividualRepository ringueIndividualRepository;
     @Autowired
     private PlanilheiroRepository planilheiroRepository;
+    @Autowired
+    private RankingIndividualRepository rankingIndividualRepository;
+    @Autowired
+    private ListaCategoriaCompetidorFechadaRepository listaCategoriaCompetidorFechadaRepository;
 
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
@@ -145,6 +153,8 @@ public class FormController {
 
         usuarioService.signUpUser(
                 new Usuario(pessoa, pessoaRegister.usuario.getEmail(), pessoaRegister.usuario.getPassword()));
+
+        rankingIndividualRepository.save(new RankingIndividual(pessoa, 10, categoriaCompeticaoRepository.getOne(1)));//todo remover
 
         return ResponseEntity.ok().build();
     }
@@ -245,17 +255,22 @@ public class FormController {
                 nivel = 0;
         }
 
-        ArrayList<Integer> integerArrayList = competidorDTO.getCategoriaCompeticao();
         ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList = new ArrayList<>();
-        for (int i = 0; i < integerArrayList.size(); i++) {
-            categoriaCompeticaoArrayList.add(categoriaCompeticaoRepository.getOne(integerArrayList.get(i)));
+        for (int i = 0; i < competidorDTO.getCategoriaCompeticao().size(); i++) {
+            categoriaCompeticaoArrayList.add(categoriaCompeticaoRepository.getOne(competidorDTO.getCategoriaCompeticao().get(i)));
         }
 
-        Competidor competidor = new Competidor(competidorDTO.getPeso(), competidorDTO.getAltura(), nivel, pessoa,
-                                               torneioRepository.getOne(competidorDTO.getTorneio()),
-                                               categoriaCompeticaoArrayList);
+        Competidor competidor = tipoPessoaDAO.save(new Competidor(competidorDTO.getPeso(), competidorDTO.getAltura(), nivel, pessoa,
+                                                                  torneioRepository.getOne(competidorDTO.getTorneio()),
+                                                                  categoriaCompeticaoArrayList));
 
-        tipoPessoaDAO.save(competidor);
+        if(!competidorDTO.getCategoriaCompeticaoFechada().isEmpty()){
+            categoriaCompeticaoArrayList = new ArrayList<>();
+            for (int i = 0; i < competidorDTO.getCategoriaCompeticaoFechada().size(); i++) {
+                categoriaCompeticaoArrayList.add(categoriaCompeticaoRepository.getOne(competidorDTO.getCategoriaCompeticaoFechada().get(i)));
+            }
+            listaCategoriaCompetidorFechadaRepository.save(new ListaCategoriaCompetidorFechada(competidor, categoriaCompeticaoArrayList));
+        }
 
         return ResponseEntity.ok().build();
     }
@@ -606,6 +621,20 @@ public class FormController {
     @PostMapping("/ringueInd/rodada/{id}")
     public ResponseEntity<?> getRingueInd(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(ringueIndividualRepository.getAllByRodadaJuiz(rodadaJuizRepository.getOne(id)));
+    }
+
+    @PostMapping("/categorias/rank/pessoa/{id}")
+    public ResponseEntity<?> getRanksCompetidor(@PathVariable("id") Integer id) {
+        ArrayList<RankingIndividual> rankingIndividualArrayList = (ArrayList<RankingIndividual>) rankingIndividualRepository.getAllByPessoa(
+                pessoaRepository.getOne(id));
+        List<CategoriaCompeticao> categoriaCompeticaoList = new ArrayList<>();
+        if (!rankingIndividualArrayList.isEmpty()) {
+            for (RankingIndividual rankingIndividual : rankingIndividualArrayList) {
+                categoriaCompeticaoList.add(
+                        categoriaCompeticaoRepository.getAllByRankingIndividual(rankingIndividual.getId()));
+            }
+        }
+        return ResponseEntity.ok(categoriaCompeticaoList);
     }
 
     // ======================================FUNCTIONS=============================================
