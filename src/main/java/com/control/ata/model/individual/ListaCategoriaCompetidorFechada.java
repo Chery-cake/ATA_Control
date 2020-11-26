@@ -28,6 +28,10 @@ public class ListaCategoriaCompetidorFechada {
         this.categoriaCompeticao = categoriaCompeticao;
     }
 
+    public ListaCategoriaCompetidorFechada(Competidor competidor) {
+        this.competidor = competidor;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -38,5 +42,10 @@ public class ListaCategoriaCompetidorFechada {
 
     public Collection<CategoriaCompeticao> getCategoriaCompeticao() {
         return categoriaCompeticao;
+    }
+
+    public void setCategoriaCompeticao(
+            Collection<CategoriaCompeticao> categoriaCompeticao) {
+        this.categoriaCompeticao = categoriaCompeticao;
     }
 }

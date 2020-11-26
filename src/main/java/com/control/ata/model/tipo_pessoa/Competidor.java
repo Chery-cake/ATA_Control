@@ -131,4 +131,8 @@ public class Competidor {
     public void setTituloList(Collection<Titulo> tituloList) {
         this.tituloList = tituloList;
     }
+
+    public ListaCategoriaCompetidorFechada getListaCategoriaCompetidorFechada() {
+        return listaCategoriaCompetidorFechada;
+    }
 }

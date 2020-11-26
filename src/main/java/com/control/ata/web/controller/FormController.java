@@ -154,8 +154,6 @@ public class FormController {
         usuarioService.signUpUser(
                 new Usuario(pessoa, pessoaRegister.usuario.getEmail(), pessoaRegister.usuario.getPassword()));
 
-        rankingIndividualRepository.save(new RankingIndividual(pessoa, 10, categoriaCompeticaoRepository.getOne(1)));//todo remover
-
         return ResponseEntity.ok().build();
     }
 
@@ -269,7 +267,9 @@ public class FormController {
             for (int i = 0; i < competidorDTO.getCategoriaCompeticaoFechada().size(); i++) {
                 categoriaCompeticaoArrayList.add(categoriaCompeticaoRepository.getOne(competidorDTO.getCategoriaCompeticaoFechada().get(i)));
             }
-            listaCategoriaCompetidorFechadaRepository.save(new ListaCategoriaCompetidorFechada(competidor, categoriaCompeticaoArrayList));
+            ListaCategoriaCompetidorFechada listaCategoriaCompetidorFechada = listaCategoriaCompetidorFechadaRepository.save(new ListaCategoriaCompetidorFechada(competidor));
+            listaCategoriaCompetidorFechada.setCategoriaCompeticao(categoriaCompeticaoArrayList);
+            listaCategoriaCompetidorFechadaRepository.save(listaCategoriaCompetidorFechada);
         }
 
         return ResponseEntity.ok().build();
@@ -630,7 +630,7 @@ public class FormController {
         List<CategoriaCompeticao> categoriaCompeticaoList = new ArrayList<>();
         if (!rankingIndividualArrayList.isEmpty()) {
             for (RankingIndividual rankingIndividual : rankingIndividualArrayList) {
-                categoriaCompeticaoList.add(
+                categoriaCompeticaoList.addAll(
                         categoriaCompeticaoRepository.getAllByRankingIndividual(rankingIndividual.getId()));
             }
         }
