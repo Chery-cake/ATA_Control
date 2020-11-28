@@ -7,9 +7,12 @@ import com.control.ata.dao.TipoPessoaDAO;
 import com.control.ata.dto.*;
 import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Pais;
+import com.control.ata.model.individual.ListaCategoriaCompetidorFechada;
+import com.control.ata.model.individual.RankingIndividual;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
+import com.control.ata.model.pessoa.Planilheiro;
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.tipo_pessoa.Instrutor;
 import com.control.ata.model.tipo_pessoa.Juiz;
@@ -21,8 +24,12 @@ import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
+import com.control.ata.repository.individual.ListaCategoriaCompetidorFechadaRepository;
+import com.control.ata.repository.individual.RankingIndividualRepository;
+import com.control.ata.repository.individual.RingueIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
+import com.control.ata.repository.pessoa.PlanilheiroRepository;
 import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
 import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
 import com.control.ata.repository.tipo_pessoa.JuizRepository;
@@ -32,6 +39,7 @@ import com.control.ata.repository.torneio.RodadaJuizRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
 import com.control.ata.security.entity.ConfirmationToken;
 import com.control.ata.security.entity.Usuario;
+import com.control.ata.security.enuns.UserRole;
 import com.control.ata.security.repository.ConfirmationTokenRepository;
 import com.control.ata.security.service.UsuarioService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -84,6 +92,14 @@ public class FormController {
     private CompetidorRepository competidorRepository;
     @Autowired
     private RingueDAO ringueDAO;
+    @Autowired
+    private RingueIndividualRepository ringueIndividualRepository;
+    @Autowired
+    private PlanilheiroRepository planilheiroRepository;
+    @Autowired
+    private RankingIndividualRepository rankingIndividualRepository;
+    @Autowired
+    private ListaCategoriaCompetidorFechadaRepository listaCategoriaCompetidorFechadaRepository;
 
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
@@ -162,7 +178,7 @@ public class FormController {
         return "competidor_form";
     }
 
-    @PostMapping("/save/competidor")//todo adicionar time e titulos
+    @PostMapping("/save/competidor")//todo adicionar titulos
     public ResponseEntity<?> salvarCompetidor(@Valid @RequestBody String json,
             BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
         ResponseEntity<?> errors = getErrors(result);
@@ -237,17 +253,28 @@ public class FormController {
                 nivel = 0;
         }
 
-        ArrayList<Integer> integerArrayList = competidorDTO.getCategoriaCompeticao();
         ArrayList<CategoriaCompeticao> categoriaCompeticaoArrayList = new ArrayList<>();
-        for (int i = 0; i < integerArrayList.size(); i++) {
-            categoriaCompeticaoArrayList.add(categoriaCompeticaoRepository.getOne(integerArrayList.get(i)));
+        for (int i = 0; i < competidorDTO.getCategoriaCompeticao().size(); i++) {
+            categoriaCompeticaoArrayList.add(
+                    categoriaCompeticaoRepository.getOne(competidorDTO.getCategoriaCompeticao().get(i)));
         }
 
-        Competidor competidor = new Competidor(competidorDTO.getPeso(), competidorDTO.getAltura(), nivel, pessoa,
-                                               torneioRepository.getOne(competidorDTO.getTorneio()),
-                                               categoriaCompeticaoArrayList);
+        Competidor competidor = tipoPessoaDAO.save(
+                new Competidor(competidorDTO.getPeso(), competidorDTO.getAltura(), nivel, pessoa,
+                               torneioRepository.getOne(competidorDTO.getTorneio()),
+                               categoriaCompeticaoArrayList));
 
-        tipoPessoaDAO.save(competidor);
+        if (!competidorDTO.getCategoriaCompeticaoFechada().isEmpty()) {
+            categoriaCompeticaoArrayList = new ArrayList<>();
+            for (int i = 0; i < competidorDTO.getCategoriaCompeticaoFechada().size(); i++) {
+                categoriaCompeticaoArrayList.add(
+                        categoriaCompeticaoRepository.getOne(competidorDTO.getCategoriaCompeticaoFechada().get(i)));
+            }
+            ListaCategoriaCompetidorFechada listaCategoriaCompetidorFechada = listaCategoriaCompetidorFechadaRepository.save(
+                    new ListaCategoriaCompetidorFechada(competidor));
+            listaCategoriaCompetidorFechada.setCategoriaCompeticao(categoriaCompeticaoArrayList);
+            listaCategoriaCompetidorFechadaRepository.save(listaCategoriaCompetidorFechada);
+        }
 
         return ResponseEntity.ok().build();
     }
@@ -358,11 +385,16 @@ public class FormController {
         return ResponseEntity.ok().build();
     }
 
-    // ======================================RELATORIO=============================================
+    // ======================================RELATORIOS=============================================
 
     @GetMapping("/relatorio/cadastros")
     public String getRelatorioCadastro() {
         return "relatorio_cadastro";
+    }
+
+    @GetMapping("/relatorio/torneio")
+    public String getRelatorioTorneio() {
+        return "relatorio_torneio";
     }
 
     // ======================================CRIAR CATEGORIA=============================================
@@ -396,11 +428,9 @@ public class FormController {
 
     @PostMapping("/save/ringues")
     public ResponseEntity<?> cadastrarRingues(@Valid @RequestBody String json,
-            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {//todo executar quando iniciar o torneio e criar as planilhas
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
-
-        System.out.println(json);
 
         String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
         ObjectMapper jacksonObjectMapper = new ObjectMapper();
@@ -416,7 +446,8 @@ public class FormController {
             for (Integer i : ringueIndividualDTO.getCategorias()) {
                 juizArrayList.add(juizRepository.getOne(i));
             }
-            RingueIndividual ringueIndividual = new RingueIndividual(ringueIndividualDTO.getFechado(),
+            RingueIndividual ringueIndividual = new RingueIndividual(ringueIndividualDTO.getGenero(),
+                                                                     ringueIndividualDTO.getFechado(),
                                                                      ringueIndividualDTO.getNumeroRingue(),
                                                                      ringueIndividualDTO.getNumeroRodada(),
                                                                      ringueIndividualDTO.getIdade(),
@@ -428,6 +459,59 @@ public class FormController {
                                                                              ringueIndividualDTO.getRodada()));
             ringueDAO.save(ringueIndividual);
         }
+
+        return ResponseEntity.ok().build();
+    }
+
+    // ======================================INICIAR TORNEIO=============================================
+
+    @GetMapping("/iniciar/torneio")
+    public String iniTorneio() {
+        return "iniciarTorneio";
+    }
+
+    @PostMapping("/inicia/torneio/{id}")
+    public ResponseEntity<?> iniciarTorneio(@Valid @RequestBody String json, @PathVariable("id") Integer id,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        usuarioDTO usuarioDTO = jacksonObjectMapper.readValue(decodedJson, FormController.usuarioDTO.class);
+
+        Planilheiro planilheiro = planilheiroRepository.save(new Planilheiro(torneioRepository.getOne(id)));
+
+        Usuario usuario = new Usuario(planilheiro, usuarioDTO.email,
+                                      usuarioDTO.password);//todo adicionar preenchimento dos ringues com competidores
+        usuario.setUserRole(UserRole.ROLE_PLANILHA);
+        usuarioService.signUpUser(usuario);
+
+        Torneio torneio = torneioRepository.getOne(id);
+        torneio.setIniciado(true);
+        torneioRepository.save(torneio);
+
+        return ResponseEntity.ok().build();
+    }
+
+    // ======================================TERMINA TORNEIO=============================================
+
+    @GetMapping("/terminar/torneio")
+    public String terTorneio() {
+        return "terminarTorneio";
+    }
+
+    @PostMapping("/terminar/torneio/{id}")
+    public ResponseEntity<?> terminaTorneio(@Valid @RequestBody String json, @PathVariable("id") Integer id,
+            BindingResult result) {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        Torneio torneio = torneioRepository.getOne(id);
+        torneio.setTerminado(true);
+        torneioRepository.save(torneio);
+
+        planilheiroRepository.delete(planilheiroRepository.getByTorneio(torneio));
 
         return ResponseEntity.ok().build();
     }
@@ -452,6 +536,31 @@ public class FormController {
     @ModelAttribute("torneios")
     public List<Torneio> getTorneios() {
         return torneioRepository.findAll();
+    }
+
+    @ModelAttribute("torneiosNIni")
+    public List<Torneio> getTorneiosNIni() {
+        return torneioRepository.getAllByIniciado(false);
+    }
+
+    @ModelAttribute("torneiosIni")
+    public List<Torneio> getTorneiosIni() {
+        return torneioRepository.getAllByIniciado(true);
+    }
+
+    @ModelAttribute("torneiosNTer")
+    public List<Torneio> getTorneiosNTer() {
+        return torneioRepository.getAllByTerminado(false);
+    }
+
+    @ModelAttribute("torneiosTer")
+    public List<Torneio> getTorneiosTer() {
+        return torneioRepository.getAllByTerminado(true);
+    }
+
+    @ModelAttribute("torneiosNTerIni")
+    public List<Torneio> getTorneiosNTerIni() {
+        return torneioRepository.getAllByIniciadoAndTerminado(true, false);
     }
 
     @ModelAttribute("categoriasTorneio")
@@ -511,6 +620,25 @@ public class FormController {
     @PostMapping("/juiz/rodada/{id}")
     public ResponseEntity<?> getJuizRodada(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(juizRepository.getAllByRodadaJuizList(id));
+    }
+
+    @PostMapping("/ringueInd/rodada/{id}")
+    public ResponseEntity<?> getRingueInd(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(ringueIndividualRepository.getAllByRodadaJuiz(rodadaJuizRepository.getOne(id)));
+    }
+
+    @PostMapping("/categorias/rank/pessoa/{id}")
+    public ResponseEntity<?> getRanksCompetidor(@PathVariable("id") Integer id) {
+        ArrayList<RankingIndividual> rankingIndividualArrayList = (ArrayList<RankingIndividual>) rankingIndividualRepository.getAllByPessoa(
+                pessoaRepository.getOne(id));
+        List<CategoriaCompeticao> categoriaCompeticaoList = new ArrayList<>();
+        if (!rankingIndividualArrayList.isEmpty()) {
+            for (RankingIndividual rankingIndividual : rankingIndividualArrayList) {
+                categoriaCompeticaoList.addAll(
+                        categoriaCompeticaoRepository.getAllByRankingIndividual(rankingIndividual.getId()));
+            }
+        }
+        return ResponseEntity.ok(categoriaCompeticaoList);
     }
 
     // ======================================FUNCTIONS=============================================
@@ -612,6 +740,19 @@ public class FormController {
 
         public RegistroRingueIndividual(ArrayList<RingueIndividualDTO> arrayRingue) {
             this.arrayRingue = arrayRingue;
+        }
+    }
+
+    private static class usuarioDTO {
+        public String email;
+        public String password;
+
+        public usuarioDTO() {
+        }
+
+        public usuarioDTO(String email, String password) {
+            this.email = email;
+            this.password = password;
         }
     }
 

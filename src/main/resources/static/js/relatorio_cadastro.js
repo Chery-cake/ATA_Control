@@ -30,7 +30,6 @@ $("#torneio").change(function () {
             tr.appendChild(th);
             table.appendChild(tr);
             for (i in response) {
-                console.log(response[i]);
                 tr = document.createElement("tr");
                 var td = document.createElement("td");
                 td.textContent = response[i].pessoa.nome + " " + response[i].pessoa.sobrenome;

@@ -8,7 +8,7 @@
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 
     <title>ATA Control</title>
-    <link th:href="@{../assets/img/favicon.ico}" rel="icon" type="image/png">
+    <link rel="icon" th:href="@{../assets/img/favicon.ico}" type="image/png">
 
     <!-- CSS dependencies -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -61,57 +61,58 @@
                 </div>
                 <ul class="navbar-nav ml-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/home}">Home
+                        <a class="nav-link" th:href="@{/home}">Página Principal
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:">Torneio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:">Eventos</a>
-                    </li>
+                    <!--                    <li class="nav-item">-->
+                    <!--                        <a class="nav-link" href="javascript:">Torneio</a>-->
+                    <!--                    </li>-->
+                    <!--                    <li class="nav-item">-->
+                    <!--                        <a class="nav-link" href="javascript:">Eventos</a>-->
+                    <!--                    </li>-->
 
                 </ul>
-                <ul class="navbar-nav ml-lg-auto">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="#">
-                            <i class="ni ni-favourite-28"></i>
-                            <span class="nav-link-inner--text d-lg-none">Discover</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="#">
-                            <i class="ni ni-notification-70"></i>
-                            <span class="nav-link-inner--text d-lg-none">Profile</span>
-                        </a>
-                    </li>
-                </ul>
+                <!--                <ul class="navbar-nav ml-lg-auto">-->
+                <!--                    <li class="nav-item">-->
+                <!--                        <a class="nav-link nav-link-icon" href="#">-->
+                <!--                            <i class="ni ni-favourite-28"></i>-->
+                <!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Discover</span>-->
+                <!--                        </a>-->
+                <!--                    </li>-->
+                <!--                    <li class="nav-item">-->
+                <!--                        <a class="nav-link nav-link-icon" href="#">-->
+                <!--                            <i class="ni ni-notification-70"></i>-->
+                <!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Profile</span>-->
+                <!--                        </a>-->
+                <!--                    </li>-->
+                <!--                </ul>-->
                 <ul class="navbar-nav" th:if="${usuario != null}">
                     <div class="dropdown">
                         <div class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;"
                              id="navbar-primary_dropdown_1" role="button">
-                            <span><b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b></span>
+                            <span><b th:if="${usuario.pessoa != null}"
+                                     th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b></span>
+                            <span><b th:if="${usuario.pessoa == null}" th:text="PLANILHEIRO"></b></span>
                         </div>
                         <div class="dropdown-menu">
 
                             <a class="dropdown-item" href="javascript:" th:href="@{/perfil}">
                                 <i class="ni ni-single-02"></i>
-                                <span>My profile</span>
-
+                                <span>Menu</span>
                             </a>
-                            <a class="dropdown-item" href="javascript:">
-                                <i class="ni ni-settings-gear-65"></i>
-                                <span>Settings</span>
-                            </a>
-                            <a class="dropdown-item" href="javascript:">
-                                <i class="ni ni-calendar-grid-58"></i>
-                                <span>Activity</span>
-                            </a>
-                            <a class="dropdown-item" href="javascript:">
-                                <i class="ni ni-support-16"></i>
-                                <span>Support</span>
-                            </a>
+                            <!--                            <a class="dropdown-item" href="javascript:">-->
+                            <!--                                <i class="ni ni-settings-gear-65"></i>-->
+                            <!--                                <span>Settings</span>-->
+                            <!--                            </a>-->
+                            <!--                            <a class="dropdown-item" href="javascript:">-->
+                            <!--                                <i class="ni ni-calendar-grid-58"></i>-->
+                            <!--                                <span>Activity</span>-->
+                            <!--                            </a>-->
+                            <!--                            <a class="dropdown-item" href="javascript:">-->
+                            <!--                                <i class="ni ni-support-16"></i>-->
+                            <!--                                <span>Support</span>-->
+                            <!--                            </a>-->
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="javascript:" th:href="@{/logout}">
                                 <i class="ni ni-user-run"></i>
@@ -124,11 +125,15 @@
                 <ul class="navbar-nav" th:if="${usuario == null}">
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
                         <a class="nav-link" th:href="@{/register/pessoa}">
-                            <i class="fa fa-user fa-fw"></i>Sign in</a>
+                            <i class="fa fa-user fa-fw"></i>Cadastrar Usuario</a>
+                    </li>
+                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                        <a class="nav-link" th:href="@{/academia}">
+                            <i class="fa fa-user fa-fw"></i>Cadastrar Academia</a>
                     </li>
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
                         <a class="nav-link" th:href="@{/login}">
-                            <i class="fa fa-user fa-fw"></i>Log in</a>
+                            <i class="fa fa-user fa-fw"></i>Login</a>
                     </li>
                 </ul>
 
@@ -144,61 +149,61 @@
 
     <footer class="footer">
         <div class="container">
-<!--            <div class="row row-grid align-items-center mb-5">-->
-<!--                <div class="col-lg-6">-->
-<!--                    <h3 class="text-primary font-weight-light mb-2">Thank you for supporting us!</h3>-->
-<!--                    <h4 class="mb-0 font-weight-light">Let's get in touch on any of these platforms.</h4>-->
-<!--                </div>-->
-<!--                <div class="col-lg-6 text-lg-center btn-wrapper">-->
-<!--                    <button class="btn btn-icon-only btn-twitter rounded-circle" data-original-title="Follow us"-->
-<!--                            data-toggle="tooltip"-->
-<!--                            href="https://twitter.com/creativetim" rel="nofollow"-->
-<!--                            target="_blank">-->
-<!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-twitter"></i></span>-->
-<!--                    </button>-->
-<!--                    <button class="btn-icon-only rounded-circle btn btn-facebook" data-original-title="Like us"-->
-<!--                            data-toggle="tooltip"-->
-<!--                            href="https://www.facebook.com/CreativeTim/" rel="nofollow"-->
-<!--                            target="_blank">-->
-<!--                        <span class="btn-inner&#45;&#45;icon"><i class="fab fa-facebook"></i></span>-->
-<!--                    </button>-->
-<!--                    <button class="btn btn-icon-only btn-dribbble rounded-circle" data-original-title="Follow us"-->
-<!--                            data-toggle="tooltip"-->
-<!--                            href="https://dribbble.com/creativetim" rel="nofollow"-->
-<!--                            target="_blank">-->
-<!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-dribbble"></i></span>-->
-<!--                    </button>-->
-<!--                    <button class="btn btn-icon-only btn-github rounded-circle" data-original-title="Star on Github"-->
-<!--                            data-toggle="tooltip"-->
-<!--                            href="https://github.com/creativetimofficial" rel="nofollow"-->
-<!--                            target="_blank">-->
-<!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-github"></i></span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <hr>-->
+            <!--            <div class="row row-grid align-items-center mb-5">-->
+            <!--                <div class="col-lg-6">-->
+            <!--                    <h3 class="text-primary font-weight-light mb-2">Thank you for supporting us!</h3>-->
+            <!--                    <h4 class="mb-0 font-weight-light">Let's get in touch on any of these platforms.</h4>-->
+            <!--                </div>-->
+            <!--                <div class="col-lg-6 text-lg-center btn-wrapper">-->
+            <!--                    <button class="btn btn-icon-only btn-twitter rounded-circle" data-original-title="Follow us"-->
+            <!--                            data-toggle="tooltip"-->
+            <!--                            href="https://twitter.com/creativetim" rel="nofollow"-->
+            <!--                            target="_blank">-->
+            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-twitter"></i></span>-->
+            <!--                    </button>-->
+            <!--                    <button class="btn-icon-only rounded-circle btn btn-facebook" data-original-title="Like us"-->
+            <!--                            data-toggle="tooltip"-->
+            <!--                            href="https://www.facebook.com/CreativeTim/" rel="nofollow"-->
+            <!--                            target="_blank">-->
+            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fab fa-facebook"></i></span>-->
+            <!--                    </button>-->
+            <!--                    <button class="btn btn-icon-only btn-dribbble rounded-circle" data-original-title="Follow us"-->
+            <!--                            data-toggle="tooltip"-->
+            <!--                            href="https://dribbble.com/creativetim" rel="nofollow"-->
+            <!--                            target="_blank">-->
+            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-dribbble"></i></span>-->
+            <!--                    </button>-->
+            <!--                    <button class="btn btn-icon-only btn-github rounded-circle" data-original-title="Star on Github"-->
+            <!--                            data-toggle="tooltip"-->
+            <!--                            href="https://github.com/creativetimofficial" rel="nofollow"-->
+            <!--                            target="_blank">-->
+            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-github"></i></span>-->
+            <!--                    </button>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--            <hr>-->
             <div class="row align-items-center justify-content-md-between">
                 <div class="col-md-6">
                     <div class="copyright">
                         &copy; 2020 <a href="" target="_blank">Ata Control</a>.
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <ul class="nav nav-footer justify-content-end">
-<!--                        <li class="nav-item">-->
-<!--                            <a class="nav-link" href="" target="_blank">Creative Tim</a>-->
-<!--                        </li>-->
-                        <li class="nav-item">
-                            <a class="nav-link" href="" target="_blank">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="" target="_blank">Blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="" target="_blank">License</a>
-                        </li>
-                    </ul>
-                </div>
+                <!--                <div class="col-md-6">-->
+                <!--                    <ul class="nav nav-footer justify-content-end">-->
+                <!--                        &lt;!&ndash;                        <li class="nav-item">&ndash;&gt;-->
+                <!--                        &lt;!&ndash;                            <a class="nav-link" href="" target="_blank">Creative Tim</a>&ndash;&gt;-->
+                <!--                        &lt;!&ndash;                        </li>&ndash;&gt;-->
+                <!--                        <li class="nav-item">-->
+                <!--                            <a class="nav-link" href="" target="_blank">About Us</a>-->
+                <!--                        </li>-->
+                <!--                        <li class="nav-item">-->
+                <!--                            <a class="nav-link" href="" target="_blank">Blog</a>-->
+                <!--                        </li>-->
+                <!--                        <li class="nav-item">-->
+                <!--                            <a class="nav-link" href="" target="_blank">License</a>-->
+                <!--                        </li>-->
+                <!--                    </ul>-->
+                <!--                </div>-->
             </div>
         </div>
     </footer>
@@ -216,31 +221,25 @@
 <!--<script crossorigin="anonymous" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"-->
 <!--        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>-->
 
-<th:block layout:fragment="script">
+<!--   Core JS Files   -->
+<script th:src="@{/assets/argon/assets/js/core/jquery.min.js}"></script>
+<script th:src="@{/assets/argon/assets/js/core/popper.min.js}"></script>
+<script th:src="@{/assets/argon/assets/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/assets/argon/assets/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script th:src="@{/assets/argon/assets/js/plugins/bootstrap-switch.js}"></script>
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+<script th:src="@{/assets/argon/assets/js/plugins/nouislider.min.js}"></script>
+<script th:src="@{/assets/argon/assets/js/plugins/moment.min.js}"></script>
+<script th:src="@{/assets/argon/assets/js/plugins/datetimepicker.js}"></script>
+<script th:src="@{/assets/argon/assets/js/plugins/bootstrap-datepicker.min.js}"></script>
+<!-- Control Center for Argon UI Kit: parallax effects, scripts for the example pages etc -->
+<!--  Google Maps Plugin    -->
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>-->
+<script th:src="@{/assets/argon/assets/js/argon-design-system.js}"></script>
+<script th:src="@{/assets/argon/assets/js/argon-design-system.min.js}"></script>
 
-    <!--   Core JS Files   -->
-    <script th:src="@{/assets/argon/assets/js/core/jquery.min.js}"></script>
-    <script th:src="@{/assets/argon/assets/js/core/popper.min.js}"></script>
-    <script th:src="@{/assets/argon/assets/js/core/bootstrap.min.js}"></script>
-    <script th:src="@{/assets/argon/assets/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
-    <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-    <script th:src="@{/assets/argon/assets/js/plugins/bootstrap-switch.js}"></script>
-    <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-    <script th:src="@{/assets/argon/assets/js/plugins/nouislider.min.js}"></script>
-    <script th:src="@{/assets/argon/assets/js/plugins/moment.min.js}"></script>
-    <script th:src="@{/assets/argon/assets/js/plugins/datetimepicker.js}"></script>
-    <script th:src="@{/assets/argon/assets/js/plugins/bootstrap-datepicker.min.js}"></script>
-    <!-- Control Center for Argon UI Kit: parallax effects, scripts for the example pages etc -->
-    <!--  Google Maps Plugin    -->
-    <!--<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>-->
-    <script th:src="@{/assets/argon/assets/js/argon-design-system.js}"></script>
-    <script th:src="@{/assets/argon/assets/js/argon-design-system.min.js}"></script>
-
-    <th:block th:if="${scripts != null}">
-        <th:block th:replace="${scripts}"/>
-    </th:block>
-
-</th:block>
+<th:block layout:fragment="script"></th:block>
 
 </body>
 

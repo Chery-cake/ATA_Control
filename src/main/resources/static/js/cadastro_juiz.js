@@ -59,7 +59,7 @@ function troca_rodada() {
                     select.className = "form-control";
                     select.id = "rodada_" + i;
                     select.name = "rodada_" + i;
-                    select.required;
+                    select.required = true;
                     var option = document.createElement("option");
                     option.value = "";
                     option.disabled = true;

@@ -4,6 +4,7 @@ import com.control.ata.model.endereco.Endereco;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.time.RingueTime;
 import com.control.ata.model.tipo_pessoa.Competidor;
+import com.control.ata.model.pessoa.Planilheiro;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -21,6 +22,9 @@ public class Torneio {
     private Date dataTermino;
     private Integer maxNumeroRingues;
     private Boolean pontuar;
+
+    private Boolean iniciado;
+    private Boolean terminado;
 
     @ManyToOne
     private Endereco endereco;
@@ -43,6 +47,9 @@ public class Torneio {
     @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
     private Collection<RingueTime> ringueTimeCollection;
 
+    @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
+    private Collection<Planilheiro> Planilheiro;
+
     public Torneio() {
     }
 
@@ -54,6 +61,8 @@ public class Torneio {
         this.pontuar = pontuar;
         this.endereco = endereco;
         this.categoriaTorneio = categoriaTorneio;
+        this.iniciado = false;
+        this.terminado = false;
     }
 
     public Integer getId() {
@@ -82,5 +91,29 @@ public class Torneio {
 
     public CategoriaTorneio getCategoriaTorneio() {
         return categoriaTorneio;
+    }
+
+    public Collection<Competidor> getCompetidorCollection() {
+        return competidorCollection;
+    }
+
+    public Collection<RingueIndividual> getRingueIndividualCollection() {
+        return ringueIndividualCollection;
+    }
+
+    public Boolean getIniciado() {
+        return iniciado;
+    }
+
+    public void setIniciado(Boolean iniciado) {
+        this.iniciado = iniciado;
+    }
+
+    public Boolean getTerminado() {
+        return terminado;
+    }
+
+    public void setTerminado(Boolean terminado) {
+        this.terminado = terminado;
     }
 }

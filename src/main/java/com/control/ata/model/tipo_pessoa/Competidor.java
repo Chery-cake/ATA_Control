@@ -2,6 +2,7 @@ package com.control.ata.model.tipo_pessoa;
 
 import com.control.ata.model.individual.ChaveListaIndividual;
 import com.control.ata.model.individual.ChaveLutaIndividual;
+import com.control.ata.model.individual.ListaCategoriaCompetidorFechada;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.time.Time;
@@ -30,7 +31,7 @@ public class Competidor {
     @ManyToOne
     private Torneio torneio;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Collection<CategoriaCompeticao> categoriaCompeticao;
 
     @ManyToMany(mappedBy = "competidores")
@@ -54,6 +55,9 @@ public class Competidor {
     @JsonIgnore
     @OneToMany(mappedBy = "competidor", cascade = CascadeType.ALL)
     private Collection<Titulo> tituloList;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "competidor")
+    private ListaCategoriaCompetidorFechada listaCategoriaCompetidorFechada;
 
     public Competidor() {
     }
@@ -126,5 +130,9 @@ public class Competidor {
 
     public void setTituloList(Collection<Titulo> tituloList) {
         this.tituloList = tituloList;
+    }
+
+    public ListaCategoriaCompetidorFechada getListaCategoriaCompetidorFechada() {
+        return listaCategoriaCompetidorFechada;
     }
 }

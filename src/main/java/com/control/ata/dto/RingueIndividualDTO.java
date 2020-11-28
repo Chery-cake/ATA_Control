@@ -12,7 +12,7 @@ public class RingueIndividualDTO {
     private Integer numeroRingue;
     private Integer numeroRodada;
 
-    private String idade;
+    private Integer idade;
     private Integer nivel;
 
     private ArrayList<Integer> juizes;
@@ -61,11 +61,11 @@ public class RingueIndividualDTO {
         this.numeroRodada = numeroRodada;
     }
 
-    public String getIdade() {
+    public Integer getIdade() {
         return idade;
     }
 
-    public void setIdade(String idade) {
+    public void setIdade(Integer idade) {
         this.idade = idade;
     }
 

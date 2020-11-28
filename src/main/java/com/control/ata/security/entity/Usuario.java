@@ -1,6 +1,7 @@
 package com.control.ata.security.entity;
 
 import com.control.ata.model.pessoa.Pessoa;
+import com.control.ata.model.pessoa.Planilheiro;
 import com.control.ata.security.enuns.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,11 +35,21 @@ public class Usuario implements UserDetails {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private ConfirmationToken confirmationToken;
 
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER)
+    private Planilheiro planilheiro;
+
     public Usuario() {
     }
 
     public Usuario(Pessoa pessoa, String email, String password) {
         this.pessoa = pessoa;
+        this.email = email;
+        this.password = password;
+    }
+
+    public Usuario(Planilheiro planilheiro, String email, String password) {
+        this.planilheiro = planilheiro;
         this.email = email;
         this.password = password;
     }
@@ -127,17 +138,11 @@ public class Usuario implements UserDetails {
         this.enabled = enabled;
     }
 
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", pessoa=" + pessoa +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", userRole=" + userRole +
-                ", locked=" + locked +
-                ", enabled=" + enabled +
-                ", confirmationToken=" + confirmationToken +
-                '}';
+    public Planilheiro getPlanilheiro() {
+        return planilheiro;
+    }
+
+    public void setPlanilheiro(Planilheiro planilheiro) {
+        this.planilheiro = planilheiro;
     }
 }

@@ -4,6 +4,7 @@ import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.time.RingueTime;
 import com.control.ata.model.torneio.RodadaJuiz;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -19,6 +20,7 @@ public class Juiz {
     private Pessoa pessoa;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Collection<RodadaJuiz> rodadaJuizList;
 
     @ManyToMany(mappedBy = "juiz")

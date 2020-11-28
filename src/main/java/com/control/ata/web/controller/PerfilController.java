@@ -24,9 +24,19 @@ public class PerfilController {
 
     // ======================================MODEL ATTRIBUTES=============================================
 
-    @ModelAttribute("userRole_enum")
-    public UserRole getUserRoles(){
+    @ModelAttribute("ROLE_ADMIN")
+    public UserRole getUserRoleADM(){
         return UserRole.ROLE_ADMIN;
+    }
+
+    @ModelAttribute("ROLE_USER")
+    public UserRole getUserRoleUSER(){
+        return UserRole.ROLE_USER;
+    }
+
+    @ModelAttribute("ROLE_PLANILHA")
+    public UserRole getUserRolePLAN(){
+        return UserRole.ROLE_PLANILHA;
     }
 
 }

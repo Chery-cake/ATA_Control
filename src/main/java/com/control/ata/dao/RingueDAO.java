@@ -20,14 +20,14 @@ public class RingueDAO {
 
     public RingueIndividual save(RingueIndividual ringueIndividual) {
         if (ringueIndividual.getId() == null) {
-            RingueIndividual aux = new RingueIndividual(ringueIndividual.getFechado(),
+            RingueIndividual aux = new RingueIndividual(ringueIndividual.getGenero(), ringueIndividual.getFechado(),
                                                         ringueIndividual.getNumeroRingue(),
                                                         ringueIndividual.getNumeroRodada(),
                                                         ringueIndividual.getIdade(), ringueIndividual.getNivel(), null,
-                                                        ringueIndividual.getTorneio(), null, ringueIndividual.getRodadaJuiz());
+                                                        ringueIndividual.getTorneio(), null,
+                                                        ringueIndividual.getRodadaJuiz());
             aux = ringueIndividualRepository.save(aux);
-            System.out.println(ringueIndividual.getCompetidor());
-            if(ringueIndividual.getCompetidor() != null) {
+            if (ringueIndividual.getCompetidor() != null) {
                 if (!ringueIndividual.getCompetidor().isEmpty()) {
                     aux.setCompetidor(ringueIndividual.getCompetidor());
                 }

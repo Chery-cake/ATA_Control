@@ -75,7 +75,7 @@ $("#quant_rodada").change(function (evt) {
         input.type = "text";
         input.id = "rodada_" + i + "_inicio";
         input.name = "rodada_" + i + "_inicio";
-        input.required;
+        input.required = true;
         input.placeholder = "XX:YY";
         p.appendChild(input);
         label = document.createElement("label");
@@ -87,7 +87,7 @@ $("#quant_rodada").change(function (evt) {
         input.type = "text";
         input.id = "rodada_" + i + "_termino";
         input.name = "rodada_" + i + "_termino";
-        input.required;
+        input.required = true;
         input.placeholder = "XX:YY";
         p.appendChild(input);
         label = document.createElement("label");
@@ -99,7 +99,7 @@ $("#quant_rodada").change(function (evt) {
         input.type = "date";
         input.id = "rodada_" + i + "_data";
         input.name = "rodada_" + i + "_data";
-        input.required;
+        input.required = true;
         input.placeholder = "XX:YY";
         p.appendChild(input);
         div.appendChild(p);

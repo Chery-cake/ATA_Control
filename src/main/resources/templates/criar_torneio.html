@@ -12,7 +12,7 @@
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-lg-6 col-10">
-                    <h1>Crie sua conta</h1>
+                    <h1>Criar Torneio</h1>
                     <p class="mb-3" style=""></p>
 
                     <form action="#" class="text-left" id="form-register-torneio">
@@ -29,11 +29,11 @@
 
                         <div class="form-group">
                             <label for="dataTermino">Maximo numero de ringues</label>
-                            <input class="form-control" id="maxNumeroRingues" required type="number">
+                            <input class="form-control" id="maxNumeroRingues" required type="number" placeholder="2">
                         </div>
 
                         <div class="form-group">
-                            <label>Vale pontuacao: </label></br>
+                            <label>Vale pontuação: </label></br>
                             <div class="form-check form-check-inline">
                                 <input checked class="form-check-input" id="inlineRadio1"
                                        name="pontuar" type="radio" value="true">
@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="form-group" id="endereco_div">
-                            <label>Endereco</label>
+                            <label>Endereço</label>
                             <select class="form-control" id="pais" name="pais" required>
                                 <option disabled selected value="">Selecione</option>
                                 <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...

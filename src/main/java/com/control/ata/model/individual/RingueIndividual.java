@@ -4,6 +4,7 @@ import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.tipo_pessoa.Juiz;
 import com.control.ata.model.torneio.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -15,12 +16,13 @@ public class RingueIndividual {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private Boolean genero;
     private Boolean fechado;
 
     private Integer numeroRingue;
     private Integer numeroRodada;
 
-    private String idade;
+    private Integer idade;
     private Integer nivel;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
@@ -33,6 +35,7 @@ public class RingueIndividual {
     private Torneio torneio;
 
     @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private RodadaJuiz rodadaJuiz;
 
     //private Collection<Torneio> torneio;
@@ -59,8 +62,11 @@ public class RingueIndividual {
     public RingueIndividual() {
     }
 
-    public RingueIndividual(Boolean fechado, Integer numeroRingue, Integer numeroRodada, String idade, Integer nivel,
-            Collection<Juiz> juiz, Torneio torneio, Collection<CategoriaCompeticao> categoriaCompeticao, RodadaJuiz rodadaJuiz) {
+    public RingueIndividual(Boolean genero, Boolean fechado, Integer numeroRingue, Integer numeroRodada, Integer idade,
+            Integer nivel,
+            Collection<Juiz> juiz, Torneio torneio, Collection<CategoriaCompeticao> categoriaCompeticao,
+            RodadaJuiz rodadaJuiz) {
+        this.genero = genero;
         this.fechado = fechado;
         this.numeroRingue = numeroRingue;
         this.numeroRodada = numeroRodada;
@@ -76,6 +82,10 @@ public class RingueIndividual {
         return id;
     }
 
+    public Boolean getGenero() {
+        return genero;
+    }
+
     public Boolean getFechado() {
         return fechado;
     }
@@ -88,7 +98,11 @@ public class RingueIndividual {
         return numeroRodada;
     }
 
-    public String getIdade() {
+    public void setNumeroRodada(Integer numeroRodada) {
+        this.numeroRodada = numeroRodada;
+    }
+
+    public Integer getIdade() {
         return idade;
     }
 

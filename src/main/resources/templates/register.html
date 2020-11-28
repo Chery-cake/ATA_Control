@@ -17,33 +17,71 @@
                     <h1>Crie sua conta</h1>
                     <p class="mb-3" style=""></p>
 
+                    <div class="form-group">
+                        <label>É Instrutor? </label></br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" id="inlineRadio1 isInstrutor_T" name="isInstrutor"
+                                   onclick="hideInstrutor()" type="radio" value="true">
+                            <label class="form-check-label" for="inlineRadio1 isInstrutor_T"
+                                   id="label-instrutor-T">Sim</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input checked class="form-check-input" id="inlineRadio2 isInstrutor_F"
+                                   name="isInstrutor" onclick="hideInstrutor()" type="radio" value="false">
+                            <label class="form-check-label" for="inlineRadio2 isInstrutor_F"
+                                   id="label-instrutor-F">Não</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="instrutor_div">
+                        <label for="instrutor">Instrutor</label>
+                        <select class="form-control" id="instrutor" name="instrutor" required>
+                            <option disabled selected value="">Selecione</option>
+                            <option th:each="i : ${instrutores}"
+                                    th:text="${i.pessoa.nome + ' ' +i.pessoa.sobrenome}" th:value="${i.id}">...
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" hidden id="ataNumber_div">
+                        <label for="ataNumberWorld">ATA Number World</label>
+                        <input class="form-control" id="ataNumberWorld" placeholder="xxxx-xxxxx" type="text">
+                        <label for="ataNumberBrasil">ATA Number Brasil</label>
+                        <input class="form-control" id="ataNumberBrasil" placeholder="xxxx-xxxxx" type="text">
+                    </div>
+
+                    <div class="form-group" hidden id="academia_div">
+                        <label for="academia">Academias</label>
+                        <select class="form-control" id="academia" name="academia">
+                            <option disabled selected value="">Selecione</option>
+                            <option th:each="a : ${academias}" th:text="${a.nome}" th:value="${a.id}">...
+                            </option>
+                        </select>
+                        <a class="nav-link" th:href="@{/academia}">Se a sua academia não aparecer na lista
+                            clique aqui</a>
+                    </div>
+
                     <form action="#" class="text-left" id="form-register-pessoa">
                         <div class="form-group">
                             <label for="nome">Nome</label>
-                            <input class="form-control" id="nome" placeholder="Stephen" required
-                                   type="text">
+                            <input class="form-control" id="nome" placeholder="Stephen" required type="text">
                         </div>
 
                         <div class="form-group">
                             <label for="sobrenome">Sobrenome</label>
-                            <input class="form-control" id="sobrenome" placeholder="Edwin King"
-                                   required
-                                   type="text">
+                            <input class="form-control" id="sobrenome" placeholder="Edwin King" required type="text">
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input class="form-control" id="email" placeholder="stephen.king@gmail.com"
-                                   required
+                            <input class="form-control" id="email" placeholder="stephen.king@gmail.com" required
                                    type="email">
                         </div>
 
                         <div class="form-group">
                             <label for="telefone">Telefone para contato</label>
-                            <input class="form-control" data-mask="(00) 0 0000-0000" data-mask-selectonfocus="true"
-                                   id="telefone"
-                                   required
-                                   type="text">
+                            <input class="form-control" data-mask-selectonfocus="true" id="telefone"
+                                   placeholder="(00) 0 0000-0000" required type="text">
                         </div>
 
                         <div class="form-group">
@@ -66,49 +104,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label>É Instrutor? </label></br>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" id="inlineRadio1 isInstrutor_T" name="isInstrutor"
-                                       onclick="hideInstrutor()" type="radio" value="true">
-                                <label class="form-check-label" for="inlineRadio1 isInstrutor_T" id="label-instrutor-T">Sim</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input checked class="form-check-input" id="inlineRadio2 isInstrutor_F"
-                                       name="isInstrutor" onclick="hideInstrutor()" type="radio" value="false">
-                                <label class="form-check-label" for="inlineRadio2 isInstrutor_F" id="label-instrutor-F">Não</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="instrutor_div">
-                            <label for="instrutor">Instrutor</label>
-                            <select class="form-control" id="instrutor" name="instrutor">
-                                <option disabled selected value="">Selecione</option>
-                                <option th:each="i : ${instrutores}"
-                                        th:text="${i.pessoa.nome + ' ' +i.pessoa.sobrenome}" th:value="${i.id}">...
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="form-group" hidden id="ataNumber_div">
-                            <label for="ataNumberWorld">ATA Number World</label>
-                            <input class="form-control" id="ataNumberWorld" placeholder="xxxx-xxxxx" type="text">
-                            <label for="ataNumberBrasil">ATA Number Brasil</label>
-                            <input class="form-control" id="ataNumberBrasil" placeholder="xxxx-xxxxx" type="text">
-                        </div>
-
-                        <div class="form-group" hidden id="academia_div">
-                            <label for="academia">Academias</label>
-                            <select class="form-control" id="academia" name="academia">
-                                <option disabled selected value="">Selecione</option>
-                                <option th:each="a : ${academias}" th:text="${a.nome}" th:value="${a.id}">...
-                                </option>
-                            </select>
-                            <a class="nav-link" th:href="@{/academia}">Se a sua academia não aparecer na lista
-                                clique aqui</a>
-                        </div>
-
-
-                        <div class="form-group">
                             <label for="faixa">Faixa</label>
                             <select class="form-control" id="faixa" name="faixa" required>
                                 <option disabled selected value="">Selecione</option>
@@ -117,7 +112,7 @@
                         </div>
 
                         <div class="form-group" id="endereco_div">
-                            <label>Endereco</label>
+                            <label>Endereço</label>
                             <select class="form-control" id="pais" name="pais" required>
                                 <option disabled selected value="">Selecione</option>
                                 <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
@@ -138,13 +133,13 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" hidden>
                             <div class="form-check"><input class="form-check-input" id="termos" type="checkbox"
                                                            value="on">
                                 <label class="form-check-label" for="termos"> I Agree with <a href="#">Term and
                                     Conditions</a> of the service </label></div>
                         </div>
-                        <button class="btn btn-primary" type="submit">Register</button>
+                        <button class="btn btn-primary" type="submit">Registrar</button>
                     </form>
 
                 </div>

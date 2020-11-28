@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/base}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+</head>
+<body>
+
+<div class="corpo" layout:fragment="corpo">
+
+    <div class="container">
+        <div class="row">
+            <div class="p-5 col-lg-6">
+                <h1>Iniciar Torneio</h1>
+                <p class="mb-3" style=""></p>
+
+                <div class="form-group">
+                    <label for="torneio">Torneio</label>
+                    <select class="form-control" id="torneio" name="instrutor" required>
+                        <option disabled selected value="">Selecione</option>
+                        <option th:each="t : ${torneiosNTerIni}"
+                                th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
+                                th:value="${t.id}">...
+                        </option>
+                    </select>
+                </div>
+
+                <button id="submit" class="btn btn-primary" type="submit">Terminar</button>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/termina_torneio.js}"></script>
+</th:block>
+
+</body>
+</html>

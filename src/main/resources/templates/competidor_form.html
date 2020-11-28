@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-lg-6 col-10">
-                    <h1>Crie sua conta</h1>
+                    <h1>Cadastro de competidor</h1>
                     <p class="mb-3" style=""></p>
 
                     <form action="#" class="text-left" id="form-register-competidor">
@@ -22,22 +22,20 @@
                         <input hidden id="pessoa_id" th:value="${usuario.pessoa.id}">
 
                         <div class="form-group">
-                            <label for="peso">Peso</label>
-                            <input class="form-control" id="peso" placeholder="76"
-                                   required type="number">
+                            <label for="peso">Peso em kilos</label>
+                            <input class="form-control" id="peso" placeholder="76" required type="number">
                         </div>
 
                         <div class="form-group">
                             <label for="altura">Altura em centimetros</label>
-                            <input class="form-control" id="altura" placeholder="160"
-                                   required type="number">
+                            <input class="form-control" id="altura" placeholder="160" required type="number">
                         </div>
 
                         <div class="form-group">
                             <label for="torneio">Torneio</label>
-                            <select class="form-control" id="torneio" name="instrutor">
+                            <select class="form-control" id="torneio" name="instrutor" required>
                                 <option disabled selected value="">Selecione</option>
-                                <option th:each="t : ${torneios}"
+                                <option th:each="t : ${torneiosNIni}"
                                         th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
                                         th:value="${t.id}">...
                                 </option>
@@ -47,14 +45,37 @@
                         <div class="form-group">
                             <label for="quantidade-categorias">Quantas categorias vai participar</label>
                             <input class="form-control" id="quantidade-categorias" name="quantidade-categorias"
-                                   placeholder="2" required type="number">
+                                   placeholder="0" required type="number">
                         </div>
 
                         <div class="form-group" id="categorias_select_div">
 
                         </div>
 
-                        <button class="btn btn-primary" type="submit">Register</button>
+                        <div class="form-group">
+                            <label>Vai participar do ringue fechado: </label></br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" id="fechado_T" name="fechado"
+                                       onclick="forCatFech()" type="radio" value="true">
+                                <label class="form-check-label" for="fechado_T" id="label_fechado_T">Sim</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input checked class="form-check-input" id="fechado_F"
+                                       name="fechado" onclick="forCatFech()" type="radio" value="false">
+                                <label class="form-check-label" for="fechado_F" id="label_fechado_F">Não</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="categorias_fechadas">
+                            <label for="quant_cat_fec" hidden id="quant_cat_fec_lb">Quantas categorias fechadas vai participar</label>
+                            <input class="form-control" id="quant_cat_fec" name="quant_cat_fec"
+                                   placeholder="0" value="0" required type="number" hidden>
+                        </div>
+
+                        <div class="form-group" id="categorias_fechadas_select_div">
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Registrar</button>
 
                     </form>
 

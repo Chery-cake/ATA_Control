@@ -1,5 +1,5 @@
 $("#form-register-pessoa").submit(function (evt) {
-    evt.preventDefault();//todo adicionar ataNumbers
+    evt.preventDefault();
 
     var data = {};
 

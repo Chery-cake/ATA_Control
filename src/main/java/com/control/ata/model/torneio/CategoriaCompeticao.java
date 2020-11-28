@@ -1,9 +1,6 @@
 package com.control.ata.model.torneio;
 
-import com.control.ata.model.individual.PlanilhaChaveamentoIndividual;
-import com.control.ata.model.individual.PlanilhaListaIndividual;
-import com.control.ata.model.individual.RankingIndividual;
-import com.control.ata.model.individual.RingueIndividual;
+import com.control.ata.model.individual.*;
 import com.control.ata.model.time.PlanilhaChaveamentoTime;
 import com.control.ata.model.time.PlanilhaListaTime;
 import com.control.ata.model.time.RankingTime;
@@ -56,6 +53,7 @@ public class CategoriaCompeticao {
     @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
     private Collection<RankingIndividual> rankingIndividualList;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "categoriaCompeticao")
     private Collection<Competidor> competidorList;
 
@@ -69,6 +67,10 @@ public class CategoriaCompeticao {
     @JsonIgnore
     @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
     private Collection<Titulo> tituloList;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "categoriaCompeticao")
+    private Collection<ListaCategoriaCompetidorFechada> listaCategoriaCompetidorFechadaList;
 
     public CategoriaCompeticao() {
     }
