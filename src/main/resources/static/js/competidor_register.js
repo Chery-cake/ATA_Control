@@ -108,7 +108,7 @@ function forCatFech() {
     }
 }
 
-$("#quant_cat_fec").change(function () {//todo testar com varias categorias
+$("#quant_cat_fec").change(function () {
     if (document.getElementById("categorias_fechadas_select_div").firstChild) {
         while (document.getElementById("categorias_fechadas_select_div").firstChild) {
             document.getElementById("categorias_fechadas_select_div").firstChild.remove();

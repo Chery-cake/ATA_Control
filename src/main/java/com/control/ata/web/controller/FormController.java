@@ -428,7 +428,7 @@ public class FormController {
 
     @PostMapping("/save/ringues")
     public ResponseEntity<?> cadastrarRingues(@Valid @RequestBody String json,
-            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {//todo executar quando iniciar o torneio e criar as planilhas
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
 
