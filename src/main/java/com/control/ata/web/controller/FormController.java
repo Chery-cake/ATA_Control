@@ -42,6 +42,9 @@ import com.control.ata.security.entity.Usuario;
 import com.control.ata.security.enuns.UserRole;
 import com.control.ata.security.repository.ConfirmationTokenRepository;
 import com.control.ata.security.service.UsuarioService;
+import com.control.ata.service.RingueService;
+import com.control.ata.service.planilhaIndividual.ChaveIndividual;
+import com.control.ata.service.planilhaIndividual.ListaIndividual;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +103,12 @@ public class FormController {
     private RankingIndividualRepository rankingIndividualRepository;
     @Autowired
     private ListaCategoriaCompetidorFechadaRepository listaCategoriaCompetidorFechadaRepository;
+    @Autowired
+    private RingueService ringueService;
+    @Autowired
+    private ChaveIndividual chaveIndividual;
+    @Autowired
+    private ListaIndividual listaIndividual;
 
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
@@ -428,7 +437,7 @@ public class FormController {
 
     @PostMapping("/save/ringues")
     public ResponseEntity<?> cadastrarRingues(@Valid @RequestBody String json,
-            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {//todo executar quando iniciar o torneio e criar as planilhas
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
 
@@ -483,13 +492,21 @@ public class FormController {
         Planilheiro planilheiro = planilheiroRepository.save(new Planilheiro(torneioRepository.getOne(id)));
 
         Usuario usuario = new Usuario(planilheiro, usuarioDTO.email,
-                                      usuarioDTO.password);//todo adicionar preenchimento dos ringues com competidores
+                                      usuarioDTO.password);
         usuario.setUserRole(UserRole.ROLE_PLANILHA);
         usuarioService.signUpUser(usuario);
 
         Torneio torneio = torneioRepository.getOne(id);
         torneio.setIniciado(true);
-        torneioRepository.save(torneio);
+        torneio = torneioRepository.save(torneio);
+
+        ArrayList<RingueIndividual> ringueIndividualArrayList = (ArrayList<RingueIndividual>) ringueService.createRingueIndividual(
+                torneio);
+
+        for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {
+            listaIndividual.createPlanilhasLista(ringueIndividual);
+            chaveIndividual.createPlanilhasChave(ringueIndividual);
+        }
 
         return ResponseEntity.ok().build();
     }
