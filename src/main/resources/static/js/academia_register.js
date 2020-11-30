@@ -18,7 +18,7 @@ $("#form-register-academia").submit(function (evt) {
         data: JSON.stringify(data),
         success: function (result) {
             console.log(result);
-            window.location.href = "/";
+            window.location.href = "/register/pessoa";
         },
         error: function (xhr) {
             console.log("error: ", xhr.responseText);

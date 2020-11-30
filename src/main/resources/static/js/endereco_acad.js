@@ -1,7 +1,7 @@
-$(document).on("change", "select[id='pais']", function () {
+$(document).on("change", "select[id='pais2']", function () {
     $.ajax({
         method: "POST",
-        url: '/pais/' + document.getElementById("pais").value,
+        url: '/pais2/' + document.getElementById("pais2").value,
         beforeSend: function () {
             if (document.getElementById("estado") != null) {
                 document.getElementById("estado").remove();
@@ -12,7 +12,7 @@ $(document).on("change", "select[id='pais']", function () {
                     }
                 }
             }
-            var div = document.getElementById("endereco_div");
+            var div = document.getElementById("endereco_div2");
             var select = document.createElement("select");
             select.className = "form-control";
             select.id = "estado";
@@ -30,7 +30,7 @@ $(document).on("change", "select[id='pais']", function () {
             for (var i in response) {
                 var optionElement = document.createElement("option");
                 optionElement.value = response[i].id;
-                optionElement.text = response[i].nome + " - " + response[i].sigla;
+                optionElement.text = response[i].nome + " -/- " + response[i].sigla;
                 document.getElementById("estado").appendChild(optionElement);
             }
         },

@@ -25,6 +25,8 @@
     <!-- CSS Files -->
     <link href="argon-design-system.mim.css" rel="stylesheet"
           th:href="@{/assets/argon/assets/css/argon-design-system.min.css}">
+    <link href="argon-design-system.mim.css" rel="stylesheet"
+          th:href="@{/assets/argon/assets/css/background.css}">
 
 </head>
 <body>
@@ -59,63 +61,132 @@
                         </div>
                     </div>
                 </div>
-                <ul class="navbar-nav ml-lg-auto">
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title h3 text-dark font-weight-bold mb-4"  id="exampleModalLabel">Sign in </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form" th:action="@{/login}" th:method="post">
+                                    <p class="error" th:if="${param.error}">Email ou senha incorreto(a)</p>
+                                    <div class="form-group mb-3">
+                                        <div class="input-group input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                            </div>
+                                            <input class="form-control" id="username" name="username" placeholder="Email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group focused">
+                                        <div class="input-group input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                            </div>
+                                            <input class="form-control" id="password" name="password" placeholder="Password"
+                                                   type="password">
+                                        </div>
+                                    </div>
+                                    <div class="custom-control custom-control-alternative custom-checkbox">
+                                        <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
+                                        <label class="custom-control-label" for=" customCheckLogin"><span>Remember me</span></label>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-lg btn-github btn-icon my-4">Iniciar Sessão</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="navbar-nav flex-row mr-auto ml-4 d-none d-md-flex">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/home}">Página Principal
+                        <a class="navbar-brand font-weight-bold" th:href="@{/home}">home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <!--                    <li class="nav-item">-->
-                    <!--                        <a class="nav-link" href="javascript:">Torneio</a>-->
-                    <!--                    </li>-->
-                    <!--                    <li class="nav-item">-->
-                    <!--                        <a class="nav-link" href="javascript:">Eventos</a>-->
-                    <!--                    </li>-->
 
+                   <li class="nav-item">
+                        <a class="navbar-brand font-weight-bold" href="javascript:">Torneio</a>
+                    </li>
                 </ul>
-                <!--                <ul class="navbar-nav ml-lg-auto">-->
-                <!--                    <li class="nav-item">-->
-                <!--                        <a class="nav-link nav-link-icon" href="#">-->
-                <!--                            <i class="ni ni-favourite-28"></i>-->
-                <!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Discover</span>-->
-                <!--                        </a>-->
-                <!--                    </li>-->
-                <!--                    <li class="nav-item">-->
-                <!--                        <a class="nav-link nav-link-icon" href="#">-->
-                <!--                            <i class="ni ni-notification-70"></i>-->
-                <!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Profile</span>-->
-                <!--                        </a>-->
-                <!--                    </li>-->
-                <!--                </ul>-->
+
+<!--                <ul class="navbar-nav ml-lg-auto">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link nav-link-icon" href="#">-->
+<!--                            <i class="ni ni-favourite-28"></i>-->
+<!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Discover</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link nav-link-icon" href="#">-->
+<!--                            <i class="ni ni-notification-70"></i>-->
+<!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Profile</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
                 <ul class="navbar-nav" th:if="${usuario != null}">
                     <div class="dropdown">
                         <div class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;"
                              id="navbar-primary_dropdown_1" role="button">
-                            <span><b th:if="${usuario.pessoa != null}"
-                                     th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b></span>
-                            <span><b th:if="${usuario.pessoa == null}" th:text="PLANILHEIRO"></b></span>
+                            <span><b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b></span>
                         </div>
                         <div class="dropdown-menu">
-
-                            <a class="dropdown-item" href="javascript:" th:href="@{/perfil}">
+                            <!--<a class="dropdown-item" href="javascript:" th:href="@{/perfil}">
                                 <i class="ni ni-single-02"></i>
                                 <span>Menu</span>
-                            </a>
-                            <!--                            <a class="dropdown-item" href="javascript:">-->
-                            <!--                                <i class="ni ni-settings-gear-65"></i>-->
-                            <!--                                <span>Settings</span>-->
-                            <!--                            </a>-->
-                            <!--                            <a class="dropdown-item" href="javascript:">-->
-                            <!--                                <i class="ni ni-calendar-grid-58"></i>-->
-                            <!--                                <span>Activity</span>-->
-                            <!--                            </a>-->
-                            <!--                            <a class="dropdown-item" href="javascript:">-->
-                            <!--                                <i class="ni ni-support-16"></i>-->
-                            <!--                                <span>Support</span>-->
-                            <!--                            </a>-->
+                            </a>-->
+                            <div th:if="${usuario.userRole == ROLE_ADMIN}">
+                                <a class="dropdown-item" th:href="@{/criar/torneio}">
+                                    <i class="ni ni-trophy"></i>
+                                    <span>Criar torneio</span>
+                                </a>
+                                <a class="dropdown-item" th:href="@{/relatorio/cadastros}">
+                                    <i class="ni bullet-list"></i>
+                                    <span>Pessoas Cadastros</span>
+                                </a>
+                                <a class="dropdown-item" th:href="@{/pontos_armas}">
+                                    <i class="ni bullet-list"></i>
+                                    <span>Armas</span>
+                                </a>
+                                <a class="dropdown-item" th:href="@{/relatorio/torneio}">
+                                    <i class="ni vector"></i>
+                                    <span>Ringues</span>
+                                </a>
+                            </div>
+                            <div th:if="${usuario.userRole == ROLE_USER}">
+
+                                <a class="dropdown-item" th:href="@{/register/competidor}">
+                                    <i class="ni ni-user-run"></i>
+                                    <span>Competir</span>
+                                </a>
+                                <a class="dropdown-item" th:href="@{/register/juiz}">
+                                    <i class="ni ni-badge"></i>
+                                    <span>Ser Juiz</span>
+                                </a>
+                                <a class="dropdown-item" th:href="@{/ajustar}">
+                                    <i class="ni ni-settings-gear-65"></i>
+                                    <span>Conta</span>
+                                </a>
+
+                               <!-- <p><a th:href="@{/register/juiz}">Ser Juiz</a></p>
+                                &lt;!&ndash;        <p th:if="${usuario.pessoa.isInstrutor == true}"><a th:href="@{/alunos}">Informacoes dos alunos</a></p>&ndash;&gt;
+                         -->
+                            </div>
+
+                            <div th:if="${usuario.userRole == ROLE_PLANILHA}">
+
+                            </div>
+
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="javascript:" th:href="@{/logout}">
-                                <i class="ni ni-user-run"></i>
+                                <i class="ni ni-button-power"></i>
                                 <span>Logout</span>
                             </a>
                         </div>
@@ -123,19 +194,28 @@
                 </ul>
                 </ul>
                 <ul class="navbar-nav" th:if="${usuario == null}">
-                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
+                    <!--<li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
                         <a class="nav-link" th:href="@{/register/pessoa}">
-                            <i class="fa fa-user fa-fw"></i>Cadastrar Usuario</a>
-                    </li>
+                            <i class="fa fa-user fa-fw"></i>Inscreva-se</a>
+                    </li>-->
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
-                        <a class="nav-link" th:href="@{/academia}">
-                            <i class="fa fa-user fa-fw"></i>Cadastrar Academia</a>
-                    </li>
-                    <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
-                        <a class="nav-link" th:href="@{/login}">
-                            <i class="fa fa-user fa-fw"></i>Login</a>
+                        <!--a class="nav-link"  data-toggle="modal" data-target="#exampleModal"
+                           th:href="@{/login}">
+
+                            <i class="fa fa-user fa-fw"></i>Fazer Login</a>-->
+                        <!--a th:href="@{/login}" data-toggle="modal" data-target="#exampleModal" class="btn btn-lg btn-white btn-icon">
+                            <span class="btn-inner&#45;&#45;text">INICIAR SESSÃO</span>
+                        </a>-->
+                        <a th:href="@{/login}" data-toggle="modal" data-target="#exampleModal" class="btn btn-white btn-icon">
+                            <span class="btn-inner--icon"><i class="fa fa-user fa-fw"></i></span>
+                            <span class="btn-inner--text">INICIAR SESSÃO</span>
+                        </a>
+
+
                     </li>
                 </ul>
+
+
 
             </div>
         </div>
@@ -147,66 +227,6 @@
         <div>conteudo principal das páginas</div>
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            <!--            <div class="row row-grid align-items-center mb-5">-->
-            <!--                <div class="col-lg-6">-->
-            <!--                    <h3 class="text-primary font-weight-light mb-2">Thank you for supporting us!</h3>-->
-            <!--                    <h4 class="mb-0 font-weight-light">Let's get in touch on any of these platforms.</h4>-->
-            <!--                </div>-->
-            <!--                <div class="col-lg-6 text-lg-center btn-wrapper">-->
-            <!--                    <button class="btn btn-icon-only btn-twitter rounded-circle" data-original-title="Follow us"-->
-            <!--                            data-toggle="tooltip"-->
-            <!--                            href="https://twitter.com/creativetim" rel="nofollow"-->
-            <!--                            target="_blank">-->
-            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-twitter"></i></span>-->
-            <!--                    </button>-->
-            <!--                    <button class="btn-icon-only rounded-circle btn btn-facebook" data-original-title="Like us"-->
-            <!--                            data-toggle="tooltip"-->
-            <!--                            href="https://www.facebook.com/CreativeTim/" rel="nofollow"-->
-            <!--                            target="_blank">-->
-            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fab fa-facebook"></i></span>-->
-            <!--                    </button>-->
-            <!--                    <button class="btn btn-icon-only btn-dribbble rounded-circle" data-original-title="Follow us"-->
-            <!--                            data-toggle="tooltip"-->
-            <!--                            href="https://dribbble.com/creativetim" rel="nofollow"-->
-            <!--                            target="_blank">-->
-            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-dribbble"></i></span>-->
-            <!--                    </button>-->
-            <!--                    <button class="btn btn-icon-only btn-github rounded-circle" data-original-title="Star on Github"-->
-            <!--                            data-toggle="tooltip"-->
-            <!--                            href="https://github.com/creativetimofficial" rel="nofollow"-->
-            <!--                            target="_blank">-->
-            <!--                        <span class="btn-inner&#45;&#45;icon"><i class="fa fa-github"></i></span>-->
-            <!--                    </button>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <hr>-->
-            <div class="row align-items-center justify-content-md-between">
-                <div class="col-md-6">
-                    <div class="copyright">
-                        &copy; 2020 <a href="" target="_blank">Ata Control</a>.
-                    </div>
-                </div>
-                <!--                <div class="col-md-6">-->
-                <!--                    <ul class="nav nav-footer justify-content-end">-->
-                <!--                        &lt;!&ndash;                        <li class="nav-item">&ndash;&gt;-->
-                <!--                        &lt;!&ndash;                            <a class="nav-link" href="" target="_blank">Creative Tim</a>&ndash;&gt;-->
-                <!--                        &lt;!&ndash;                        </li>&ndash;&gt;-->
-                <!--                        <li class="nav-item">-->
-                <!--                            <a class="nav-link" href="" target="_blank">About Us</a>-->
-                <!--                        </li>-->
-                <!--                        <li class="nav-item">-->
-                <!--                            <a class="nav-link" href="" target="_blank">Blog</a>-->
-                <!--                        </li>-->
-                <!--                        <li class="nav-item">-->
-                <!--                            <a class="nav-link" href="" target="_blank">License</a>-->
-                <!--                        </li>-->
-                <!--                    </ul>-->
-                <!--                </div>-->
-            </div>
-        </div>
-    </footer>
 </main>
 
 <!-- JS -->

@@ -18,7 +18,7 @@ $("#form-register-pessoa").submit(function (evt) {
         contentType: 'application/json',
         data: JSON.stringify(categoria),
         success: function (result) {
-            top.location.href = "/perfil";
+            top.location.href = "/cadastrar/ringues";
         }
     });
 

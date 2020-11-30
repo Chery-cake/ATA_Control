@@ -23,6 +23,7 @@ public class PerfilController {
     }
 
     // ======================================MODEL ATTRIBUTES=============================================
+/*
 
     @ModelAttribute("ROLE_ADMIN")
     public UserRole getUserRoleADM(){
@@ -38,5 +39,7 @@ public class PerfilController {
     public UserRole getUserRolePLAN(){
         return UserRole.ROLE_PLANILHA;
     }
+*/
+
 
 }

@@ -6,45 +6,107 @@
 </head>
 <body>
 <div class="corpo" layout:fragment="corpo">
-
-    <div class="form-group">
-        <label for="torneio">Torneio</label>
-        <select class="form-control" id="torneio" name="instrutor">
-            <option disabled selected value="">Selecione</option>
-            <option th:each="t : ${torneios}"
-                    th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
-                    th:value="${t.id}">...
-            </option>
-        </select>
+    <div class="container">
+        <div class="row">
+            <div class="form-group">
+                <h5 class="text-black display-5">Torneio</h5>
+                <select class="form-control" id="torneio" name="instrutor">
+                    <option disabled selected value="">Selecione</option>
+                    <option th:each="t : ${torneios}"
+                            th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
+                            th:value="${t.id}">...
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mx-auto text-center">
+                <h3 class="display-3">Juizes</h3>
+                <div>
+                    <table  class="table" id="juiz_table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">Juizes</th>
+                            <th>Nome</th>
+                            <th>Genero</th>
+                            <th>Idade</th>
+                            <th>Faixa</th>
+                            <th>Rodadas</th>
+                            <th></th>
+                            <th></th>
+                            <th class="text-right">Editar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-center">1</td>
+                            <td>Andrew Mike</td>
+                            <td>Masculino</td>
+                            <td>42</td>
+                            <td>Preta Nono Dan</td>
+                            <td>4</td>
+                            <td></td>
+                            <td></td>
+                            <td class="td-actions text-right">
+                                <button type="button" rel="tooltip" class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
+                                    <i class="ni ni-settings-gear-65 pt-1"></i>
+                                </button>
+                                <button type="button" rel="tooltip" class="btn btn-danger btn-icon btn-sm " data-original-title="" title="">
+                                    <i class="ni ni-fat-remove pt-1"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mx-auto text-center">
+                <h3 class="display-3">Competidores</h3>
+                <div>
+                    <table class="table" id="competidor_table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">Competidor</th>
+                            <th>Nome</th>
+                            <th>Genero</th>
+                            <th>Idade</th>
+                            <th>Faixa</th>
+                            <th>Peso</th>
+                            <th>Altura</th>
+                            <th>Categorias</th>
+                            <th class="text-right">Editar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-center">1</td>
+                            <td>Andrew Mike</td>
+                            <td>Masculino</td>
+                            <td>23</td>
+                            <td>Preta</td>
+                            <td>75,12</td>
+                            <td>1,85</td>
+                            <td>Combat</td>
+                            <td class="td-actions text-right">
+                                <button type="button" rel="tooltip" class="btn btn-success btn-icon btn-sm " data-original-title="" title="">
+                                    <i class="ni ni-settings-gear-65 pt-1"></i>
+                                </button>
+                                <button type="button" rel="tooltip" class="btn btn-danger btn-icon btn-sm " data-original-title="" title="">
+                                    <i class="ni ni-fat-remove pt-1"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div id="juiz_table">
-        <table class="table-bordered">
-            <tr>
-                <th>Juiz</th>
-                <th>Genero</th>
-                <th>Idade</th>
-                <th>Faixa</th>
-                <th>Rodadas</th>
-            </tr>
-        </table>
-    </div>
-
-    <div id="competidor_table">
-        <table class="table-bordered">
-            <tr>
-                <th>Competidor</th>
-                <th>Genero</th>
-                <th>Idade</th>
-                <th>Faixa</th>
-                <th>Peso</th>
-                <th>Altura</th>
-                <th>Categorias</th>
-            </tr>
-        </table>
-    </div>
-
 </div>
+
+
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/relatorio_cadastro.js}"></script>

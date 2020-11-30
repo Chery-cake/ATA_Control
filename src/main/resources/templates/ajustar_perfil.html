@@ -10,134 +10,152 @@
 
 <div class="corpo" layout:fragment="corpo">
 
-    <div class="py-5 text-center">
-        <div class="container">
-            <div class="row">
-                <div class="mx-auto col-lg-6 col-10">
-                    <h1>Mudar informações da conta</h1>
-                    <p class="mb-3" style=""></p>
+    <div class="wrapper">
+        <section class="section section-shaped section-lg">
+            <div class="shape shape-style-1 bg-gradient-darker">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="container pt-lg-4">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card bg-secondary shadow border-0">
+                            <div class="card-header">
+                                <div class="text-center">
+                                    <h2 class="h3 text-dark font-weight-bold mb-4">EDITAR PERFIL</h2>
+                                    <div class="text-center text-muted mb-4">
+                                        <small>Insira as seguintes informações sobre sua Academia.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body px-lg-5 py-lg-5">
 
-                    <form action="#" class="text-left" id="form-ajustar-pessoa">
+                                <form action="#" class="text-left" id="form-ajustar-pessoa">
 
-                        <input hidden id="id_pessoa" name="id_pessoa" th:value="${usuario.pessoa.id}" type="number">
-                        <input hidden id="status" name="status" th:value="${usuario.pessoa.status}" type="number">
+                                    <input hidden id="id_pessoa" name="id_pessoa" th:value="${usuario.pessoa.id}" type="number">
+                                    <input hidden id="status" name="status" th:value="${usuario.pessoa.status}" type="number">
 
-                        <input hidden id="id_usuario" name="id_usuario" th:value="${usuario.id}" type="number">
+                                    <input hidden id="id_usuario" name="id_usuario" th:value="${usuario.id}" type="number">
 
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input class="form-control" id="email" placeholder="stephen.king@gmail.com"
-                                   required th:value="${usuario.email}" type="email">
-                        </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input class="form-control" id="email" placeholder="stephen.king@gmail.com"
+                                               required th:value="${usuario.email}" type="email">
+                                    </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="senha">Senha</label>
-                                <input class="form-control" id="senha" placeholder="••••" required type="password">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="senha">Senha</label>
+                                            <input class="form-control" id="senha" placeholder="••••" required type="password">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="nome">Nome</label>
+                                        <input class="form-control" id="nome" required th:value="${usuario.pessoa.nome}"
+                                               type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="sobrenome">Sobrenome</label>
+                                        <input class="form-control" id="sobrenome" required
+                                               th:value="${usuario.pessoa.sobrenome}" type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="telefone">Telefone para contato</label>
+                                        <input class="form-control" id="telefone" required th:value="${usuario.pessoa.telefone}"
+                                               type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Genero: </label></br>
+                                        <div class="form-check form-check-inline">
+                                            <input checked class="form-check-input" id="inlineRadio1"
+                                                   name="genero" type="radio" value="true">
+                                            <label class="form-check-label" for="inlineRadio1" id="label-genero-M">Masculino</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="inlineRadio2" name="genero"
+                                                   type="radio" value="false">
+                                            <label class="form-check-label" for="inlineRadio2" id="label-genero-F">Feminino</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>É Instrutor? </label></br>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="inlineRadio1 isInstrutor_T" name="isInstrutor"
+                                                   onclick="hideInstrutor()" type="radio" value="true">
+                                            <label class="form-check-label" for="inlineRadio1 isInstrutor_T" id="label-instrutor-T">Sim</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input checked class="form-check-input" id="inlineRadio2 isInstrutor_F"
+                                                   name="isInstrutor" onclick="hideInstrutor()" type="radio" value="false">
+                                            <label class="form-check-label" for="inlineRadio2 isInstrutor_F" id="label-instrutor-F">Não</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="instrutor_div">
+                                        <label for="instrutor">Instrutor</label>
+                                        <select class="form-control" id="instrutor" name="instrutor" required>
+                                            <option disabled selected value="">Selecione</option>
+                                            <option th:each="i : ${instrutores}"
+                                                    th:text="${i.pessoa.nome + ' ' +i.pessoa.sobrenome}" th:value="${i.id}">...
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group" hidden id="ataNumber_div">
+                                        <label for="ataNumberWorld">ATA Number World</label>
+                                        <input class="form-control" id="ataNumberWorld" required
+                                               th:value="${usuario.pessoa.ataNumberWorld}"
+                                               type="text">
+                                        <label for="ataNumberBrasil">ATA Number Brasil</label>
+                                        <input class="form-control" id="ataNumberBrasil" required
+                                               th:value="${usuario.pessoa.ataNumberBrasil}"
+                                               type="text">
+                                    </div>
+
+                                    <div class="form-group" hidden id="academia_div">
+                                        <label for="academia">Academias</label>
+                                        <select class="form-control" id="academia" name="academia" required>
+                                            <option disabled selected value="">Selecione</option>
+                                            <option th:each="a : ${academias}" th:text="${a.nome}" th:value="${a.id}">...
+                                            </option>
+                                        </select>
+                                        <a class="nav-link" th:href="@{/academia}">Se a sua academia não aparecer na lista
+                                            clique aqui</a>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="faixa">Faixa</label>
+                                        <select class="form-control" id="faixa" name="faixa" required>
+                                            <option disabled selected value="">Selecione</option>
+                                            <option th:each="f : ${faixas}" th:text="${f.nome}" th:value="${f.id}">...</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group" id="endereco_div">
+                                        <label>Endereço</label>
+                                        <select class="form-control" id="pais" name="pais" required>
+                                            <option disabled selected value="">Selecione</option>
+                                            <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <button class="btn btn-primary" type="submit">Ajustar</button>
+                                </form>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="nome">Nome</label>
-                            <input class="form-control" id="nome" required th:value="${usuario.pessoa.nome}"
-                                   type="text">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="sobrenome">Sobrenome</label>
-                            <input class="form-control" id="sobrenome" required
-                                   th:value="${usuario.pessoa.sobrenome}" type="text">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="telefone">Telefone para contato</label>
-                            <input class="form-control" id="telefone" required th:value="${usuario.pessoa.telefone}"
-                                   type="text">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Genero: </label></br>
-                            <div class="form-check form-check-inline">
-                                <input checked class="form-check-input" id="inlineRadio1"
-                                       name="genero" type="radio" value="true">
-                                <label class="form-check-label" for="inlineRadio1" id="label-genero-M">Masculino</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" id="inlineRadio2" name="genero"
-                                       type="radio" value="false">
-                                <label class="form-check-label" for="inlineRadio2" id="label-genero-F">Feminino</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>É Instrutor? </label></br>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" id="inlineRadio1 isInstrutor_T" name="isInstrutor"
-                                       onclick="hideInstrutor()" type="radio" value="true">
-                                <label class="form-check-label" for="inlineRadio1 isInstrutor_T" id="label-instrutor-T">Sim</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input checked class="form-check-input" id="inlineRadio2 isInstrutor_F"
-                                       name="isInstrutor" onclick="hideInstrutor()" type="radio" value="false">
-                                <label class="form-check-label" for="inlineRadio2 isInstrutor_F" id="label-instrutor-F">Não</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="instrutor_div">
-                            <label for="instrutor">Instrutor</label>
-                            <select class="form-control" id="instrutor" name="instrutor" required>
-                                <option disabled selected value="">Selecione</option>
-                                <option th:each="i : ${instrutores}"
-                                        th:text="${i.pessoa.nome + ' ' +i.pessoa.sobrenome}" th:value="${i.id}">...
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="form-group" hidden id="ataNumber_div">
-                            <label for="ataNumberWorld">ATA Number World</label>
-                            <input class="form-control" id="ataNumberWorld" required
-                                   th:value="${usuario.pessoa.ataNumberWorld}"
-                                   type="text">
-                            <label for="ataNumberBrasil">ATA Number Brasil</label>
-                            <input class="form-control" id="ataNumberBrasil" required
-                                   th:value="${usuario.pessoa.ataNumberBrasil}"
-                                   type="text">
-                        </div>
-
-                        <div class="form-group" hidden id="academia_div">
-                            <label for="academia">Academias</label>
-                            <select class="form-control" id="academia" name="academia" required>
-                                <option disabled selected value="">Selecione</option>
-                                <option th:each="a : ${academias}" th:text="${a.nome}" th:value="${a.id}">...
-                                </option>
-                            </select>
-                            <a class="nav-link" th:href="@{/academia}">Se a sua academia não aparecer na lista
-                                clique aqui</a>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="faixa">Faixa</label>
-                            <select class="form-control" id="faixa" name="faixa" required>
-                                <option disabled selected value="">Selecione</option>
-                                <option th:each="f : ${faixas}" th:text="${f.nome}" th:value="${f.id}">...</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group" id="endereco_div">
-                            <label>Endereço</label>
-                            <select class="form-control" id="pais" name="pais" required>
-                                <option disabled selected value="">Selecione</option>
-                                <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
-                                </option>
-                            </select>
-                        </div>
-
-                        <button class="btn btn-primary" type="submit">Ajustar</button>
-                    </form>
-
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
 </div>

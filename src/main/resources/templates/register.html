@@ -10,13 +10,214 @@
 
 <div class="corpo" layout:fragment="corpo">
 
-    <div class="py-5 text-center">
-        <div class="container">
-            <div class="row">
-                <div class="mx-auto col-lg-6 col-10 bg-secondary shadow border-0">
-                    <h1>Crie sua conta</h1>
-                    <p class="mb-3" style=""></p>
 
+    <div class="wrapper">
+        <section class="section section-shaped section-lg">
+            <div class="shape shape-style-1 bg-gradient-darker">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="container pt-lg-4">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card bg-secondary shadow border-0">
+                            <div class="card-header">
+                                <div class="text-center">
+                                    <h2 class="h3 text-dark font-weight-bold mb-4">CRIE SUA CONTA</h2>
+                                    <div class="text-center text-muted mb-4">
+                                        <small>Insira as seguintes informações para competir.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body px-lg-5 py-lg-5">
+                                <div class="form-group">
+                                    <label>É Instrutor? </label></br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" id="inlineRadio1 isInstrutor_T" name="isInstrutor"
+                                               onclick="hideInstrutor()" type="radio" value="true">
+                                        <label class="form-check-label" for="inlineRadio1 isInstrutor_T"
+                                               id="label-instrutor-T">Sim</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input checked class="form-check-input" id="inlineRadio2 isInstrutor_F"
+                                               name="isInstrutor" onclick="hideInstrutor()" type="radio" value="false">
+                                        <label class="form-check-label" for="inlineRadio2 isInstrutor_F"
+                                               id="label-instrutor-F">Não</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="instrutor_div">
+                                    <label for="instrutor">Instrutor</label>
+                                    <select class="form-control" id="instrutor" name="instrutor" required>
+                                        <option disabled selected value="">Selecione</option>
+                                        <option th:each="i : ${instrutores}"
+                                                th:text="${i.pessoa.nome + ' ' +i.pessoa.sobrenome}" th:value="${i.id}">...
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group" hidden id="ataNumber_div">
+                                    <label for="ataNumberWorld">ATA Number World</label>
+                                    <input class="form-control" id="ataNumberWorld" placeholder="xxxx-xxxxx" type="text">
+                                    <label for="ataNumberBrasil">ATA Number Brasil</label>
+                                    <input class="form-control" id="ataNumberBrasil" placeholder="xxxx-xxxxx" type="text">
+                                </div>
+
+                                <div class="form-group" hidden id="academia_div">
+                                    <label for="academia">Academias</label>
+                                    <select class="form-control" id="academia" name="academia">
+                                        <option disabled selected value="">Selecione</option>
+                                        <option th:each="a : ${academias}" th:text="${a.nome}" th:value="${a.id}">...
+                                        </option>
+                                    </select>
+                                    <p>Se a sua academia não estiver na lista, <a style="text-decoration: none; color: #0b90a8; border: none;" th:href="@{/academia}" type="button"> Clique Aqui</a></p>
+                                </div>
+
+                                <form action="#" class="text-left" id="form-register-pessoa">
+                                    <div class="form-group">
+                                        <label for="nome">Nome</label>
+                                        <input class="form-control" id="nome" placeholder="Stephen" required type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="sobrenome">Sobrenome</label>
+                                        <input class="form-control" id="sobrenome" placeholder="Edwin King" required type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input class="form-control" id="email" placeholder="stephen.king@gmail.com" required
+                                               type="email">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="telefone">Telefone para contato</label>
+                                        <input class="form-control" data-mask-selectonfocus="true" id="telefone"
+                                               placeholder="(00) 0 0000-0000" required type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dataNascimento">Data de Nascimento</label>
+                                        <input class="form-control" id="dataNascimento" required type="date">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Genero: </label></br>
+                                        <div class="form-check form-check-inline">
+                                            <input checked class="form-check-input" id="inlineRadio1"
+                                                   name="genero" type="radio" value="true">
+                                            <label class="form-check-label" for="inlineRadio1" id="label-genero-M">Masculino</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="inlineRadio2" name="genero"
+                                                   type="radio" value="false">
+                                            <label class="form-check-label" for="inlineRadio2" id="label-genero-F">Feminino</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="faixa">Faixa</label>
+                                        <select class="form-control" id="faixa" name="faixa" required>
+                                            <option disabled selected value="">Selecione</option>
+                                            <option th:each="f : ${faixas}" th:text="${f.nome}" th:value="${f.id}">...</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group" id="endereco_div">
+                                        <label>Endereço</label>
+                                        <select class="form-control" id="pais" name="pais" required>
+                                            <option disabled selected value="">Selecione</option>
+                                            <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="senha">Senha</label>
+                                            <input class="form-control" id="senha" placeholder="••••" required
+                                                   type="password">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="confi_senha">Confirmar senha<br></label>
+                                            <input class="form-control" id="confi_senha" placeholder="••••" required
+                                                   type="password">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" hidden>
+                                        <div class="form-check"><input class="form-check-input" id="termos" type="checkbox"
+                                                                       value="on">
+                                            <label class="form-check-label" for="termos"> I Agree with <a href="#">Term and
+                                                Conditions</a> of the service </label></div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-lg btn-github btn-icon my-4">Criar Conta</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row row-grid align-items-center mb-5">
+                <div class="col-lg-6">
+                    <h3 class="text-primary font-weight-light mb-2">Thank you for supporting us!</h3>
+                    <h4 class="mb-0 font-weight-light">Let's get in touch on any of these platforms.</h4>
+                </div>
+                <div class="col-lg-6 text-lg-center btn-wrapper">
+                    <button target="_blank" href="https://twitter.com/creativetim" rel="nofollow" class="btn btn-icon-only btn-twitter rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+                        <span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
+                    </button>
+                    <button target="_blank" href="https://www.facebook.com/CreativeTim/" rel="nofollow" class="btn-icon-only rounded-circle btn btn-facebook" data-toggle="tooltip" data-original-title="Like us">
+                        <span class="btn-inner--icon"><i class="fab fa-facebook"></i></span>
+                    </button>
+                    <button target="_blank" href="https://dribbble.com/creativetim" rel="nofollow" class="btn btn-icon-only btn-dribbble rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+                        <span class="btn-inner--icon"><i class="fa fa-dribbble"></i></span>
+                    </button>
+                    <button target="_blank" href="https://github.com/creativetimofficial" rel="nofollow" class="btn btn-icon-only btn-github rounded-circle" data-toggle="tooltip" data-original-title="Star on Github">
+                        <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="row align-items-center justify-content-md-between">
+                <div class="col-md-6">
+                    <div class="copyright">
+                        &copy; 2020 <a href="" target="_blank">Creative Tim</a>.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <ul class="nav nav-footer justify-content-end">
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">Creative Tim</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">License</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+                    <!--<h1>Crie sua conta</h1>
+                    <p class="mb-3" style=""></p>
                     <div class="form-group">
                         <label>É Instrutor? </label></br>
                         <div class="form-check form-check-inline">
@@ -57,8 +258,7 @@
                             <option th:each="a : ${academias}" th:text="${a.nome}" th:value="${a.id}">...
                             </option>
                         </select>
-                        <a class="nav-link" th:href="@{/academia}">Se a sua academia não aparecer na lista
-                            clique aqui</a>
+                        <p>Se a sua academia não estiver na lista, <a style="text-decoration: none; color: #0b90a8; border: none;" th:href="@{/academia}" type="button"> Clique Aqui</a></p>
                     </div>
 
                     <form action="#" class="text-left" id="form-register-pessoa">
@@ -141,17 +341,65 @@
                         </div>
                         <button class="btn btn-primary" type="submit">Registrar</button>
                     </form>
-
                 </div>
+            </div>-->
+
+
+
+
+
+  <!--  <section>
+    &lt;!&ndash; Modal da Academia &ndash;&gt;
+    <div class="modal fade" id="AcademiaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registrar Academia</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="#" id="form-register-academia">
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Nome</span>
+                                </div>
+                                <input class="form-control" id="academianome" placeholder="ATA" required type="text">
+                            </div>
+                        </div>
+                        <div class="form-group mb-4" id="endereco_div2">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Endereço</span>
+                                </div>
+                                <select class="form-control" id="pais2" name="pais" required>
+                                    <option value="">Selecione</option>
+                                    <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary my-4">Cadastrar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    </section>-->
+
+
 
 </div>
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/pessoa_register.js}"></script>
     <script th:src="@{/js/endereco_form.js}"></script>
+    <script th:src="@{/js/academia_register.js}"></script>
+
 </th:block>
 
 </body>

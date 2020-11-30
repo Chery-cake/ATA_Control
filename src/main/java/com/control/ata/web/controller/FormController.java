@@ -295,6 +295,7 @@ public class FormController {
         return "ajustar_perfil";
     }
 
+
     @PostMapping("/save/ajuste")
     public ResponseEntity<?> ajustarPessoa(@Valid @RequestBody String json,
             BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
@@ -404,6 +405,11 @@ public class FormController {
     @GetMapping("/relatorio/torneio")
     public String getRelatorioTorneio() {
         return "relatorio_torneio";
+    }
+
+    @GetMapping("/relatorio/pontos")
+    public String pontosArmas() {
+        return "pontos_armas";
     }
 
     // ======================================CRIAR CATEGORIA=============================================
