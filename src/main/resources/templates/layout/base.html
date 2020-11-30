@@ -62,12 +62,14 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal"
+                     role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title h3 text-dark font-weight-bold mb-4"  id="exampleModalLabel">Sign in </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <h5 class="modal-title h3 text-dark font-weight-bold mb-4" id="exampleModalLabel">Sign
+                                    in </h5>
+                                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -79,24 +81,30 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                                             </div>
-                                            <input class="form-control" id="username" name="username" placeholder="Email">
+                                            <input class="form-control" id="username" name="username"
+                                                   placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="form-group focused">
                                         <div class="input-group input-group-alternative">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                                <span class="input-group-text"><i
+                                                        class="ni ni-lock-circle-open"></i></span>
                                             </div>
-                                            <input class="form-control" id="password" name="password" placeholder="Password"
+                                            <input class="form-control" id="password" name="password"
+                                                   placeholder="Password"
                                                    type="password">
                                         </div>
                                     </div>
                                     <div class="custom-control custom-control-alternative custom-checkbox">
                                         <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
-                                        <label class="custom-control-label" for=" customCheckLogin"><span>Remember me</span></label>
+                                        <label class="custom-control-label"
+                                               for=" customCheckLogin"><span>Remember me</span></label>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-lg btn-github btn-icon my-4">Iniciar Sessão</button>
+                                        <button class="btn btn-lg btn-github btn-icon my-4" type="submit">Iniciar
+                                            Sessão
+                                        </button>
                                     </div>
 
                                 </form>
@@ -112,25 +120,25 @@
                         </a>
                     </li>
 
-                   <li class="nav-item">
+                    <li class="nav-item">
                         <a class="navbar-brand font-weight-bold" href="javascript:">Torneio</a>
                     </li>
                 </ul>
 
-<!--                <ul class="navbar-nav ml-lg-auto">-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link nav-link-icon" href="#">-->
-<!--                            <i class="ni ni-favourite-28"></i>-->
-<!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Discover</span>-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link nav-link-icon" href="#">-->
-<!--                            <i class="ni ni-notification-70"></i>-->
-<!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Profile</span>-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                </ul>-->
+                <!--                <ul class="navbar-nav ml-lg-auto">-->
+                <!--                    <li class="nav-item">-->
+                <!--                        <a class="nav-link nav-link-icon" href="#">-->
+                <!--                            <i class="ni ni-favourite-28"></i>-->
+                <!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Discover</span>-->
+                <!--                        </a>-->
+                <!--                    </li>-->
+                <!--                    <li class="nav-item">-->
+                <!--                        <a class="nav-link nav-link-icon" href="#">-->
+                <!--                            <i class="ni ni-notification-70"></i>-->
+                <!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Profile</span>-->
+                <!--                        </a>-->
+                <!--                    </li>-->
+                <!--                </ul>-->
                 <ul class="navbar-nav" th:if="${usuario != null}">
                     <div class="dropdown">
                         <div class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;"
@@ -175,9 +183,9 @@
                                     <span>Conta</span>
                                 </a>
 
-                               <!-- <p><a th:href="@{/register/juiz}">Ser Juiz</a></p>
-                                &lt;!&ndash;        <p th:if="${usuario.pessoa.isInstrutor == true}"><a th:href="@{/alunos}">Informacoes dos alunos</a></p>&ndash;&gt;
-                         -->
+                                <!-- <p><a th:href="@{/register/juiz}">Ser Juiz</a></p>
+                                 &lt;!&ndash;        <p th:if="${usuario.pessoa.isInstrutor == true}"><a th:href="@{/alunos}">Informacoes dos alunos</a></p>&ndash;&gt;
+                          -->
                             </div>
 
                             <div th:if="${usuario.userRole == ROLE_PLANILHA}">
@@ -206,7 +214,8 @@
                         <!--a th:href="@{/login}" data-toggle="modal" data-target="#exampleModal" class="btn btn-lg btn-white btn-icon">
                             <span class="btn-inner&#45;&#45;text">INICIAR SESSÃO</span>
                         </a>-->
-                        <a th:href="@{/login}" data-toggle="modal" data-target="#exampleModal" class="btn btn-white btn-icon">
+                        <a class="btn btn-white btn-icon" data-target="#exampleModal" data-toggle="modal"
+                           th:href="@{/login}">
                             <span class="btn-inner--icon"><i class="fa fa-user fa-fw"></i></span>
                             <span class="btn-inner--text">INICIAR SESSÃO</span>
                         </a>
@@ -214,7 +223,6 @@
 
                     </li>
                 </ul>
-
 
 
             </div>
