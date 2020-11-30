@@ -66,7 +66,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Sign in </h5>
+                                <h5 class="modal-title h3 text-dark font-weight-bold mb-4"  id="exampleModalLabel">Sign in </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -138,14 +138,55 @@
                             <span><b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b></span>
                         </div>
                         <div class="dropdown-menu">
-
-                            <a class="dropdown-item" href="javascript:" th:href="@{/perfil}">
+                            <!--<a class="dropdown-item" href="javascript:" th:href="@{/perfil}">
                                 <i class="ni ni-single-02"></i>
                                 <span>Menu</span>
-                            </a>
+                            </a>-->
+                            <div th:if="${usuario.userRole == ROLE_ADMIN}">
+                                <a class="dropdown-item" th:href="@{/criar/torneio}">
+                                    <i class="ni ni-trophy"></i>
+                                    <span>Criar torneio</span>
+                                </a>
+                                <a class="dropdown-item" th:href="@{/relatorio/cadastros}">
+                                    <i class="ni bullet-list"></i>
+                                    <span>Pessoas Cadastros</span>
+                                </a>
+                                <a class="dropdown-item" th:href="@{/pontos_armas}">
+                                    <i class="ni bullet-list"></i>
+                                    <span>Armas</span>
+                                </a>
+                                <a class="dropdown-item" th:href="@{/relatorio/torneio}">
+                                    <i class="ni vector"></i>
+                                    <span>Ringues</span>
+                                </a>
+                            </div>
+                            <div th:if="${usuario.userRole == ROLE_USER}">
+
+                                <a class="dropdown-item" th:href="@{/register/competidor}">
+                                    <i class="ni ni-user-run"></i>
+                                    <span>Competir</span>
+                                </a>
+                                <a class="dropdown-item" th:href="@{/register/juiz}">
+                                    <i class="ni ni-badge"></i>
+                                    <span>Ser Juiz</span>
+                                </a>
+                                <a class="dropdown-item" th:href="@{/ajustar}">
+                                    <i class="ni ni-settings-gear-65"></i>
+                                    <span>Conta</span>
+                                </a>
+
+                               <!-- <p><a th:href="@{/register/juiz}">Ser Juiz</a></p>
+                                &lt;!&ndash;        <p th:if="${usuario.pessoa.isInstrutor == true}"><a th:href="@{/alunos}">Informacoes dos alunos</a></p>&ndash;&gt;
+                         -->
+                            </div>
+
+                            <div th:if="${usuario.userRole == ROLE_PLANILHA}">
+
+                            </div>
+
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="javascript:" th:href="@{/logout}">
-                                <i class="ni ni-user-run"></i>
+                                <i class="ni ni-button-power"></i>
                                 <span>Logout</span>
                             </a>
                         </div>
@@ -158,13 +199,19 @@
                             <i class="fa fa-user fa-fw"></i>Inscreva-se</a>
                     </li>-->
                     <li class="nav-item shadow-sm" style="	box-shadow: 0px 0px 4px  black;">
-                        <<!--a class="nav-link"  data-toggle="modal" data-target="#exampleModal"
+                        <!--a class="nav-link"  data-toggle="modal" data-target="#exampleModal"
                            th:href="@{/login}">
 
                             <i class="fa fa-user fa-fw"></i>Fazer Login</a>-->
-                        <a th:href="@{/login}" data-toggle="modal" data-target="#exampleModal" class="btn btn-lg btn-white btn-icon">
+                        <!--a th:href="@{/login}" data-toggle="modal" data-target="#exampleModal" class="btn btn-lg btn-white btn-icon">
+                            <span class="btn-inner&#45;&#45;text">INICIAR SESSÃO</span>
+                        </a>-->
+                        <a th:href="@{/login}" data-toggle="modal" data-target="#exampleModal" class="btn btn-white btn-icon">
+                            <span class="btn-inner--icon"><i class="fa fa-user fa-fw"></i></span>
                             <span class="btn-inner--text">INICIAR SESSÃO</span>
                         </a>
+
+
                     </li>
                 </ul>
 

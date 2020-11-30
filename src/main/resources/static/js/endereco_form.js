@@ -30,7 +30,7 @@ $(document).on("change", "select[id='pais']", function () {
             for (var i in response) {
                 var optionElement = document.createElement("option");
                 optionElement.value = response[i].id;
-                optionElement.text = response[i].nome + " -/- " + response[i].sigla;
+                optionElement.text = response[i].nome + " - " + response[i].sigla;
                 document.getElementById("estado").appendChild(optionElement);
             }
         },

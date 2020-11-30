@@ -8,82 +8,153 @@
 <body>
 <div class="corpo" layout:fragment="corpo">
 
-    <div class="py-5 text-center">
+    <div class="wrapper">
+        <section class="section section-shaped section-lg">
+            <div class="shape shape-style-1 bg-gradient-darker">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="container pt-lg-4">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card bg-secondary shadow border-0">
+                            <div class="card-body px-lg-5 py-lg-5">
+
+                                <div class="card-header pb-5">
+                                    <div class="progress">
+                                        <div class="progress-bar w-25" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">|</div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center ">
+                                    <h2 class="h3 text-dark font-weight-bold mb-4">CRIAR TORNEIO</h2>
+                                </div>
+                                <form action="#" class="text-left" id="form-register-torneio">
+
+                                    <div class="form-group">
+                                        <label for="dataInicio">Data de Inicio</label>
+                                        <input class="form-control" id="dataInicio" required type="date">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dataTermino">Data de Termino</label>
+                                        <input class="form-control" id="dataTermino" required type="date">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dataTermino">Maximo numero de ringues</label>
+                                        <input class="form-control" id="maxNumeroRingues" required type="number" placeholder="2">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Vale pontuação: </label></br>
+                                        <div class="form-check form-check-inline">
+                                            <input checked class="form-check-input" id="inlineRadio1"
+                                                   name="pontuar" type="radio" value="true">
+                                            <label class="form-check-label" for="inlineRadio1" id="label-pontuar-T">Sim</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="inlineRadio2" name="pontuar"
+                                                   type="radio" value="false">
+                                            <label class="form-check-label" for="inlineRadio2" id="label-pontuar-F">Nao</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Categoria do torneio</label>
+                                        <select class="form-control" id="categoriaTorneio" name="categoriaTorneio" required>
+                                            <option disabled selected value="">Selecione</option>
+                                            <option th:each="ct : ${categoriasTorneio}" th:text="${ct.nome}" th:value="${ct.id}">...
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group" id="endereco_div">
+                                        <label>Endereço</label>
+                                        <select class="form-control" id="pais" name="pais" required>
+                                            <option disabled selected value="">Selecione</option>
+                                            <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Quantidade de rodadas</label>
+                                        <input class="form-control" id="quant_rodada" name="quant_rodada" placeholder="0"
+                                               required type="number">
+                                    </div>
+
+                                    <div class="form-group" id="rodadas_div">
+
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-lg btn-github btn-icon my-4">Registrar</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
         <div class="container">
-            <div class="row">
-                <div class="mx-auto col-lg-6 col-10">
-                    <h1>Criar Torneio</h1>
-                    <p class="mb-3" style=""></p>
-
-                    <form action="#" class="text-left" id="form-register-torneio">
-
-                        <div class="form-group">
-                            <label for="dataInicio">Data de Inicio</label>
-                            <input class="form-control" id="dataInicio" required type="date">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dataTermino">Data de Termino</label>
-                            <input class="form-control" id="dataTermino" required type="date">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dataTermino">Maximo numero de ringues</label>
-                            <input class="form-control" id="maxNumeroRingues" required type="number" placeholder="2">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Vale pontuação: </label></br>
-                            <div class="form-check form-check-inline">
-                                <input checked class="form-check-input" id="inlineRadio1"
-                                       name="pontuar" type="radio" value="true">
-                                <label class="form-check-label" for="inlineRadio1" id="label-pontuar-T">Sim</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" id="inlineRadio2" name="pontuar"
-                                       type="radio" value="false">
-                                <label class="form-check-label" for="inlineRadio2" id="label-pontuar-F">Nao</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Categoria do torneio</label>
-                            <select class="form-control" id="categoriaTorneio" name="categoriaTorneio" required>
-                                <option disabled selected value="">Selecione</option>
-                                <option th:each="ct : ${categoriasTorneio}" th:text="${ct.nome}" th:value="${ct.id}">...
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="form-group" id="endereco_div">
-                            <label>Endereço</label>
-                            <select class="form-control" id="pais" name="pais" required>
-                                <option disabled selected value="">Selecione</option>
-                                <option th:each="p : ${paises}" th:text="${p.nome}" th:value="${p.id}">...
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Quantidade de rodadas</label>
-                            <input class="form-control" id="quant_rodada" name="quant_rodada" placeholder="0"
-                                   required type="number">
-                        </div>
-
-                        <div class="form-group" id="rodadas_div">
-
-                        </div>
-
-                        <button class="btn btn-primary" type="submit">Criar</button>
-                    </form>
-
+            <div class="row row-grid align-items-center mb-5">
+                <div class="col-lg-6">
+                    <h3 class="text-primary font-weight-light mb-2">Thank you for supporting us!</h3>
+                    <h4 class="mb-0 font-weight-light">Let's get in touch on any of these platforms.</h4>
+                </div>
+                <div class="col-lg-6 text-lg-center btn-wrapper">
+                    <button target="_blank" href="https://twitter.com/creativetim" rel="nofollow" class="btn btn-icon-only btn-twitter rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+                        <span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
+                    </button>
+                    <button target="_blank" href="https://www.facebook.com/CreativeTim/" rel="nofollow" class="btn-icon-only rounded-circle btn btn-facebook" data-toggle="tooltip" data-original-title="Like us">
+                        <span class="btn-inner--icon"><i class="fab fa-facebook"></i></span>
+                    </button>
+                    <button target="_blank" href="https://dribbble.com/creativetim" rel="nofollow" class="btn btn-icon-only btn-dribbble rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+                        <span class="btn-inner--icon"><i class="fa fa-dribbble"></i></span>
+                    </button>
+                    <button target="_blank" href="https://github.com/creativetimofficial" rel="nofollow" class="btn btn-icon-only btn-github rounded-circle" data-toggle="tooltip" data-original-title="Star on Github">
+                        <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="row align-items-center justify-content-md-between">
+                <div class="col-md-6">
+                    <div class="copyright">
+                        &copy; 2020 <a href="" target="_blank">Creative Tim</a>.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <ul class="nav nav-footer justify-content-end">
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">Creative Tim</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">License</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </div>
+    </footer>
+
 
 </div>
-
 <th:block layout:fragment="script">
     <script th:src="@{/js/torneio_form.js}"></script>
     <script th:src="@{/js/endereco_form.js}"></script>
