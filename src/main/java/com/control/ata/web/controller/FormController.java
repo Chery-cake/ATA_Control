@@ -500,10 +500,10 @@ public class FormController {
         torneio.setIniciado(true);
         torneio = torneioRepository.save(torneio);
 
-        ArrayList<RingueIndividual> ringueIndividualArrayList = (ArrayList<RingueIndividual>) ringueService.createRingueIndividual(
+        ArrayList<RingueIndividual> ringueIndividualArrayList = (ArrayList<RingueIndividual>) ringueService.createRingueIndividual(//todo testar
                 torneio);
 
-        for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {
+        for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {//todo testar
             listaIndividual.createPlanilhasLista(ringueIndividual);
             chaveIndividual.createPlanilhasChave(ringueIndividual);
         }
