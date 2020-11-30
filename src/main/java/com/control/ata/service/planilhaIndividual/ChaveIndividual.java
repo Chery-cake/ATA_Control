@@ -8,6 +8,7 @@ import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.repository.individual.ChaveLutaIndividualRepository;
 import com.control.ata.repository.individual.PlanilhaChaveamentoIndividualRepository;
+import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import com.control.ata.repository.torneio.TituloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,16 +27,34 @@ public class ChaveIndividual {
     private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
     @Autowired
     private TituloRepository tituloRepository;
+    @Autowired
+    private CategoriaCompeticaoRepository categoriaCompeticaoRepository;
 
-    public PlanilhaChaveamentoIndividual createPlanilha(RingueIndividual ringueIndividual,
-//todo verificar a categoria dos competidores e da planilha
-            CategoriaCompeticao categoriaCompeticao) {
-        ArrayList<Competidor> competidorArrayList = new ArrayList<>(ringueIndividual.getCompetidor());
-        PlanilhaChaveamentoIndividual planilha = new PlanilhaChaveamentoIndividual(categoriaCompeticao,
-                                                                                   ringueIndividual);
-        planilha = planilhaChaveamentoIndividualRepository.save(planilha);
-        planilha.setChaveLutaIndividual(createChave(competidorArrayList, planilha));
-        return planilhaChaveamentoIndividualRepository.save(planilha);
+    public Collection<PlanilhaChaveamentoIndividual> createPlanilhasChave(RingueIndividual ringueIndividual) {
+
+        List<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividualList = new ArrayList<>();
+
+        for (CategoriaCompeticao categoriaCompeticao : categoriaCompeticaoRepository.getAllByRingueIndividual(
+                ringueIndividual.getId())) {
+
+            if (categoriaCompeticao.getTipoChave()) {
+
+                ArrayList<Competidor> competidorArrayList = new ArrayList<>(ringueIndividual.getCompetidor());
+
+                PlanilhaChaveamentoIndividual planilha = new PlanilhaChaveamentoIndividual(categoriaCompeticao,
+                                                                                           ringueIndividual);
+                planilha = planilhaChaveamentoIndividualRepository.save(planilha);
+                planilha.setChaveLutaIndividual(createChave(competidorArrayList, planilha));
+                planilha = planilhaChaveamentoIndividualRepository.save(planilha);
+
+                planilhaChaveamentoIndividualList.add(planilha);
+
+            }
+
+        }
+
+
+        return planilhaChaveamentoIndividualRepository.saveAll(planilhaChaveamentoIndividualList);
     }
 
     public ChaveLutaIndividual updateChave(
