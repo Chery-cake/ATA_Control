@@ -29,6 +29,7 @@ public class Competidor {
     private Pessoa pessoa;
 
     @ManyToOne
+    @JsonIgnore //todo verificar se n vai dar erro em algum lugar estranho
     private Torneio torneio;
 
     @ManyToMany(cascade = CascadeType.ALL)
