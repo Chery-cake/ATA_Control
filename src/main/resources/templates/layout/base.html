@@ -143,7 +143,8 @@
                     <div class="dropdown">
                         <div class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;"
                              id="navbar-primary_dropdown_1" role="button">
-                            <span><b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b></span>
+                            <span><b th:if="${usuario.pessoa != null}" th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b></span>
+                            <span><b th:if="${usuario.planilheiro != null}" th:text="Planilheiro"></b></span>
                         </div>
                         <div class="dropdown-menu">
                             <!--<a class="dropdown-item" href="javascript:" th:href="@{/perfil}">

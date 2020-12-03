@@ -16,11 +16,13 @@ public class RingueIndividual {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private Boolean finalizado = Boolean.FALSE;
+
     private Boolean genero;
     private Boolean fechado;
 
-    private Integer numeroRingue;
-    private Integer numeroRodada;
+    private Integer numeroRingue;//numero do ringue
+    private Integer numeroRodada;//posicao na fila de ringues
 
     private Integer idade;
     private Integer nivel;
@@ -80,6 +82,14 @@ public class RingueIndividual {
 
     public Integer getId() {
         return id;
+    }
+
+    public Boolean getFinalizado() {
+        return finalizado;
+    }
+
+    public void setFinalizado(Boolean finalizado) {
+        this.finalizado = finalizado;
     }
 
     public Boolean getGenero() {

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/base}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="usuario" type="com.control.ata.security.entity.Usuario"*/-->
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+</head>
+<body>
+
+<div class="corpo" layout:fragment="corpo">
+
+    <input hidden th:value="${usuario.planilheiro.torneio.id}" id="torneio_id">
+
+    <div id="seletor">
+
+    </div>
+
+    <div id="planilha">
+        <p>lista</p>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Juiz A</th>
+                <th>Juiz C</th>
+                <th>juiz B</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td>Nome</td>
+                <td>botoes 1 - 9</td>
+                <td>botoes 1 - 9</td>
+                <td>botoes 1 - 9</td>
+                <td>15</td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <p>chaves</p>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Pontos</th>
+                <th>Advertencias</th>
+                <th>Penalidades</th>
+                <th>Cronometro</th>
+                <th>Nome</th>
+                <th>Pontos</th>
+                <th>Advertencias</th>
+                <th>Penalidades</th>
+            </tr>
+            <tr>
+                <td>Nome</td>
+                <td>botoes + -</td>
+                <td>botoes + -</td>
+                <td>botoes + -</td>
+                <td>00:00</td>
+                <td>Nome2</td>
+                <td>botoes + -</td>
+                <td>botoes + -</td>
+                <td>botoes + -</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <button id="ter_ringue" class="btn-dark">Finalizar ringue atual</button>
+
+</div>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/planilha.js}"></script>
+</th:block>
+
+</body>
+</html>

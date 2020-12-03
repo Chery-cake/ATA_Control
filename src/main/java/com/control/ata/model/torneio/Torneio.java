@@ -20,6 +20,7 @@ public class Torneio {
 
     private Date dataInicio;
     private Date dataTermino;
+
     private Integer maxNumeroRingues;
     private Boolean pontuar;
 
