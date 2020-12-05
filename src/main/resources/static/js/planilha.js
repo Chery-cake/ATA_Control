@@ -164,8 +164,10 @@ $(document).on("change", "select[id='planilha_select']", function () {
 
 });
 
+var chave = 1;
+
 function monta_plan_lista(id_plan) {
-    var chaves_lista = {};
+    chave = 1;
     $.ajax({
         method: "POST",
         url: "/planilha/individual/lista/competidores/" + id_plan,
@@ -173,7 +175,6 @@ function monta_plan_lista(id_plan) {
         success: function (result) {
             console.log("Chaves lista: ");
             console.log(result);
-            chaves_lista = result;
 
             var div = document.getElementById("planilha");
             var table = document.createElement("table");
@@ -298,8 +299,6 @@ function monta_plan_lista(id_plan) {
         }
     });
 }
-
-var chave = 1;
 
 $(document).on("click", "button[id*='A_']", function () {
     var tr = document.getElementById("chaves").children[chave];
