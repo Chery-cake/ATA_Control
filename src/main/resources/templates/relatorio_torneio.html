@@ -14,7 +14,7 @@
             <select class="form-control" id="torneio" name="instrutor">
                 <option disabled selected value="">Selecione</option>
                 <option th:each="t : ${torneios}"
-                        th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
+                        th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' + t.categoriaTorneio.nome}"
                         th:value="${t.id}">...
                 </option>
             </select>
