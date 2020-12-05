@@ -10,64 +10,49 @@
 <body>
 
 <div class="corpo" layout:fragment="corpo">
+    <div class="container">
 
-    <input hidden th:value="${usuario.planilheiro.torneio.id}" id="torneio_id">
+        <input hidden id="torneio_id" th:value="${usuario.planilheiro.torneio.id}">
 
-    <div id="seletor">
+        <div id="seletor">
 
-    </div>
+        </div>
 
-    <div id="planilha">
-        <p>lista</p>
-        <table>
-            <tr>
-                <th>Nome</th>
-                <th>Juiz A</th>
-                <th>Juiz C</th>
-                <th>juiz B</th>
-                <th>Total</th>
-            </tr>
-            <tr>
-                <td>Nome</td>
-                <td>botoes 1 - 9</td>
-                <td>botoes 1 - 9</td>
-                <td>botoes 1 - 9</td>
-                <td>15</td>
-            </tr>
-        </table>
-    </div>
+        <div id="planilha">
+        </div>
 
-    <div>
-        <p>chaves</p>
-        <table>
-            <tr>
-                <th>Nome</th>
-                <th>Pontos</th>
-                <th>Advertencias</th>
-                <th>Penalidades</th>
-                <th>Cronometro</th>
-                <th>Nome</th>
-                <th>Pontos</th>
-                <th>Advertencias</th>
-                <th>Penalidades</th>
-            </tr>
-            <tr>
-                <td>Nome</td>
-                <td>botoes + -</td>
-                <td>botoes + -</td>
-                <td>botoes + -</td>
-                <td>00:00</td>
-                <td>Nome2</td>
-                <td>botoes + -</td>
-                <td>botoes + -</td>
-                <td>botoes + -</td>
-            </tr>
-        </table>
+        <div>
+            <p>chaves</p>
+            <table>
+                <tr>
+                    <th>Nome</th>
+                    <th>Pontos</th>
+                    <th>Advertencias</th>
+                    <th>Penalidades</th>
+                    <th>Cronometro</th>
+                    <th>Nome</th>
+                    <th>Pontos</th>
+                    <th>Advertencias</th>
+                    <th>Penalidades</th>
+                </tr>
+                <tr>
+                    <td>Nome</td>
+                    <td>botoes + -</td>
+                    <td>botoes + -</td>
+                    <td>botoes + -</td>
+                    <td>00:00</td>
+                    <td>Nome2</td>
+                    <td>botoes + -</td>
+                    <td>botoes + -</td>
+                    <td>botoes + -</td>
+                </tr>
+            </table>
+
+        </div>
+
+        <button class="btn-dark" id="ter_ringue">Finalizar ringue atual</button>
 
     </div>
-
-    <button id="ter_ringue" class="btn-dark">Finalizar ringue atual</button>
-
 </div>
 
 <th:block layout:fragment="script">

@@ -13,7 +13,7 @@ import java.util.Collection;
 public interface ChaveListaIndividualRepository extends JpaRepository<ChaveListaIndividual, Integer> {
 
     @Query("select c from ChaveListaIndividual c where c.planilhaListaIndividual = :planilha")
-    Collection<ChaveListaIndividual> getAllByPlanilhaChaveamentoIndividual(
+    Collection<ChaveListaIndividual> getAllByPlanilhaListaIndividual(
             @Param("planilha") PlanilhaListaIndividual planilha);
 
 }

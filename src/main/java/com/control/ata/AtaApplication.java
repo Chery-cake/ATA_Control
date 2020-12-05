@@ -6,6 +6,7 @@ import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Cidade;
 import com.control.ata.model.endereco.Estado;
 import com.control.ata.model.endereco.Pais;
+import com.control.ata.model.individual.PlanilhaListaIndividual;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
@@ -157,7 +158,7 @@ public class AtaApplication implements CommandLineRunner {
         ringueService.createRingueIndividual(torneio);
 
         for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {
-            listaIndividual.createPlanilhasLista(ringueIndividual);
+            ArrayList<PlanilhaListaIndividual> planilhaListaIndividuals = (ArrayList<PlanilhaListaIndividual>) listaIndividual.createPlanilhasLista(ringueIndividual);
             chaveIndividual.createPlanilhasChave(ringueIndividual);
         }
 
