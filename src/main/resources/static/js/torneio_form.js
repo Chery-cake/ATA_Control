@@ -34,7 +34,7 @@ $("#form-register-torneio").submit(function (evt) {
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (result) {
-            top.location.href = "/criar/categoria";
+            top.location.href = "/perfil";
         },
         error: function (xhr) {
             console.log("error: ", xhr.responseText);

@@ -25,7 +25,7 @@ $("#form-register-competidor").submit(function (evt) {
         contentType: 'application/json',
         data: JSON.stringify(competidorDTO),
         success: function (result) {
-            top.location.href = "/perfil";
+            top.location.href = "/home";
         },
         error: function (xhr) {
             console.log("error: ", xhr.responseText);

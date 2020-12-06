@@ -29,11 +29,6 @@ $("#torneio").change(function () {
             th = document.createElement("th");
             th.textContent = "Rodadas";
             tr.appendChild(th);
-            th = document.createElement("th");
-            th.textContent = "Editar";
-            tr.appendChild(th);
-
-            var tbody = document.createElement("tbody");
             table.appendChild(tr);
 
             for (i in response) {
@@ -65,8 +60,6 @@ $("#torneio").change(function () {
                     }
                 }
                 td.textContent = rod;
-                tr.appendChild(td);
-                tbody.appendChild(tbody);
             }
             document.getElementById("juiz_table").appendChild(table);
         }
@@ -83,7 +76,7 @@ $("#torneio").change(function () {
         },
         success: function (response) {
             var table = document.createElement("table");
-            table.className = "table-bordered";
+            table.className = "table";
             var tr = document.createElement("tr");
             var th = document.createElement("th");
             th.textContent = "Competidor";

@@ -440,7 +440,7 @@ $(document).on("click", "button[id='submit']", function () {
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (result) {
-            top.location.href = "/home";
+            top.location.href = "/perfil";
         }
     });
 

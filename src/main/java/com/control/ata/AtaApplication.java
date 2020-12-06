@@ -60,7 +60,7 @@ public class AtaApplication implements CommandLineRunner {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    //todo remover
+   /* //todo remover
 
     @Autowired
     private CategoriaCompeticaoRepository categoriaCompeticaoRepository;
@@ -83,7 +83,7 @@ public class AtaApplication implements CommandLineRunner {
     @Autowired
     private UsuarioService usuarioService;
     @Autowired
-    private AcademiaRepository academiaRepository;
+    private AcademiaRepository academiaRepository;*/
 
     public static void main(String[] args) {
         SpringApplication.run(AtaApplication.class, args);
@@ -108,7 +108,7 @@ public class AtaApplication implements CommandLineRunner {
 
         //todo remover
 
-        ArrayList<CategoriaCompeticao> competicaoArrayList = new ArrayList<>();
+        /*ArrayList<CategoriaCompeticao> competicaoArrayList = new ArrayList<>();
         competicaoArrayList.add(
                 categoriaCompeticaoRepository.save(new CategoriaCompeticao("lista", false, false, 0, 0, 0, 0, 0)));
         competicaoArrayList.add(
@@ -162,7 +162,7 @@ public class AtaApplication implements CommandLineRunner {
             chaveIndividual.createPlanilhasChave(ringueIndividual);
         }
 
-        System.out.println("Terminou insercoes");
+        System.out.println("Terminou insercoes");*/
 
     }
 

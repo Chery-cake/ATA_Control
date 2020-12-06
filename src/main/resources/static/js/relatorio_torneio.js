@@ -12,7 +12,7 @@ $("#torneio").change(function () {
         success: function (response) {
 
             var table = document.createElement("table");
-            table.className = "table-bordered";
+            table.className = "table";
             var tr = document.createElement("tr");
             var th = document.createElement("th");
             th.textContent = "Rodada";
@@ -27,19 +27,19 @@ $("#torneio").change(function () {
             th.textContent = "Nivel";
             tr.appendChild(th);
             th = document.createElement("th");
-            th.textContent = "Fechado";
+            th.textContent = "Tipo";
             tr.appendChild(th);
             th = document.createElement("th");
             th.textContent = "Juizes";
             tr.appendChild(th);
             th = document.createElement("th");
-            th.textContent = "Numero do ringue";
+            th.textContent = "N°";
             tr.appendChild(th);
             th = document.createElement("th");
-            th.textContent = "Lugar na sequencia na rodada";
+            th.textContent = "Sequência";
             tr.appendChild(th);
             th = document.createElement("th");
-            th.textContent = "Categorias";
+            th.textContent = "Categoria";
             tr.appendChild(th);
             table.appendChild(tr);
 
@@ -53,7 +53,7 @@ $("#torneio").change(function () {
                         for (j in response2) {
                             tr = document.createElement("tr");
                             var td = document.createElement("td");
-                            td.textContent = response[i].inicio + " ate " + response[i].termino + " no dia " + response[i].dia.substr(0, 10).replaceAll("-", "/");
+                            td.textContent = response[i].inicio + " - " + response[i].termino + " DATA " + response[i].dia.substr(0, 10).replaceAll("-", "/");
                             tr.appendChild(td);
                             td = document.createElement("td");
                             if (response2[j].genero) {
