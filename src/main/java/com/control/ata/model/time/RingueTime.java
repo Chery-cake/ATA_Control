@@ -3,7 +3,6 @@ package com.control.ata.model.time;
 import com.control.ata.model.tipo_pessoa.Juiz;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.Cronometro;
-import com.control.ata.model.torneio.Placar;
 import com.control.ata.model.torneio.Torneio;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -43,9 +42,6 @@ public class RingueTime {
             cascade = CascadeType.ALL,
             mappedBy = "ringueTime")
     private Cronometro cronometro;
-
-    @ManyToOne
-    private Placar placar;
 
     @ManyToOne
     private CategoriaCompeticao categoriaCompeticao;
@@ -118,14 +114,6 @@ public class RingueTime {
 
     public void setCronometro(Cronometro cronometro) {
         this.cronometro = cronometro;
-    }
-
-    public Placar getPlacar() {
-        return placar;
-    }
-
-    public void setPlacar(Placar placar) {
-        this.placar = placar;
     }
 
     public CategoriaCompeticao getCategoriaCompeticao() {

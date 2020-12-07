@@ -40,8 +40,6 @@ public class RingueIndividual {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private RodadaJuiz rodadaJuiz;
 
-    //private Collection<Torneio> torneio;
-
     @JsonIgnore
     @OneToMany(mappedBy = "ringueIndividual", cascade = CascadeType.ALL)
     private Collection<PlanilhaListaIndividual> planilhaListaIndividual;
@@ -54,9 +52,6 @@ public class RingueIndividual {
             cascade = CascadeType.ALL,
             mappedBy = "ringueTime")
     private Cronometro cronometro;
-
-    @ManyToOne
-    private Placar placar;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<CategoriaCompeticao> categoriaCompeticao;
@@ -168,14 +163,6 @@ public class RingueIndividual {
 
     public void setCronometro(Cronometro cronometro) {
         this.cronometro = cronometro;
-    }
-
-    public Placar getPlacar() {
-        return placar;
-    }
-
-    public void setPlacar(Placar placar) {
-        this.placar = placar;
     }
 
     public Collection<CategoriaCompeticao> getCategoriaCompeticao() {

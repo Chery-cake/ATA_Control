@@ -95,8 +95,6 @@ function inicia_ringue() {
         contentType: 'application/json',
         success: function (result) {
             planilhas_chave = result;
-            console.log("planilha chave: ");
-            console.log(result);
             select = document.getElementById("planilha_select");
             for (i in result) {
                 option = document.createElement("option");
@@ -148,6 +146,8 @@ $("#ter_ringue").on("click", function () {
     });
 });
 
+var tipo_plan = null;
+
 $(document).on("change", "select[id='planilha_select']", function () {
     var id_plan = $("#planilha_select").val().substr(0, 1);
     var tipo_chave = $("#planilha_select").val().substr(2);
@@ -158,7 +158,9 @@ $(document).on("change", "select[id='planilha_select']", function () {
 
     if (tipo_chave === "true") {
         monta_plan_chave(id_plan);
+        tipo_plan = "chave";
     } else if (tipo_chave === "false") {
+        tipo_plan = "lista";
         monta_plan_lista(id_plan);
     }
 
@@ -376,8 +378,6 @@ function monta_plan_chave(id_plan) {
         url: "/planilha/individual/chave/competidores/" + id_plan,
         contentType: 'application/json',
         success: function (result) {
-            console.log("chaves luta:");
-            console.log(result);
 
             var div = document.getElementById("planilha");
             var table = document.createElement("table");
@@ -456,7 +456,7 @@ function monta_plan_chave(id_plan) {
                 tr.appendChild(td);
 
                 td = document.createElement("td");
-                td.textContent = "00:00";
+                td.textContent = "02:00";
                 tr.appendChild(td);
 
                 td = document.createElement("td");
@@ -473,6 +473,11 @@ function monta_plan_chave(id_plan) {
 
                 td = document.createElement("td");
                 td.textContent = result[i].penalidadesBrancas;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.hidden = true;
+                td.textContent = false;
                 tr.appendChild(td);
 
                 td = document.createElement("td");
@@ -556,12 +561,6 @@ function monta_plan_chave(id_plan) {
             button.value = "vermelho";
             div_extra_vermelho.appendChild(button);
 
-            button = document.createElement("button");
-            button.id = "vencedor";
-            button.textContent = "Competidor ganhador";
-            button.value = "vermelho";
-            div_extra_vermelho.appendChild(button);
-
             div.appendChild(div_extra_vermelho);
 
             var div_ponto_branco = document.createElement("div");
@@ -636,12 +635,6 @@ function monta_plan_chave(id_plan) {
             button.value = "branco";
             div_extra_branco.appendChild(button);
 
-            button = document.createElement("button");
-            button.id = "vencedor";
-            button.textContent = "Competidor ganhador";
-            button.value = "branco";
-            div_extra_branco.appendChild(button);
-
             div.appendChild(div_extra_branco);
 
             var div_cronometro = document.createElement("div");
@@ -681,12 +674,10 @@ $(document).on("click", "button[id='ponto_vermelho']", function () {
         tr.children[2].textContent = parseInt(tr.children[2].textContent) - 1;
     }
 
+    saveChaveLuta();
 });
 
 $(document).on("click", "button[id='advertencia_vermelha']", function () {
-    var tr = document.getElementById("chaves").children[chave];
-    console.log(tr.children);
-
     var tr = document.getElementById("chaves").children[chave];
 
     if ($(this).val() === "+") {
@@ -695,6 +686,7 @@ $(document).on("click", "button[id='advertencia_vermelha']", function () {
         tr.children[3].textContent = parseInt(tr.children[3].textContent) - 1;
     }
 
+    saveChaveLuta();
 });
 
 $(document).on("click", "button[id='penalidade_vermelha']", function () {
@@ -705,6 +697,8 @@ $(document).on("click", "button[id='penalidade_vermelha']", function () {
     } else if ($(this).val() === "-") {
         tr.children[4].textContent = parseInt(tr.children[4].textContent) - 1;
     }
+
+    saveChaveLuta();
 });
 
 $(document).on("click", "button[id='ponto_branco']", function () {
@@ -715,6 +709,8 @@ $(document).on("click", "button[id='ponto_branco']", function () {
     } else if ($(this).val() === "-") {
         tr.children[7].textContent = parseInt(tr.children[7].textContent) - 1;
     }
+
+    saveChaveLuta();
 });
 
 $(document).on("click", "button[id='advertencia_branca']", function () {
@@ -725,6 +721,8 @@ $(document).on("click", "button[id='advertencia_branca']", function () {
     } else if ($(this).val() === "-") {
         tr.children[8].textContent = parseInt(tr.children[8].textContent) - 1;
     }
+
+    saveChaveLuta();
 });
 
 $(document).on("click", "button[id='penalidade_branca']", function () {
@@ -735,10 +733,8 @@ $(document).on("click", "button[id='penalidade_branca']", function () {
     } else if ($(this).val() === "-") {
         tr.children[9].textContent = parseInt(tr.children[9].textContent) - 1;
     }
-});
 
-$(document).on("click", "button[id='vencedor']", function () {
-    console.log($(this).attr("id"));
+    saveChaveLuta();
 });
 
 $(document).on("click", "button[id='desqualificacao']", function () {
@@ -746,12 +742,111 @@ $(document).on("click", "button[id='desqualificacao']", function () {
 });
 
 $(document).on("click", "button[id='submit_chave']", function () {
+    var tr = document.getElementById("chaves").children[chave];
+    console.log(tr.children);
+
     console.log($(this).attr("id"));
 });
 
 $(document).on("click", "button[id='cronometro']", function () {
-    console.log($(this).attr("id"));
+    var tr = document.getElementById("chaves").children[chave];
+    if ($(this).val() === "iniciar") {
+        tr.children[11].textContent = "true";
+        saveCronometro(true);
+    } else {
+        tr.children[11].textContent = "false";
+        saveCronometro(false)
+    }
 });
+
+function saveChaveLuta() {
+    var tr = document.getElementById("chaves").children[chave];
+
+    var data = {};
+
+    data.pontos_vermelho = tr.children[2].textContent;
+    data.advertencias_vermelhas = tr.children[3].textContent;
+    data.penalidades_vermelhas = tr.children[4].textContent;
+    data.pontos_brancos = tr.children[7].textContent;
+    data.advertencias_brancas = tr.children[8].textContent;
+    data.penalidades_brancas = tr.children[9].textContent;
+
+    $.ajax({
+        method: "POST",
+        url: "/chave/luta/individual/" + $(tr).attr("id"),
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function () {
+            for (var i in document.getElementById("chaves").children) {
+                var tr = document.getElementById("chaves").children[i];
+                if (tr.children) {
+                    if (tr.children[10].textContent === "false") {
+                        chave = i;
+                        break;
+                    }
+                }
+            }
+            var nova_chave = false;
+            for (var i in document.getElementById("chaves").children) {
+                var tr = document.getElementById("chaves").children[i];
+                if (tr.children) {
+                    if (tr.children[10].textContent === "false") {
+                        nova_chave = true;
+                        break;
+                    }
+                }
+            }
+        }
+    });
+    saveCronometro(true);
+}
+
+function saveCronometro(rodando) {
+
+    var tr = document.getElementById("chaves").children[chave];
+
+    var data = {};
+
+    data.rodando = rodando;
+    data.tempo_mim = parseInt(tr.children[5].textContent.split(":")[0]);
+    data.tempo_seg = parseInt(tr.children[5].textContent.split(":")[1]);
+
+    $.ajax({
+        method: "POST",
+        url: "/ringue/individual/cronometro/save/" + ringue_atual.id,
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+    });
+
+}
+
+var countDown = setInterval(function () {
+    if (tipo_plan === "chave") {
+        if (document.getElementById("chaves").children[chave] != null) {
+
+            var tr = document.getElementById("chaves").children[chave];
+            if (tr.children[5].textContent !== "00:00") {
+                if (tr.children[11].textContent === "true") {
+                    var tempo_mim = parseInt(tr.children[5].textContent.split(":")[0]);
+                    var tempo_seg = parseInt(tr.children[5].textContent.split(":")[1]);
+
+                    tempo_seg--;
+                    if (tempo_seg < 0) {
+                        tempo_mim--;
+                        tempo_seg = 59;
+                    }
+                    if (tempo_mim < 0) {
+                        tempo_mim = 0;
+                        tempo_seg = 0;
+                    }
+
+                    tr.children[5].textContent = tempo_mim.toString().padStart(2, "0") + ":" + tempo_seg.toString().padStart(2, "0");
+
+                }
+            }
+        }
+    }
+}, 1000);
 
 
 // alert();

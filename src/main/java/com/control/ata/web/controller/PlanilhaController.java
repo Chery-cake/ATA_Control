@@ -1,8 +1,11 @@
 package com.control.ata.web.controller;
 
 import com.control.ata.model.individual.ChaveListaIndividual;
+import com.control.ata.model.individual.ChaveLutaIndividual;
 import com.control.ata.model.individual.RingueIndividual;
+import com.control.ata.model.torneio.Cronometro;
 import com.control.ata.repository.individual.*;
+import com.control.ata.repository.torneio.CronometroRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +39,8 @@ public class PlanilhaController {
     private ChaveListaIndividualRepository chaveListaIndividualRepository;
     @Autowired
     private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
+    @Autowired
+    private CronometroRepository cronometroRepository;
 
     // ======================================PLANILHA=============================================
 
@@ -91,7 +96,7 @@ public class PlanilhaController {
         String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
         ObjectMapper jacksonObjectMapper = new ObjectMapper();
         chaveListaIndividualDTO chaveListaIndividualDTO = jacksonObjectMapper.readValue(decodedJson,
-                                                                                     chaveListaIndividualDTO.class);
+                                                                                        chaveListaIndividualDTO.class);
 
         ChaveListaIndividual chaveListaIndividual = chaveListaIndividualRepository.getOne(id);
 
@@ -105,8 +110,63 @@ public class PlanilhaController {
     }
 
     @PostMapping("/planilha/individual/chave/competidores/{id}")
-    public ResponseEntity<?> getCompetidoresPlanilhaChave(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(planilhaChaveamentoIndividualRepository.getOne(id)));
+    public ResponseEntity<?> getCompetidoresPlanilhaChave(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(
+                planilhaChaveamentoIndividualRepository.getOne(id)));
+    }
+
+    @PostMapping("/chave/luta/individual/{id}")
+    public ResponseEntity<?> setChavePlanilhaChave(@Valid @RequestBody String json, @PathVariable("id") Integer id,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        chaveLutaIndividualDTO chaveLutaIndividualDTO = jacksonObjectMapper.readValue(decodedJson,
+                                                                                      chaveLutaIndividualDTO.class);
+
+        ChaveLutaIndividual chaveLutaIndividual = chaveLutaIndividualRepository.getOne(id);
+
+        chaveLutaIndividual.setPontosVermelhos(chaveLutaIndividualDTO.pontos_vermelho);
+        chaveLutaIndividual.setAdvertenciasVermelhas(chaveLutaIndividualDTO.advertencias_vermelhas);
+        chaveLutaIndividual.setPenalidadesVermelhas(chaveLutaIndividualDTO.penalidades_vermelhas);
+        chaveLutaIndividual.setPontosBrancos(chaveLutaIndividualDTO.pontos_brancos);
+        chaveLutaIndividual.setAdvertenciasBrancas(chaveLutaIndividualDTO.advertencias_brancas);
+        chaveLutaIndividual.setPenalidadesBrancas(chaveLutaIndividualDTO.penalidades_brancas);
+
+        chaveLutaIndividualRepository.save(chaveLutaIndividual);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/ringue/individual/cronometro/save/{id}")
+    public ResponseEntity<?> setCronometro(@Valid @RequestBody String json, @PathVariable("id") Integer id,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        cronometroDTO cronometroDTO = jacksonObjectMapper.readValue(decodedJson,
+                                                                    PlanilhaController.cronometroDTO.class);
+
+        RingueIndividual ringueIndividual = ringueIndividualRepository.getOne(id);
+        Cronometro cronometro = new Cronometro();
+
+        if(cronometroRepository.getByRingueIndividual(ringueIndividual) != null){
+            cronometro = cronometroRepository.getByRingueIndividual(ringueIndividual);
+        }else {
+            cronometro.setRingueIndividual(ringueIndividual);
+        }
+
+        cronometro.setRodando(cronometroDTO.rodando);
+        cronometro.setTempo_mim(cronometroDTO.tempo_mim);
+        cronometro.setTempo_seg(cronometroDTO.tempo_seg);
+
+        cronometroRepository.save(cronometro);
+
+        return ResponseEntity.ok().build();
     }
 
     // ======================================FUNCTIONS=============================================
@@ -136,6 +196,44 @@ public class PlanilhaController {
             this.nota_juiz_a = nota_juiz_a;
             this.nota_juiz_b = nota_juiz_b;
             this.nota_juiz_c = nota_juiz_c;
+        }
+    }
+
+    private static class chaveLutaIndividualDTO {
+        public Integer pontos_vermelho;
+        public Integer advertencias_vermelhas;
+        public Integer penalidades_vermelhas;
+        public Integer pontos_brancos;
+        public Integer advertencias_brancas;
+        public Integer penalidades_brancas;
+
+        public chaveLutaIndividualDTO() {
+        }
+
+        public chaveLutaIndividualDTO(Integer pontos_vermelho, Integer advertencias_vermelhas,
+                Integer penalidades_vermelhas, Integer pontos_brancos, Integer advertencias_brancas,
+                Integer penalidades_brancas) {
+            this.pontos_vermelho = pontos_vermelho;
+            this.advertencias_vermelhas = advertencias_vermelhas;
+            this.penalidades_vermelhas = penalidades_vermelhas;
+            this.pontos_brancos = pontos_brancos;
+            this.advertencias_brancas = advertencias_brancas;
+            this.penalidades_brancas = penalidades_brancas;
+        }
+    }
+
+    private static class cronometroDTO {
+        public Integer tempo_mim;
+        public Integer tempo_seg;
+        public Boolean rodando;
+
+        public cronometroDTO() {
+        }
+
+        public cronometroDTO(Integer tempo_mim, Integer tempo_seg, Boolean rodando) {
+            this.tempo_mim = tempo_mim;
+            this.tempo_seg = tempo_seg;
+            this.rodando = rodando;
         }
     }
 
