@@ -1,0 +1,16 @@
+/*
+body{
+    background-image: url(../../../img/background2.jpg);
+    background-attachment:fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}*/
+
+
+
+select {
+    text-align-last:center;
+}
+option{
+    text-align-last:center;
+}

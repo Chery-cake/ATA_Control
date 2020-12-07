@@ -53,7 +53,7 @@ $("#torneio").change(function () {
                         for (j in response2) {
                             tr = document.createElement("tr");
                             var td = document.createElement("td");
-                            td.textContent = response[i].inicio + " - " + response[i].termino + " DATA " + response[i].dia.substr(0, 10).replaceAll("-", "/");
+                            td.textContent = response[i].inicio + " - " + response[i].termino + " | " + response[i].dia.substr(0, 10).replaceAll("-", "/");
                             tr.appendChild(td);
                             td = document.createElement("td");
                             if (response2[j].genero) {
@@ -102,34 +102,34 @@ $("#torneio").change(function () {
                             td = document.createElement("td");
                             switch (response2[j].nivel) {
                                 default:
-                                    td.textContent = "nivel 1 -/- Faixas: Branca, Laranja, Amarela";
+                                    td.textContent = " 1 | Faixas: Branca, Laranja, Amarela";
                                     break;
                                 case 0:
-                                    td.textContent = "nivel 1 -/- Faixas: Branca, Laranja, Amarela";
+                                    td.textContent = " 1 | Faixas: Branca, Laranja, Amarela";
                                     break;
                                 case 1:
-                                    td.textContent = "nivel 2 -/- Faixas: Camuflada, Verde, Roxa";
+                                    td.textContent = " 2 | Faixas: Camuflada, Verde, Roxa";
                                     break;
                                 case 2:
-                                    td.textContent = "nivel 3 -/- Faixas: Aluz, Marron, Vermelha";
+                                    td.textContent = " 3 | Faixas: Aluz, Marron, Vermelha";
                                     break;
                                 case 3:
-                                    td.textContent = "nivel 4 -/- Faixas: Vermelha e Preta";
+                                    td.textContent = " 4 | Faixas: Vermelha e Preta";
                                     break;
                                 case 4:
-                                    td.textContent = "nivel 5 -/- Faixas: 1º Dan";
+                                    td.textContent = " 5 | Faixas: 1º Dan";
                                     break;
                                 case 5:
-                                    td.textContent = "nivel 6 -/- Faixas: 2º Dan e 3º Dan";
+                                    td.textContent = " 6 | Faixas: 2º Dan e 3º Dan";
                                     break;
                                 case 6:
-                                    td.textContent = "nivel 7 -/- Faixas: 4º Dan e 5º Dan";
+                                    td.textContent = " 7 | Faixas: 4º Dan e 5º Dan";
                                     break;
                                 case 7:
-                                    td.textContent = "nivel 8 -/- Faixas: 6º Dan e 7º Dan";
+                                    td.textContent = " 8 | Faixas: 6º Dan e 7º Dan";
                                     break;
                                 case 8:
-                                    td.textContent = "nivel 9 -/- Faixas: 8º Dan e 9º Dan";
+                                    td.textContent = " 9 | Faixas: 8º Dan e 9º Dan";
                                     break;
                             }
                             tr.appendChild(td);

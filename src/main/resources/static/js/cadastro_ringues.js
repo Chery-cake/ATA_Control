@@ -67,7 +67,7 @@ $(document).on("change", "select[id='rodada_select']", function () {
                 for (var i = 1; i <= quantRing; i++) {
 
                     var label = document.createElement("label");
-                    label.textContent = "Ringue numero " + i;
+                    label.textContent = "N° RINGUE " + i;
                     label.id = "label_numero" + i;
                     div.appendChild(label);
 
@@ -76,8 +76,8 @@ $(document).on("change", "select[id='rodada_select']", function () {
                     p.name = "numeroRingue";
 
                     var button = document.createElement("button");
-                    button.textContent = "Adicionar um ringue neste numero";
-                    button.className = "btn btn-primary";
+                    button.textContent = "ADD RINGUE";
+                    button.className = "btn btn-lg btn-github btn-icon my-4";
                     button.onclick = function () {
                         var parent = $(this).parent();
 
@@ -140,7 +140,7 @@ function addCadastroRingue(numeroRingue, numeroRodada, localDocumento) {
     var div_FG = document.createElement("div");
 
     label = document.createElement("label");//add input fechado
-    label.textContent = "O ringue é fechado:";
+    label.textContent = "TIPO DE RINGUE:";
     div_FG.appendChild(label);
 
     var div_IG = document.createElement("div");

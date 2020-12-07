@@ -6,6 +6,8 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="argon-design-system.mim.css" rel="stylesheet"
+    th:href="@{/assets/argon/assets/css/crono.css}">
 </head>
 <body>
 
@@ -21,38 +23,73 @@
         <div id="planilha">
         </div>
 
-        <div>
-            <p>chaves</p>
-            <table>
-                <tr>
-                    <th>Nome</th>
-                    <th>Pontos</th>
-                    <th>Advertencias</th>
-                    <th>Penalidades</th>
-                    <th>Cronometro</th>
-                    <th>Nome</th>
-                    <th>Pontos</th>
-                    <th>Advertencias</th>
-                    <th>Penalidades</th>
-                </tr>
-                <tr>
-                    <td>Nome</td>
-                    <td>botoes + -</td>
-                    <td>botoes + -</td>
-                    <td>botoes + -</td>
-                    <td>00:00</td>
-                    <td>Nome2</td>
-                    <td>botoes + -</td>
-                    <td>botoes + -</td>
-                    <td>botoes + -</td>
-                </tr>
-            </table>
+        <div class="container bg-warning">
+            <div class="row bg-sucess">
 
+                <div class="col-6 col-md-4 bg-red">
+                    <span>
+                    <table class="playerA">
+                      <tr>
+                        <th class="nomeA text-lg-center">Marcelo R.</th>
+                      </tr>
+                      <tr>
+                        <th class="pontoA text-lg-center"><span>Pontos</span><br> 2</th>
+                      </tr>
+                      <tr>
+                        <th class="advertA text-lg-center"><span>Advertencias</span><br> 0</th>
+                      </tr>
+                      <tr>
+                        <th class="penaA text-lg-center"><span>Penalidades</span><br> 0</th>
+                      </tr>
+                    </table>
+                    </span>
+                </div>
+
+                <div class="col-6 col-md-4 bg-white">
+                  <span>
+                    <table class="crono">
+                      <tr>
+                        <th>
+                          <h3>CRONOMETRO</h3>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>
+                           <h3>00:00</h3>
+                        </th>
+                      </tr>
+                    </table>
+                  </span>
+                </div>
+
+
+                <div class="col-6 col-md-4 bg-blue">
+                  <span>
+                      <table class="playerB">
+                         <tr>
+                        <th class="nomeB text-lg-center">Ricardo R.</th>
+                      </tr>
+                      <tr>
+                        <th class="pontoB text-lg-center"><span>Pontos</span><br> 2</th>
+                      </tr>
+                      <tr>
+                        <th class="advertB text-lg-center"><span>Advertencias</span><br> 0</th>
+                      </tr>
+                      <tr>
+                        <th class="penaB text-lg-center"><span>Penalidades</span><br> 0</th>
+                      </tr>
+                      </table>
+                    </span>
+                </div>
+            </div>
         </div>
 
-        <button class="btn-dark" id="ter_ringue">Finalizar ringue atual</button>
+        <div class="text-center">
+            <button type="submit" id="ter_ringue" class="btn btn-lg btn-github btn-icon my-4">Terminar Ringue</button>
+        </div>
 
     </div>
+
 </div>
 
 <th:block layout:fragment="script">

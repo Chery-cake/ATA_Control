@@ -12,7 +12,6 @@ $("#torneio").change(function () {
         success: function (response) {
             var table = document.createElement("table");
             table.className = "table";
-
             var tr = document.createElement("tr");
             var th = document.createElement("th");
             th.textContent = "Juiz";
@@ -30,7 +29,6 @@ $("#torneio").change(function () {
             th.textContent = "Rodadas";
             tr.appendChild(th);
             table.appendChild(tr);
-
             for (i in response) {
                 tr = document.createElement("tr");
                 var td = document.createElement("td");
@@ -54,12 +52,15 @@ $("#torneio").change(function () {
                 td = document.createElement("td");
                 var rod = "";
                 for (var j = 0; j < response[i].rodadaJuizList.length; j++) {
-                    rod += response[i].rodadaJuizList[j].inicio + " ate " + response[i].rodadaJuizList[j].termino + " no dia " + response[i].rodadaJuizList[j].dia.substr(0, 10).replaceAll("-", "/");
+                    rod += response[i].rodadaJuizList[j].inicio + " - " + response[i].rodadaJuizList[j].termino + " | " + response[i].rodadaJuizList[j].dia.substr(0, 10).replaceAll("-", "/");
                     if (response[i].rodadaJuizList[j + 1] != null) {
                         rod += ", ";
                     }
                 }
                 td.textContent = rod;
+                tr.appendChild(td);
+                table.appendChild(tr);
+
             }
             document.getElementById("juiz_table").appendChild(table);
         }

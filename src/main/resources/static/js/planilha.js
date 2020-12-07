@@ -177,7 +177,7 @@ function monta_plan_lista(id_plan) {
 
             var div = document.getElementById("planilha");
             var table = document.createElement("table");
-            table.className = "table-bordered";
+            table.className = "table";
             table.id = "chaves";
 
             var tr = document.createElement("tr");
