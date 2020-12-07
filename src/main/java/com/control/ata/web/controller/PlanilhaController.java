@@ -104,10 +104,10 @@ public class PlanilhaController {
         return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("/planilha/individual/chave/competidores/{id}")
-//    public ResponseEntity<?> getCompetidoresPlanilhaChave(@PathVariable("id") Integer id){
-//        return ResponseEntity.ok(chaveLutaIndividualRepository.);
-//    }
+    @PostMapping("/planilha/individual/chave/competidores/{id}")
+    public ResponseEntity<?> getCompetidoresPlanilhaChave(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(planilhaChaveamentoIndividualRepository.getOne(id)));
+    }
 
     // ======================================FUNCTIONS=============================================
 
