@@ -1,10 +1,7 @@
-
-
-
 $.ajax({
     method: "POST",
     url: "/torneio/numero/ringues/individual/" + $("#torneio_id").val(),
-    contentType: 'application/json; ',
+    contentType: 'application/json',
     success: function (result) {
         var div = document.getElementById("seletor");
         var label = document.createElement("label");
