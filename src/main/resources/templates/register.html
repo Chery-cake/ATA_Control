@@ -4,6 +4,10 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <link href="argon-design-system.mim.css" rel="stylesheet"
+          th:href="@{/assets/argon/assets/css/crono.css}">
+
+
 </head>
 
 <body>
@@ -154,7 +158,7 @@
                                     </div>
 
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-lg btn-github btn-icon my-4">Criar Conta</button>
+                                        <button type="submit" onclick="return validarSenha()" class="btn btn-lg btn-github btn-icon my-4">Criar Conta</button>
                                     </div>
                                 </form>
                             </div>
@@ -220,6 +224,7 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/pessoa_register.js}"></script>
     <script th:src="@{/js/endereco_form.js}"></script>
+    <script th:src="@{/js/validacao.js}"></script>
     <script th:src="@{/js/academia_register.js}"></script>
 
 </th:block>
