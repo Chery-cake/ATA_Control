@@ -745,7 +745,7 @@ function monta_plan_chave(id_plan) {
             // FIM DOS BOTÕES
 
             var crono = document.createElement("div");
-            crono.className = "row d-flex justify-content-center bg-red text-center";
+            crono.className = "row d-flex justify-content-center bg-white text-center";
                 var div_cronometro = document.createElement("div");
                 div_cronometro.id = "cronometro";
                 var h4 = document.createElement("h4");
@@ -756,23 +756,22 @@ function monta_plan_chave(id_plan) {
                 button.id = "cronometro";
                 button.textContent = "Iniciar";
                 button.value = "iniciar";
-                button.className = "btn btn-default mr-4";
+                button.className = "btn btn-info mr-4";
                 div_cronometro.appendChild(button);
 
                 button = document.createElement("button");
                 button.id = "cronometro";
                 button.textContent = "Pausar";
                 button.value = "pausar";
-                button.className = "btn btn-default mr-4";
+                button.className = "btn btn-info mr-4";
                 div_cronometro.appendChild(button);
 
-            button = document.createElement("button");
-            button.id = "submit_chave";
-            button.textContent = "Submit";
-            div.appendChild(button);
+                button = document.createElement("button");
+                button.id = "submit_chave";
+                button.textContent = "Submit";
+                div.appendChild(button);
 
                 div.appendChild(div_cronometro);
-
                 crono.appendChild((div_cronometro))
                 div.appendChild(crono);
 
