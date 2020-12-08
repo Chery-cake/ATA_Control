@@ -354,7 +354,7 @@ $(document).on("click", "button[id='submit_lista']", function () {
                 }
             }
             if (nova_chave === false) {
-                document.getElementById("submit").remove();
+                document.getElementById("submit_lista").remove();
 
                 var label = document.createElement("label");
                 label.textContent = "Todos os competidores ja receberam suas notas"
@@ -425,10 +425,15 @@ function monta_plan_chave(id_plan) {
             th.textContent = "Penalidades";
             tr.appendChild(th);
 
-            th = document.createElement("th");
-            th.hidden = true;
-            th.textContent = true;
-            tr.appendChild(th);
+            td = document.createElement("td");
+            td.hidden = true;
+            td.textContent = true;
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.hidden = true;
+            td.textContent = true;
+            tr.appendChild(td);
             table.appendChild(tr);
 
             for (var i in result) {
@@ -483,6 +488,11 @@ function monta_plan_chave(id_plan) {
                 td = document.createElement("td");
                 td.hidden = true;
                 td.textContent = false;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.hidden = true;
+                td.textContent = result[i].fase;
                 tr.appendChild(td);
                 table.appendChild(tr);
             }
@@ -738,14 +748,148 @@ $(document).on("click", "button[id='penalidade_branca']", function () {
 });
 
 $(document).on("click", "button[id='desqualificacao']", function () {
-    console.log($(this).attr("id"));
+    var tr = document.getElementById("chaves").children[chave];
+
+    var data = {};
+
+    if ($(this).val() === "branco") {
+        data.vermelha = false;
+        data.branca = true;
+    } else if ($(this).val() === "vermelho") {
+        data.vermelha = true;
+        data.branca = false;
+    }
+
+    $.ajax({
+        method: "POST",
+        url: "/chave/luta/individual/desqualificacao/" + $(tr).attr("id"),
+        contentType: 'application/json',
+        data: JSON.stringify(data)
+    });
+
 });
 
 $(document).on("click", "button[id='submit_chave']", function () {
     var tr = document.getElementById("chaves").children[chave];
-    console.log(tr.children);
+    tr.children[10].textContent = "true";
 
-    console.log($(this).attr("id"));
+    saveChaveLuta();
+
+    if (tr.children[12].textContent !== "0") {
+        $.ajax({
+            method: "POST",
+            url: "/chave/luta/individual/avancar/" + $(tr).attr("id"),
+            contentType: 'application/json',
+            success: function (fase) {
+
+                var data = {};
+                data.fase = fase;
+                data.id_plan = $("#planilha_select").val().substr(0, 1);
+
+                $.ajax({
+                    method: "POST",
+                    url: "/planilha/individual/chave/fase/competidores",
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        var table = document.getElementById("chaves");
+                        for (var i in result) {
+                            tr = document.createElement("tr");
+                            tr.id = result[i].id;
+
+                            var td = document.createElement("td");
+                            td.textContent = document.getElementById("chaves").children.length;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.textContent = result[i].competidorVermelho.pessoa.nome + " " + result[i].competidorVermelho.pessoa.sobrenome;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.textContent = result[i].pontosVermelhos;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.textContent = result[i].advertenciasVermelhas;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.textContent = result[i].penalidadesVermelhas;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.textContent = "02:00";
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.textContent = result[i].competidorBranco.pessoa.nome + " " + result[i].competidorBranco.pessoa.sobrenome;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.textContent = result[i].pontosBrancos;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.textContent = result[i].advertenciasBrancas;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.textContent = result[i].penalidadesBrancas;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.hidden = true;
+                            td.textContent = false;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.hidden = true;
+                            td.textContent = false;
+                            tr.appendChild(td);
+
+                            td = document.createElement("td");
+                            td.hidden = true;
+                            td.textContent = result[i].fase;
+                            tr.appendChild(td);
+                            table.appendChild(tr);
+                        }
+                    }
+                });
+
+
+                for (var i in document.getElementById("chaves").children) {
+                    var tr = document.getElementById("chaves").children[i];
+                    if (tr.children) {
+                        if (tr.children[10].textContent === "false") {
+                            chave = i;
+                            break;
+                        }
+                    }
+                }
+                // var nova_chave = false;
+                // for (var i in document.getElementById("chaves").children) {
+                //     var tr = document.getElementById("chaves").children[i];
+                //     if (tr.children) {
+                //         if (tr.children[10].textContent === "false") {
+                //             nova_chave = true;
+                //             break;
+                //         }
+                //     }
+                // }
+                // if (nova_chave === false) {//todo adicionar funcao para remover os botoes para n modificar as chaves e confirmar q acabou todas as chaves
+                //     document.getElementById("submit_chave").remove();
+                //
+                //     var label = document.createElement("label");
+                //     label.textContent = "Todas as lutas ja abacaram"
+                //
+                //     document.getElementById("planilha").appendChild(label);
+                //
+                //     chave = 1;
+                // }
+            }
+        });
+    }
+
 });
 
 $(document).on("click", "button[id='cronometro']", function () {
