@@ -441,7 +441,7 @@ function monta_plan_chave(id_plan) {
                 tr.id = result[i].id;
 
                 var td = document.createElement("td");
-                td.textContent = (parseInt(i) + 1);
+                td.textContent = table.children.length;
                 tr.appendChild(td);
 
                 td = document.createElement("td");
@@ -773,6 +773,7 @@ $(document).on("click", "button[id='submit_chave']", function () {
     var tr = document.getElementById("chaves").children[chave];
     tr.children[10].textContent = "true";
 
+    saveCronometro(false);
     saveChaveLuta();
 
     if (tr.children[12].textContent !== "0") {
@@ -793,6 +794,28 @@ $(document).on("click", "button[id='submit_chave']", function () {
                     data: JSON.stringify(data),
                     success: function (result) {
                         var table = document.getElementById("chaves");
+
+                        var aux = [];
+                        for (var i in table.children){
+                            tr = table.children[i];
+                            if (tr.children) {
+                                if (tr.children[6].textContent === "vazio") {
+                                    aux.push(table.children[i]);
+                                }
+                            }
+                        }
+
+                        if(aux !== []){
+                            for (var i in aux){
+                                for (var z in table.children){
+                                    if(table.children[z] === aux[i]){
+                                        table.children[z].remove();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
                         for (var i in result) {
                             tr = document.createElement("tr");
                             tr.id = result[i].id;
@@ -822,7 +845,11 @@ $(document).on("click", "button[id='submit_chave']", function () {
                             tr.appendChild(td);
 
                             td = document.createElement("td");
-                            td.textContent = result[i].competidorBranco.pessoa.nome + " " + result[i].competidorBranco.pessoa.sobrenome;
+                            if(result[i].competidorBranco === null){
+                                td.textContent = "vazio";
+                            }else {
+                                td.textContent = result[i].competidorBranco.pessoa.nome + " " + result[i].competidorBranco.pessoa.sobrenome;
+                            }
                             tr.appendChild(td);
 
                             td = document.createElement("td");
@@ -942,7 +969,6 @@ function saveChaveLuta() {
             }
         }
     });
-    saveCronometro(true);
 }
 
 function saveCronometro(rodando) {
@@ -991,6 +1017,3 @@ var countDown = setInterval(function () {
         }
     }
 }, 1000);
-
-
-// alert();
