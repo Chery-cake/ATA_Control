@@ -7,10 +7,30 @@
 <body>
 <div class="corpo" layout:fragment="corpo">
 
-    <div class="container">
 
-        <div class="form-group">
-            <label for="torneio">Torneio</label>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-white">
+        <div class="container">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar-default">
+                <div class="navbar-collapse-header">
+                    <div class="row">
+                        <div class="col-6 collapse-brand">
+                            <a href="javascript:void(0)">
+                                <img src="../../assets/img/brand/blue.png">
+                            </a>
+                        </div>
+                        <div class="col-6 collapse-close">
+                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <select class="form-control" id="torneio" name="instrutor">
                 <option disabled selected value="">Selecione</option>
                 <option th:each="t : ${torneios}"
@@ -19,19 +39,23 @@
                 </option>
             </select>
         </div>
+    </nav>
+
+    <div class="container">
+
 
         <div id="table">
-            <table class="table-bordered">
+            <table class="table">
                 <tr>
-                    <th>Rodada</th>
-                    <th>Genero</th>
-                    <th>Idade</th>
-                    <th>Nivel</th>
-                    <th>Fechado</th>
-                    <th>Juizes</th>
-                    <th>Numero do ringue</th>
-                    <th>Lugar na sequencia na rodada</th>
-                    <th>Categorias</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </table>
         </div>

@@ -28,6 +28,7 @@
     <link href="argon-design-system.mim.css" rel="stylesheet"
           th:href="@{/assets/argon/assets/css/background.css}">
 
+
 </head>
 <body>
 
@@ -67,8 +68,8 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title h3 text-dark font-weight-bold mb-4" id="exampleModalLabel">Sign
-                                    in </h5>
+                                <h5 class="modal-title h3 text-dark font-weight-bold mb-4" id="exampleModalLabel">ATA CONTROL
+                                </h5>
                                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -125,20 +126,6 @@
                     </li>
                 </ul>
 
-                <!--                <ul class="navbar-nav ml-lg-auto">-->
-                <!--                    <li class="nav-item">-->
-                <!--                        <a class="nav-link nav-link-icon" href="#">-->
-                <!--                            <i class="ni ni-favourite-28"></i>-->
-                <!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Discover</span>-->
-                <!--                        </a>-->
-                <!--                    </li>-->
-                <!--                    <li class="nav-item">-->
-                <!--                        <a class="nav-link nav-link-icon" href="#">-->
-                <!--                            <i class="ni ni-notification-70"></i>-->
-                <!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Profile</span>-->
-                <!--                        </a>-->
-                <!--                    </li>-->
-                <!--                </ul>-->
                 <ul class="navbar-nav" th:if="${usuario != null}">
                     <div class="dropdown">
                         <div class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;"
@@ -147,27 +134,14 @@
                             <span><b th:if="${usuario.planilheiro != null}" th:text="Planilheiro"></b></span>
                         </div>
                         <div class="dropdown-menu">
-                            <!--<a class="dropdown-item" href="javascript:" th:href="@{/perfil}">
-                                <i class="ni ni-single-02"></i>
-                                <span>Menu</span>
-                            </a>-->
+
                             <div th:if="${usuario.userRole == ROLE_ADMIN}">
-                                <a class="dropdown-item" th:href="@{/criar/torneio}">
-                                    <i class="ni ni-trophy"></i>
-                                    <span>Criar torneio</span>
+
+                                <a class="dropdown-item" href="javascript:" th:href="@{/perfil}">
+                                    <i class="ni ni-single-02"></i>
+                                    <span>Menu</span>
                                 </a>
-                                <a class="dropdown-item" th:href="@{/relatorio/cadastros}">
-                                    <i class="ni bullet-list"></i>
-                                    <span>Pessoas Cadastros</span>
-                                </a>
-                                <a class="dropdown-item" th:href="@{/pontos_armas}">
-                                    <i class="ni bullet-list"></i>
-                                    <span>Armas</span>
-                                </a>
-                                <a class="dropdown-item" th:href="@{/relatorio/torneio}">
-                                    <i class="ni vector"></i>
-                                    <span>Ringues</span>
-                                </a>
+
                             </div>
                             <div th:if="${usuario.userRole == ROLE_USER}">
 
@@ -190,6 +164,10 @@
                             </div>
 
                             <div th:if="${usuario.userRole == ROLE_PLANILHA}">
+                                <a class="dropdown-item" th:href="@{/planilha}">
+                                    <i class="ni ni-settings-gear-65"></i>
+                                    <span>Planilha</span>
+                                </a>
 
                             </div>
 

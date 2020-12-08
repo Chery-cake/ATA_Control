@@ -1,7 +1,10 @@
+
+
+
 $.ajax({
     method: "POST",
     url: "/torneio/numero/ringues/individual/" + $("#torneio_id").val(),
-    contentType: 'application/json',
+    contentType: 'application/json; ',
     success: function (result) {
         var div = document.getElementById("seletor");
         var label = document.createElement("label");
@@ -177,7 +180,7 @@ function monta_plan_lista(id_plan) {
         success: function (result) {
             var div = document.getElementById("planilha");
             var table = document.createElement("table");
-            table.className = "table-bordered";
+            table.className = "table";
             table.id = "chaves";
 
             var tr = document.createElement("tr");
@@ -381,7 +384,7 @@ function monta_plan_chave(id_plan) {
 
             var div = document.getElementById("planilha");
             var table = document.createElement("table");
-            table.className = "table-bordered";
+            table.className = "table ";
             table.id = "chaves";
 
             var tr = document.createElement("tr");
@@ -390,7 +393,7 @@ function monta_plan_chave(id_plan) {
             tr.appendChild(th);
 
             th = document.createElement("th");
-            th.textContent = "Competidor Vermelho";
+            th.textContent = "Competidor 1";
             tr.appendChild(th);
 
             th = document.createElement("th");
@@ -398,11 +401,11 @@ function monta_plan_chave(id_plan) {
             tr.appendChild(th);
 
             th = document.createElement("th");
-            th.textContent = "Advertencias";
+            th.textContent = "Ad";
             tr.appendChild(th);
 
             th = document.createElement("th");
-            th.textContent = "Penalidades";
+            th.textContent = "Pena";
             tr.appendChild(th);
 
             th = document.createElement("th");
@@ -410,7 +413,7 @@ function monta_plan_chave(id_plan) {
             tr.appendChild(th);
 
             th = document.createElement("th");
-            th.textContent = "Competidor Branco";
+            th.textContent = "Competidor 2";
             tr.appendChild(th);
 
             th = document.createElement("th");
@@ -418,11 +421,11 @@ function monta_plan_chave(id_plan) {
             tr.appendChild(th);
 
             th = document.createElement("th");
-            th.textContent = "Advertencias";
+            th.textContent = "Ad";
             tr.appendChild(th);
 
             th = document.createElement("th");
-            th.textContent = "Penalidades";
+            th.textContent = "Pena";
             tr.appendChild(th);
 
             th = document.createElement("th");
@@ -489,153 +492,184 @@ function monta_plan_chave(id_plan) {
 
             div.appendChild(table);
 
-            var div_ponto_vermelho = document.createElement("div");
-            div_ponto_vermelho.id = "ponto_vermelho";
-            var label = document.createElement("label");
-            label.textContent = "Ponto vermelho: "
-            div_ponto_vermelho.appendChild(label);
 
-            var button = document.createElement("button");
-            button.id = "ponto_vermelho";
-            button.textContent = "+";
-            button.value = "+";
-            div_ponto_vermelho.appendChild(button);
+           // BOTOES VERMELHOS
 
-            button = document.createElement("button");
-            button.id = "ponto_vermelho";
-            button.textContent = "-";
-            button.value = "-";
-            div_ponto_vermelho.appendChild(button);
 
-            div.appendChild(div_ponto_vermelho);
+            var gintoki = document.createElement("div");
+            gintoki.className = "bg-darker";
 
-            var div_advertencia_vermelha = document.createElement("div");
-            div_advertencia_vermelha.id = "advertencia_vermelha";
-            var label = document.createElement("label");
-            label.textContent = "Advertencia vermelha: "
-            div_advertencia_vermelha.appendChild(label);
+                var div_ponto_vermelho = document.createElement("div");
+                div_ponto_vermelho.className = "text-center";
+                div_ponto_vermelho.id = "ponto_vermelho";
+                var label = document.createElement("label");
+                label.textContent = "Ponto vermelho: "
+                div_ponto_vermelho.appendChild(label);
 
-            var button = document.createElement("button");
-            button.id = "advertencia_vermelha";
-            button.textContent = "+";
-            button.value = "+";
-            div_advertencia_vermelha.appendChild(button);
+                var button = document.createElement("button");
+                button.id = "ponto_vermelho";
+                button.textContent = "+";
+                button.value = "+";
+                div_ponto_vermelho.appendChild(button);
 
-            button = document.createElement("button");
-            button.id = "advertencia_vermelha";
-            button.textContent = "-";
-            button.value = "-";
-            div_advertencia_vermelha.appendChild(button);
+                button = document.createElement("button");
+                button.id = "ponto_vermelho";
+                button.textContent = "-";
+                button.value = "-";
+                div_ponto_vermelho.appendChild(button);
 
-            div.appendChild(div_advertencia_vermelha);
+                div.appendChild(div_ponto_vermelho);
 
-            var div_penalidade_vermelha = document.createElement("div");
-            div_penalidade_vermelha.id = "penalidade_vermelha";
-            var label = document.createElement("label");
-            label.textContent = "Penalidade vermelha: "
-            div_penalidade_vermelha.appendChild(label);
+                var div_advertencia_vermelha = document.createElement("div");
+                div_advertencia_vermelha.id = "advertencia_vermelha";
+                var label = document.createElement("label");
+                label.textContent = "Advertencia vermelha: "
+                div_advertencia_vermelha.appendChild(label);
 
-            var button = document.createElement("button");
-            button.id = "penalidade_vermelha";
-            button.textContent = "+";
-            button.value = "+";
-            div_penalidade_vermelha.appendChild(button);
+                var button = document.createElement("button");
+                button.id = "advertencia_vermelha";
+                button.textContent = "+";
+                button.value = "+";
+                div_advertencia_vermelha.appendChild(button);
 
-            button = document.createElement("button");
-            button.id = "penalidade_vermelha";
-            button.textContent = "-";
-            button.value = "-";
-            div_penalidade_vermelha.appendChild(button);
+                button = document.createElement("button");
+                button.id = "advertencia_vermelha";
+                button.textContent = "-";
+                button.value = "-";
+                div_advertencia_vermelha.appendChild(button);
 
-            div.appendChild(div_penalidade_vermelha);
+                div.appendChild(div_advertencia_vermelha);
 
-            var div_extra_vermelho = document.createElement("div");
-            div_extra_vermelho.id = "extra_vermelho";
-            var label = document.createElement("label");
-            label.textContent = "Competidor vermelho: "
-            div_extra_vermelho.appendChild(label);
+                var div_penalidade_vermelha = document.createElement("div");
+                div_penalidade_vermelha.id = "penalidade_vermelha";
+                var label = document.createElement("label");
+                label.textContent = "Penalidade vermelha: "
+                div_penalidade_vermelha.appendChild(label);
 
-            var button = document.createElement("button");
-            button.id = "desqualificacao";
-            button.textContent = "Competidor desqualificado";
-            button.value = "vermelho";
-            div_extra_vermelho.appendChild(button);
+                var button = document.createElement("button");
+                button.id = "penalidade_vermelha";
+                button.textContent = "+";
+                button.value = "+";
+                div_penalidade_vermelha.appendChild(button);
 
-            div.appendChild(div_extra_vermelho);
+                button = document.createElement("button");
+                button.id = "penalidade_vermelha";
+                button.textContent = "-";
+                button.value = "-";
+                div_penalidade_vermelha.appendChild(button);
 
-            var div_ponto_branco = document.createElement("div");
-            div_ponto_branco.id = "ponto_branco";
-            var label = document.createElement("label");
-            label.textContent = "Ponto branco: "
-            div_ponto_branco.appendChild(label);
+                div.appendChild(div_penalidade_vermelha);
 
-            var button = document.createElement("button");
-            button.id = "ponto_branco";
-            button.textContent = "+";
-            button.value = "+";
-            div_ponto_branco.appendChild(button);
 
-            button = document.createElement("button");
-            button.id = "ponto_branco";
-            button.textContent = "-";
-            button.value = "-";
-            div_ponto_branco.appendChild(button);
+                var div_extra_vermelho = document.createElement("div");
+                div_extra_vermelho.id = "extra_vermelho";
+                var label = document.createElement("label");
+                label.textContent = " "
+                div_extra_vermelho.appendChild(label);
 
-            div.appendChild(div_ponto_branco);
+                var button = document.createElement("button");
+                button.id = "desqualificacao";
+                button.textContent = "Desqualificar";
+                button.value = "vermelho";
+                div_extra_vermelho.appendChild(button);
 
-            var div_advertencia_branca = document.createElement("div");
-            div_advertencia_branca.id = "advertencia_branca";
-            var label = document.createElement("label");
-            label.textContent = "Advertencia branca: "
-            div_advertencia_branca.appendChild(label);
+                div.appendChild(div_extra_vermelho);
 
-            var button = document.createElement("button");
-            button.id = "advertencia_branca";
-            button.textContent = "+";
-            button.value = "+";
-            div_advertencia_branca.appendChild(button);
 
-            button = document.createElement("button");
-            button.id = "advertencia_branca";
-            button.textContent = "-";
-            button.value = "-";
-            div_advertencia_branca.appendChild(button);
+            div.appendChild(gintoki);
 
-            div.appendChild(div_advertencia_branca);
+            // BOTOES BRANCOS
 
-            var div_penalidade_branca = document.createElement("div");
-            div_penalidade_branca.id = "penalidade_branca";
-            var label = document.createElement("label");
-            label.textContent = "Penalidade branca: "
-            div_penalidade_branca.appendChild(label);
 
-            var button = document.createElement("button");
-            button.id = "penalidade_branca";
-            button.textContent = "+";
-            button.value = "+";
-            div_penalidade_branca.appendChild(button);
 
-            button = document.createElement("button");
-            button.id = "penalidade_branca";
-            button.textContent = "-";
-            button.value = "-";
-            div_penalidade_branca.appendChild(button);
+                var div_ponto_branco = document.createElement("div");
+                div_ponto_branco.id = "ponto_branco";
+                var label = document.createElement("label");
+                label.textContent = "Ponto branco: "
+                div_ponto_branco.appendChild(label);
 
-            div.appendChild(div_penalidade_branca);
+                var button = document.createElement("button");
+                button.id = "ponto_branco";
+                button.textContent = "+";
+                button.value = "+";
+                div_ponto_branco.appendChild(button);
 
-            var div_extra_branco = document.createElement("div");
-            div_extra_branco.id = "extra_branco";
-            var label = document.createElement("label");
-            label.textContent = "Competidor branco: "
-            div_extra_branco.appendChild(label);
+                button = document.createElement("button");
+                button.id = "ponto_branco";
+                button.textContent = "-";
+                button.value = "-";
+                div_ponto_branco.appendChild(button);
 
-            var button = document.createElement("button");
-            button.id = "desqualificacao";
-            button.textContent = "Competidor desqualificado";
-            button.value = "branco";
-            div_extra_branco.appendChild(button);
+                 div.appendChild(div_ponto_branco);
 
-            div.appendChild(div_extra_branco);
+
+
+                var div_advertencia_branca = document.createElement("div");
+                div_advertencia_branca.id = "advertencia_branca";
+                var label = document.createElement("label");
+                label.textContent = "Advertencia branca: "
+                div_advertencia_branca.appendChild(label);
+
+                var button = document.createElement("button");
+                button.id = "advertencia_branca";
+                button.textContent = "+";
+                button.value = "+";
+                div_advertencia_branca.appendChild(button);
+
+                button = document.createElement("button");
+                button.id = "advertencia_branca";
+                button.textContent = "-";
+                button.value = "-";
+                div_advertencia_branca.appendChild(button);
+
+                div.appendChild(div_advertencia_branca);
+
+
+
+
+                var div_penalidade_branca = document.createElement("div");
+                div_penalidade_branca.id = "penalidade_branca";
+                var label = document.createElement("label");
+                label.textContent = "Penalidade branca: "
+                div_penalidade_branca.appendChild(label);
+
+                var button = document.createElement("button");
+                button.id = "penalidade_branca";
+                button.textContent = "+";
+                button.value = "+";
+                div_penalidade_branca.appendChild(button);
+
+                button = document.createElement("button");
+                button.id = "penalidade_branca";
+                button.textContent = "-";
+                button.value = "-";
+                div_penalidade_branca.appendChild(button);
+
+                div.appendChild(div_penalidade_branca);
+
+
+
+
+
+                var div_extra_branco = document.createElement("div");
+                div_extra_branco.id = "extra_branco";
+                var label = document.createElement("label");
+                label.textContent = " "
+                div_extra_branco.appendChild(label);
+
+                var button = document.createElement("button");
+                button.id = "desqualificacao";
+                button.textContent = "Desqualificar";
+                button.value = "branco";
+                div_extra_branco.appendChild(button);
+
+                div.appendChild(div_extra_branco);
+
+
+
+            // FIM DOS BOTÕES
+
+
 
             var div_cronometro = document.createElement("div");
             div_cronometro.id = "cronometro";

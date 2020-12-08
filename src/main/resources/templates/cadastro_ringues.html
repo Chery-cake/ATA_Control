@@ -7,32 +7,105 @@
 <body>
 <div class="corpo" layout:fragment="corpo">
 
-    <div class="container">
+    <div class="wrapper">
+        <section class="section section-shaped section-lg">
+            <div class="shape shape-style-1 bg-gradient-darker">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="container pt-lg-4">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card bg-secondary shadow border-0">
+                            <div class="card-body px-lg-5 py-lg-5">
 
-        <div class="form-group">
-            <label for="torneio">Torneio</label>
-            <select class="form-control" id="torneio" name="instrutor" required>
-                <option disabled selected value="">Selecione</option>
-                <option th:each="t : ${torneiosNIni}"
-                        th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
-                        th:value="${t.id}">...
-                </option>
-            </select>
-        </div>
+                                <div class="form-group">
+                                    <label for="torneio">Torneio</label>
+                                    <select class="form-control" id="torneio" name="instrutor" required>
+                                        <option disabled selected value="">Selecione</option>
+                                        <option th:each="t : ${torneiosNIni}"
+                                                th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
+                                                th:value="${t.id}">...
+                                        </option>
+                                    </select>
+                                </div>
 
-        <div id="rodada">
-            <select hidden id="rodada_select" name="rodada_select"></select>
-        </div>
+                                <hr>
 
-        <div id="cadastros">
+                                <div id="rodada">
+                                    <select hidden id="rodada_select" name="rodada_select"></select>
+                                </div>
 
-        </div>
+                                <hr>
 
-        <div class="text-center">
-            <button type="submit" class="btn btn-lg btn-github btn-icon my-4" id="submit">Registrar</button>
-        </div>
+                                <div id="cadastros">
 
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-lg btn-github btn-icon my-4" id="submit">Registrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row row-grid align-items-center mb-5">
+                <div class="col-lg-6">
+                    <h3 class="text-primary font-weight-light mb-2">Faça parte do ATA!</h3>
+                    <p class="mb-0 font-weight-light">ATA Martial Arts tem os programas necessários para que criançase e adultos. Faça parte do treinamento de mais de 130.000 membros ativos, competindo em torneios e seminários ao redor do mundo.</p>
+                </div>
+                <div class="col-lg-6 text-lg-center btn-wrapper">
+                    <button target="_blank" href="https://twitter.com/" rel="nofollow" class="btn btn-icon-only btn-twitter rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+                        <span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
+                    </button>
+                    <button target="_blank" href="https://www.facebook.com/" rel="nofollow" class="btn-icon-only rounded-circle btn btn-facebook" data-toggle="tooltip" data-original-title="Like us">
+                        <span class="btn-inner--icon"><i class="fab fa-facebook"></i></span>
+                    </button>
+                    <button target="_blank" href="https://dribbble.com/" rel="nofollow" class="btn btn-icon-only btn-dribbble rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+                        <span class="btn-inner--icon"><i class="fa fa-dribbble"></i></span>
+                    </button>
+                    <button target="_blank" href="https://github.com/" rel="nofollow" class="btn btn-icon-only btn-github rounded-circle" data-toggle="tooltip" data-original-title="Star on Github">
+                        <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="row align-items-center justify-content-md-between">
+                <div class="col-md-6">
+                    <div class="copyright">
+                        &copy; 2020 <a href="" target="_blank">ATA CONTROL</a>.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <ul class="nav nav-footer justify-content-end">
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">ATA CONTROL</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link" target="_blank">License</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
 
 </div>
 
