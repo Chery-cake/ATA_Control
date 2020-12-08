@@ -7,6 +7,7 @@ import com.control.ata.model.torneio.Cronometro;
 import com.control.ata.repository.individual.*;
 import com.control.ata.repository.torneio.CronometroRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
+import com.control.ata.service.planilhaIndividual.ChaveIndividual;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,8 @@ public class PlanilhaController {
     private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
     @Autowired
     private CronometroRepository cronometroRepository;
+    @Autowired
+    private ChaveIndividual chaveIndividual;
 
     // ======================================PLANILHA=============================================
 
@@ -140,6 +143,57 @@ public class PlanilhaController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/chave/luta/individual/desqualificacao/{id}")
+    public ResponseEntity<?> setChavePlanilhaChaveDesqualificacao(@Valid @RequestBody String json,
+            @PathVariable("id") Integer id,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        chaveLutaIndividualDesqualificacaoDTO chaveLutaIndividualDesqualificacaoDTO = jacksonObjectMapper.readValue(
+                decodedJson,
+                chaveLutaIndividualDesqualificacaoDTO.class);
+
+        ChaveLutaIndividual chaveLutaIndividual = chaveLutaIndividualRepository.getOne(id);
+
+        chaveLutaIndividual.setDesqualificacaoVermelha(chaveLutaIndividualDesqualificacaoDTO.vermelha);
+        chaveLutaIndividual.setDesqualificacaoBranca(chaveLutaIndividualDesqualificacaoDTO.branca);
+
+        chaveLutaIndividualRepository.save(chaveLutaIndividual);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/planilha/individual/chave/fase/competidores")
+    public ResponseEntity<?> getCompetidoresPlanilhaChaveFase(@Valid @RequestBody String json,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        chaveLutaIndividualPlanilhaFaseDTO chaveLutaIndividualPlanilhaFaseDTO = jacksonObjectMapper.readValue(
+                decodedJson,
+                chaveLutaIndividualPlanilhaFaseDTO.class);
+
+
+        return ResponseEntity.ok(chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividualAndFase(
+                planilhaChaveamentoIndividualRepository.getOne(chaveLutaIndividualPlanilhaFaseDTO.id_plan),
+                chaveLutaIndividualPlanilhaFaseDTO.fase));
+    }
+
+    @PostMapping("/chave/luta/individual/avancar/{id}")
+    public ResponseEntity<?> setChavePlanilhaChaveDesqualificacao(@PathVariable("id") Integer id) {
+
+        ChaveLutaIndividual chaveLutaIndividual = chaveLutaIndividualRepository.getOne(id);
+
+        chaveIndividual.updateChave(chaveLutaIndividual);
+
+        return ResponseEntity.ok(chaveLutaIndividual.getFase() - 1);
+    }
+
     @PostMapping("/ringue/individual/cronometro/save/{id}")
     public ResponseEntity<?> setCronometro(@Valid @RequestBody String json, @PathVariable("id") Integer id,
             BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
@@ -154,9 +208,9 @@ public class PlanilhaController {
         RingueIndividual ringueIndividual = ringueIndividualRepository.getOne(id);
         Cronometro cronometro = new Cronometro();
 
-        if(cronometroRepository.getByRingueIndividual(ringueIndividual) != null){
+        if (cronometroRepository.getByRingueIndividual(ringueIndividual) != null) {
             cronometro = cronometroRepository.getByRingueIndividual(ringueIndividual);
-        }else {
+        } else {
             cronometro.setRingueIndividual(ringueIndividual);
         }
 
@@ -219,6 +273,32 @@ public class PlanilhaController {
             this.pontos_brancos = pontos_brancos;
             this.advertencias_brancas = advertencias_brancas;
             this.penalidades_brancas = penalidades_brancas;
+        }
+    }
+
+    private static class chaveLutaIndividualDesqualificacaoDTO {
+        public Boolean vermelha;
+        public Boolean branca;
+
+        public chaveLutaIndividualDesqualificacaoDTO() {
+        }
+
+        public chaveLutaIndividualDesqualificacaoDTO(Boolean vermelha, Boolean branca) {
+            this.vermelha = vermelha;
+            this.branca = branca;
+        }
+    }
+
+    private static class chaveLutaIndividualPlanilhaFaseDTO {
+        public Integer fase;
+        public Integer id_plan;
+
+        public chaveLutaIndividualPlanilhaFaseDTO() {
+        }
+
+        public chaveLutaIndividualPlanilhaFaseDTO(Integer fase, Integer id_plan) {
+            this.fase = fase;
+            this.id_plan = id_plan;
         }
     }
 
