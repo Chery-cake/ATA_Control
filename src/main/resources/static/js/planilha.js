@@ -258,6 +258,7 @@ function monta_plan_lista(id_plan) {
                 button.id = "A_" + i;
                 button.textContent = i;
                 button.value = i;
+                button.className = "btn btn-info btn-icon btn-sm";
                 div_A.appendChild(button);
             }
             div.appendChild(div_A);
@@ -272,6 +273,7 @@ function monta_plan_lista(id_plan) {
                 button.id = "C_" + i;
                 button.textContent = i;
                 button.value = i;
+                button.className = "btn btn-info btn-icon btn-sm";
                 div_C.appendChild(button);
             }
             div.appendChild(div_C);
@@ -286,6 +288,7 @@ function monta_plan_lista(id_plan) {
                 button.id = "B_" + i;
                 button.textContent = i;
                 button.value = i;
+                button.className = "btn btn-info btn-icon btn-sm";
                 div_B.appendChild(button);
             }
             div.appendChild(div_B);
@@ -293,6 +296,7 @@ function monta_plan_lista(id_plan) {
             var button = document.createElement("button");
             button.id = "submit_lista";
             button.textContent = "Submit";
+            button.className = " btn btn-lg btn-github btn-icon my-4";
             div.appendChild(button);
 
         }
@@ -465,7 +469,11 @@ function monta_plan_chave(id_plan) {
                 tr.appendChild(td);
 
                 td = document.createElement("td");
-                td.textContent = result[i].competidorBranco.pessoa.nome + " " + result[i].competidorBranco.pessoa.sobrenome;
+                if(result[i].competidorBranco === null){
+                    td.textContent = "vazio";
+                }else {
+                    td.textContent = result[i].competidorBranco.pessoa.nome + " " + result[i].competidorBranco.pessoa.sobrenome;
+                }
                 tr.appendChild(td);
 
                 td = document.createElement("td");
@@ -500,39 +508,39 @@ function monta_plan_chave(id_plan) {
             div.appendChild(table);
 
 
-           // BOTOES VERMELHOS
-        var row = document.createElement("div");
-        row.className = "row";
-        var col = document.createElement("div");
-        col.className = "column";
+            // BOTOES VERMELHOS
+            var row = document.createElement("div");
+            row.className = "row";
+            var col = document.createElement("div");
+            col.className = "column";
 
             var table = document.createElement("table");
             table.className = "table-bordered";
             var tr = document.createElement("tr");
 
-                var th = document.createElement("th");
-                var label = document.createElement("label");
-                label.textContent = "Ponto vermelho: "
-                th.appendChild(label);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var label = document.createElement("label");
+            label.textContent = "Ponto vermelho: "
+            th.appendChild(label);
+            tr.appendChild(th);
 
-                var th = document.createElement("th");
-                var button = document.createElement("button");
-                button.id = "ponto_vermelho";
-                button.textContent = "";
-                button.value = "+";
-                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-                th.appendChild(button);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var button = document.createElement("button");
+            button.id = "ponto_vermelho";
+            button.textContent = "";
+            button.value = "+";
+            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+            th.appendChild(button);
+            tr.appendChild(th);
 
-                var th = document.createElement("th");
-                button = document.createElement("button");
-                button.id = "ponto_vermelho";
-                button.textContent = "";
-                button.value = "-";
-                button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-                th.appendChild(button);   //tr.append(th)
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            button = document.createElement("button");
+            button.id = "ponto_vermelho";
+            button.textContent = "";
+            button.value = "-";
+            button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
+            th.appendChild(button);   //tr.append(th)
+            tr.appendChild(th);
 
             tr.appendChild(th);  //tr
             table.appendChild(tr);
@@ -540,80 +548,80 @@ function monta_plan_chave(id_plan) {
 
             var tr = document.createElement("tr");
 
-                var th = document.createElement("th");
-                var label = document.createElement("label");
-                label.textContent = "Advertencia vermelha: "
-                th.appendChild(label);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var label = document.createElement("label");
+            label.textContent = "Advertencia vermelha: "
+            th.appendChild(label);
+            tr.appendChild(th);
 
-                var th = document.createElement("th");
-                var button = document.createElement("button");
-                button.id = "advertencia_vermelha";
-                button.textContent = "";
-                button.value = "+";
-                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-                th.appendChild(button);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var button = document.createElement("button");
+            button.id = "advertencia_vermelha";
+            button.textContent = "";
+            button.value = "+";
+            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+            th.appendChild(button);
+            tr.appendChild(th);
 
-                var th = document.createElement("th");
-                button = document.createElement("button");
-                button.id = "advertencia_vermelha";
-                button.textContent = "";
-                button.value = "-";
+            var th = document.createElement("th");
+            button = document.createElement("button");
+            button.id = "advertencia_vermelha";
+            button.textContent = "";
+            button.value = "-";
             button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-                th.appendChild(button);
-                tr.appendChild(th);
+            th.appendChild(button);
+            tr.appendChild(th);
 
             tr.appendChild(th);
             table.appendChild(tr);
 
             var tr = document.createElement("tr");
 
-                var th = document.createElement("th");
-                var label = document.createElement("label");
-                label.textContent = "Penalidade vermelha: "
-                th.appendChild(label);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var label = document.createElement("label");
+            label.textContent = "Penalidade vermelha: "
+            th.appendChild(label);
+            tr.appendChild(th);
 
-                var th = document.createElement("th");
-                var button = document.createElement("button");
-                button.id = "penalidade_vermelha";
-                button.textContent = "";
-                button.value = "+";
-                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-                th.appendChild(button);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var button = document.createElement("button");
+            button.id = "penalidade_vermelha";
+            button.textContent = "";
+            button.value = "+";
+            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+            th.appendChild(button);
+            tr.appendChild(th);
 
-                var th = document.createElement("th");
-                button = document.createElement("button");
-                button.id = "penalidade_vermelha";
-                button.textContent = "";
-                button.value = "-";
-                button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-                th.appendChild(button);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            button = document.createElement("button");
+            button.id = "penalidade_vermelha";
+            button.textContent = "";
+            button.value = "-";
+            button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
+            th.appendChild(button);
+            tr.appendChild(th);
 
             tr.appendChild(th);
             table.appendChild(tr);
 
             var tr = document.createElement("tr");
 
-                var th = document.createElement("th");
-                var label = document.createElement("label");
-                label.textContent = "Ações"
-                th.appendChild(label);
-                tr.appendChild(th);
-                var th = document.createElement("th");
-                var button = document.createElement("button");
-                button.id = "desqualificacao";
-                button.textContent = "Desqualificar";
-                button.value = "vermelho";
-                button.className = "btn btn-default";
-                th.appendChild(button);
-                tr.appendChild(th);
-                var th = document.createElement("th");
-                th.className = "bg-ttbyu"
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var label = document.createElement("label");
+            label.textContent = "Ações"
+            th.appendChild(label);
+            tr.appendChild(th);
+            var th = document.createElement("th");
+            var button = document.createElement("button");
+            button.id = "desqualificacao";
+            button.textContent = "Desqualificar";
+            button.value = "vermelho";
+            button.className = "btn btn-default";
+            th.appendChild(button);
+            tr.appendChild(th);
+            var th = document.createElement("th");
+            th.className = "bg-ttbyu"
+            tr.appendChild(th);
 
 
             table.appendChild(tr);
@@ -630,30 +638,30 @@ function monta_plan_chave(id_plan) {
             col.className = "column";
             var tr = document.createElement("tr");
 
-                var th = document.createElement("th");
+            var th = document.createElement("th");
 
-                var label = document.createElement("label");
-                label.textContent = "Ponto branco: "
-                th.appendChild(label);
-                tr.appendChild(th);
-
-                var th = document.createElement("th");
-                var button = document.createElement("button");
-                button.id = "ponto_branco";
-                button.textContent = "";
-                button.value = "+";
-                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-                th.appendChild(button);
-                tr.appendChild(th);
+            var label = document.createElement("label");
+            label.textContent = "Ponto branco: "
+            th.appendChild(label);
+            tr.appendChild(th);
 
             var th = document.createElement("th");
-                button = document.createElement("button");
-                button.id = "ponto_branco";
-                button.textContent = "";
-                button.value = "-";
-                button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-                th.appendChild(button);
-                tr.appendChild(th);
+            var button = document.createElement("button");
+            button.id = "ponto_branco";
+            button.textContent = "";
+            button.value = "+";
+            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+            th.appendChild(button);
+            tr.appendChild(th);
+
+            var th = document.createElement("th");
+            button = document.createElement("button");
+            button.id = "ponto_branco";
+            button.textContent = "";
+            button.value = "-";
+            button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
+            th.appendChild(button);
+            tr.appendChild(th);
 
             tr.appendChild(th);
             table.appendChild(tr);
@@ -661,29 +669,29 @@ function monta_plan_chave(id_plan) {
 
             var tr = document.createElement("tr");
 
-                var th = document.createElement("th");
-                var label = document.createElement("label");
-                label.textContent = "Advertencia branca: "
-                th.appendChild(label);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var label = document.createElement("label");
+            label.textContent = "Advertencia branca: "
+            th.appendChild(label);
+            tr.appendChild(th);
 
-                var th = document.createElement("th");
-                var button = document.createElement("button");
-                button.id = "advertencia_branca";
-                button.textContent = "";
-                button.value = "+";
-                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-                th.appendChild(button);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var button = document.createElement("button");
+            button.id = "advertencia_branca";
+            button.textContent = "";
+            button.value = "+";
+            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+            th.appendChild(button);
+            tr.appendChild(th);
 
-                var th = document.createElement("th");
-                button = document.createElement("button");
-                button.id = "advertencia_branca";
-                button.textContent = "";
-                button.value = "-";
-                button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-                th.appendChild(button);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            button = document.createElement("button");
+            button.id = "advertencia_branca";
+            button.textContent = "";
+            button.value = "-";
+            button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
+            th.appendChild(button);
+            tr.appendChild(th);
 
             tr.appendChild(th);
             table.appendChild(tr);
@@ -691,29 +699,29 @@ function monta_plan_chave(id_plan) {
 
             var tr = document.createElement("tr");
 
-                var th = document.createElement("th");
-                var label = document.createElement("label");
-                label.textContent = "Penalidade branca: "
-                th.appendChild(label);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var label = document.createElement("label");
+            label.textContent = "Penalidade branca: "
+            th.appendChild(label);
+            tr.appendChild(th);
 
-                var th = document.createElement("th");
-                var button = document.createElement("button");
-                button.id = "penalidade_branca";
-                button.textContent = "";
-                button.value = "+";
-                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-                th.appendChild(button);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var button = document.createElement("button");
+            button.id = "penalidade_branca";
+            button.textContent = "";
+            button.value = "+";
+            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+            th.appendChild(button);
+            tr.appendChild(th);
 
-                var th = document.createElement("th");
-                button = document.createElement("button");
-                button.id = "penalidade_branca";
-                button.textContent = "";
-                button.value = "-";
-                button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-                th.appendChild(button);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            button = document.createElement("button");
+            button.id = "penalidade_branca";
+            button.textContent = "";
+            button.value = "-";
+            button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
+            th.appendChild(button);
+            tr.appendChild(th);
 
             tr.appendChild(th);
             table.appendChild(tr);
@@ -721,24 +729,23 @@ function monta_plan_chave(id_plan) {
 
             var tr = document.createElement("tr");
 
-                var th = document.createElement("th");
-                var label = document.createElement("label");
-                label.textContent = "Ações"
-                th.appendChild(label);
-                tr.appendChild(th);
+            var th = document.createElement("th");
+            var label = document.createElement("label");
+            label.textContent = "Ações"
+            th.appendChild(label);
+            tr.appendChild(th);
 
-                var th = document.createElement("th");
-                var button = document.createElement("button");
-                button.id = "desqualificacao";
-                button.textContent = "Desqualificar";
-                button.value = "branco";
-                button.className = "btn btn-default";
-                th.appendChild(button);
-                tr.appendChild(th);
-                var th = document.createElement("th");
-                th.className = "bg-ttbyu"
-                tr.appendChild(th);
-
+            var th = document.createElement("th");
+            var button = document.createElement("button");
+            button.id = "desqualificacao";
+            button.textContent = "Desqualificar";
+            button.value = "branco";
+            button.className = "btn btn-default";
+            th.appendChild(button);
+            tr.appendChild(th);
+            var th = document.createElement("th");
+            th.className = "bg-ttbyu"
+            tr.appendChild(th);
 
 
             table.appendChild(tr);
@@ -753,38 +760,35 @@ function monta_plan_chave(id_plan) {
 
             var crono = document.createElement("div");
             crono.className = "row d-flex justify-content-center bg-white text-center";
-                var div_cronometro = document.createElement("div");
-                div_cronometro.id = "cronometro";
-                var h4 = document.createElement("h4");
-                h4.textContent = "CRONOMETRO "
-                div_cronometro.appendChild(h4);
+            var div_cronometro = document.createElement("div");
+            div_cronometro.id = "cronometro";
+            var h4 = document.createElement("h4");
+            h4.textContent = "CRONOMETRO "
+            div_cronometro.appendChild(h4);
 
-                var button = document.createElement("button");
-                button.id = "cronometro";
-                button.textContent = "Iniciar";
-                button.value = "iniciar";
-                button.className = "btn btn-info mr-4";
-                div_cronometro.appendChild(button);
+            var button = document.createElement("button");
+            button.id = "cronometro";
+            button.textContent = "Iniciar";
+            button.value = "iniciar";
+            button.className = "btn btn-info mr-4";
+            div_cronometro.appendChild(button);
 
-                button = document.createElement("button");
-                button.id = "cronometro";
-                button.textContent = "Pausar";
-                button.value = "pausar";
-                button.className = "btn btn-info mr-4";
-                div_cronometro.appendChild(button);
+            button = document.createElement("button");
+            button.id = "cronometro";
+            button.textContent = "Pausar";
+            button.value = "pausar";
+            button.className = "btn btn-info mr-4";
+            div_cronometro.appendChild(button);
 
-                button = document.createElement("button");
-                button.id = "submit_chave";
-                button.textContent = "Submit";
-                div.appendChild(button);
+            div.appendChild(div_cronometro);
+            // crono.appendChild(div_cronometro);
+            // div.appendChild(crono);
 
-                div.appendChild(div_cronometro);
-                crono.appendChild((div_cronometro))
-                div.appendChild(crono);
-
-
-
-
+            button = document.createElement("button");
+            button.id = "submit_chave";
+            button.textContent = "Submit";
+            button.className = " btn btn-lg btn-github btn-icon my-4 text-center"
+            div.appendChild(button);
 
         }
     });
@@ -911,7 +915,7 @@ $(document).on("click", "button[id='submit_chave']", function () {
                         var table = document.getElementById("chaves");
 
                         var aux = [];
-                        for (var i in table.children){
+                        for (var i in table.children) {
                             tr = table.children[i];
                             if (tr.children) {
                                 if (tr.children[6].textContent === "vazio") {
@@ -920,10 +924,10 @@ $(document).on("click", "button[id='submit_chave']", function () {
                             }
                         }
 
-                        if(aux !== []){
-                            for (var i in aux){
-                                for (var z in table.children){
-                                    if(table.children[z] === aux[i]){
+                        if (aux !== []) {
+                            for (var i in aux) {
+                                for (var z in table.children) {
+                                    if (table.children[z] === aux[i]) {
                                         table.children[z].remove();
                                         break;
                                     }
@@ -960,9 +964,9 @@ $(document).on("click", "button[id='submit_chave']", function () {
                             tr.appendChild(td);
 
                             td = document.createElement("td");
-                            if(result[i].competidorBranco === null){
+                            if (result[i].competidorBranco === null) {
                                 td.textContent = "vazio";
-                            }else {
+                            } else {
                                 td.textContent = result[i].competidorBranco.pessoa.nome + " " + result[i].competidorBranco.pessoa.sobrenome;
                             }
                             tr.appendChild(td);
