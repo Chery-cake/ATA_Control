@@ -1,9 +1,13 @@
 package com.control.ata.dao;
 
-import com.control.ata.model.tipo_pessoa.*;
+import com.control.ata.model.tipo_pessoa.Competidor;
+import com.control.ata.model.tipo_pessoa.Instrutor;
+import com.control.ata.model.tipo_pessoa.Juiz;
 import com.control.ata.model.torneio.RodadaJuiz;
 import com.control.ata.model.torneio.Titulo;
-import com.control.ata.repository.tipo_pessoa.*;
+import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
+import com.control.ata.repository.tipo_pessoa.InstrutorRepository;
+import com.control.ata.repository.tipo_pessoa.JuizRepository;
 import com.control.ata.repository.torneio.RodadaJuizRepository;
 import com.control.ata.repository.torneio.TituloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +26,6 @@ public class TipoPessoaDAO {
     @Autowired
     private JuizRepository juizRepository;
     @Autowired
-    private TreinadorRepository treinadorRepository;
-    @Autowired
     private RodadaJuizRepository rodadaJuizRepository;
     @Autowired
     private TituloRepository tituloRepository;
@@ -32,7 +34,7 @@ public class TipoPessoaDAO {
         if (competidor.getId() == null) {
             Competidor aux = new Competidor(competidor.getPeso(), competidor.getAltura(), competidor.getNivel(),
                                             competidor.getPessoa(), competidor.getTorneio(),
-                                            competidor.getCategoriaCompeticao(), competidor.getTime());
+                                            competidor.getCategoriaCompeticao());
             aux.setCategoriaCompeticao(null);
             aux = competidorRepository.save(aux);
             aux.setCategoriaCompeticao(competidor.getCategoriaCompeticao());
@@ -80,10 +82,6 @@ public class TipoPessoaDAO {
         }
     }
 
-    public Treinador save(Treinador treinador) {
-        return treinadorRepository.save(treinador);
-    }
-
     private <T> T saveObj(Object obj) {
         Object o = null;
         if (Competidor.class.equals(obj.getClass())) {
@@ -92,8 +90,6 @@ public class TipoPessoaDAO {
             o = this.save((Instrutor) obj);
         } else if (Juiz.class.equals(obj.getClass())) {
             o = this.save((Juiz) obj);
-        } else if (Treinador.class.equals(obj.getClass())) {
-            o = this.save((Treinador) obj);
         }
         return (T) o;
     }
@@ -123,10 +119,6 @@ public class TipoPessoaDAO {
         juizRepository.delete(juiz);
     }
 
-    public void delete(Treinador treinador) {
-        treinadorRepository.delete(treinador);
-    }
-
     public void deleteAll(Iterable<?> iterable) {
         if (Competidor.class.equals(iterable.getClass())) {
             for (Object o : iterable) {
@@ -139,10 +131,6 @@ public class TipoPessoaDAO {
         } else if (Juiz.class.equals(iterable.getClass())) {
             for (Object o : iterable) {
                 this.delete((Juiz) o);
-            }
-        } else if (Treinador.class.equals(iterable.getClass())) {
-            for (Object o : iterable) {
-                this.delete((Treinador) o);
             }
         }
     }

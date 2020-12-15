@@ -5,7 +5,6 @@ import com.control.ata.model.individual.ChaveLutaIndividual;
 import com.control.ata.model.individual.ListaCategoriaCompetidorFechada;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Pessoa;
-import com.control.ata.model.time.Time;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.Titulo;
 import com.control.ata.model.torneio.Torneio;
@@ -34,9 +33,6 @@ public class Competidor {
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Collection<CategoriaCompeticao> categoriaCompeticao;
-
-    @ManyToMany(mappedBy = "competidores")
-    private Collection<Time> time;
 
     @JsonIgnore
     @OneToMany(mappedBy = "competidor", cascade = CascadeType.ALL)
@@ -73,17 +69,6 @@ public class Competidor {
         this.categoriaCompeticao = categoriaCompeticao;
     }
 
-    public Competidor(Double peso, Double altura, Integer nivel, Pessoa pessoa, Torneio torneio,
-            Collection<CategoriaCompeticao> categoriaCompeticao, Collection<Time> time) {
-        this.peso = peso;
-        this.altura = altura;
-        this.nivel = nivel;
-        this.pessoa = pessoa;
-        this.torneio = torneio;
-        this.categoriaCompeticao = categoriaCompeticao;
-        this.time = time;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -111,14 +96,6 @@ public class Competidor {
     public void setCategoriaCompeticao(
             Collection<CategoriaCompeticao> categoriaCompeticao) {
         this.categoriaCompeticao = categoriaCompeticao;
-    }
-
-    public Collection<Time> getTime() {
-        return time;
-    }
-
-    public void setTime(Collection<Time> time) {
-        this.time = time;
     }
 
     public Pessoa getPessoa() {

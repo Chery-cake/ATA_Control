@@ -50,7 +50,7 @@ public class RingueIndividual {
 
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "ringueTime")
+            mappedBy = "ringueIndividual")
     private Cronometro cronometro;
 
     @ManyToMany(cascade = CascadeType.PERSIST)

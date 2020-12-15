@@ -45,9 +45,6 @@ public class Pessoa {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
     private Juiz juiz;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
-    private Treinador treinador;
-
     @JsonIgnore
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private Collection<RankingIndividual> rankingIndividualList;

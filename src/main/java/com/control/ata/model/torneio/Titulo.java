@@ -1,6 +1,5 @@
 package com.control.ata.model.torneio;
 
-import com.control.ata.model.time.Time;
 import com.control.ata.model.tipo_pessoa.Competidor;
 
 import javax.persistence.*;
@@ -23,9 +22,6 @@ public class Titulo {
     @ManyToOne
     private Competidor competidor;
 
-    @ManyToOne
-    private Time time;
-
     public Titulo() {
     }
 
@@ -38,11 +34,10 @@ public class Titulo {
     }
 
     public Titulo(Integer ano, CategoriaCompeticao categoriaCompeticao,
-            CategoriaTorneio categoriaTorneio, Time time) {
+            CategoriaTorneio categoriaTorneio) {
         this.ano = ano;
         this.categoriaCompeticao = categoriaCompeticao;
         this.categoriaTorneio = categoriaTorneio;
-        this.time = time;
     }
 
     public Integer getId() {
@@ -67,13 +62,5 @@ public class Titulo {
 
     public void setCompetidor(Competidor competidor) {
         this.competidor = competidor;
-    }
-
-    public Time getTime() {
-        return time;
-    }
-
-    public void setTime(Time time) {
-        this.time = time;
     }
 }

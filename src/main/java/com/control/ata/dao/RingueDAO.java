@@ -1,9 +1,7 @@
 package com.control.ata.dao;
 
 import com.control.ata.model.individual.RingueIndividual;
-import com.control.ata.model.time.RingueTime;
 import com.control.ata.repository.individual.RingueIndividualRepository;
-import com.control.ata.repository.time.RingueTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +13,6 @@ public class RingueDAO {
 
     @Autowired
     private RingueIndividualRepository ringueIndividualRepository;
-    @Autowired
-    private RingueTimeRepository ringueTimeRepository;
 
     public RingueIndividual save(RingueIndividual ringueIndividual) {
         if (ringueIndividual.getId() == null) {
@@ -39,25 +35,10 @@ public class RingueDAO {
         return ringueIndividualRepository.save(ringueIndividual);
     }
 
-    public RingueTime save(RingueTime ringueTime) {
-        if (ringueTime.getId() == null) {
-            RingueTime aux = new RingueTime(ringueTime.getFechado(), ringueTime.getNumero(), null, null,
-                                            ringueTime.getTorneio(), null);
-            aux = ringueTimeRepository.save(aux);
-            aux.setJuiz(ringueTime.getJuiz());
-            aux.setTime(ringueTime.getTime());
-            aux.setCategoriaCompeticao(ringueTime.getCategoriaCompeticao());
-            return ringueTimeRepository.save(aux);
-        }
-        return ringueTimeRepository.save(ringueTime);
-    }
-
     private <T> T saveObj(Object obj) {
         Object o = null;
         if (RingueIndividual.class.equals(obj.getClass())) {
             o = this.save((RingueIndividual) obj);
-        } else if (RingueTime.class.equals(obj.getClass())) {
-            o = this.save((RingueTime) obj);
         }
         return (T) o;
     }

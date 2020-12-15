@@ -2,7 +2,6 @@ package com.control.ata.model.tipo_pessoa;
 
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Pessoa;
-import com.control.ata.model.time.RingueTime;
 import com.control.ata.model.torneio.RodadaJuiz;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -25,9 +24,6 @@ public class Juiz {
 
     @ManyToMany(mappedBy = "juiz")
     private Collection<RingueIndividual> ringueIndividualCollection;
-
-    @ManyToMany(mappedBy = "juiz")
-    private Collection<RingueTime> ringueTimeCollection;
 
     public Juiz() {
     }

@@ -1,7 +1,6 @@
 package com.control.ata.model.torneio;
 
 import com.control.ata.model.individual.RingueIndividual;
-import com.control.ata.model.time.RingueTime;
 
 import javax.persistence.*;
 
@@ -19,9 +18,6 @@ public class Cronometro {
 
     @OneToOne(fetch = FetchType.LAZY)
     private RingueIndividual ringueIndividual;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    private RingueTime ringueTime;
 
     public Cronometro() {
     }
@@ -60,13 +56,5 @@ public class Cronometro {
 
     public void setRingueIndividual(RingueIndividual ringueIndividual) {
         this.ringueIndividual = ringueIndividual;
-    }
-
-    public RingueTime getRingueTime() {
-        return ringueTime;
-    }
-
-    public void setRingueTime(RingueTime ringueTime) {
-        this.ringueTime = ringueTime;
     }
 }

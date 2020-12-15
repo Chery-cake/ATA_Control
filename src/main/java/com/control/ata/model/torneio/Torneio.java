@@ -2,9 +2,8 @@ package com.control.ata.model.torneio;
 
 import com.control.ata.model.endereco.Endereco;
 import com.control.ata.model.individual.RingueIndividual;
-import com.control.ata.model.time.RingueTime;
-import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.pessoa.Planilheiro;
+import com.control.ata.model.tipo_pessoa.Competidor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -43,10 +42,6 @@ public class Torneio {
     @JsonIgnore
     @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
     private Collection<RingueIndividual> ringueIndividualCollection;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
-    private Collection<RingueTime> ringueTimeCollection;
 
     @OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
     private Collection<Planilheiro> Planilheiro;
