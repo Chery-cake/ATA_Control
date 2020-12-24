@@ -436,9 +436,9 @@ public class FormController {
         return "relatorio_torneio";
     }
 
-    @GetMapping("/relatorio/pontos")
-    public String pontosArmas() {
-        return "pontos_armas";
+    @GetMapping("/relatorio/ranking/individual")
+    public String getRelatorioRankingIndividual() {
+        return "relatorio_rank_individual";
     }
 
     // ======================================CRIAR CATEGORIA=============================================
@@ -621,6 +621,11 @@ torneio);
         return categoriaTorneioRepository.findAll();
     }
 
+    @ModelAttribute("categoriasCompeticao")
+    public List<CategoriaCompeticao> getCategoriaCompeticao() {
+        return categoriaCompeticaoRepository.findAll();
+    }
+
     @ModelAttribute("paises")
     public List<Pais> getPaises() {
         return paisRepository.findAll();
@@ -684,6 +689,11 @@ torneio);
     @PostMapping("/ringueInd/rodada/{id}")
     public ResponseEntity<?> getRingueInd(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(ringueIndividualRepository.getAllByRodadaJuiz(rodadaJuizRepository.getOne(id)));
+    }
+
+    @PostMapping("/rank/individual/categoria/{id}")
+    public ResponseEntity<?> getRankIndividual(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(rankingIndividualRepository.getAllByCategoriaCompeticao(categoriaCompeticaoRepository.getOne(id)));
     }
 
     @PostMapping("/categorias/rank/pessoa/{id}")

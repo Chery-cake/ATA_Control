@@ -6,6 +6,8 @@
 </head>
 <body>
 <div class="corpo" layout:fragment="corpo">
+
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-white">
         <div class="container">
             <div class="collapse navbar-collapse" id="navbar-default">
@@ -25,65 +27,41 @@
                     </div>
                 </div>
             </div>
-            <select class=" browser-default custom-select custom-select-lg mb-3 text-center" id="torneio" name="instrutor">
-                <option disabled selected value="">SELECIONE UM TORNEIO</option>
-                <option th:each="t : ${torneios}"
-                        th:text="${'Data inicio: ' + t.dataInicio + ' | Categoria: ' +t.categoriaTorneio.nome}"
-                        th:value="${t.id}">...
+            <select class="form-control" id="categoria">
+                <option disabled selected value="">Selecione</option>
+                <option th:each="c : ${categoriasCompeticao}"
+                        th:text="${c.nome}"
+                        th:value="${c.id}">...
                 </option>
             </select>
         </div>
     </nav>
 
-
     <div class="container">
-        <div class="row">
-            <div class="mx-auto text-center">
 
-                <table  class="table" id="juiz_table">
-                    <thead>
-                    <tr>
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-
-                    </tbody>
-                </table>
-            </div>
+        <div id="table">
+            <table class="table">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </table>
         </div>
+
     </div>
 
-    <div class="row">
-        <div class="mx-auto text-center">
-            <div>
-                <table class="table" id="competidor_table">
-                    <thead>
-                    <tr>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 </div>
 
-
-
-
-
-
-
-</div>
 <th:block layout:fragment="script">
-    <script th:src="@{/js/relatorio_cadastro.js}"></script>
+    <script th:src="@{/js/relatorio_rank_individual.js}"></script>
 </th:block>
 
 </body>

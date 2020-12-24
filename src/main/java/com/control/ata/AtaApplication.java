@@ -6,14 +6,17 @@ import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Cidade;
 import com.control.ata.model.endereco.Estado;
 import com.control.ata.model.endereco.Pais;
+import com.control.ata.model.individual.RankingIndividual;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.tipo_pessoa.Instrutor;
+import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.CategoriaTorneio;
 import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
+import com.control.ata.repository.individual.RankingIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
 import com.control.ata.repository.pessoa.PlanilheiroRepository;
@@ -25,7 +28,6 @@ import com.control.ata.security.entity.Usuario;
 import com.control.ata.security.enuns.UserRole;
 import com.control.ata.security.repository.UsuarioRepository;
 import com.control.ata.security.service.BCrypt;
-import com.control.ata.security.service.UsuarioService;
 import com.control.ata.service.RingueService;
 import com.control.ata.service.planilhaIndividual.ChaveIndividual;
 import com.control.ata.service.planilhaIndividual.ListaIndividual;
@@ -74,7 +76,7 @@ public class AtaApplication implements CommandLineRunner {
     @Autowired
     private PlanilheiroRepository planilheiroRepository;
     @Autowired
-    private UsuarioService usuarioService;
+    private RankingIndividualRepository rankingIndividualRepository;
     @Autowired
     private AcademiaRepository academiaRepository;
 
@@ -105,23 +107,16 @@ public class AtaApplication implements CommandLineRunner {
 
         //todo remover
 
+        CategoriaCompeticao categoriaCompeticao = new CategoriaCompeticao("nome", false, false, 0, 0, 0, 0, 0);
+
+        categoriaCompeticao = categoriaCompeticaoRepository.save(categoriaCompeticao);
+
         ArrayList<Pessoa> pessoaArrayList = new ArrayList<>();
 
         Pessoa pessoaInstru = pessoaRepository.save(new Pessoa("instrutor", "pessoa", false,// genero false = menina
                                                                new GregorianCalendar(2013, Calendar.FEBRUARY,
                                                                                      11).getTime(), 0, "NumberWorld",
                                                                "NumberBrasil", true, "telefone", null, null, null));
-
-        Usuario usuario1 = new Usuario(pessoaInstru, "ins", "senha");
-        usuario1.setUserRole(UserRole.ROLE_USER);
-        usuario1.setPassword(BCrypt.gerarBCrypt(usuario1.getPassword()));
-        usuario1.setEnabled(true);
-
-        usuarioRepository.save(usuario1);
-
-        pessoaInstru.setUsuario(usuario1);
-
-        pessoaInstru = pessoaRepository.save(pessoaInstru);
 
         Academia academia = academiaRepository.save(new Academia("academia", null));
 
@@ -135,9 +130,20 @@ public class AtaApplication implements CommandLineRunner {
                                                      "NumberBrasil", false, "telefone", null, null, null)));
         }
 
+        Singleton s = Singleton.getSingleton();
+
         for (Pessoa pessoa1 : pessoaArrayList) {
             pessoa1.setInstrutor(instrutor);
             pessoa1 = pessoaRepository.save(pessoa1);
+            rankingIndividualRepository.save(new RankingIndividual(pessoa1, s.getRandomInt(0, 20), categoriaCompeticao));
+        }
+
+        categoriaCompeticao = new CategoriaCompeticao("nome2", false, false, 0, 0, 0, 0, 0);
+
+        categoriaCompeticao = categoriaCompeticaoRepository.save(categoriaCompeticao);
+
+        for (Pessoa pessoa1 : pessoaArrayList) {
+            rankingIndividualRepository.save(new RankingIndividual(pessoa1, s.getRandomInt(0, 20), categoriaCompeticao));
         }
 
         System.out.println("Terminou insercoes");

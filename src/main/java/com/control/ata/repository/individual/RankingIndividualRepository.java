@@ -20,4 +20,8 @@ public interface RankingIndividualRepository extends JpaRepository<RankingIndivi
     @Query("select r from RankingIndividual r where r.pessoa = :pessoa")
     List<RankingIndividual> getAllByPessoa(@Param("pessoa") Pessoa pessoa);
 
+    @Query("select r from RankingIndividual r where r.categoriaCompeticao = :categoriaCompeticao")
+    List<RankingIndividual> getAllByCategoriaCompeticao(
+            @Param("categoriaCompeticao") CategoriaCompeticao categoriaCompeticao);
+
 }

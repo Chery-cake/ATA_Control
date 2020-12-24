@@ -10,27 +10,6 @@
 <body>
 
 <div class="corpo" layout:fragment="corpo">
-    <!-- <div class="container">
-         <div th:if="${usuario.userRole == ROLE_ADMIN}">
-             <p><a th:href="@{/criar/torneio}">Criar torneio</a></p>
-             <p><a th:href="@{/criar/categoria}">Criar categoria</a></p>
-             <p><a th:href="@{/cadastrar/ringues}">Cadastrar Ringues</a></p>
-             <a th:href="@{/relatorio/cadastros}">Listar pessoas cadastradas</a></p>
-             <p><a th:href="@{/relatorio/torneio}">Listar ringues cadastrados</a></p>
-             <p><a th:href="@{/iniciar/torneio}">Iniciar torneio</a></p>
-             <p><a th:href="@{/terminar/torneio}">Terminar torneio</a></p>
-         </div>
-         <div th:if="${usuario.userRole == ROLE_USER}">
-             <p><a th:href="@{/register/competidor}">Registro para competidor</a></p>
-             <p><a th:href="@{/register/juiz}">Registro para juiz</a></p>
-             &lt;!&ndash;        <p th:if="${usuario.pessoa.isInstrutor == true}"><a th:href="@{/alunos}">Informacoes dos alunos</a></p> todo terminar essa bosta&ndash;&gt;
-             <p><a th:href="@{/ajustar}">Editar conta</a></p>
-         </div>
-         <div th:if="${usuario.userRole == ROLE_PLANILHA}">
-             &lt;!&ndash;            todo adicionar funcao para ver os ringues&ndash;&gt;
-         </div>
-     </div>-->
-
     <div class="wrapper">
         <section class="section-profile-cover section-shaped my-0">
             <div class="overlay2">
@@ -91,6 +70,9 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link mb-sm-3 mb-md-0 active btn-success" th:href="@{/relatorio/torneio}" ><i class="ni ni-trophy mr-2"></i>Relatorio Torneio</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-sm-3 mb-md-0 active btn-success" th:href="@{/relatorio/ranking/individual}" ><i class="ni ni-trophy mr-2"></i>Relatorio Ranking Individual</a>
                                     </li>
                                 </ul>
                             </div>
