@@ -43,11 +43,10 @@ $("#form-ajustar-pessoa").submit(function (evt) {
 
     $.ajax({
         method: "POST",
-        url: "/save/ajuste",
+        url: "/save/ajuste/pessoa",
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (result) {
-            console.log(result);
             top.location.href = "/perfil";
         },
         error: function (xhr) {

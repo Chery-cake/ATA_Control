@@ -149,14 +149,16 @@
                                     <i class="ni ni-badge"></i>
                                     <span>Ser Juiz</span>
                                 </a>
-                                <a class="dropdown-item" th:href="@{/ajustar}">
+                                <a class="dropdown-item" th:href="@{/ajustar/pessoa}">
                                     <i class="ni ni-settings-gear-65"></i>
                                     <span>Conta</span>
                                 </a>
 
-                                <!-- <p><a th:href="@{/register/juiz}">Ser Juiz</a></p>
-                                 &lt;!&ndash;        <p th:if="${usuario.pessoa.isInstrutor == true}"><a th:href="@{/alunos}">Informacoes dos alunos</a></p>&ndash;&gt;
-                          -->
+                                <a th:if="${usuario.pessoa.isInstrutor == true}" class="dropdown-item" th:href="@{/ajustar/alunos}">
+                                    <i class="ni ni-settings-gear-65"></i>
+                                    <span>Alunos</span>
+                                </a>
+
                             </div>
 
                             <div th:if="${usuario.userRole == ROLE_PLANILHA}">
