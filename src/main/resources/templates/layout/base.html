@@ -28,6 +28,7 @@
     <link href="argon-design-system.mim.css" rel="stylesheet"
           th:href="@{/assets/argon/assets/css/background.css}">
 
+
 </head>
 <body>
 
@@ -62,13 +63,13 @@
                     </div>
                 </div>
 
-                <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal"
+                <!--<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal"
                      role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title h3 text-dark font-weight-bold mb-4" id="exampleModalLabel">Sign
-                                    in </h5>
+                                <h5 class="modal-title h3 text-dark font-weight-bold mb-4" id="exampleModalLabel">ATA CONTROL
+                                </h5>
                                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -96,11 +97,11 @@
                                                    type="password">
                                         </div>
                                     </div>
-                                    <div class="custom-control custom-control-alternative custom-checkbox">
-                                        <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
-                                        <label class="custom-control-label"
-                                               for=" customCheckLogin"><span>Remember me</span></label>
-                                    </div>
+&lt;!&ndash;                                    <div class="custom-control custom-control-alternative custom-checkbox">&ndash;&gt;
+&lt;!&ndash;                                        <input class="custom-control-input" id=" customCheckLogin" type="checkbox">&ndash;&gt;
+&lt;!&ndash;                                        <label class="custom-control-label"&ndash;&gt;
+&lt;!&ndash;                                               for=" customCheckLogin"><span>Remember me</span></label>&ndash;&gt;
+&lt;!&ndash;                                    </div>&ndash;&gt;
                                     <div class="text-center">
                                         <button class="btn btn-lg btn-github btn-icon my-4" type="submit">Iniciar
                                             Sessão
@@ -111,7 +112,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
 
                 <ul class="navbar-nav flex-row mr-auto ml-4 d-none d-md-flex">
                     <li class="nav-item">
@@ -119,54 +120,24 @@
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="navbar-brand font-weight-bold" href="javascript:">Torneio</a>
-                    </li>
                 </ul>
 
-                <!--                <ul class="navbar-nav ml-lg-auto">-->
-                <!--                    <li class="nav-item">-->
-                <!--                        <a class="nav-link nav-link-icon" href="#">-->
-                <!--                            <i class="ni ni-favourite-28"></i>-->
-                <!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Discover</span>-->
-                <!--                        </a>-->
-                <!--                    </li>-->
-                <!--                    <li class="nav-item">-->
-                <!--                        <a class="nav-link nav-link-icon" href="#">-->
-                <!--                            <i class="ni ni-notification-70"></i>-->
-                <!--                            <span class="nav-link-inner&#45;&#45;text d-lg-none">Profile</span>-->
-                <!--                        </a>-->
-                <!--                    </li>-->
-                <!--                </ul>-->
                 <ul class="navbar-nav" th:if="${usuario != null}">
                     <div class="dropdown">
                         <div class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;"
                              id="navbar-primary_dropdown_1" role="button">
-                            <span><b th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b></span>
+                            <span><b th:if="${usuario.pessoa != null}" th:text="${usuario.pessoa.nome + ' ' + usuario.pessoa.sobrenome}"></b></span>
+                            <span><b th:if="${usuario.planilheiro != null}" th:text="Planilheiro"></b></span>
                         </div>
                         <div class="dropdown-menu">
-                            <!--<a class="dropdown-item" href="javascript:" th:href="@{/perfil}">
-                                <i class="ni ni-single-02"></i>
-                                <span>Menu</span>
-                            </a>-->
+
                             <div th:if="${usuario.userRole == ROLE_ADMIN}">
-                                <a class="dropdown-item" th:href="@{/criar/torneio}">
-                                    <i class="ni ni-trophy"></i>
-                                    <span>Criar torneio</span>
+
+                                <a class="dropdown-item" href="javascript:" th:href="@{/perfil}">
+                                    <i class="ni ni-single-02"></i>
+                                    <span>Menu</span>
                                 </a>
-                                <a class="dropdown-item" th:href="@{/relatorio/cadastros}">
-                                    <i class="ni bullet-list"></i>
-                                    <span>Pessoas Cadastros</span>
-                                </a>
-                                <a class="dropdown-item" th:href="@{/pontos_armas}">
-                                    <i class="ni bullet-list"></i>
-                                    <span>Armas</span>
-                                </a>
-                                <a class="dropdown-item" th:href="@{/relatorio/torneio}">
-                                    <i class="ni vector"></i>
-                                    <span>Ringues</span>
-                                </a>
+
                             </div>
                             <div th:if="${usuario.userRole == ROLE_USER}">
 
@@ -178,17 +149,23 @@
                                     <i class="ni ni-badge"></i>
                                     <span>Ser Juiz</span>
                                 </a>
-                                <a class="dropdown-item" th:href="@{/ajustar}">
+                                <a class="dropdown-item" th:href="@{/ajustar/pessoa}">
                                     <i class="ni ni-settings-gear-65"></i>
                                     <span>Conta</span>
                                 </a>
 
-                                <!-- <p><a th:href="@{/register/juiz}">Ser Juiz</a></p>
-                                 &lt;!&ndash;        <p th:if="${usuario.pessoa.isInstrutor == true}"><a th:href="@{/alunos}">Informacoes dos alunos</a></p>&ndash;&gt;
-                          -->
+                                <a th:if="${usuario.pessoa.isInstrutor == true}" class="dropdown-item" th:href="@{/ajustar/alunos}">
+                                    <i class="ni ni-settings-gear-65"></i>
+                                    <span>Alunos</span>
+                                </a>
+
                             </div>
 
                             <div th:if="${usuario.userRole == ROLE_PLANILHA}">
+                                <a class="dropdown-item" th:href="@{/planilha}">
+                                    <i class="ni ni-settings-gear-65"></i>
+                                    <span>Planilha</span>
+                                </a>
 
                             </div>
 
@@ -214,7 +191,7 @@
                         <!--a th:href="@{/login}" data-toggle="modal" data-target="#exampleModal" class="btn btn-lg btn-white btn-icon">
                             <span class="btn-inner&#45;&#45;text">INICIAR SESSÃO</span>
                         </a>-->
-                        <a class="btn btn-white btn-icon" data-target="#exampleModal" data-toggle="modal"
+                        <a class="btn btn-white btn-icon"
                            th:href="@{/login}">
                             <span class="btn-inner--icon"><i class="fa fa-user fa-fw"></i></span>
                             <span class="btn-inner--text">INICIAR SESSÃO</span>

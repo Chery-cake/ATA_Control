@@ -15,4 +15,7 @@ public interface CompetidorRepository extends JpaRepository<Competidor, Integer>
     @Query("select c from Competidor c where c.torneio = :torneio")
     List<Competidor> getAllByTorneio(@Param("torneio") Torneio torneio);
 
+    @Query("select c from Competidor c join c.ringueIndividualCollection r where r.id = :id")
+    List<Competidor> getAllByRingueIndividual(@Param("id")Integer id);
+
 }

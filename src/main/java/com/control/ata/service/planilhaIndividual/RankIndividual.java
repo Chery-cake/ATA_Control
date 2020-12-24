@@ -73,7 +73,7 @@ public class RankIndividual {
         valorBase = valorBase * categoriaTorneio.getPrioridade();
 
         ArrayList<ChaveListaIndividual> chaveListaIndividualArrayList = new ArrayList<>(this.sort(
-                chaveListaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(planilhaListaIndividual)));
+                chaveListaIndividualRepository.getAllByPlanilhaListaIndividual(planilhaListaIndividual)));
 
 
         for (ChaveListaIndividual chaveListaIndividual : chaveListaIndividualArrayList) {

@@ -1,10 +1,6 @@
 package com.control.ata.model.torneio;
 
 import com.control.ata.model.individual.*;
-import com.control.ata.model.time.PlanilhaChaveamentoTime;
-import com.control.ata.model.time.PlanilhaListaTime;
-import com.control.ata.model.time.RankingTime;
-import com.control.ata.model.time.RingueTime;
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,19 +31,7 @@ public class CategoriaCompeticao {
 
     @JsonIgnore
     @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
-    private Collection<PlanilhaListaTime> planilhaListaTimeList;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
     private Collection<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividualList;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
-    private Collection<PlanilhaChaveamentoTime> planilhaChaveamentoTimeList;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
-    private Collection<RankingTime> rankingTimeList;
 
     @JsonIgnore
     @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
@@ -59,10 +43,6 @@ public class CategoriaCompeticao {
 
     @ManyToMany(mappedBy = "categoriaCompeticao")
     private Collection<RingueIndividual> ringueIndividualList;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)
-    private Collection<RingueTime> ringueTimeList;
 
     @JsonIgnore
     @OneToMany(mappedBy = "categoriaCompeticao", cascade = CascadeType.ALL)

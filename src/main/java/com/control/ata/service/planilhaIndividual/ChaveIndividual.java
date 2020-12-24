@@ -7,7 +7,9 @@ import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.repository.individual.ChaveLutaIndividualRepository;
+import com.control.ata.repository.individual.ListaCategoriaCompetidorFechadaRepository;
 import com.control.ata.repository.individual.PlanilhaChaveamentoIndividualRepository;
+import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
 import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import com.control.ata.repository.torneio.TituloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,22 +31,49 @@ public class ChaveIndividual {
     private TituloRepository tituloRepository;
     @Autowired
     private CategoriaCompeticaoRepository categoriaCompeticaoRepository;
+    @Autowired
+    private ListaCategoriaCompetidorFechadaRepository listaCategoriaCompetidorFechadaRepository;
+    @Autowired
+    private CompetidorRepository competidorRepository;
 
     public Collection<PlanilhaChaveamentoIndividual> createPlanilhasChave(RingueIndividual ringueIndividual) {
 
         List<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividualList = new ArrayList<>();
+
+        ArrayList<Competidor> competidorArrayList = new ArrayList<>(
+                competidorRepository.getAllByRingueIndividual(ringueIndividual.getId()));
 
         for (CategoriaCompeticao categoriaCompeticao : categoriaCompeticaoRepository.getAllByRingueIndividual(
                 ringueIndividual.getId())) {
 
             if (categoriaCompeticao.getTipoChave()) {
 
-                ArrayList<Competidor> competidorArrayList = new ArrayList<>(ringueIndividual.getCompetidor());
+                ArrayList<Competidor> competidorPlanilha = new ArrayList<>();
+
+                if (ringueIndividual.getFechado()) {
+                    for (Competidor competidor : competidorArrayList) {
+                        for (CategoriaCompeticao compCat : categoriaCompeticaoRepository.getAllByListaCategoriaCompetidorFechadaList(
+                                listaCategoriaCompetidorFechadaRepository.getByCompetidor(competidor).getId())) {
+                            if (compCat.getId().equals(categoriaCompeticao.getId())) {
+                                competidorPlanilha.add(competidor);
+                            }
+                        }
+                    }
+                } else {
+                    for (Competidor competidor : competidorArrayList) {
+                        for (CategoriaCompeticao compCat : categoriaCompeticaoRepository.getAllByCompetidor(
+                                competidor.getId())) {
+                            if (compCat.getId().equals(categoriaCompeticao.getId())) {
+                                competidorPlanilha.add(competidor);
+                            }
+                        }
+                    }
+                }
 
                 PlanilhaChaveamentoIndividual planilha = new PlanilhaChaveamentoIndividual(categoriaCompeticao,
                                                                                            ringueIndividual);
                 planilha = planilhaChaveamentoIndividualRepository.save(planilha);
-                planilha.setChaveLutaIndividual(createChave(competidorArrayList, planilha));
+                planilha.setChaveLutaIndividual(createChave(competidorPlanilha, planilha));
                 planilha = planilhaChaveamentoIndividualRepository.save(planilha);
 
                 planilhaChaveamentoIndividualList.add(planilha);

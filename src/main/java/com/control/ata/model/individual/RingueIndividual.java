@@ -16,11 +16,13 @@ public class RingueIndividual {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private Boolean finalizado = Boolean.FALSE;
+
     private Boolean genero;
     private Boolean fechado;
 
-    private Integer numeroRingue;
-    private Integer numeroRodada;
+    private Integer numeroRingue;//numero do ringue
+    private Integer numeroRodada;//posicao na fila de ringues
 
     private Integer idade;
     private Integer nivel;
@@ -38,8 +40,6 @@ public class RingueIndividual {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private RodadaJuiz rodadaJuiz;
 
-    //private Collection<Torneio> torneio;
-
     @JsonIgnore
     @OneToMany(mappedBy = "ringueIndividual", cascade = CascadeType.ALL)
     private Collection<PlanilhaListaIndividual> planilhaListaIndividual;
@@ -50,11 +50,8 @@ public class RingueIndividual {
 
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "ringueTime")
+            mappedBy = "ringueIndividual")
     private Cronometro cronometro;
-
-    @ManyToOne
-    private Placar placar;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<CategoriaCompeticao> categoriaCompeticao;
@@ -80,6 +77,14 @@ public class RingueIndividual {
 
     public Integer getId() {
         return id;
+    }
+
+    public Boolean getFinalizado() {
+        return finalizado;
+    }
+
+    public void setFinalizado(Boolean finalizado) {
+        this.finalizado = finalizado;
     }
 
     public Boolean getGenero() {
@@ -158,14 +163,6 @@ public class RingueIndividual {
 
     public void setCronometro(Cronometro cronometro) {
         this.cronometro = cronometro;
-    }
-
-    public Placar getPlacar() {
-        return placar;
-    }
-
-    public void setPlacar(Placar placar) {
-        this.placar = placar;
     }
 
     public Collection<CategoriaCompeticao> getCategoriaCompeticao() {

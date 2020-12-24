@@ -1,6 +1,19 @@
 $("#form-register-pessoa").submit(function (evt) {
     evt.preventDefault();
 
+    if($("#confi_senha").val() !== $("#senha").val()){
+        $("#confi_senha").value = "";
+        $("#confi_senha").focus();
+        var label = document.createElement("label");
+        label.textContent = "As senhas estão incompativeis";
+        label.className = "text-center";
+        document.getElementById("senha_div").appendChild(label);
+    }else {
+    savePessoa();
+    }
+});
+
+function savePessoa(){
     var data = {};
 
     var pessoaDTO = {};
@@ -50,8 +63,7 @@ $("#form-register-pessoa").submit(function (evt) {
             console.log("error: ", xhr.responseText);
         }
     });
-
-});
+}
 
 function getRadio(radio_name) {
     var radios = document.getElementsByName(radio_name);

@@ -1,7 +1,6 @@
 package com.control.ata.model.torneio;
 
 import com.control.ata.model.individual.RingueIndividual;
-import com.control.ata.model.time.RingueTime;
 
 import javax.persistence.*;
 
@@ -12,23 +11,50 @@ public class Cronometro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer tempo;
+    private Integer tempo_mim;
+    private Integer tempo_seg;
 
-    private Integer numeroRingue;
+    private Boolean rodando = Boolean.FALSE;
 
-	/*
-	private ChaveLutaIndividual chaveLutaIndividual;
-
-	private ChaveLutaTime chaveLutaTime;
-	*/
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
     private RingueIndividual ringueIndividual;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    private RingueTime ringueTime;
+    public Cronometro() {
+    }
 
-    @ManyToOne
-    private Placar placar;
+    public Integer getId() {
+        return id;
+    }
 
+    public Integer getTempo_mim() {
+        return tempo_mim;
+    }
+
+    public void setTempo_mim(Integer tempo_mim) {
+        this.tempo_mim = tempo_mim;
+    }
+
+    public Integer getTempo_seg() {
+        return tempo_seg;
+    }
+
+    public void setTempo_seg(Integer tempo_seg) {
+        this.tempo_seg = tempo_seg;
+    }
+
+    public Boolean getRodando() {
+        return rodando;
+    }
+
+    public void setRodando(Boolean rodando) {
+        this.rodando = rodando;
+    }
+
+    public RingueIndividual getRingueIndividual() {
+        return ringueIndividual;
+    }
+
+    public void setRingueIndividual(RingueIndividual ringueIndividual) {
+        this.ringueIndividual = ringueIndividual;
+    }
 }

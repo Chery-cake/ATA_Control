@@ -2,6 +2,7 @@ package com.control.ata.model.individual;
 
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -21,6 +22,7 @@ public class PlanilhaChaveamentoIndividual {
     private CategoriaCompeticao categoriaCompeticao;
 
     @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private RingueIndividual ringueIndividual;
 
     public PlanilhaChaveamentoIndividual() {

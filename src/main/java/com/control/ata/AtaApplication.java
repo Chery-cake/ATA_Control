@@ -1,21 +1,36 @@
 package com.control.ata;
 
+import com.control.ata.dao.RingueDAO;
+import com.control.ata.dao.TipoPessoaDAO;
+import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Cidade;
 import com.control.ata.model.endereco.Estado;
 import com.control.ata.model.endereco.Pais;
+import com.control.ata.model.individual.RankingIndividual;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
+import com.control.ata.model.tipo_pessoa.Instrutor;
+import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.CategoriaTorneio;
+import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
+import com.control.ata.repository.individual.RankingIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
+import com.control.ata.repository.pessoa.PlanilheiroRepository;
+import com.control.ata.repository.torneio.CategoriaCompeticaoRepository;
 import com.control.ata.repository.torneio.CategoriaTorneioRepository;
+import com.control.ata.repository.torneio.RodadaJuizRepository;
+import com.control.ata.repository.torneio.TorneioRepository;
 import com.control.ata.security.entity.Usuario;
 import com.control.ata.security.enuns.UserRole;
 import com.control.ata.security.repository.UsuarioRepository;
 import com.control.ata.security.service.BCrypt;
+import com.control.ata.service.RingueService;
+import com.control.ata.service.planilhaIndividual.ChaveIndividual;
+import com.control.ata.service.planilhaIndividual.ListaIndividual;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.directwebremoting.spring.DwrSpringServlet;
@@ -29,9 +44,7 @@ import org.springframework.context.annotation.ImportResource;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @ImportResource(locations = "classpath:dwr-spring.xml")
 @SpringBootApplication
@@ -41,6 +54,31 @@ public class AtaApplication implements CommandLineRunner {
     private PessoaRepository pessoaRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    //todo remover
+
+    @Autowired
+    private CategoriaCompeticaoRepository categoriaCompeticaoRepository;
+    @Autowired
+    private TorneioRepository torneioRepository;
+    @Autowired
+    private RingueDAO ringueDAO;
+    @Autowired
+    private RingueService ringueService;
+    @Autowired
+    private TipoPessoaDAO tipoPessoaDAO;
+    @Autowired
+    private RodadaJuizRepository rodadaJuizRepository;
+    @Autowired
+    private ChaveIndividual chaveIndividual;
+    @Autowired
+    private ListaIndividual listaIndividual;
+    @Autowired
+    private PlanilheiroRepository planilheiroRepository;
+    @Autowired
+    private RankingIndividualRepository rankingIndividualRepository;
+    @Autowired
+    private AcademiaRepository academiaRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(AtaApplication.class, args);
@@ -62,6 +100,53 @@ public class AtaApplication implements CommandLineRunner {
         usuario.setEnabled(true);
 
         usuarioRepository.save(usuario);
+
+        pessoa.setUsuario(usuario);
+
+        pessoaRepository.save(pessoa);
+
+        //todo remover
+
+        CategoriaCompeticao categoriaCompeticao = new CategoriaCompeticao("nome", false, false, 0, 0, 0, 0, 0);
+
+        categoriaCompeticao = categoriaCompeticaoRepository.save(categoriaCompeticao);
+
+        ArrayList<Pessoa> pessoaArrayList = new ArrayList<>();
+
+        Pessoa pessoaInstru = pessoaRepository.save(new Pessoa("instrutor", "pessoa", false,// genero false = menina
+                                                               new GregorianCalendar(2013, Calendar.FEBRUARY,
+                                                                                     11).getTime(), 0, "NumberWorld",
+                                                               "NumberBrasil", true, "telefone", null, null, null));
+
+        Academia academia = academiaRepository.save(new Academia("academia", null));
+
+        Instrutor instrutor = tipoPessoaDAO.save(new Instrutor(academia, pessoaInstru));
+
+        for (int i = 0; i < 4; i++) {
+            pessoaArrayList.add(
+                    pessoaRepository.save(new Pessoa(String.valueOf(i), "pessoa", false,// genero false = menina
+                                                     new GregorianCalendar(2013, Calendar.FEBRUARY,
+                                                                           11).getTime(), 0, "NumberWorld",
+                                                     "NumberBrasil", false, "telefone", null, null, null)));
+        }
+
+        Singleton s = Singleton.getSingleton();
+
+        for (Pessoa pessoa1 : pessoaArrayList) {
+            pessoa1.setInstrutor(instrutor);
+            pessoa1 = pessoaRepository.save(pessoa1);
+            rankingIndividualRepository.save(new RankingIndividual(pessoa1, s.getRandomInt(0, 20), categoriaCompeticao));
+        }
+
+        categoriaCompeticao = new CategoriaCompeticao("nome2", false, false, 0, 0, 0, 0, 0);
+
+        categoriaCompeticao = categoriaCompeticaoRepository.save(categoriaCompeticao);
+
+        for (Pessoa pessoa1 : pessoaArrayList) {
+            rankingIndividualRepository.save(new RankingIndividual(pessoa1, s.getRandomInt(0, 20), categoriaCompeticao));
+        }
+
+        System.out.println("Terminou insercoes");
 
     }
 

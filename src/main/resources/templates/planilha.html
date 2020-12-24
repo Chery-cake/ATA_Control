@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/base}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="usuario" type="com.control.ata.security.entity.Usuario"*/-->
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="argon-design-system.mim.css" rel="stylesheet"
+          th:href="@{/assets/argon/assets/css/crono.css}">
+    <style>
+
+      /*  table {
+
+            background-color: blue;
+        }*/
+
+
+    </style>
+</head>
+<body>
+
+<div class="corpo" layout:fragment="corpo">
+    <div class="container">
+
+        <input hidden id="torneio_id" th:value="${usuario.planilheiro.torneio.id}">
+
+        <div class="text-center" id="seletor">
+
+        </div>
+
+        <div class="text-center" id="planilha">
+        </div>
+
+        <div class="card-body px-lg-5 py-lg-5 text-center">
+            <button class="btn btn-lg btn-github btn-icon my-4" id="ter_ringue">Finalizar ringue</button>
+        </div>
+
+    </div>
+
+</div>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/planilha.js}"></script>
+</th:block>
+
+</body>
+</html>

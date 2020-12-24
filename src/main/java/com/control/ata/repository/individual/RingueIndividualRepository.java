@@ -24,4 +24,7 @@ public interface RingueIndividualRepository extends JpaRepository<RingueIndividu
     @Query("select r from RingueIndividual r where r.torneio = :torneio")
     List<RingueIndividual> getAllByTorneio(@Param("torneio") Torneio torneio);
 
+    @Query("select r from RingueIndividual r where r.numeroRingue = :numero and r.finalizado = :finalizado")
+    List<RingueIndividual> getAllByNumeroRingueAndFinalizado(@Param("numero") Integer numero, @Param("finalizado") Boolean finalizado);
+
 }

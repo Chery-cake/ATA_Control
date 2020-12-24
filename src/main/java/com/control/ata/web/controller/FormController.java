@@ -290,13 +290,13 @@ public class FormController {
 
     // ======================================AJUSTAR PERFIL=============================================
 
-    @GetMapping("/ajustar")
+    @GetMapping("/ajustar/pessoa")
     public String ajustarPerfil() {
         return "ajustar_perfil";
     }
 
 
-    @PostMapping("/save/ajuste")
+    @PostMapping("/save/ajuste/pessoa")
     public ResponseEntity<?> ajustarPessoa(@Valid @RequestBody String json,
             BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
         ResponseEntity<?> errors = getErrors(result);
@@ -322,6 +322,35 @@ public class FormController {
         Usuario usuario = pessoaAjuste.usuario;
         usuario.setPessoa(pessoa);
         usuarioService.updateUser(usuario);
+
+        return ResponseEntity.ok().build();
+    }
+
+    // ======================================AJUSTAR ALUNOS=============================================
+
+    @GetMapping("/ajustar/alunos")
+    public String ajustarAluno() {
+        return "ajustar_alunos";
+    }
+
+
+    @PostMapping("/save/ajuste/aluno")
+    public ResponseEntity<?> ajustarAluno(@Valid @RequestBody String json,
+            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        AlunoAjuste alunoAjuste = jacksonObjectMapper.readValue(decodedJson, AlunoAjuste.class);
+
+        Pessoa pessoa = pessoaRepository.getOne(alunoAjuste.aluno);
+
+        pessoa.setAtaNumberWorld(alunoAjuste.ataNumberWorld);
+        pessoa.setAtaNumberBrasil(alunoAjuste.ataNumberBrasil);
+        pessoa.setStatus(alunoAjuste.status);
+
+        pessoaRepository.save(pessoa);
 
         return ResponseEntity.ok().build();
     }
@@ -407,9 +436,9 @@ public class FormController {
         return "relatorio_torneio";
     }
 
-    @GetMapping("/relatorio/pontos")
-    public String pontosArmas() {
-        return "pontos_armas";
+    @GetMapping("/relatorio/ranking/individual")
+    public String getRelatorioRankingIndividual() {
+        return "relatorio_rank_individual";
     }
 
     // ======================================CRIAR CATEGORIA=============================================
@@ -506,8 +535,9 @@ public class FormController {
         torneio.setIniciado(true);
         torneio = torneioRepository.save(torneio);
 
-        ArrayList<RingueIndividual> ringueIndividualArrayList = (ArrayList<RingueIndividual>) ringueService.createRingueIndividual(//todo testar
-                torneio);
+        ArrayList<RingueIndividual> ringueIndividualArrayList = (ArrayList<RingueIndividual>) ringueService.createRingueIndividual(
+//todo testar
+torneio);
 
         for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {//todo testar
             listaIndividual.createPlanilhasLista(ringueIndividual);
@@ -591,6 +621,11 @@ public class FormController {
         return categoriaTorneioRepository.findAll();
     }
 
+    @ModelAttribute("categoriasCompeticao")
+    public List<CategoriaCompeticao> getCategoriaCompeticao() {
+        return categoriaCompeticaoRepository.findAll();
+    }
+
     @ModelAttribute("paises")
     public List<Pais> getPaises() {
         return paisRepository.findAll();
@@ -604,6 +639,12 @@ public class FormController {
     @PostMapping("/estado/{id}")
     public ResponseEntity<?> getCidades(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(cidadeRepository.getAllByEstado(estadoRepository.getOne(id)));
+    }
+
+    @PostMapping("/alunos/instrutor/{id}")
+    public ResponseEntity<?> getAlunos(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(pessoaRepository.getAllByInstrutorAndIsInstrutor(
+                instrutorRepository.findByPessoa(pessoaRepository.getOne(id)), false));
     }
 
     @PostMapping("/categorias/competicao")
@@ -648,6 +689,11 @@ public class FormController {
     @PostMapping("/ringueInd/rodada/{id}")
     public ResponseEntity<?> getRingueInd(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(ringueIndividualRepository.getAllByRodadaJuiz(rodadaJuizRepository.getOne(id)));
+    }
+
+    @PostMapping("/rank/individual/categoria/{id}")
+    public ResponseEntity<?> getRankIndividual(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(rankingIndividualRepository.getAllByCategoriaCompeticao(categoriaCompeticaoRepository.getOne(id)));
     }
 
     @PostMapping("/categorias/rank/pessoa/{id}")
@@ -719,6 +765,23 @@ public class FormController {
         }
 
         public PessoaAjuste() {
+        }
+    }
+
+    private static class AlunoAjuste {
+        public Integer aluno;
+        public String ataNumberWorld;
+        public String ataNumberBrasil;
+        public Integer status;
+
+        public AlunoAjuste() {
+        }
+
+        public AlunoAjuste(Integer aluno, String ataNumberWorld, String ataNumberBrasil, Integer status) {
+            this.aluno = aluno;
+            this.ataNumberWorld = ataNumberWorld;
+            this.ataNumberBrasil = ataNumberBrasil;
+            this.status = status;
         }
     }
 

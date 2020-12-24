@@ -1,6 +1,7 @@
 package com.control.ata.model.individual;
 
 import com.control.ata.model.tipo_pessoa.Competidor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -14,11 +15,12 @@ public class ChaveListaIndividual {
     @ManyToOne
     private Competidor competidor;
 
-    private Integer notaJuizA;
-    private Integer notaJuizB;
-    private Integer notaJuizC;
+    private Integer notaJuizA = 0;
+    private Integer notaJuizB = 0;
+    private Integer notaJuizC = 0;
 
     @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private PlanilhaListaIndividual planilhaListaIndividual;
 
     public ChaveListaIndividual() {
@@ -66,6 +68,6 @@ public class ChaveListaIndividual {
     }
 
     public Integer getSoma() {
-        return notaJuizA + notaJuizB + notaJuizC;
+        return this.notaJuizA + this.notaJuizB + this.notaJuizC;
     }
 }

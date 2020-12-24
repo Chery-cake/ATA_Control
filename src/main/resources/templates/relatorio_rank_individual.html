@@ -1,0 +1,68 @@
+<html layout:decorate="~{layout/base}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="usuario" type="com.control.ata.security.entity.Usuario"*/-->
+<head>
+</head>
+<body>
+<div class="corpo" layout:fragment="corpo">
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-white">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbar-default">
+                <div class="navbar-collapse-header">
+                    <div class="row">
+                        <div class="col-6 collapse-brand">
+                            <a href="javascript:void(0)">
+                                <img src="../../assets/img/brand/blue.png">
+                            </a>
+                        </div>
+                        <div class="col-6 collapse-close">
+                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <select class="form-control" id="categoria">
+                <option disabled selected value="">Selecione</option>
+                <option th:each="c : ${categoriasCompeticao}"
+                        th:text="${c.nome}"
+                        th:value="${c.id}">...
+                </option>
+            </select>
+        </div>
+    </nav>
+
+    <div class="container">
+
+
+        <div id="table">
+            <table class="table">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/relatorio_rank_individual.js}"></script>
+</th:block>
+
+</body>
+</html>

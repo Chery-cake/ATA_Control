@@ -1,6 +1,7 @@
 package com.control.ata.model.individual;
 
 import com.control.ata.model.tipo_pessoa.Competidor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -31,6 +32,7 @@ public class ChaveLutaIndividual {
     private Boolean desqualificacaoBranca = false;
 
     @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual;
 
     public ChaveLutaIndividual() {
