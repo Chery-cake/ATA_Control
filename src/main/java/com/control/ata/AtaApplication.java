@@ -6,17 +6,24 @@ import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Cidade;
 import com.control.ata.model.endereco.Estado;
 import com.control.ata.model.endereco.Pais;
-import com.control.ata.model.individual.RankingIndividual;
+import com.control.ata.model.individual.*;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
+import com.control.ata.model.pessoa.Planilheiro;
+import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.tipo_pessoa.Instrutor;
 import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.CategoriaTorneio;
+import com.control.ata.model.torneio.RodadaJuiz;
+import com.control.ata.model.torneio.Torneio;
 import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
-import com.control.ata.repository.individual.RankingIndividualRepository;
+import com.control.ata.repository.individual.ChaveListaIndividualRepository;
+import com.control.ata.repository.individual.ChaveLutaIndividualRepository;
+import com.control.ata.repository.individual.PlanilhaChaveamentoIndividualRepository;
+import com.control.ata.repository.individual.PlanilhaListaIndividualRepository;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
 import com.control.ata.repository.pessoa.PlanilheiroRepository;
@@ -28,9 +35,11 @@ import com.control.ata.security.entity.Usuario;
 import com.control.ata.security.enuns.UserRole;
 import com.control.ata.security.repository.UsuarioRepository;
 import com.control.ata.security.service.BCrypt;
+import com.control.ata.security.service.UsuarioService;
 import com.control.ata.service.RingueService;
 import com.control.ata.service.planilhaIndividual.ChaveIndividual;
 import com.control.ata.service.planilhaIndividual.ListaIndividual;
+import com.control.ata.service.planilhaIndividual.RankIndividual;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.directwebremoting.spring.DwrSpringServlet;
@@ -76,9 +85,21 @@ public class AtaApplication implements CommandLineRunner {
     @Autowired
     private PlanilheiroRepository planilheiroRepository;
     @Autowired
-    private RankingIndividualRepository rankingIndividualRepository;
+    private UsuarioService usuarioService;
     @Autowired
     private AcademiaRepository academiaRepository;
+    @Autowired
+    private ChaveListaIndividualRepository chaveListaIndividualRepository;
+    @Autowired
+    private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
+    @Autowired
+    private RankIndividual rankIndividual;
+    @Autowired
+    private CategoriaTorneioRepository categoriaTorneioRepository;
+    @Autowired
+    private PlanilhaChaveamentoIndividualRepository planilhaChaveamentoIndividualRepository;
+    @Autowired
+    private PlanilhaListaIndividualRepository planilhaListaIndividualRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(AtaApplication.class, args);
@@ -107,16 +128,29 @@ public class AtaApplication implements CommandLineRunner {
 
         //todo remover
 
-        CategoriaCompeticao categoriaCompeticao = new CategoriaCompeticao("nome", false, false, 0, 0, 0, 0, 0);
+        ArrayList<CategoriaCompeticao> competicaoArrayList = new ArrayList<>();
+        competicaoArrayList.add(
+                categoriaCompeticaoRepository.save(new CategoriaCompeticao("lista", false, false, 0, 0, 0, 0, 0)));
+        competicaoArrayList.add(
+                categoriaCompeticaoRepository.save(new CategoriaCompeticao("chave", true, false, 3, 2, 0, 0, 0)));
 
-        categoriaCompeticao = categoriaCompeticaoRepository.save(categoriaCompeticao);
+        CategoriaTorneio categoriaTorneio = categoriaTorneioRepository.save(new CategoriaTorneio("nome", 5));
+
+        Torneio torneio = torneioRepository.save(new Torneio(new Date(), new Date(), 1, false, null, categoriaTorneio));
+        RodadaJuiz rodadaJuiz = rodadaJuizRepository.save(new RodadaJuiz("ini", "ter", new Date(), torneio));
+
+        Planilheiro planilheiro = planilheiroRepository.save(new Planilheiro(torneio));
+
+        Usuario usuario1 = new Usuario(planilheiro, "ema", "root");
+        usuario1.setUserRole(UserRole.ROLE_PLANILHA);
+        usuarioService.signUpUser(usuario1);
 
         ArrayList<Pessoa> pessoaArrayList = new ArrayList<>();
 
         Pessoa pessoaInstru = pessoaRepository.save(new Pessoa("instrutor", "pessoa", false,// genero false = menina
                                                                new GregorianCalendar(2013, Calendar.FEBRUARY,
                                                                                      11).getTime(), 0, "NumberWorld",
-                                                               "NumberBrasil", true, "telefone", null, null, null));
+                                                               "NumberBrasil", false, "telefone", null, null, null));
 
         Academia academia = academiaRepository.save(new Academia("academia", null));
 
@@ -130,20 +164,77 @@ public class AtaApplication implements CommandLineRunner {
                                                      "NumberBrasil", false, "telefone", null, null, null)));
         }
 
-        Singleton s = Singleton.getSingleton();
-
         for (Pessoa pessoa1 : pessoaArrayList) {
             pessoa1.setInstrutor(instrutor);
             pessoa1 = pessoaRepository.save(pessoa1);
-            rankingIndividualRepository.save(new RankingIndividual(pessoa1, s.getRandomInt(0, 20), categoriaCompeticao));
+            tipoPessoaDAO.save(new Competidor(55d, 55d, 0, pessoa1, torneio, competicaoArrayList));
         }
 
-        categoriaCompeticao = new CategoriaCompeticao("nome2", false, false, 0, 0, 0, 0, 0);
+        ArrayList<RingueIndividual> ringueIndividualArrayList = new ArrayList<>();
 
-        categoriaCompeticao = categoriaCompeticaoRepository.save(categoriaCompeticao);
+        for (int i = 1; i <= 2; i++) {
+            ringueIndividualArrayList.add(ringueDAO.save(
+                    new RingueIndividual(false, false, 1, i, 1, 0, null, torneio, competicaoArrayList, rodadaJuiz)));
+        }
 
-        for (Pessoa pessoa1 : pessoaArrayList) {
-            rankingIndividualRepository.save(new RankingIndividual(pessoa1, s.getRandomInt(0, 20), categoriaCompeticao));
+        ringueService.createRingueIndividual(torneio);
+
+        Singleton s = Singleton.getSingleton();
+
+        for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {
+            ArrayList<PlanilhaListaIndividual> planilhaListaIndividuals = (ArrayList<PlanilhaListaIndividual>) listaIndividual.createPlanilhasLista(
+                    ringueIndividual);
+            ArrayList<PlanilhaChaveamentoIndividual> planilhaChaveamentoIndividuals = (ArrayList<PlanilhaChaveamentoIndividual>) chaveIndividual.createPlanilhasChave(
+                    ringueIndividual);
+
+            for (PlanilhaListaIndividual planilhaListaIndividual : planilhaListaIndividualRepository.getAllByRingueIndividual(ringueIndividual)) {
+                for (ChaveListaIndividual chaveListaIndividual : chaveListaIndividualRepository.getAllByPlanilhaListaIndividual(planilhaListaIndividual)) {
+                    chaveListaIndividual.setNotaJuizA(s.getRandomInt(1, 10));
+                    chaveListaIndividual.setNotaJuizB(s.getRandomInt(1, 10));
+                    chaveListaIndividual.setNotaJuizC(s.getRandomInt(1, 10));
+                    chaveListaIndividualRepository.save(chaveListaIndividual);
+                }
+                rankIndividual.setRankingLista(planilhaListaIndividual);
+            }
+
+            for (PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual : planilhaChaveamentoIndividualRepository.getAllByRingueIndividual(ringueIndividual)) {
+
+                ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList = (ArrayList<ChaveLutaIndividual>) chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(
+                        planilhaChaveamentoIndividual);
+                ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayListRemoved = new ArrayList<>();
+
+                for (int i = chaveLutaIndividualArrayList.get(0).getFase(); i >= 0; i--) {
+
+                    for (ChaveLutaIndividual chaveLutaIndividual : chaveLutaIndividualArrayList) {
+                        chaveLutaIndividual.setDesqualificacaoVermelha(true);
+                        chaveLutaIndividual.setDesqualificacaoBranca(false);
+                        chaveLutaIndividualRepository.save(chaveLutaIndividual);
+                        chaveIndividual.updateChave(chaveLutaIndividual);
+                    }
+
+                    ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList1 = (ArrayList<ChaveLutaIndividual>) chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(
+                            planilhaChaveamentoIndividual);
+
+                    for (ChaveLutaIndividual chaveLutaIndividual : chaveLutaIndividualArrayList1) {
+                        for (ChaveLutaIndividual chaveLutaIndividual1 : chaveLutaIndividualArrayList) {
+                            if (chaveLutaIndividual.getId().equals(chaveLutaIndividual1.getId())) {
+                                chaveLutaIndividualArrayListRemoved.add(chaveLutaIndividual);
+                            }
+                        }
+                    }
+
+                    chaveLutaIndividualArrayList.clear();
+
+                    for (ChaveLutaIndividual chaveLutaIndividual : chaveLutaIndividualArrayList1) {
+                        if (!chaveLutaIndividualArrayListRemoved.contains(chaveLutaIndividual)) {
+                            chaveLutaIndividualArrayList.add(chaveLutaIndividual);
+                        }
+                    }
+
+                }
+
+                rankIndividual.setRankingChave(planilhaChaveamentoIndividual);
+            }
         }
 
         System.out.println("Terminou insercoes");

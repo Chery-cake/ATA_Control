@@ -7,9 +7,7 @@ import com.control.ata.dao.TipoPessoaDAO;
 import com.control.ata.dto.*;
 import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Pais;
-import com.control.ata.model.individual.ListaCategoriaCompetidorFechada;
-import com.control.ata.model.individual.RankingIndividual;
-import com.control.ata.model.individual.RingueIndividual;
+import com.control.ata.model.individual.*;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.pessoa.Planilheiro;
@@ -24,9 +22,7 @@ import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
 import com.control.ata.repository.endereco.PaisRepository;
-import com.control.ata.repository.individual.ListaCategoriaCompetidorFechadaRepository;
-import com.control.ata.repository.individual.RankingIndividualRepository;
-import com.control.ata.repository.individual.RingueIndividualRepository;
+import com.control.ata.repository.individual.*;
 import com.control.ata.repository.pessoa.FaixaRepository;
 import com.control.ata.repository.pessoa.PessoaRepository;
 import com.control.ata.repository.pessoa.PlanilheiroRepository;
@@ -45,6 +41,7 @@ import com.control.ata.security.service.UsuarioService;
 import com.control.ata.service.RingueService;
 import com.control.ata.service.planilhaIndividual.ChaveIndividual;
 import com.control.ata.service.planilhaIndividual.ListaIndividual;
+import com.control.ata.service.planilhaIndividual.RankIndividual;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +106,12 @@ public class FormController {
     private ChaveIndividual chaveIndividual;
     @Autowired
     private ListaIndividual listaIndividual;
+    @Autowired
+    private RankIndividual rankIndividual;
+    @Autowired
+    private PlanilhaListaIndividualRepository planilhaListaIndividualRepository;
+    @Autowired
+    private PlanilhaChaveamentoIndividualRepository planilhaChaveamentoIndividualRepository;
 
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
@@ -536,10 +539,9 @@ public class FormController {
         torneio = torneioRepository.save(torneio);
 
         ArrayList<RingueIndividual> ringueIndividualArrayList = (ArrayList<RingueIndividual>) ringueService.createRingueIndividual(
-//todo testar
-torneio);
+                torneio);
 
-        for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {//todo testar
+        for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {
             listaIndividual.createPlanilhasLista(ringueIndividual);
             chaveIndividual.createPlanilhasChave(ringueIndividual);
         }
@@ -565,6 +567,19 @@ torneio);
         torneioRepository.save(torneio);
 
         planilheiroRepository.delete(planilheiroRepository.getByTorneio(torneio));
+
+        if (torneio.getPontuar()) {
+            for (RingueIndividual ringueIndividual : ringueIndividualRepository.getAllByTorneio(torneio)) {
+                for (PlanilhaListaIndividual planilhaListaIndividual : planilhaListaIndividualRepository.getAllByRingueIndividual(
+                        ringueIndividual)) {
+                    rankIndividual.setRankingLista(planilhaListaIndividual);
+                }
+                for (PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual : planilhaChaveamentoIndividualRepository.getAllByRingueIndividual(
+                        ringueIndividual)) {
+                    rankIndividual.setRankingChave(planilhaChaveamentoIndividual);
+                }
+            }
+        }
 
         return ResponseEntity.ok().build();
     }
@@ -692,8 +707,9 @@ torneio);
     }
 
     @PostMapping("/rank/individual/categoria/{id}")
-    public ResponseEntity<?> getRankIndividual(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(rankingIndividualRepository.getAllByCategoriaCompeticao(categoriaCompeticaoRepository.getOne(id)));
+    public ResponseEntity<?> getRankIndividual(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(
+                rankingIndividualRepository.getAllByCategoriaCompeticao(categoriaCompeticaoRepository.getOne(id)));
     }
 
     @PostMapping("/categorias/rank/pessoa/{id}")
