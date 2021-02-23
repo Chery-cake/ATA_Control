@@ -1,9 +1,7 @@
-package com.control.ata.web.controller;
+package com.control.ata.controller;
 
-import com.control.ata.security.enuns.UserRole;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class PerfilController {

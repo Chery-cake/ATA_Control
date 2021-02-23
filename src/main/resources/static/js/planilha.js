@@ -164,6 +164,15 @@ $(document).on("change", "select[id='planilha_select']", function () {
         monta_plan_lista(id_plan);
     }
 
+    $.ajax({
+        method: "POST",
+        url: "/ringue/individual/placar/save/" + id_plan,
+        contentType: 'application/json',
+        data: JSON.stringify(tipo_plan),
+        success: function (result){
+        }
+    });
+
 });
 
 var chave = 1;
@@ -513,6 +522,7 @@ function monta_plan_chave(id_plan) {
             row.className = "row";
             var col = document.createElement("div");
             col.className = "column";
+            col.id = "botoes_vermelhos";
 
             var table = document.createElement("table");
             table.className = "table-bordered";
@@ -636,6 +646,8 @@ function monta_plan_chave(id_plan) {
             table.className = "table-bordered";
             var col = document.createElement("div");
             col.className = "column";
+            col.id = "botoes_brancos";
+
             var tr = document.createElement("tr");
 
             var th = document.createElement("th");
@@ -763,7 +775,7 @@ function monta_plan_chave(id_plan) {
             var div_cronometro = document.createElement("div");
             div_cronometro.id = "cronometro";
             var h4 = document.createElement("h4");
-            h4.textContent = "CRONOMETRO "
+            h4.textContent = "CRONOMETRO";
             div_cronometro.appendChild(h4);
 
             var button = document.createElement("button");
@@ -889,13 +901,16 @@ $(document).on("click", "button[id='desqualificacao']", function () {
 });
 
 $(document).on("click", "button[id='submit_chave']", function () {
+
     var tr = document.getElementById("chaves").children[chave];
     tr.children[10].textContent = "true";
 
     saveCronometro(false);
     saveChaveLuta();
 
-    if (tr.children[12].textContent !== "0") {
+    // console.log(tr);
+
+    // if (tr.children[12].textContent !== "0") {
         $.ajax({
             method: "POST",
             url: "/chave/luta/individual/avancar/" + $(tr).attr("id"),
@@ -1012,29 +1027,36 @@ $(document).on("click", "button[id='submit_chave']", function () {
                         }
                     }
                 }
-                // var nova_chave = false;
-                // for (var i in document.getElementById("chaves").children) {
-                //     var tr = document.getElementById("chaves").children[i];
-                //     if (tr.children) {
-                //         if (tr.children[10].textContent === "false") {
-                //             nova_chave = true;
-                //             break;
-                //         }
-                //     }
-                // }
-                // if (nova_chave === false) {//todo adicionar funcao para remover os botoes para n modificar as chaves e confirmar q acabou todas as chaves
-                //     document.getElementById("submit_chave").remove();
-                //
-                //     var label = document.createElement("label");
-                //     label.textContent = "Todas as lutas ja abacaram"
-                //
-                //     document.getElementById("planilha").appendChild(label);
-                //
-                //     chave = 1;
-                // }
+                var nova_chave = false;
+                for (var i in document.getElementById("chaves").children) {
+                    var tr = document.getElementById("chaves").children[i];
+                    if (tr.children) {
+                        if (tr.children[10].textContent === "false") {
+                            nova_chave = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (nova_chave === false) {
+
+                    document.getElementById("submit_chave").remove();
+                    document.getElementById("botoes_vermelhos").remove();
+                    document.getElementById("botoes_brancos").remove();
+                    document.getElementById("cronometro").remove();
+
+                    saveCronometro(false);
+
+                    var label = document.createElement("label");
+                    label.textContent = "Todas as lutas ja abacaram";
+
+                    document.getElementById("planilha").appendChild(label);
+
+                    chave = 1;
+                }
             }
         });
-    }
+    // }
 
 });
 
@@ -1109,9 +1131,9 @@ function saveCronometro(rodando) {
 
 }
 
-var countDown = setInterval(function () {
+setInterval(function () {
     if (tipo_plan === "chave") {
-        if (document.getElementById("chaves").children[chave] != null) {
+        if (document.getElementById("chaves").children[chave] !== null) {
 
             var tr = document.getElementById("chaves").children[chave];
             if (tr.children[5].textContent !== "00:00") {

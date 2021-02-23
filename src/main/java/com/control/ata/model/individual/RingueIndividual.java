@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class RingueIndividual {
 
     @Id
@@ -51,7 +52,13 @@ public class RingueIndividual {
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "ringueIndividual")
+    @JsonIgnore
     private Cronometro cronometro;
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "ringueIndividual")
+    private Placar placar;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<CategoriaCompeticao> categoriaCompeticao;
@@ -73,6 +80,7 @@ public class RingueIndividual {
         this.torneio = torneio;
         this.categoriaCompeticao = categoriaCompeticao;
         this.rodadaJuiz = rodadaJuiz;
+        this.placar = new Placar(this);
     }
 
     public Integer getId() {
@@ -172,5 +180,9 @@ public class RingueIndividual {
     public void setCategoriaCompeticao(
             Collection<CategoriaCompeticao> categoriaCompeticao) {
         this.categoriaCompeticao = categoriaCompeticao;
+    }
+
+    public Placar getPlacar() {
+        return placar;
     }
 }

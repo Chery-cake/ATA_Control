@@ -1,4 +1,4 @@
-package com.control.ata.web.controller;
+package com.control.ata.controller;
 
 import com.control.ata.model.individual.ChaveListaIndividual;
 import com.control.ata.model.individual.ChaveLutaIndividual;
@@ -10,6 +10,7 @@ import com.control.ata.repository.torneio.TorneioRepository;
 import com.control.ata.service.planilhaIndividual.ChaveIndividual;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

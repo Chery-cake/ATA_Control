@@ -1,4 +1,4 @@
-package com.control.ata.web.controller;
+package com.control.ata.controller;
 
 import com.control.ata.dao.EnderecoDAO;
 import com.control.ata.dao.PessoaDAO;

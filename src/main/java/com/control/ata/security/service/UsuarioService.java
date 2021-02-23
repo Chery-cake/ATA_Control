@@ -4,7 +4,6 @@ import com.control.ata.security.entity.ConfirmationToken;
 import com.control.ata.security.entity.Usuario;
 import com.control.ata.security.repository.ConfirmationTokenRepository;
 import com.control.ata.security.repository.UsuarioRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +15,6 @@ import java.text.MessageFormat;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class UsuarioService implements UserDetailsService {
 
     @Autowired
