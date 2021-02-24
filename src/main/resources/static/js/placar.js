@@ -314,135 +314,9 @@ function monta_plan_chave(id_plan) {
     });
 }
 
-$(document).on("click", "button[id='submit_chave']", function () {//todo implementar corretamente e fazer de maneira automatica
-    var tr = document.getElementById("chaves").children[chave];
-    tr.children[9].textContent = "true";
-
-    // saveCronometro(false);
-    // saveChaveLuta();
-
-    if (tr.children[11].textContent !== "0") {
-        $.ajax({
-            method: "POST",
-            url: "/chave/luta/individual/avancar/" + $(tr).attr("id"),
-            contentType: 'application/json',
-            success: function (fase) {
-
-                var data = {};
-                data.fase = fase;
-                data.id_plan = $("#planilha_select").val().substr(0, 1);
-
-                $.ajax({
-                    method: "POST",
-                    url: "/planilha/individual/chave/fase/competidores",
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    success: function (result) {
-                        var table = document.getElementById("chaves");
-
-                        var aux = [];
-                        for (var i in table.children) {
-                            tr = table.children[i];
-                            if (tr.children) {
-                                if (tr.children[5].textContent === "vazio") {
-                                    aux.push(table.children[i]);
-                                }
-                            }
-                        }
-
-                        if (aux !== []) {
-                            for (var i in aux) {
-                                for (var z in table.children) {
-                                    if (table.children[z] === aux[i]) {
-                                        table.children[z].remove();
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        for (var i in result) {
-                            tr = document.createElement("tr");
-                            tr.id = result[i].id;
-
-                            var td = document.createElement("td");
-                            td.textContent = document.getElementById("chaves").children.length;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].competidorVermelho.pessoa.nome + " " + result[i].competidorVermelho.pessoa.sobrenome;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].pontosVermelhos;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].advertenciasVermelhas;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].penalidadesVermelhas;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            if (result[i].competidorBranco === null) {
-                                td.textContent = "vazio";
-                            } else {
-                                td.textContent = result[i].competidorBranco.pessoa.nome + " " + result[i].competidorBranco.pessoa.sobrenome;
-                            }
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].pontosBrancos;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].advertenciasBrancas;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].penalidadesBrancas;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.hidden = true;
-                            td.textContent = false;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.hidden = true;
-                            td.textContent = false;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.hidden = true;
-                            td.textContent = result[i].fase;
-                            tr.appendChild(td);
-                            table.appendChild(tr);
-                        }
-                    }
-                });
-
-
-                for (var i in document.getElementById("chaves").children) {
-                    var tr = document.getElementById("chaves").children[i];
-                    if (tr.children) {
-                        if (tr.children[9].textContent === "false") {
-                            chave = i;
-                            break;
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-});
-
 var cronometro_obj = {};
 
-function getCronometro() {//todo testar
+function getCronometro() {
 
     $.ajax({
         method: "POST",
@@ -470,7 +344,7 @@ setInterval(function () {
     setPlan();
 }, 1000);
 
-setInterval(function () {//todo mudar o local do ronometro // ja foi removido da tabela
+setInterval(function () {
     if (tipo_plan === "chave") {
         if (document.getElementById("chaves").children[chave] != null) {
 
