@@ -164,12 +164,17 @@ $(document).on("change", "select[id='planilha_select']", function () {
         monta_plan_lista(id_plan);
     }
 
+    var data = {};
+
+    data.id_plan = id_plan;
+    data.tipo_plan = tipo_plan;
+
     $.ajax({
         method: "POST",
-        url: "/ringue/individual/placar/save/" + id_plan,
+        url: "/ringue/individual/placar/save/" + ringue_atual.id,
         contentType: 'application/json',
-        data: JSON.stringify(tipo_plan),
-        success: function (result){
+        data: JSON.stringify(data),
+        success: function (result) {
         }
     });
 
@@ -220,6 +225,9 @@ function monta_plan_lista(id_plan) {
             tr.appendChild(th);
             table.appendChild(tr);
 
+            var possivel_dar_nota = true;
+            var aux = -1;
+
             for (var i in result) {
                 tr = document.createElement("tr");
                 tr.id = result[i].id;
@@ -250,9 +258,17 @@ function monta_plan_lista(id_plan) {
 
                 td = document.createElement("td");
                 td.hidden = true;
-                td.textContent = false;
+                if (result[i].soma !== 0) {
+                    td.textContent = true;
+                    aux++;
+                } else {
+                    td.textContent = false;
+                }
                 tr.appendChild(td);
                 table.appendChild(tr);
+            }
+            if (aux.toString() === i.toString()) {
+                possivel_dar_nota = false;
             }
 
             div.appendChild(table);
@@ -302,11 +318,17 @@ function monta_plan_lista(id_plan) {
             }
             div.appendChild(div_B);
 
-            var button = document.createElement("button");
-            button.id = "submit_lista";
-            button.textContent = "Submit";
-            button.className = " btn btn-lg btn-github btn-icon my-4";
-            div.appendChild(button);
+            if (possivel_dar_nota === true) {
+                var button = document.createElement("button");
+                button.id = "submit_lista";
+                button.textContent = "Submit";
+                button.className = " btn btn-lg btn-github btn-icon my-4";
+                div.appendChild(button);
+            } else {
+                var label = document.createElement("label");
+                label.textContent = "Todos os competidores ja receberam suas notas";
+                div.appendChild(label);
+            }
 
         }
     });
@@ -315,19 +337,25 @@ function monta_plan_lista(id_plan) {
 $(document).on("click", "button[id*='A_']", function () {
     var tr = document.getElementById("chaves").children[chave];
     var td = tr.children[2];
-    td.textContent = $(this).val();
+    if (tr.children[6].textContent !== "true") {
+        td.textContent = $(this).val();
+    }
 });
 
 $(document).on("click", "button[id*='B_']", function () {
     var tr = document.getElementById("chaves").children[chave];
     var td = tr.children[4];
-    td.textContent = $(this).val();
+    if (tr.children[6].textContent !== "true") {
+        td.textContent = $(this).val();
+    }
 });
 
 $(document).on("click", "button[id*='C_']", function () {
     var tr = document.getElementById("chaves").children[chave];
     var td = tr.children[3];
-    td.textContent = $(this).val();
+    if (tr.children[6].textContent !== "true") {
+        td.textContent = $(this).val();
+    }
 });
 
 $(document).on("click", "button[id='submit_lista']", function () {
@@ -338,8 +366,8 @@ $(document).on("click", "button[id='submit_lista']", function () {
     var data = {};
 
     data.nota_juiz_a = tr.children[2].textContent;
-    data.nota_juiz_b = tr.children[3].textContent;
-    data.nota_juiz_c = tr.children[4].textContent;
+    data.nota_juiz_b = tr.children[4].textContent;
+    data.nota_juiz_c = tr.children[3].textContent;
 
     $.ajax({
         method: "POST",
@@ -370,7 +398,7 @@ $(document).on("click", "button[id='submit_lista']", function () {
                 document.getElementById("submit_lista").remove();
 
                 var label = document.createElement("label");
-                label.textContent = "Todos os competidores ja receberam suas notas"
+                label.textContent = "Todos os competidores ja receberam suas notas";
 
                 document.getElementById("planilha").appendChild(label);
 
@@ -403,39 +431,43 @@ function monta_plan_chave(id_plan) {
             tr.appendChild(th);
 
             th = document.createElement("th");
-            th.textContent = "Competidor 1";
+            th.textContent = "Competidor V";
+            th.style = "color: white; background-color: red;";
             tr.appendChild(th);
 
             th = document.createElement("th");
             th.textContent = "Pontos";
+            th.style = "color: white; background-color: red;";
             tr.appendChild(th);
 
             th = document.createElement("th");
             th.textContent = "Ad";
+            th.style = "color: white; background-color: red;";
             tr.appendChild(th);
 
             th = document.createElement("th");
             th.textContent = "Pena";
+            th.style = "color: white; background-color: red;";
             tr.appendChild(th);
 
             th = document.createElement("th");
-            th.textContent = "Cronometro";
-            tr.appendChild(th);
-
-            th = document.createElement("th");
-            th.textContent = "Competidor 2";
+            th.textContent = "Competidor B";
+            th.style = "color: black; background-color: white;";
             tr.appendChild(th);
 
             th = document.createElement("th");
             th.textContent = "Pontos";
+            th.style = "color: black; background-color: white;";
             tr.appendChild(th);
 
             th = document.createElement("th");
             th.textContent = "Ad";
+            th.style = "color: black; background-color: white;";
             tr.appendChild(th);
 
             th = document.createElement("th");
             th.textContent = "Pena";
+            th.style = "color: black; background-color: white;";
             tr.appendChild(th);
 
             td = document.createElement("td");
@@ -448,6 +480,8 @@ function monta_plan_chave(id_plan) {
             td.textContent = true;
             tr.appendChild(td);
             table.appendChild(tr);
+
+            var finalizou_todas_chaves = 0;
 
             for (var i in result) {
                 tr = document.createElement("tr");
@@ -474,13 +508,9 @@ function monta_plan_chave(id_plan) {
                 tr.appendChild(td);
 
                 td = document.createElement("td");
-                td.textContent = "02:00";
-                tr.appendChild(td);
-
-                td = document.createElement("td");
-                if(result[i].competidorBranco === null){
+                if (result[i].competidorBranco === null) {
                     td.textContent = "vazio";
-                }else {
+                } else {
                     td.textContent = result[i].competidorBranco.pessoa.nome + " " + result[i].competidorBranco.pessoa.sobrenome;
                 }
                 tr.appendChild(td);
@@ -499,12 +529,7 @@ function monta_plan_chave(id_plan) {
 
                 td = document.createElement("td");
                 td.hidden = true;
-                td.textContent = false;
-                tr.appendChild(td);
-
-                td = document.createElement("td");
-                td.hidden = true;
-                td.textContent = false;
+                td.textContent = result[i].finalizado;
                 tr.appendChild(td);
 
                 td = document.createElement("td");
@@ -512,296 +537,311 @@ function monta_plan_chave(id_plan) {
                 td.textContent = result[i].fase;
                 tr.appendChild(td);
                 table.appendChild(tr);
+
+                if (result[i].finalizado === true && result[i].fase === 0) {
+                    finalizou_todas_chaves++;
+                }
             }
 
             div.appendChild(table);
 
+            if (finalizou_todas_chaves !== 2) {
+                // BOTOES VERMELHOS
+                var row = document.createElement("div");
+                row.className = "row";
+                var col = document.createElement("div");
+                col.className = "column";
+                col.id = "botoes_vermelhos";
 
-            // BOTOES VERMELHOS
-            var row = document.createElement("div");
-            row.className = "row";
-            var col = document.createElement("div");
-            col.className = "column";
-            col.id = "botoes_vermelhos";
+                var table = document.createElement("table");
+                table.className = "table-bordered";
+                var tr = document.createElement("tr");
 
-            var table = document.createElement("table");
-            table.className = "table-bordered";
-            var tr = document.createElement("tr");
+                var th = document.createElement("th");
+                var label = document.createElement("label");
+                label.textContent = "Ponto vermelho: "
+                th.appendChild(label);
+                tr.appendChild(th);
 
-            var th = document.createElement("th");
-            var label = document.createElement("label");
-            label.textContent = "Ponto vermelho: "
-            th.appendChild(label);
-            tr.appendChild(th);
+                var th = document.createElement("th");
+                var button = document.createElement("button");
+                button.id = "ponto_vermelho";
+                button.textContent = "";
+                button.value = "+";
+                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+                th.appendChild(button);
+                tr.appendChild(th);
 
-            var th = document.createElement("th");
-            var button = document.createElement("button");
-            button.id = "ponto_vermelho";
-            button.textContent = "";
-            button.value = "+";
-            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-            th.appendChild(button);
-            tr.appendChild(th);
+                var th = document.createElement("th");
+                button = document.createElement("button");
+                button.id = "ponto_vermelho";
+                button.textContent = "";
+                button.value = "-";
+                button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
+                th.appendChild(button);   //tr.append(th)
+                tr.appendChild(th);
 
-            var th = document.createElement("th");
-            button = document.createElement("button");
-            button.id = "ponto_vermelho";
-            button.textContent = "";
-            button.value = "-";
-            button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-            th.appendChild(button);   //tr.append(th)
-            tr.appendChild(th);
-
-            tr.appendChild(th);  //tr
-            table.appendChild(tr);
-
-
-            var tr = document.createElement("tr");
-
-            var th = document.createElement("th");
-            var label = document.createElement("label");
-            label.textContent = "Advertencia vermelha: "
-            th.appendChild(label);
-            tr.appendChild(th);
-
-            var th = document.createElement("th");
-            var button = document.createElement("button");
-            button.id = "advertencia_vermelha";
-            button.textContent = "";
-            button.value = "+";
-            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-            th.appendChild(button);
-            tr.appendChild(th);
-
-            var th = document.createElement("th");
-            button = document.createElement("button");
-            button.id = "advertencia_vermelha";
-            button.textContent = "";
-            button.value = "-";
-            button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-            th.appendChild(button);
-            tr.appendChild(th);
-
-            tr.appendChild(th);
-            table.appendChild(tr);
-
-            var tr = document.createElement("tr");
-
-            var th = document.createElement("th");
-            var label = document.createElement("label");
-            label.textContent = "Penalidade vermelha: "
-            th.appendChild(label);
-            tr.appendChild(th);
-
-            var th = document.createElement("th");
-            var button = document.createElement("button");
-            button.id = "penalidade_vermelha";
-            button.textContent = "";
-            button.value = "+";
-            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-            th.appendChild(button);
-            tr.appendChild(th);
-
-            var th = document.createElement("th");
-            button = document.createElement("button");
-            button.id = "penalidade_vermelha";
-            button.textContent = "";
-            button.value = "-";
-            button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-            th.appendChild(button);
-            tr.appendChild(th);
-
-            tr.appendChild(th);
-            table.appendChild(tr);
-
-            var tr = document.createElement("tr");
-
-            var th = document.createElement("th");
-            var label = document.createElement("label");
-            label.textContent = "Ações"
-            th.appendChild(label);
-            tr.appendChild(th);
-            var th = document.createElement("th");
-            var button = document.createElement("button");
-            button.id = "desqualificacao";
-            button.textContent = "Desqualificar";
-            button.value = "vermelho";
-            button.className = "btn btn-default";
-            th.appendChild(button);
-            tr.appendChild(th);
-            var th = document.createElement("th");
-            th.className = "bg-ttbyu"
-            tr.appendChild(th);
+                tr.appendChild(th);  //tr
+                table.appendChild(tr);
 
 
-            table.appendChild(tr);
-            div.appendChild(table);
-            col.appendChild(table);
-            row.appendChild(col);
-            div.appendChild(col);
-            div.appendChild(row);
-            // BOTOES BRANCOS
+                var tr = document.createElement("tr");
 
-            var table = document.createElement("table");
-            table.className = "table-bordered";
-            var col = document.createElement("div");
-            col.className = "column";
-            col.id = "botoes_brancos";
+                var th = document.createElement("th");
+                var label = document.createElement("label");
+                label.textContent = "Advertencia vermelha: "
+                th.appendChild(label);
+                tr.appendChild(th);
 
-            var tr = document.createElement("tr");
+                var th = document.createElement("th");
+                var button = document.createElement("button");
+                button.id = "advertencia_vermelha";
+                button.textContent = "";
+                button.value = "+";
+                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+                th.appendChild(button);
+                tr.appendChild(th);
 
-            var th = document.createElement("th");
+                var th = document.createElement("th");
+                button = document.createElement("button");
+                button.id = "advertencia_vermelha";
+                button.textContent = "";
+                button.value = "-";
+                button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
+                th.appendChild(button);
+                tr.appendChild(th);
 
-            var label = document.createElement("label");
-            label.textContent = "Ponto branco: "
-            th.appendChild(label);
-            tr.appendChild(th);
+                tr.appendChild(th);
+                table.appendChild(tr);
 
-            var th = document.createElement("th");
-            var button = document.createElement("button");
-            button.id = "ponto_branco";
-            button.textContent = "";
-            button.value = "+";
-            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-            th.appendChild(button);
-            tr.appendChild(th);
+                var tr = document.createElement("tr");
 
-            var th = document.createElement("th");
-            button = document.createElement("button");
-            button.id = "ponto_branco";
-            button.textContent = "";
-            button.value = "-";
-            button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-            th.appendChild(button);
-            tr.appendChild(th);
+                var th = document.createElement("th");
+                var label = document.createElement("label");
+                label.textContent = "Penalidade vermelha: "
+                th.appendChild(label);
+                tr.appendChild(th);
 
-            tr.appendChild(th);
-            table.appendChild(tr);
+                var th = document.createElement("th");
+                var button = document.createElement("button");
+                button.id = "penalidade_vermelha";
+                button.textContent = "";
+                button.value = "+";
+                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+                th.appendChild(button);
+                tr.appendChild(th);
 
+                var th = document.createElement("th");
+                button = document.createElement("button");
+                button.id = "penalidade_vermelha";
+                button.textContent = "";
+                button.value = "-";
+                button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
+                th.appendChild(button);
+                tr.appendChild(th);
 
-            var tr = document.createElement("tr");
+                tr.appendChild(th);
+                table.appendChild(tr);
 
-            var th = document.createElement("th");
-            var label = document.createElement("label");
-            label.textContent = "Advertencia branca: "
-            th.appendChild(label);
-            tr.appendChild(th);
+                var tr = document.createElement("tr");
 
-            var th = document.createElement("th");
-            var button = document.createElement("button");
-            button.id = "advertencia_branca";
-            button.textContent = "";
-            button.value = "+";
-            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-            th.appendChild(button);
-            tr.appendChild(th);
-
-            var th = document.createElement("th");
-            button = document.createElement("button");
-            button.id = "advertencia_branca";
-            button.textContent = "";
-            button.value = "-";
-            button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-            th.appendChild(button);
-            tr.appendChild(th);
-
-            tr.appendChild(th);
-            table.appendChild(tr);
-
-
-            var tr = document.createElement("tr");
-
-            var th = document.createElement("th");
-            var label = document.createElement("label");
-            label.textContent = "Penalidade branca: "
-            th.appendChild(label);
-            tr.appendChild(th);
-
-            var th = document.createElement("th");
-            var button = document.createElement("button");
-            button.id = "penalidade_branca";
-            button.textContent = "";
-            button.value = "+";
-            button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
-            th.appendChild(button);
-            tr.appendChild(th);
-
-            var th = document.createElement("th");
-            button = document.createElement("button");
-            button.id = "penalidade_branca";
-            button.textContent = "";
-            button.value = "-";
-            button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
-            th.appendChild(button);
-            tr.appendChild(th);
-
-            tr.appendChild(th);
-            table.appendChild(tr);
+                var th = document.createElement("th");
+                var label = document.createElement("label");
+                label.textContent = "Ações"
+                th.appendChild(label);
+                tr.appendChild(th);
+                var th = document.createElement("th");
+                var button = document.createElement("button");
+                button.id = "desqualificacao";
+                button.textContent = "Desqualificar";
+                button.value = "vermelho";
+                button.className = "btn btn-default";
+                th.appendChild(button);
+                tr.appendChild(th);
+                var th = document.createElement("th");
+                th.className = "bg-ttbyu"
+                tr.appendChild(th);
 
 
-            var tr = document.createElement("tr");
+                table.appendChild(tr);
+                div.appendChild(table);
+                col.appendChild(table);
+                row.appendChild(col);
+                div.appendChild(col);
+                div.appendChild(row);
+                // BOTOES BRANCOS
 
-            var th = document.createElement("th");
-            var label = document.createElement("label");
-            label.textContent = "Ações"
-            th.appendChild(label);
-            tr.appendChild(th);
+                var table = document.createElement("table");
+                table.className = "table-bordered";
+                var col = document.createElement("div");
+                col.className = "column";
+                col.id = "botoes_brancos";
 
-            var th = document.createElement("th");
-            var button = document.createElement("button");
-            button.id = "desqualificacao";
-            button.textContent = "Desqualificar";
-            button.value = "branco";
-            button.className = "btn btn-default";
-            th.appendChild(button);
-            tr.appendChild(th);
-            var th = document.createElement("th");
-            th.className = "bg-ttbyu"
-            tr.appendChild(th);
+                var tr = document.createElement("tr");
+
+                var th = document.createElement("th");
+
+                var label = document.createElement("label");
+                label.textContent = "Ponto branco: "
+                th.appendChild(label);
+                tr.appendChild(th);
+
+                var th = document.createElement("th");
+                var button = document.createElement("button");
+                button.id = "ponto_branco";
+                button.textContent = "";
+                button.value = "+";
+                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+                th.appendChild(button);
+                tr.appendChild(th);
+
+                var th = document.createElement("th");
+                button = document.createElement("button");
+                button.id = "ponto_branco";
+                button.textContent = "";
+                button.value = "-";
+                button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
+                th.appendChild(button);
+                tr.appendChild(th);
+
+                tr.appendChild(th);
+                table.appendChild(tr);
 
 
-            table.appendChild(tr);
-            div.appendChild(table);
-            col.appendChild(table);
-            row.appendChild(col);
-            div.appendChild(col);
-            div.appendChild(row);
+                var tr = document.createElement("tr");
+
+                var th = document.createElement("th");
+                var label = document.createElement("label");
+                label.textContent = "Advertencia branca: "
+                th.appendChild(label);
+                tr.appendChild(th);
+
+                var th = document.createElement("th");
+                var button = document.createElement("button");
+                button.id = "advertencia_branca";
+                button.textContent = "";
+                button.value = "+";
+                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+                th.appendChild(button);
+                tr.appendChild(th);
+
+                var th = document.createElement("th");
+                button = document.createElement("button");
+                button.id = "advertencia_branca";
+                button.textContent = "";
+                button.value = "-";
+                button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
+                th.appendChild(button);
+                tr.appendChild(th);
+
+                tr.appendChild(th);
+                table.appendChild(tr);
 
 
-            // FIM DOS BOTÕES
+                var tr = document.createElement("tr");
 
-            var crono = document.createElement("div");
-            crono.className = "row d-flex justify-content-center bg-white text-center";
-            var div_cronometro = document.createElement("div");
-            div_cronometro.id = "cronometro";
-            var h4 = document.createElement("h4");
-            h4.textContent = "CRONOMETRO";
-            div_cronometro.appendChild(h4);
+                var th = document.createElement("th");
+                var label = document.createElement("label");
+                label.textContent = "Penalidade branca: "
+                th.appendChild(label);
+                tr.appendChild(th);
 
-            var button = document.createElement("button");
-            button.id = "cronometro";
-            button.textContent = "Iniciar";
-            button.value = "iniciar";
-            button.className = "btn btn-info mr-4";
-            div_cronometro.appendChild(button);
+                var th = document.createElement("th");
+                var button = document.createElement("button");
+                button.id = "penalidade_branca";
+                button.textContent = "";
+                button.value = "+";
+                button.className = "btn btn-success btn-icon btn-sm ni ni-fat-add"
+                th.appendChild(button);
+                tr.appendChild(th);
 
-            button = document.createElement("button");
-            button.id = "cronometro";
-            button.textContent = "Pausar";
-            button.value = "pausar";
-            button.className = "btn btn-info mr-4";
-            div_cronometro.appendChild(button);
+                var th = document.createElement("th");
+                button = document.createElement("button");
+                button.id = "penalidade_branca";
+                button.textContent = "";
+                button.value = "-";
+                button.className = "btn btn-danger btn-icon btn-sm ni ni-fat-delete"
+                th.appendChild(button);
+                tr.appendChild(th);
 
-            div.appendChild(div_cronometro);
-            // crono.appendChild(div_cronometro);
-            // div.appendChild(crono);
+                tr.appendChild(th);
+                table.appendChild(tr);
 
-            button = document.createElement("button");
-            button.id = "submit_chave";
-            button.textContent = "Submit";
-            button.className = " btn btn-lg btn-github btn-icon my-4 text-center"
-            div.appendChild(button);
 
+                var tr = document.createElement("tr");
+
+                var th = document.createElement("th");
+                var label = document.createElement("label");
+                label.textContent = "Ações"
+                th.appendChild(label);
+                tr.appendChild(th);
+
+                var th = document.createElement("th");
+                var button = document.createElement("button");
+                button.id = "desqualificacao";
+                button.textContent = "Desqualificar";
+                button.value = "branco";
+                button.className = "btn btn-default";
+                th.appendChild(button);
+                tr.appendChild(th);
+                var th = document.createElement("th");
+                th.className = "bg-ttbyu"
+                tr.appendChild(th);
+
+
+                table.appendChild(tr);
+                div.appendChild(table);
+                col.appendChild(table);
+                row.appendChild(col);
+                div.appendChild(col);
+                div.appendChild(row);
+
+
+                // FIM DOS BOTÕES
+
+                var crono = document.createElement("div");
+                crono.className = "row d-flex justify-content-center bg-white text-center";
+                var div_cronometro = document.createElement("div");
+                div_cronometro.id = "cronometro";
+                var h4 = document.createElement("h4");
+                h4.textContent = "CRONOMETRO";
+                div_cronometro.appendChild(h4);
+
+                var h4 = document.createElement("h4");
+                h4.textContent = "02:00";
+                h4.id = "cronometro_timer";
+                div_cronometro.appendChild(h4);
+
+                var button = document.createElement("button");
+                button.id = "cronometro";
+                button.textContent = "Iniciar";
+                button.value = "iniciar";
+                button.className = "btn btn-info mr-4";
+                div_cronometro.appendChild(button);
+
+                button = document.createElement("button");
+                button.id = "cronometro";
+                button.textContent = "Pausar";
+                button.value = "pausar";
+                button.className = "btn btn-info mr-4";
+                div_cronometro.appendChild(button);
+
+                div.appendChild(div_cronometro);
+                // crono.appendChild(div_cronometro);
+                // div.appendChild(crono);
+
+                button = document.createElement("button");
+                button.id = "submit_chave";
+                button.textContent = "Submit";
+                button.className = " btn btn-lg btn-github btn-icon my-4 text-center"
+                div.appendChild(button);
+
+            } else {
+                var label = document.createElement("label");
+                label.textContent = "Todas as lutas ja abacaram";
+
+                document.getElementById("planilha").appendChild(label);
+            }
         }
     });
 }
@@ -809,9 +849,28 @@ function monta_plan_chave(id_plan) {
 $(document).on("click", "button[id='ponto_vermelho']", function () {
     var tr = document.getElementById("chaves").children[chave];
 
-    if ($(this).val() === "+") {
+    var skip = true;
+    var loop = true;
+
+    while (loop) {
+        loop = false;
+
+        if (tr.children[9].textContent === "true" && tr.children[10].textContent !== "0") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0" && Object.keys(document.getElementById("chaves").children[chave + 1]).length !== 0 && document.getElementById("chaves").children[chave + 1].children[9].textContent === "false") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0") {
+            skip = false;
+        }
+    }
+
+    if ($(this).val() === "+" && skip) {
         tr.children[2].textContent = parseInt(tr.children[2].textContent) + 1;
-    } else if ($(this).val() === "-") {
+    } else if ($(this).val() === "-" && skip) {
         tr.children[2].textContent = parseInt(tr.children[2].textContent) - 1;
     }
 
@@ -821,9 +880,28 @@ $(document).on("click", "button[id='ponto_vermelho']", function () {
 $(document).on("click", "button[id='advertencia_vermelha']", function () {
     var tr = document.getElementById("chaves").children[chave];
 
-    if ($(this).val() === "+") {
+    var skip = true;
+    var loop = true;
+
+    while (loop) {
+        loop = false;
+
+        if (tr.children[9].textContent === "true" && tr.children[10].textContent !== "0") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0" && Object.keys(document.getElementById("chaves").children[chave + 1]).length !== 0 && document.getElementById("chaves").children[chave + 1].children[9].textContent === "false") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0") {
+            skip = false;
+        }
+    }
+
+    if ($(this).val() === "+" && skip) {
         tr.children[3].textContent = parseInt(tr.children[3].textContent) + 1;
-    } else if ($(this).val() === "-") {
+    } else if ($(this).val() === "-" && skip) {
         tr.children[3].textContent = parseInt(tr.children[3].textContent) - 1;
     }
 
@@ -833,9 +911,28 @@ $(document).on("click", "button[id='advertencia_vermelha']", function () {
 $(document).on("click", "button[id='penalidade_vermelha']", function () {
     var tr = document.getElementById("chaves").children[chave];
 
-    if ($(this).val() === "+") {
+    var skip = true;
+    var loop = true;
+
+    while (loop) {
+        loop = false;
+
+        if (tr.children[9].textContent === "true" && tr.children[10].textContent !== "0") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0" && Object.keys(document.getElementById("chaves").children[chave + 1]).length !== 0 && document.getElementById("chaves").children[chave + 1].children[9].textContent === "false") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0") {
+            skip = false;
+        }
+    }
+
+    if ($(this).val() === "+" && skip) {
         tr.children[4].textContent = parseInt(tr.children[4].textContent) + 1;
-    } else if ($(this).val() === "-") {
+    } else if ($(this).val() === "-" && skip) {
         tr.children[4].textContent = parseInt(tr.children[4].textContent) - 1;
     }
 
@@ -845,10 +942,29 @@ $(document).on("click", "button[id='penalidade_vermelha']", function () {
 $(document).on("click", "button[id='ponto_branco']", function () {
     var tr = document.getElementById("chaves").children[chave];
 
-    if ($(this).val() === "+") {
-        tr.children[7].textContent = parseInt(tr.children[7].textContent) + 1;
-    } else if ($(this).val() === "-") {
-        tr.children[7].textContent = parseInt(tr.children[7].textContent) - 1;
+    var skip = true;
+    var loop = true;
+
+    while (loop) {
+        loop = false;
+
+        if (tr.children[9].textContent === "true" && tr.children[10].textContent !== "0") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0" && Object.keys(document.getElementById("chaves").children[chave + 1]).length !== 0 && document.getElementById("chaves").children[chave + 1].children[9].textContent === "false") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0") {
+            skip = false;
+        }
+    }
+
+    if ($(this).val() === "+" && skip) {
+        tr.children[6].textContent = parseInt(tr.children[6].textContent) + 1;
+    } else if ($(this).val() === "-" && skip) {
+        tr.children[6].textContent = parseInt(tr.children[6].textContent) - 1;
     }
 
     saveChaveLuta();
@@ -857,10 +973,29 @@ $(document).on("click", "button[id='ponto_branco']", function () {
 $(document).on("click", "button[id='advertencia_branca']", function () {
     var tr = document.getElementById("chaves").children[chave];
 
-    if ($(this).val() === "+") {
-        tr.children[8].textContent = parseInt(tr.children[8].textContent) + 1;
-    } else if ($(this).val() === "-") {
-        tr.children[8].textContent = parseInt(tr.children[8].textContent) - 1;
+    var skip = true;
+    var loop = true;
+
+    while (loop) {
+        loop = false;
+
+        if (tr.children[9].textContent === "true" && tr.children[10].textContent !== "0") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0" && Object.keys(document.getElementById("chaves").children[chave + 1]).length !== 0 && document.getElementById("chaves").children[chave + 1].children[9].textContent === "false") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0") {
+            skip = false;
+        }
+    }
+
+    if ($(this).val() === "+" && skip) {
+        tr.children[8].textContent = parseInt(tr.children[7].textContent) + 1;
+    } else if ($(this).val() === "-" && skip) {
+        tr.children[8].textContent = parseInt(tr.children[7].textContent) - 1;
     }
 
     saveChaveLuta();
@@ -869,10 +1004,29 @@ $(document).on("click", "button[id='advertencia_branca']", function () {
 $(document).on("click", "button[id='penalidade_branca']", function () {
     var tr = document.getElementById("chaves").children[chave];
 
-    if ($(this).val() === "+") {
-        tr.children[9].textContent = parseInt(tr.children[9].textContent) + 1;
-    } else if ($(this).val() === "-") {
-        tr.children[9].textContent = parseInt(tr.children[9].textContent) - 1;
+    var skip = true;
+    var loop = true;
+
+    while (loop) {
+        loop = false;
+
+        if (tr.children[9].textContent === "true" && tr.children[10].textContent !== "0") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0" && Object.keys(document.getElementById("chaves").children[chave + 1]).length !== 0 && document.getElementById("chaves").children[chave + 1].children[9].textContent === "false") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0") {
+            skip = false;
+        }
+    }
+
+    if ($(this).val() === "+" && skip) {
+        tr.children[8].textContent = parseInt(tr.children[8].textContent) + 1;
+    } else if ($(this).val() === "-" && skip) {
+        tr.children[8].textContent = parseInt(tr.children[8].textContent) - 1;
     }
 
     saveChaveLuta();
@@ -881,193 +1035,208 @@ $(document).on("click", "button[id='penalidade_branca']", function () {
 $(document).on("click", "button[id='desqualificacao']", function () {
     var tr = document.getElementById("chaves").children[chave];
 
+    var skip = true;
+    var loop = true;
+
+    while (loop) {
+        loop = false;
+
+        if (tr.children[9].textContent === "true" && tr.children[10].textContent !== "0") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0" && Object.keys(document.getElementById("chaves").children[chave + 1]).length !== 0 && document.getElementById("chaves").children[chave + 1].children[9].textContent === "false") {
+            chave++;
+            tr = document.getElementById("chaves").children[chave];
+            loop = true;
+        } else if (tr.children[9].textContent === "true" && tr.children[10].textContent === "0") {
+            skip = false;
+        }
+    }
+
     var data = {};
 
-    if ($(this).val() === "branco") {
+    if ($(this).val() === "branco" && skip) {
         data.vermelha = false;
         data.branca = true;
-    } else if ($(this).val() === "vermelho") {
+    } else if ($(this).val() === "vermelho" && skip) {
         data.vermelha = true;
         data.branca = false;
     }
 
-    $.ajax({
-        method: "POST",
-        url: "/chave/luta/individual/desqualificacao/" + $(tr).attr("id"),
-        contentType: 'application/json',
-        data: JSON.stringify(data)
-    });
+    if (skip) {
+        $.ajax({
+            method: "POST",
+            url: "/chave/luta/individual/desqualificacao/" + $(tr).attr("id"),
+            contentType: 'application/json',
+            data: JSON.stringify(data)
+        });
+        submit_chave();
+    }
 
 });
 
-$(document).on("click", "button[id='submit_chave']", function () {
-
+function submit_chave(){
     var tr = document.getElementById("chaves").children[chave];
-    tr.children[10].textContent = "true";
+    tr.children[9].textContent = "true";
 
     saveCronometro(false);
     saveChaveLuta();
 
-    // console.log(tr);
+    $.ajax({
+        method: "POST",
+        url: "/chave/luta/individual/avancar/" + $(tr).attr("id"),
+        contentType: 'application/json',
+        success: function (fase) {
 
-    // if (tr.children[12].textContent !== "0") {
-        $.ajax({
-            method: "POST",
-            url: "/chave/luta/individual/avancar/" + $(tr).attr("id"),
-            contentType: 'application/json',
-            success: function (fase) {
+            var data = {};
+            data.fase = fase;
+            data.id_plan = $("#planilha_select").val().substr(0, 1);
 
-                var data = {};
-                data.fase = fase;
-                data.id_plan = $("#planilha_select").val().substr(0, 1);
+            $.ajax({
+                method: "POST",
+                url: "/planilha/individual/chave/fase/competidores",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var table = document.getElementById("chaves");
 
-                $.ajax({
-                    method: "POST",
-                    url: "/planilha/individual/chave/fase/competidores",
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    success: function (result) {
-                        var table = document.getElementById("chaves");
+                    var aux = [];
+                    for (var i in table.children) {
+                        tr = table.children[i];
+                        if (tr.children) {
+                            if (tr.children[5].textContent === "vazio") {
+                                aux.push(table.children[i]);
+                            }
+                        }
+                    }
 
-                        var aux = [];
-                        for (var i in table.children) {
-                            tr = table.children[i];
-                            if (tr.children) {
-                                if (tr.children[6].textContent === "vazio") {
-                                    aux.push(table.children[i]);
+                    if (aux !== []) {
+                        for (var i in aux) {
+                            for (var z in table.children) {
+                                if (table.children[z] === aux[i]) {
+                                    table.children[z].remove();
+                                    break;
                                 }
                             }
                         }
-
-                        if (aux !== []) {
-                            for (var i in aux) {
-                                for (var z in table.children) {
-                                    if (table.children[z] === aux[i]) {
-                                        table.children[z].remove();
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        for (var i in result) {
-                            tr = document.createElement("tr");
-                            tr.id = result[i].id;
-
-                            var td = document.createElement("td");
-                            td.textContent = document.getElementById("chaves").children.length;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].competidorVermelho.pessoa.nome + " " + result[i].competidorVermelho.pessoa.sobrenome;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].pontosVermelhos;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].advertenciasVermelhas;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].penalidadesVermelhas;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = "02:00";
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            if (result[i].competidorBranco === null) {
-                                td.textContent = "vazio";
-                            } else {
-                                td.textContent = result[i].competidorBranco.pessoa.nome + " " + result[i].competidorBranco.pessoa.sobrenome;
-                            }
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].pontosBrancos;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].advertenciasBrancas;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.textContent = result[i].penalidadesBrancas;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.hidden = true;
-                            td.textContent = false;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.hidden = true;
-                            td.textContent = false;
-                            tr.appendChild(td);
-
-                            td = document.createElement("td");
-                            td.hidden = true;
-                            td.textContent = result[i].fase;
-                            tr.appendChild(td);
-                            table.appendChild(tr);
-                        }
                     }
-                });
 
+                    for (var i in result) {
+                        tr = document.createElement("tr");
+                        tr.id = result[i].id;
 
-                for (var i in document.getElementById("chaves").children) {
-                    var tr = document.getElementById("chaves").children[i];
-                    if (tr.children) {
-                        if (tr.children[10].textContent === "false") {
-                            chave = i;
-                            break;
+                        var td = document.createElement("td");
+                        td.textContent = document.getElementById("chaves").children.length;
+                        tr.appendChild(td);
+
+                        td = document.createElement("td");
+                        td.textContent = result[i].competidorVermelho.pessoa.nome + " " + result[i].competidorVermelho.pessoa.sobrenome;
+                        tr.appendChild(td);
+
+                        td = document.createElement("td");
+                        td.textContent = result[i].pontosVermelhos;
+                        tr.appendChild(td);
+
+                        td = document.createElement("td");
+                        td.textContent = result[i].advertenciasVermelhas;
+                        tr.appendChild(td);
+
+                        td = document.createElement("td");
+                        td.textContent = result[i].penalidadesVermelhas;
+                        tr.appendChild(td);
+
+                        td = document.createElement("td");
+                        if (result[i].competidorBranco === null) {
+                            td.textContent = "vazio";
+                        } else {
+                            td.textContent = result[i].competidorBranco.pessoa.nome + " " + result[i].competidorBranco.pessoa.sobrenome;
                         }
+                        tr.appendChild(td);
+
+                        td = document.createElement("td");
+                        td.textContent = result[i].pontosBrancos;
+                        tr.appendChild(td);
+
+                        td = document.createElement("td");
+                        td.textContent = result[i].advertenciasBrancas;
+                        tr.appendChild(td);
+
+                        td = document.createElement("td");
+                        td.textContent = result[i].penalidadesBrancas;
+                        tr.appendChild(td);
+
+                        td = document.createElement("td");
+                        td.hidden = true;
+                        td.textContent = result[i].finalizado;
+                        tr.appendChild(td);
+
+                        td = document.createElement("td");
+                        td.hidden = true;
+                        td.textContent = result[i].fase;
+                        tr.appendChild(td);
+                        table.appendChild(tr);
                     }
                 }
-                var nova_chave = false;
-                for (var i in document.getElementById("chaves").children) {
-                    var tr = document.getElementById("chaves").children[i];
-                    if (tr.children) {
-                        if (tr.children[10].textContent === "false") {
-                            nova_chave = true;
-                            break;
-                        }
+            });
+
+
+            for (var i in document.getElementById("chaves").children) {
+                var tr = document.getElementById("chaves").children[i];
+                if (tr.children) {
+                    if (tr.children[9].textContent === "false") {
+                        chave = i;
+                        break;
                     }
-                }
-
-                if (nova_chave === false) {
-
-                    document.getElementById("submit_chave").remove();
-                    document.getElementById("botoes_vermelhos").remove();
-                    document.getElementById("botoes_brancos").remove();
-                    document.getElementById("cronometro").remove();
-
-                    saveCronometro(false);
-
-                    var label = document.createElement("label");
-                    label.textContent = "Todas as lutas ja abacaram";
-
-                    document.getElementById("planilha").appendChild(label);
-
-                    chave = 1;
                 }
             }
-        });
-    // }
+            var nova_chave = false;
+            for (var i in document.getElementById("chaves").children) {
+                var tr = document.getElementById("chaves").children[i];
+                if (tr.children) {
+                    if (tr.children[9].textContent === "false") {
+                        nova_chave = true;
+                        break;
+                    }
+                }
+            }
 
+            if (nova_chave === false) {
+
+                document.getElementById("submit_chave").remove();
+                document.getElementById("botoes_vermelhos").remove();
+                document.getElementById("botoes_brancos").remove();
+                document.getElementById("cronometro").remove();
+
+                saveCronometro(false);
+
+                var label = document.createElement("label");
+                label.textContent = "Todas as lutas ja abacaram";
+
+                document.getElementById("planilha").appendChild(label);
+
+                chave = 1;
+            }
+        }
+    });
+}
+
+$(document).on("click", "button[id='submit_chave']", function () {
+    submit_chave();
 });
+
+var crono_rodando = false;
 
 $(document).on("click", "button[id='cronometro']", function () {
     var tr = document.getElementById("chaves").children[chave];
     if ($(this).val() === "iniciar") {
-        tr.children[11].textContent = "true";
+        crono_rodando = true;
         saveCronometro(true);
-    } else {
-        tr.children[11].textContent = "false";
+    } else if ($(this).val() === "pausar") {
+        crono_rodando = false;
         saveCronometro(false)
+    }else if($(this).val() === "reset"){//todo adicionar reset
+
     }
 });
 
@@ -1079,9 +1248,9 @@ function saveChaveLuta() {
     data.pontos_vermelho = tr.children[2].textContent;
     data.advertencias_vermelhas = tr.children[3].textContent;
     data.penalidades_vermelhas = tr.children[4].textContent;
-    data.pontos_brancos = tr.children[7].textContent;
-    data.advertencias_brancas = tr.children[8].textContent;
-    data.penalidades_brancas = tr.children[9].textContent;
+    data.pontos_brancos = tr.children[6].textContent;
+    data.advertencias_brancas = tr.children[7].textContent;
+    data.penalidades_brancas = tr.children[8].textContent;
 
     $.ajax({
         method: "POST",
@@ -1092,7 +1261,7 @@ function saveChaveLuta() {
             for (var i in document.getElementById("chaves").children) {
                 var tr = document.getElementById("chaves").children[i];
                 if (tr.children) {
-                    if (tr.children[10].textContent === "false") {
+                    if (tr.children[9].textContent === "false") {
                         chave = i;
                         break;
                     }
@@ -1102,7 +1271,7 @@ function saveChaveLuta() {
             for (var i in document.getElementById("chaves").children) {
                 var tr = document.getElementById("chaves").children[i];
                 if (tr.children) {
-                    if (tr.children[10].textContent === "false") {
+                    if (tr.children[9].textContent === "false") {
                         nova_chave = true;
                         break;
                     }
@@ -1114,13 +1283,13 @@ function saveChaveLuta() {
 
 function saveCronometro(rodando) {
 
-    var tr = document.getElementById("chaves").children[chave];
+    var h4 = document.getElementById("cronometro_timer");
 
     var data = {};
 
     data.rodando = rodando;
-    data.tempo_mim = parseInt(tr.children[5].textContent.split(":")[0]);
-    data.tempo_seg = parseInt(tr.children[5].textContent.split(":")[1]);
+    data.tempo_mim = parseInt(h4.textContent.split(":")[0]);
+    data.tempo_seg = parseInt(h4.textContent.split(":")[1]);
 
     $.ajax({
         method: "POST",
@@ -1135,11 +1304,11 @@ setInterval(function () {
     if (tipo_plan === "chave") {
         if (document.getElementById("chaves").children[chave] !== null) {
 
-            var tr = document.getElementById("chaves").children[chave];
-            if (tr.children[5].textContent !== "00:00") {
-                if (tr.children[11].textContent === "true") {
-                    var tempo_mim = parseInt(tr.children[5].textContent.split(":")[0]);
-                    var tempo_seg = parseInt(tr.children[5].textContent.split(":")[1]);
+            var h4 = document.getElementById("cronometro_timer");
+            if (h4.textContent !== "00:00") {
+                if (crono_rodando === true) {
+                    var tempo_mim = parseInt(h4.textContent.split(":")[0]);
+                    var tempo_seg = parseInt(h4.textContent.split(":")[1]);
 
                     tempo_seg--;
                     if (tempo_seg < 0) {
@@ -1151,7 +1320,7 @@ setInterval(function () {
                         tempo_seg = 0;
                     }
 
-                    tr.children[5].textContent = tempo_mim.toString().padStart(2, "0") + ":" + tempo_seg.toString().padStart(2, "0");
+                    h4.textContent = tempo_mim.toString().padStart(2, "0") + ":" + tempo_seg.toString().padStart(2, "0");
 
                 }
             }

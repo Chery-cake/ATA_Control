@@ -189,6 +189,7 @@ public class PlanilhaController {
     public ResponseEntity<?> setChavePlanilhaChaveDesqualificacao(@PathVariable("id") Integer id) {
 
         ChaveLutaIndividual chaveLutaIndividual = chaveLutaIndividualRepository.getOne(id);
+        chaveLutaIndividual.setFinalizado(true);
 
         chaveIndividual.updateChave(chaveLutaIndividual);
 

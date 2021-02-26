@@ -14,6 +14,7 @@ public class ChaveLutaIndividual {
 
     private Integer posicao;
     private Integer fase;
+    private Boolean finalizado = false;
 
     @ManyToOne
     private Competidor competidorVermelho;
@@ -60,6 +61,14 @@ public class ChaveLutaIndividual {
 
     public Integer getFase() {
         return fase;
+    }
+
+    public Boolean getFinalizado() {
+        return finalizado;
+    }
+
+    public void setFinalizado(Boolean finalizado) {
+        this.finalizado = finalizado;
     }
 
     public Competidor getCompetidorVermelho() {

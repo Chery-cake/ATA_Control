@@ -78,6 +78,14 @@ public class TipoPessoaDAO {
             juizOri.setRodadaJuizList(rodadaJuizArrayList);
             return juizRepository.save(juizOri);
         } else {
+            ArrayList<RodadaJuiz> rodadaJuizArrayList = new ArrayList<>();
+            rodadaJuizArrayList.addAll(juiz.getRodadaJuizList());
+
+            juiz.setRodadaJuizList(null);
+            juiz = juizRepository.save(juiz);
+
+            juiz.setRodadaJuizList(rodadaJuizArrayList);
+
             return juizRepository.save(juiz);
         }
     }

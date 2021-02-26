@@ -2,12 +2,21 @@ package com.control.ata;
 
 import com.control.ata.dao.RingueDAO;
 import com.control.ata.dao.TipoPessoaDAO;
+import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Cidade;
 import com.control.ata.model.endereco.Estado;
 import com.control.ata.model.endereco.Pais;
+import com.control.ata.model.individual.*;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
+import com.control.ata.model.pessoa.Planilheiro;
+import com.control.ata.model.tipo_pessoa.Competidor;
+import com.control.ata.model.tipo_pessoa.Instrutor;
+import com.control.ata.model.tipo_pessoa.Juiz;
+import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.CategoriaTorneio;
+import com.control.ata.model.torneio.RodadaJuiz;
+import com.control.ata.model.torneio.Torneio;
 import com.control.ata.repository.endereco.AcademiaRepository;
 import com.control.ata.repository.endereco.CidadeRepository;
 import com.control.ata.repository.endereco.EstadoRepository;
@@ -42,9 +51,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @SpringBootApplication
 public class AtaApplication implements CommandLineRunner {
@@ -99,7 +106,7 @@ public class AtaApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Singleton.getSingleton();
 
-        if(usuarioRepository.getUsuarioByUserRole(UserRole.ROLE_ADMIN)==null){
+        if (usuarioRepository.getUsuarioByUserRole(UserRole.ROLE_ADMIN) == null) {
             Pessoa pessoa = new Pessoa("ADMIN", "", false, new Date(), 0,
                     "NumberWorld", "NumberBrasil", false,
                     "telefone", null, null, null);
@@ -162,11 +169,31 @@ public class AtaApplication implements CommandLineRunner {
 //            tipoPessoaDAO.save(new Competidor(55d, 55d, 0, pessoa1, torneio, competicaoArrayList));
 //        }
 //
+//        pessoaArrayList = new ArrayList<>();
+//
+//        for (int i = 0; i < 3; i++) {
+//            pessoaArrayList.add(
+//                    pessoaRepository.save(new Pessoa(String.valueOf(i), "juiz", false,// genero false = menina
+//                            new GregorianCalendar(2013, Calendar.FEBRUARY,
+//                                    11).getTime(), 0, "NumberWorld",
+//                            "NumberBrasil", false, "telefone", null, null, null)));
+//        }
+//
+//        ArrayList<RodadaJuiz> rodadaJuizArrayList = new ArrayList<>();
+//        rodadaJuizArrayList.add(rodadaJuiz);
+//
+//        ArrayList<Juiz> juizArrayList =  new ArrayList<>();
+//
+//        for (Pessoa pessoa1 : pessoaArrayList) {
+//            pessoa1 = pessoaRepository.save(pessoa1);
+//            juizArrayList.add(tipoPessoaDAO.save(new Juiz(pessoa1, rodadaJuizArrayList)));
+//        }
+//
 //        ArrayList<RingueIndividual> ringueIndividualArrayList = new ArrayList<>();
 //
 //        for (int i = 1; i <= 2; i++) {
 //            ringueIndividualArrayList.add(ringueDAO.save(
-//                    new RingueIndividual(false, false, 1, i, 1, 0, null, torneio, competicaoArrayList, rodadaJuiz)));
+//                    new RingueIndividual(false, false, 1, i, 1, 0, juizArrayList, torneio, competicaoArrayList, rodadaJuiz)));
 //        }
 //
 //        ringueService.createRingueIndividual(torneio);
@@ -186,7 +213,7 @@ public class AtaApplication implements CommandLineRunner {
 //                }
 //                rankIndividual.setRankingLista(planilhaListaIndividual);
 //            }
-
+//
 //            for (PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual : planilhaChaveamentoIndividualRepository.getAllByRingueIndividual(ringueIndividual)) {
 //
 //                ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList = (ArrayList<ChaveLutaIndividual>) chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(

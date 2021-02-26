@@ -1,6 +1,5 @@
 package com.control.ata.controller;
 
-import com.control.ata.model.individual.PlanilhaChaveamentoIndividual;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.torneio.Placar;
 import com.control.ata.repository.individual.PlanilhaChaveamentoIndividualRepository;
@@ -56,18 +55,12 @@ public class PlacarController {
 
         String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
         ObjectMapper jacksonObjectMapper = new ObjectMapper();
-        String s = jacksonObjectMapper.readValue(decodedJson, String.class);
+        PlacarController.PlacarDTO placarDTO = jacksonObjectMapper.readValue(decodedJson, PlacarController.PlacarDTO.class);
 
-        Placar placar = null;
+        Placar placar = ringueIndividualRepository.getOne(id).getPlacar();
 
-        if (s == "lista"){
-            placar = planilhaListaIndividualRepository.getOne(id).getRingueIndividual().getPlacar();
-        }else {
-            placar = planilhaChaveamentoIndividualRepository.getOne(id).getRingueIndividual().getPlacar();
-        }
-
-        placar.setId_plan(id);
-        placar.setTipo_plan(s);
+        placar.setId_plan(placarDTO.id_plan);
+        placar.setTipo_plan(placarDTO.tipo_plan);
 
         placarRepository.save(placar);
 
@@ -99,5 +92,17 @@ public class PlacarController {
 
     // ======================================CLASSES=============================================
 
+    private static class PlacarDTO {
+        public Integer id_plan;
+        public String tipo_plan;
+
+        public PlacarDTO(Integer id_plan, String tipo_plan) {
+            this.id_plan = id_plan;
+            this.tipo_plan = tipo_plan;
+        }
+
+        public PlacarDTO() {
+        }
+    }
 
 }

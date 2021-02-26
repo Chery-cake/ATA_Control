@@ -49,8 +49,14 @@ $(document).on("change", "select[id='numero_ringue']", function () {
                 label.textContent = "Este numero não possui ringues";
                 div.appendChild(label);
             } else {
-                ringue_atual = result[0];
+                for (var i in result) {
+                    if (result[i].finalizado === false) {
+                        ringue_atual = result[i];
+                        break;
+                    }
+                }
                 placar = ringue_atual.placar;
+
                 setPlan();
             }
         }
@@ -204,35 +210,43 @@ function monta_plan_chave(id_plan) {
                 tr.appendChild(th);
 
                 th = document.createElement("th");
-                th.textContent = "Competidor 1";
+                th.textContent = "Competidor V";
+                th.style = "color: white; background-color: red;";
                 tr.appendChild(th);
 
                 th = document.createElement("th");
                 th.textContent = "Pontos";
+                th.style = "color: white; background-color: red;";
                 tr.appendChild(th);
 
                 th = document.createElement("th");
                 th.textContent = "Ad";
+                th.style = "color: white; background-color: red;";
                 tr.appendChild(th);
 
                 th = document.createElement("th");
                 th.textContent = "Pena";
+                th.style = "color: white; background-color: red;";
                 tr.appendChild(th);
 
                 th = document.createElement("th");
-                th.textContent = "Competidor 2";
+                th.textContent = "Competidor B";
+                th.style = "color: black; background-color: white;";
                 tr.appendChild(th);
 
                 th = document.createElement("th");
                 th.textContent = "Pontos";
+                th.style = "color: black; background-color: white;";
                 tr.appendChild(th);
 
                 th = document.createElement("th");
                 th.textContent = "Ad";
+                th.style = "color: black; background-color: white;";
                 tr.appendChild(th);
 
                 th = document.createElement("th");
                 th.textContent = "Pena";
+                th.style = "color: black; background-color: white;";
                 tr.appendChild(th);
 
                 td = document.createElement("td");
@@ -330,7 +344,35 @@ function getCronometro() {
 
 setInterval(function () {
 
-    if (Object.keys(ringue_atual).length !== 0) {
+    if (ringue_atual.finalizado === true) {
+        $.ajax({
+            method: "POST",
+            url: "/ringue/individual/lista/" + $("#numero_ringue").val(),
+            contentType: 'application/json',
+            success: function (result) {
+                if (result == null || result.length === 0) {
+
+                    while (document.getElementById("planilha").firstChild) {
+                        document.getElementById("planilha").firstChild.remove();
+                    }
+
+                    var div = document.getElementById("seletor");
+                    var label = document.createElement("label");
+                    label.textContent = "Não há mais ringues";
+                    div.appendChild(label);
+                } else {
+                    for (var i in result) {
+                        if (result[i].finalizado === false) {
+                            ringue_atual = result[i];
+                            break;
+                        }
+                    }
+                    placar = ringue_atual.placar;
+                    setPlan();
+                }
+            }
+        });
+    } else if (Object.keys(ringue_atual).length !== 0) {
         $.ajax({
             method: "POST",
             url: "/ringue/individual/get/" + ringue_atual.id,
@@ -366,7 +408,7 @@ setInterval(function () {
 
                     h4.textContent = tempo_mim.toString().padStart(2, "0") + ":" + tempo_seg.toString().padStart(2, "0");
 
-                }else if(Object.keys(cronometro_obj).length !== 0 && cronometro_obj.rodando === false){
+                } else if (Object.keys(cronometro_obj).length !== 0 && cronometro_obj.rodando === false) {
                     var h4 = document.getElementById("tempo");
                     h4.textContent = cronometro_obj.tempo_mim.toString().padStart(2, "0") + ":" + cronometro_obj.tempo_seg.toString().padStart(2, "0");
                 }
@@ -386,5 +428,175 @@ function setPlan() {
     } else if (tipo_plan === "chave") {
         monta_plan_chave(placar.id_plan);
         getCronometro();
+    } else if (Object.keys(ringue_atual).length !== 0) {
+        info_ringue();
     }
+}
+
+function info_ringue() {
+    while (document.getElementById("planilha").firstChild) {
+        document.getElementById("planilha").firstChild.remove();
+    }
+
+    var div = document.getElementById("planilha");
+
+    var ringue = document.createElement("div");
+    div.appendChild(ringue);
+
+    ringue.className = "row d-flex justify-content-center bg-white text-center";
+    var div_ringue = document.createElement("div");
+
+    var idade;
+
+    switch (ringue_atual.idade) {
+        case 1:
+            idade = "7 e 8";
+            break;
+        case 2:
+            idade = "9 e 10";
+            break;
+        case 3:
+            idade = "11 e 12";
+            break;
+        case 4:
+            idade = "13 e 14";
+            break;
+        case 5:
+            idade = "15 a 17";
+            break;
+        case 6:
+            idade = "18 a 29";
+            break;
+        case 7:
+            idade = "30 a 39";
+            break;
+        case 8:
+            idade = "40 a 49";
+            break;
+        case 9:
+            idade = "50 a 59";
+            break;
+        case 10:
+            idade = "60 acima";
+            break;
+        default:
+            idade = "7 e 8";
+            break;
+    }
+
+    var nivel;
+
+    switch (ringue_atual.nivel) {
+        case 0:
+            nivel = "1 -/- Faixas: Branca, Laranja, Amarela";
+            break;
+        case 1:
+            nivel = "2 -/- Faixas: Camuflada, Verde, Roxa";
+            break;
+        case 2:
+            nivel = "3 -/- Faixas: Aluz, Marron, Vermelha";
+            break;
+        case 3:
+            nivel = "4 -/- Faixas: Vermelha e Preta";
+            break;
+        case 4:
+            nivel = "5 -/- Faixas: 1º Dan";
+            break;
+        case 5:
+            nivel = "6 -/- Faixas: 2º Dan e 3º Dan";
+            break;
+        case 6:
+            nivel = "7 -/- Faixas: 4º Dan e 5º Dan";
+            break;
+        case 7:
+            nivel = "8 -/- Faixas: 6º Dan e 7º Dan";
+            break;
+        case 8:
+            nivel = "9 -/- Faixas: 8º Dan e 9º Dan";
+            break;
+        default:
+            nivel = "1 -/- Faixas: Branca, Laranja, Amarela";
+            break;
+    }
+
+    var h4 = document.createElement("h4");
+    h4.textContent = "Idade: " + idade;
+    div_ringue.appendChild(h4);
+
+    var h4 = document.createElement("h4");
+    h4.textContent = "Nivel: " + nivel;
+    div_ringue.appendChild(h4);
+
+    var h4 = document.createElement("h4");
+    if (ringue_atual.genero) {
+        h4.textContent = "Gênero: Masculino";
+    } else {
+        h4.textContent = "Gênero: Feminino";
+    }
+    div_ringue.appendChild(h4);
+
+    ringue.appendChild(div_ringue);
+
+    var div_juiz = document.createElement("div");
+
+    var juiz = document.createElement("div");
+    div.appendChild(juiz);
+    juiz.className = "row d-flex justify-content-center bg-white text-center";
+
+    var h4 = document.createElement("h4");
+    h4.textContent = "Juizes";
+    juiz.appendChild(h4);
+
+    div_juiz.appendChild(juiz);
+
+    var table_juiz = document.createElement("table");
+    table_juiz.className = "table text-center";
+
+    var tr = document.createElement("tr");
+
+    for (var i in ringue_atual.juiz) {
+        var td = document.createElement("th");
+        td.textContent = ringue_atual.juiz[i].pessoa.nome + " " + ringue_atual.juiz[i].pessoa.sobrenome;
+        tr.appendChild(td);
+    }
+
+    table_juiz.appendChild(tr);
+
+    var div_comp = document.createElement("div");
+
+    var comp = document.createElement("div");
+    div.appendChild(comp);
+    comp.className = "row d-flex justify-content-center bg-white text-center";
+
+    var h4 = document.createElement("h4");
+    h4.textContent = "Competidores";
+    comp.appendChild(h4);
+
+    div_comp.appendChild(comp);
+
+    var table_comp = document.createElement("table");
+    table_comp.className = "table text-center";
+
+    var aux = 0;
+    var tr = document.createElement("tr");
+
+    for (var i in ringue_atual.competidor) {
+        var td = document.createElement("th");
+        td.textContent = ringue_atual.competidor[i].pessoa.nome + " " + ringue_atual.competidor[i].pessoa.sobrenome;
+        tr.appendChild(td);
+        aux++;
+        if (aux === 3) {
+            table_comp.appendChild(tr);
+            tr = document.createElement("tr");
+            aux = 0;
+        }
+    }
+
+    table_comp.appendChild(tr);
+
+    div_juiz.appendChild(table_juiz);
+    div_comp.appendChild(table_comp);
+
+    div.appendChild(div_juiz);
+    div.appendChild(div_comp);
 }

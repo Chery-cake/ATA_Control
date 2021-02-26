@@ -1,8 +1,5 @@
 package com.control.ata.controller;
 
-import com.control.ata.dto.PessoaDTO;
-import com.control.ata.model.pessoa.Pessoa;
-import com.control.ata.model.tipo_pessoa.Instrutor;
 import com.control.ata.security.entity.Usuario;
 import com.control.ata.security.repository.UsuarioRepository;
 import com.control.ata.security.service.UsuarioService;
