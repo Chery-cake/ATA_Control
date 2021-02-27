@@ -67,34 +67,34 @@ $("#torneio").change(function () {
                                 default:
                                     td.textContent = "7 e 8";
                                     break;
-                                case "1":
+                                case 1:
                                     td.textContent = "7 e 8";
                                     break;
-                                case "2":
+                                case 2:
                                     td.textContent = "9 e 10";
                                     break;
-                                case "3":
+                                case 3:
                                     td.textContent = "11 e 12";
                                     break;
-                                case "4":
+                                case 4:
                                     td.textContent = "13 e 14";
                                     break;
-                                case "5":
+                                case 5:
                                     td.textContent = "15 a 17";
                                     break;
-                                case "6":
+                                case 6:
                                     td.textContent = "18 a 29";
                                     break;
-                                case "7":
+                                case 7:
                                     td.textContent = "30 a 39";
                                     break;
-                                case "8":
+                                case 8:
                                     td.textContent = "40 a 49";
                                     break;
-                                case "9":
+                                case 9:
                                     td.textContent = "50 a 59";
                                     break;
-                                case "10":
+                                case 10:
                                     td.textContent = "60 acima";
                                     break;
                             }
@@ -163,7 +163,7 @@ $("#torneio").change(function () {
                             var cat = "";
                             for (var z = 0; z < response2[j].categoriaCompeticao.length; z++) {
                                 cat += response2[j].categoriaCompeticao[z].nome;
-                                if (response2[j].juiz[z + 1] != null) {
+                                if (response2[j].categoriaCompeticao[z + 1] != null) {
                                     cat += ", ";
                                 }
                             }

@@ -25,7 +25,7 @@ $("#form-register-competidor").submit(function (evt) {
         contentType: 'application/json',
         data: JSON.stringify(competidorDTO),
         success: function (result) {
-            top.location.href = "/perfil";
+            top.location.href = "/";
         },
         error: function (xhr) {
             console.log("error: ", xhr.responseText);
@@ -105,6 +105,12 @@ function forCatFech() {
         $("#quant_cat_fec").hidden = true;
         document.getElementById("quant_cat_fec_lb").setAttribute("hidden", "hidden");
         document.getElementById("quant_cat_fec").setAttribute("hidden", "hidden");
+        $("#quant_cat_fec").val(0);
+        if (document.getElementById("categorias_fechadas_select_div").firstChild) {
+            while (document.getElementById("categorias_fechadas_select_div").firstChild) {
+                document.getElementById("categorias_fechadas_select_div").firstChild.remove();
+            }
+        }
     }
 }
 

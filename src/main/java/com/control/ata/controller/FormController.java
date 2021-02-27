@@ -37,6 +37,7 @@ import com.control.ata.security.entity.ConfirmationToken;
 import com.control.ata.security.entity.Usuario;
 import com.control.ata.security.enuns.UserRole;
 import com.control.ata.security.repository.ConfirmationTokenRepository;
+import com.control.ata.security.repository.UsuarioRepository;
 import com.control.ata.security.service.UsuarioService;
 import com.control.ata.service.RingueService;
 import com.control.ata.service.planilhaIndividual.ChaveIndividual;
@@ -117,6 +118,8 @@ public class FormController {
     private ConfirmationTokenRepository confirmationTokenRepository;
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     // ======================================REGISTER ACADEMIA=============================================
 
@@ -141,6 +144,17 @@ public class FormController {
     }
 
     // ======================================REGISTER PESSOA=============================================
+
+    @PostMapping("/verifica/usuario/pessoa/{email}")
+    public ResponseEntity<Boolean> verificaUsuario(@PathVariable("email") String email){
+
+        if(usuarioRepository.getUsuarioByEmail(email) == null){
+            return ResponseEntity.ok(true);
+        }
+
+        return ResponseEntity.ok(false);
+
+    }
 
     @PostMapping("/save/pessoa")
     public ResponseEntity<?> registraPessoa(@Valid @RequestBody String json,
@@ -490,7 +504,7 @@ public class FormController {
                 categoriaCompeticaoArrayList.add(categoriaCompeticaoRepository.getOne(i));
             }
             ArrayList<Juiz> juizArrayList = new ArrayList<>();
-            for (Integer i : ringueIndividualDTO.getCategorias()) {
+            for (Integer i : ringueIndividualDTO.getJuizes()) {
                 juizArrayList.add(juizRepository.getOne(i));
             }
             RingueIndividual ringueIndividual = new RingueIndividual(ringueIndividualDTO.getGenero(),
@@ -629,6 +643,11 @@ public class FormController {
     @ModelAttribute("torneiosNTerIni")
     public List<Torneio> getTorneiosNTerIni() {
         return torneioRepository.getAllByIniciadoAndTerminado(true, false);
+    }
+
+    @ModelAttribute("torneiosNTerNIni")
+    public List<Torneio> getTorneiosNTerNIni() {
+        return torneioRepository.getAllByIniciadoAndTerminado(false, false);
     }
 
     @ModelAttribute("categoriasTorneio")

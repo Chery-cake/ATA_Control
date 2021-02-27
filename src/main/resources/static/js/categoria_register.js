@@ -36,9 +36,9 @@ function getRadio(radio_name) {
 function hideChaveInfo() {
     if (document.getElementById('tipo-chave-F').checked === true) {
         document.getElementById("ponto_div").setAttribute("hidden", "hidden");
-        document.getElementById("tempo_div").setAttribute("hidden", "hidden");
+        // document.getElementById("tempo_div").setAttribute("hidden", "hidden");
     } else {
         document.getElementById("ponto_div").removeAttribute("hidden");
-        document.getElementById("tempo_div").removeAttribute("hidden");
+        // document.getElementById("tempo_div").removeAttribute("hidden");
     }
 }

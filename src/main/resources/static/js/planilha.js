@@ -43,12 +43,33 @@ $(document).on("change", "select[id='numero_ringue']", function () {
                 document.getElementById("numero_ringue_lab").removeAttribute("hidden");
                 document.getElementById("numero_ringue").removeAttribute("hidden");
 
-                var div = document.getElementById("seletor");
-                var label = document.createElement("label");
-                label.textContent = "Este numero não possui ringues";
-                div.appendChild(label);
+                if (!document.getElementById("menssagem")) {
+                    var div = document.getElementById("seletor");
+                    var label = document.createElement("label");
+                    label.textContent = "Este numero não possui ringues";
+                    label.id = "menssagem";
+                    div.appendChild(label);
+                }
             } else {
-                ringue_atual = result[0];
+                var ringue_menor_rodada = result[0];
+                var roda = true;
+
+                while (roda) {
+                    roda = false;
+                    for (i in result) {
+                        if (parseInt(result[i].rodadaJuiz.inicio.split(":")[0]) < parseInt(ringue_menor_rodada.rodadaJuiz.inicio.split(":")[0])) {
+                            ringue_menor_rodada = result[i];
+                            roda = true;
+                        } else if (parseInt(result[i].rodadaJuiz.inicio.split(":")[0]) === parseInt(ringue_menor_rodada.rodadaJuiz.inicio.split(":")[0])) {
+                            if (parseInt(result[i].rodadaJuiz.inicio.split(":")[1]) < parseInt(ringue_menor_rodada.rodadaJuiz.inicio.split(":")[1])) {
+                                ringue_menor_rodada = result[i];
+                                roda = true;
+                            }
+                        }
+                    }
+                }
+
+                ringue_atual = ringue_menor_rodada;
                 inicia_ringue();
             }
         }
@@ -127,16 +148,60 @@ $("#ter_ringue").on("click", function () {
                         document.getElementById("numero_ringue_lab").removeAttribute("hidden");
                         document.getElementById("numero_ringue").removeAttribute("hidden");
 
-                        var div = document.getElementById("seletor");
-                        var label = document.createElement("label");
-                        label.textContent = "Este numero não possui mais ringues";
-                        div.appendChild(label);
+                        if (!document.getElementById("not_ring")) {
+                            var div = document.getElementById("seletor");
+                            var label = document.createElement("label");
+                            label.id = "not_ring";
+                            label.textContent = "Este numero não possui mais ringues";
+                            div.appendChild(label);
+                        }
+                        while (document.getElementById("planilha").firstChild) {
+                            document.getElementById("planilha").firstChild.remove();
+                        }
                     } else {
+
+                        var mesma_rodada = false;
+
                         for (i in result) {
-                            if (result[i].numeroRodada === ringue_atual.numeroRodada + 1) {
-                                ringue_atual = result[0];
-                                break;
+                            if (parseInt(result[i].rodadaJuiz.id) === parseInt(ringue_atual.rodadaJuiz.id)) {
+                                mesma_rodada = true;
                             }
+                        }
+
+                        if (mesma_rodada) {
+                            var roda = true;
+
+                            while (roda) {
+                                roda = false;
+                                for (i in result) {
+                                    if (parseInt(result[i].rodadaJuiz.id) === parseInt(ringue_atual.rodadaJuiz.id)) {
+                                        if (parseInt(result[i].numeroRodada) === (parseInt(ringue_atual.numeroRodada) + 1)) {
+                                            ringue_atual = result[i];
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            var ringue_menor_rodada = result[0];
+                            var roda = true;
+
+                            while (roda) {
+                                roda = false;
+                                for (i in result) {
+                                    if (parseInt(result[i].rodadaJuiz.inicio.split(":")[0]) < parseInt(ringue_menor_rodada.rodadaJuiz.inicio.split(":")[0])) {
+                                        ringue_menor_rodada = result[i];
+                                        roda = true;
+                                    } else if (parseInt(result[i].rodadaJuiz.inicio.split(":")[0]) === parseInt(ringue_menor_rodada.rodadaJuiz.inicio.split(":")[0])) {
+                                        if (parseInt(result[i].rodadaJuiz.inicio.split(":")[1]) < parseInt(ringue_menor_rodada.rodadaJuiz.inicio.split(":")[1])) {
+                                            ringue_menor_rodada = result[i];
+                                            roda = true;
+                                        }
+                                    }
+                                }
+                            }
+
+                            ringue_atual = ringue_menor_rodada;
                         }
                         inicia_ringue();
                     }
@@ -327,6 +392,9 @@ function monta_plan_lista(id_plan) {
             } else {
                 var label = document.createElement("label");
                 label.textContent = "Todos os competidores ja receberam suas notas";
+                document.getElementById("juiz_B").remove();
+                document.getElementById("juiz_A").remove();
+                document.getElementById("juiz_C").remove();
                 div.appendChild(label);
             }
 
@@ -363,49 +431,71 @@ $(document).on("click", "button[id='submit_lista']", function () {
     tr.children[6].textContent = "true";
     tr.children[5].textContent = parseInt(tr.children[2].textContent) + parseInt(tr.children[3].textContent) + parseInt(tr.children[4].textContent);
 
+    var incompleto = false;
     var data = {};
 
     data.nota_juiz_a = tr.children[2].textContent;
     data.nota_juiz_b = tr.children[4].textContent;
     data.nota_juiz_c = tr.children[3].textContent;
 
-    $.ajax({
-        method: "POST",
-        url: "/chave/lista/individual/" + $(tr).attr("id"),
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-        success: function () {
-            for (var i in document.getElementById("chaves").children) {
-                var tr = document.getElementById("chaves").children[i];
-                if (tr.children) {
-                    if (tr.children[6].textContent === "false") {
-                        chave = i;
-                        break;
+    if (data.nota_juiz_a === "0") {
+        incompleto = true;
+        tr.children[6].textContent = "false";
+        tr.children[5].textContent = "0";
+    }
+    if (data.nota_juiz_b === "0") {
+        incompleto = true;
+        tr.children[6].textContent = "false";
+        tr.children[5].textContent = "0";
+    }
+    if (data.nota_juiz_c === "0") {
+        incompleto = true;
+        tr.children[6].textContent = "false";
+        tr.children[5].textContent = "0";
+    }
+
+    if (incompleto === false) {
+        $.ajax({
+            method: "POST",
+            url: "/chave/lista/individual/" + $(tr).attr("id"),
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function () {
+                for (var i in document.getElementById("chaves").children) {
+                    var tr = document.getElementById("chaves").children[i];
+                    if (tr.children) {
+                        if (tr.children[6].textContent === "false") {
+                            chave = i;
+                            break;
+                        }
                     }
                 }
-            }
-            var nova_chave = false;
-            for (var i in document.getElementById("chaves").children) {
-                var tr = document.getElementById("chaves").children[i];
-                if (tr.children) {
-                    if (tr.children[6].textContent === "false") {
-                        nova_chave = true;
-                        break;
+                var nova_chave = false;
+                for (var i in document.getElementById("chaves").children) {
+                    var tr = document.getElementById("chaves").children[i];
+                    if (tr.children) {
+                        if (tr.children[6].textContent === "false") {
+                            nova_chave = true;
+                            break;
+                        }
                     }
                 }
+                if (nova_chave === false) {
+                    document.getElementById("submit_lista").remove();
+
+                    var label = document.createElement("label");
+                    label.textContent = "Todos os competidores ja receberam suas notas";
+                    document.getElementById("juiz_B").remove();
+                    document.getElementById("juiz_A").remove();
+                    document.getElementById("juiz_C").remove();
+
+                    document.getElementById("planilha").appendChild(label);
+
+                    chave = 1;
+                }
             }
-            if (nova_chave === false) {
-                document.getElementById("submit_lista").remove();
-
-                var label = document.createElement("label");
-                label.textContent = "Todos os competidores ja receberam suas notas";
-
-                document.getElementById("planilha").appendChild(label);
-
-                chave = 1;
-            }
-        }
-    });
+        });
+    }
 
 });
 
@@ -507,8 +597,10 @@ function monta_plan_chave(id_plan) {
                 td.textContent = result[i].penalidadesVermelhas;
                 tr.appendChild(td);
 
+                var vazio = false;
                 td = document.createElement("td");
                 if (result[i].competidorBranco === null) {
+                    vazio = true;
                     td.textContent = "vazio";
                 } else {
                     td.textContent = result[i].competidorBranco.pessoa.nome + " " + result[i].competidorBranco.pessoa.sobrenome;
@@ -535,6 +627,11 @@ function monta_plan_chave(id_plan) {
                 td = document.createElement("td");
                 td.hidden = true;
                 td.textContent = result[i].fase;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.hidden = true;
+                td.textContent = vazio;
                 tr.appendChild(td);
                 table.appendChild(tr);
 
@@ -871,7 +968,9 @@ $(document).on("click", "button[id='ponto_vermelho']", function () {
     if ($(this).val() === "+" && skip) {
         tr.children[2].textContent = parseInt(tr.children[2].textContent) + 1;
     } else if ($(this).val() === "-" && skip) {
-        tr.children[2].textContent = parseInt(tr.children[2].textContent) - 1;
+        if ((parseInt(tr.children[2].textContent) - 1) >= 0) {
+            tr.children[2].textContent = parseInt(tr.children[2].textContent) - 1;
+        }
     }
 
     saveChaveLuta();
@@ -902,7 +1001,9 @@ $(document).on("click", "button[id='advertencia_vermelha']", function () {
     if ($(this).val() === "+" && skip) {
         tr.children[3].textContent = parseInt(tr.children[3].textContent) + 1;
     } else if ($(this).val() === "-" && skip) {
-        tr.children[3].textContent = parseInt(tr.children[3].textContent) - 1;
+        if ((parseInt(tr.children[3].textContent) - 1) >= 0) {
+            tr.children[3].textContent = parseInt(tr.children[3].textContent) - 1;
+        }
     }
 
     saveChaveLuta();
@@ -933,7 +1034,9 @@ $(document).on("click", "button[id='penalidade_vermelha']", function () {
     if ($(this).val() === "+" && skip) {
         tr.children[4].textContent = parseInt(tr.children[4].textContent) + 1;
     } else if ($(this).val() === "-" && skip) {
-        tr.children[4].textContent = parseInt(tr.children[4].textContent) - 1;
+        if ((parseInt(tr.children[4].textContent) - 1) >= 0) {
+            tr.children[4].textContent = parseInt(tr.children[4].textContent) - 1;
+        }
     }
 
     saveChaveLuta();
@@ -964,7 +1067,9 @@ $(document).on("click", "button[id='ponto_branco']", function () {
     if ($(this).val() === "+" && skip) {
         tr.children[6].textContent = parseInt(tr.children[6].textContent) + 1;
     } else if ($(this).val() === "-" && skip) {
-        tr.children[6].textContent = parseInt(tr.children[6].textContent) - 1;
+        if ((parseInt(tr.children[6].textContent) - 1) >= 0) {
+            tr.children[6].textContent = parseInt(tr.children[6].textContent) - 1;
+        }
     }
 
     saveChaveLuta();
@@ -995,7 +1100,9 @@ $(document).on("click", "button[id='advertencia_branca']", function () {
     if ($(this).val() === "+" && skip) {
         tr.children[8].textContent = parseInt(tr.children[7].textContent) + 1;
     } else if ($(this).val() === "-" && skip) {
-        tr.children[8].textContent = parseInt(tr.children[7].textContent) - 1;
+        if ((parseInt(tr.children[7].textContent) - 1) >= 0) {
+            tr.children[8].textContent = parseInt(tr.children[7].textContent) - 1;
+        }
     }
 
     saveChaveLuta();
@@ -1026,7 +1133,9 @@ $(document).on("click", "button[id='penalidade_branca']", function () {
     if ($(this).val() === "+" && skip) {
         tr.children[8].textContent = parseInt(tr.children[8].textContent) + 1;
     } else if ($(this).val() === "-" && skip) {
-        tr.children[8].textContent = parseInt(tr.children[8].textContent) - 1;
+        if ((parseInt(tr.children[8].textContent) - 1) >= 0) {
+            tr.children[8].textContent = parseInt(tr.children[8].textContent) - 1;
+        }
     }
 
     saveChaveLuta();
@@ -1076,7 +1185,7 @@ $(document).on("click", "button[id='desqualificacao']", function () {
 
 });
 
-function submit_chave(){
+function submit_chave() {
     var tr = document.getElementById("chaves").children[chave];
     tr.children[9].textContent = "true";
 
@@ -1105,7 +1214,7 @@ function submit_chave(){
                     for (var i in table.children) {
                         tr = table.children[i];
                         if (tr.children) {
-                            if (tr.children[5].textContent === "vazio") {
+                            if (tr.children[5].textContent === "vazio" && tr.children[11].textContent === "false" && result.length !== 0) {
                                 aux.push(table.children[i]);
                             }
                         }
@@ -1175,6 +1284,11 @@ function submit_chave(){
                         td.hidden = true;
                         td.textContent = result[i].fase;
                         tr.appendChild(td);
+
+                        td = document.createElement("td");
+                        td.hidden = true;
+                        td.textContent = false;
+                        tr.appendChild(td);
                         table.appendChild(tr);
                     }
                 }
@@ -1228,15 +1342,12 @@ $(document).on("click", "button[id='submit_chave']", function () {
 var crono_rodando = false;
 
 $(document).on("click", "button[id='cronometro']", function () {
-    var tr = document.getElementById("chaves").children[chave];
     if ($(this).val() === "iniciar") {
         crono_rodando = true;
         saveCronometro(true);
     } else if ($(this).val() === "pausar") {
         crono_rodando = false;
         saveCronometro(false)
-    }else if($(this).val() === "reset"){//todo adicionar reset
-
     }
 });
 
@@ -1285,27 +1396,48 @@ function saveCronometro(rodando) {
 
     var h4 = document.getElementById("cronometro_timer");
 
-    var data = {};
+    if (h4 !== null) {
 
-    data.rodando = rodando;
-    data.tempo_mim = parseInt(h4.textContent.split(":")[0]);
-    data.tempo_seg = parseInt(h4.textContent.split(":")[1]);
+        var data = {};
 
-    $.ajax({
-        method: "POST",
-        url: "/ringue/individual/cronometro/save/" + ringue_atual.id,
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-    });
+        data.rodando = rodando;
+        data.tempo_mim = parseInt(h4.textContent.split(":")[0]);
+        data.tempo_seg = parseInt(h4.textContent.split(":")[1]);
+
+        $.ajax({
+            method: "POST",
+            url: "/ringue/individual/cronometro/save/" + ringue_atual.id,
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+        });
+
+    }
 
 }
 
 setInterval(function () {
     if (tipo_plan === "chave") {
+
+        var tr = document.getElementById("chaves").children[chave];
+        if (tr.children[5].textContent === "vazio") {
+            var data = {};
+
+            data.vermelha = false;
+            data.branca = true;
+
+            $.ajax({
+                method: "POST",
+                url: "/chave/luta/individual/desqualificacao/" + $(tr).attr("id"),
+                contentType: 'application/json',
+                data: JSON.stringify(data)
+            });
+            submit_chave();
+        }
+
         if (document.getElementById("chaves").children[chave] !== null) {
 
             var h4 = document.getElementById("cronometro_timer");
-            if (h4.textContent !== "00:00") {
+            if (h4 !== null && h4.textContent !== "00:00") {
                 if (crono_rodando === true) {
                     var tempo_mim = parseInt(h4.textContent.split(":")[0]);
                     var tempo_seg = parseInt(h4.textContent.split(":")[1]);

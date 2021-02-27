@@ -71,7 +71,7 @@ public class ChaveIndividual {
                 }
 
                 PlanilhaChaveamentoIndividual planilha = new PlanilhaChaveamentoIndividual(categoriaCompeticao,
-                                                                                           ringueIndividual);
+                        ringueIndividual);
                 planilha = planilhaChaveamentoIndividualRepository.save(planilha);
                 planilha.setChaveLutaIndividual(createChave(competidorPlanilha, planilha));
                 planilha = planilhaChaveamentoIndividualRepository.save(planilha);
@@ -89,7 +89,9 @@ public class ChaveIndividual {
     public ChaveLutaIndividual updateChave(
             ChaveLutaIndividual chaveLutaIndividual) {//todo fazer com que chaves com 1 competidor passem pra proxima fase
         chaveLutaIndividual = chaveLutaIndividualRepository.save(chaveLutaIndividual);
-        if (chaveLutaIndividual.getDesqualificacaoBranca()) {
+        if (chaveLutaIndividual.getCompetidorBranco() == null) {
+            nextChave(chaveLutaIndividual.getCompetidorVermelho(), chaveLutaIndividual);
+        } else if (chaveLutaIndividual.getDesqualificacaoBranca()) {
             nextChave(chaveLutaIndividual.getCompetidorVermelho(), chaveLutaIndividual);
         } else if (chaveLutaIndividual.getDesqualificacaoVermelha()) {
             nextChave(chaveLutaIndividual.getCompetidorBranco(), chaveLutaIndividual);
@@ -127,19 +129,26 @@ public class ChaveIndividual {
                 } else {
                     competidor1 = chaveLutaIndividual.getCompetidorBranco();
                 }
-                Objects.requireNonNull(chaveLutaIndividual3).setCompetidorBranco(competidor1);
-                chaveLutaIndividualRepository.save(chaveLutaIndividual3);
+                if(chaveLutaIndividual3 == null){
+                    this.setChave(competidor1, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), 2,
+                            chaveLutaIndividual.getFase() - 1);
+                }else {
+                    chaveLutaIndividual3.setCompetidorBranco(competidor1);
+                    chaveLutaIndividualRepository.save(chaveLutaIndividual3);
+                }
             } else {
                 this.setChave(competidor, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), 1,
-                              chaveLutaIndividual.getFase() - 1);
+                        chaveLutaIndividual.getFase() - 1);
                 Competidor competidor1;
                 if (competidor == chaveLutaIndividual.getCompetidorBranco()) {
                     competidor1 = chaveLutaIndividual.getCompetidorVermelho();
                 } else {
                     competidor1 = chaveLutaIndividual.getCompetidorBranco();
                 }
-                this.setChave(competidor1, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), 2,
-                              chaveLutaIndividual.getFase() - 1);
+                if(competidor1 != null){
+                    this.setChave(competidor1, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), 2,
+                            chaveLutaIndividual.getFase() - 1);
+                }
             }
         } else if (!chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividualAndFase(
                 chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), chaveLutaIndividual.getFase() - 1).isEmpty()) {
@@ -156,8 +165,8 @@ public class ChaveIndividual {
             }
             if (semChave) {
                 this.setChave(competidor, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(),
-                              chaveLutaIndividualArrayList.size() + 1,
-                              chaveLutaIndividual.getFase() - 1);
+                        chaveLutaIndividualArrayList.size() + 1,
+                        chaveLutaIndividual.getFase() - 1);
             } else {
                 chaveLutaIndividual2.setCompetidorBranco(competidor);
                 chaveLutaIndividualRepository.save(chaveLutaIndividual2);
@@ -165,18 +174,18 @@ public class ChaveIndividual {
         } else {
             if (chaveLutaIndividual.getFase() != 0) {
                 this.setChave(competidor, null, chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), 1,
-                              chaveLutaIndividual.getFase() - 1);
+                        chaveLutaIndividual.getFase() - 1);
             }
         }
     }
 
     private ChaveLutaIndividual setChave(Competidor compVer, Competidor compBra, PlanilhaChaveamentoIndividual planilha,
-            int posicao, int fase) {
+                                         int posicao, int fase) {
         return chaveLutaIndividualRepository.save(new ChaveLutaIndividual(posicao, fase, compVer, compBra, planilha));
     }
 
     private List<ChaveLutaIndividual> createChave(ArrayList<Competidor> competidorArrayList,
-            PlanilhaChaveamentoIndividual planilha) {
+                                                  PlanilhaChaveamentoIndividual planilha) {
         List<ChaveLutaIndividual> list = new ArrayList<>();
         if (planilha.getRingueIndividual().getFechado()) {
             if (competidorArrayList.size() > 2) {
@@ -290,7 +299,7 @@ public class ChaveIndividual {
     }
 
     private Competidor sort(Collection<Competidor> competidorList,
-            CategoriaCompeticao categoriaCompeticao) {//retorna o maior titulo
+                            CategoriaCompeticao categoriaCompeticao) {//retorna o maior titulo
         return Singleton.getCompetidorTitulo(competidorList, categoriaCompeticao, tituloRepository);
     }
 

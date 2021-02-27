@@ -203,7 +203,7 @@ public class AtaApplication implements CommandLineRunner {
 //        for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {
 //            listaIndividual.createPlanilhasLista(ringueIndividual);
 //            chaveIndividual.createPlanilhasChave(ringueIndividual);
-
+//
 //            for (PlanilhaListaIndividual planilhaListaIndividual : planilhaListaIndividualRepository.getAllByRingueIndividual(ringueIndividual)) {
 //                for (ChaveListaIndividual chaveListaIndividual : chaveListaIndividualRepository.getAllByPlanilhaListaIndividual(planilhaListaIndividual)) {
 //                    chaveListaIndividual.setNotaJuizA(s.getRandomInt(1, 10));

@@ -17,7 +17,7 @@ $("#form-register-juiz").submit(function (evt) {
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (result) {
-            top.location.href = "/perfil";
+            top.location.href = "/";
         },
         error: function (xhr) {
             console.log("error: ", xhr.responseText);

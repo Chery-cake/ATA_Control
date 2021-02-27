@@ -24,7 +24,7 @@ public class Competidor {
     private Double altura;
     private Integer nivel;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Pessoa pessoa;
 
     @ManyToOne

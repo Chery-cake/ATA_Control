@@ -36,8 +36,8 @@ public class Pessoa {
     @ManyToOne
     private Instrutor instrutor;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
-    private Competidor competidor;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
+    private Collection<Competidor> competidor;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
     private Instrutor IsInstrutor;

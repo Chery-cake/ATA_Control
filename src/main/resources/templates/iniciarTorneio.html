@@ -11,58 +11,61 @@
 <div class="corpo" layout:fragment="corpo">
 
     <div class="wrapper">
-    <section class="section section-shaped section-lg">
-        <div class="shape shape-style-1 bg-gradient-darker">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="container pt-lg-4">
-            <div class="row justify-content-center">
-                <div class="col-lg-7">
-                    <div class="card bg-secondary shadow border-0">
-                        <div class="card-header">
-                            <div class="text-center">
-                                <h4 class="card-title mt-3 text-center">INICIAR TORNEIO</h4>
-                            </div>
-                        </div>
-                        <div class="card-body px-lg-5 py-lg-5">
-                            <div class="form-group">
-                                <label for="torneio">Torneio</label>
-                                <select class="form-control" id="torneio" name="instrutor" required>
-                                    <option disabled selected value="">Selecione</option>
-                                    <option th:each="t : ${torneiosNIni}"
-                                            th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
-                                            th:value="${t.id}">...
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="text-center">
-                                <h4 class="card-title mt-3 text-center">CRIAR CONTA PLANILHEIRO</h4>
-                            </div>
-
+        <section class="section section-shaped section-lg">
+            <div class="shape shape-style-1 bg-gradient-darker">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="container pt-lg-4">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card bg-secondary shadow border-0">
                             <form action="#" id="form-register-planilheiro">
-                                <div class="form-group">
-                                    <label for="usuario">Usuario</label>
-                                    <input class="form-control" id="usuario" placeholder="planilheiro" required type="text">
+                                <div class="card-header">
+                                    <div class="text-center">
+                                        <h4 class="card-title mt-3 text-center">INICIAR TORNEIO</h4>
+                                    </div>
                                 </div>
+                                <div class="card-body px-lg-5 py-lg-5">
+                                    <div class="form-group">
+                                        <label for="torneio">Torneio</label>
+                                        <select class="form-control" id="torneio" name="instrutor" required>
+                                            <option disabled selected value="">Selecione</option>
+                                            <option th:each="t : ${torneiosNIni}"
+                                                    th:text="${'Data inicio: ' + t.dataInicio + ' -/- Categoria: ' +t.categoriaTorneio.nome}"
+                                                    th:value="${t.id}">...
+                                            </option>
+                                        </select>
+                                    </div>
 
-                                <div class="form-group">
-                                    <label for="senha">Senha</label>
-                                    <input class="form-control" id="senha" placeholder="****" required type="password">
-                                </div>
-                                <div class="text-center">
-                                    <button class="btn btn-lg btn-github btn-icon my-4" type="submit">Iniciar</button>
+                                    <div class="text-center">
+                                        <h4 class="card-title mt-3 text-center">CRIAR CONTA PLANILHEIRO</h4>
+                                    </div>
+
+                                    <div class="form-group" id="div_usuario">
+                                        <label for="usuario">Usuario</label>
+                                        <input class="form-control" id="usuario" placeholder="planilheiro" required
+                                               type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="senha">Senha</label>
+                                        <input class="form-control" id="senha" placeholder="****" required
+                                               type="password">
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-lg btn-github btn-icon my-4" type="submit">Iniciar
+                                        </button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    </div>
                 </div>
-             </div>
+            </div>
         </section>
     </div>
 
@@ -71,19 +74,29 @@
         <div class="row row-grid align-items-center mb-5">
             <div class="col-lg-6">
                 <h3 class="text-primary font-weight-light mb-2">Faça parte do ATA!</h3>
-                <p class="mb-0 font-weight-light">ATA Martial Arts tem os programas necessários para que criançase e adultos. Faça parte do treinamento de mais de 130.000 membros ativos, competindo em torneios e seminários ao redor do mundo.</p>
+                <p class="mb-0 font-weight-light">ATA Martial Arts tem os programas necessários para que criançase e
+                    adultos. Faça parte do treinamento de mais de 130.000 membros ativos, competindo em torneios e
+                    seminários ao redor do mundo.</p>
             </div>
             <div class="col-lg-6 text-lg-center btn-wrapper">
-                <button target="_blank" href="https://twitter.com/" rel="nofollow" class="btn btn-icon-only btn-twitter rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+                <button target="_blank" href="https://twitter.com/" rel="nofollow"
+                        class="btn btn-icon-only btn-twitter rounded-circle" data-toggle="tooltip"
+                        data-original-title="Follow us">
                     <span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
                 </button>
-                <button target="_blank" href="https://www.facebook.com/" rel="nofollow" class="btn-icon-only rounded-circle btn btn-facebook" data-toggle="tooltip" data-original-title="Like us">
+                <button target="_blank" href="https://www.facebook.com/" rel="nofollow"
+                        class="btn-icon-only rounded-circle btn btn-facebook" data-toggle="tooltip"
+                        data-original-title="Like us">
                     <span class="btn-inner--icon"><i class="fab fa-facebook"></i></span>
                 </button>
-                <button target="_blank" href="https://dribbble.com/" rel="nofollow" class="btn btn-icon-only btn-dribbble rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+                <button target="_blank" href="https://dribbble.com/" rel="nofollow"
+                        class="btn btn-icon-only btn-dribbble rounded-circle" data-toggle="tooltip"
+                        data-original-title="Follow us">
                     <span class="btn-inner--icon"><i class="fa fa-dribbble"></i></span>
                 </button>
-                <button target="_blank" href="https://github.com/" rel="nofollow" class="btn btn-icon-only btn-github rounded-circle" data-toggle="tooltip" data-original-title="Star on Github">
+                <button target="_blank" href="https://github.com/" rel="nofollow"
+                        class="btn btn-icon-only btn-github rounded-circle" data-toggle="tooltip"
+                        data-original-title="Star on Github">
                     <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
                 </button>
             </div>

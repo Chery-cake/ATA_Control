@@ -1,19 +1,42 @@
 $("#form-register-pessoa").submit(function (evt) {
     evt.preventDefault();
 
-    if($("#confi_senha").val() !== $("#senha").val()){
+    if ($("#confi_senha").val() !== $("#senha").val()) {
         $("#confi_senha").value = "";
         $("#confi_senha").focus();
         var label = document.createElement("label");
         label.textContent = "As senhas estão incompativeis";
         label.className = "text-center";
+        label.id = "not_senha";
         document.getElementById("senha_div").appendChild(label);
-    }else {
-    savePessoa();
+    } else {
+        if (document.getElementById("not_senha")) {
+            document.getElementById("not_senha").remove();
+        }
+        $.ajax({
+            method: "POST",
+            url: "/verifica/usuario/pessoa/" + $("#email").val(),
+            success: function (result) {
+                if (result === true) {
+                    savePessoa();
+                } else {
+                    if (document.getElementById("not_email")) {
+                        $("#email").focus();
+                    } else {
+                        var label = document.createElement("label");
+                        label.textContent = "Este usuario ja existe";
+                        label.className = "text-center";
+                        label.id = "not_email";
+                        document.getElementById("email_div").appendChild(label);
+                        $("#email").focus();
+                    }
+                }
+            }
+        });
     }
 });
 
-function savePessoa(){
+function savePessoa() {
     var data = {};
 
     var pessoaDTO = {};
@@ -56,7 +79,7 @@ function savePessoa(){
         url: "/save/pessoa",
         contentType: 'application/json',
         data: JSON.stringify(data),
-        success: function (result) {//todo adicionar login automatico
+        success: function () {
             top.location.href = "/";
         },
         error: function (xhr) {

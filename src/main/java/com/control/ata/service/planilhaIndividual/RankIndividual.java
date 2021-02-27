@@ -68,6 +68,7 @@ public class RankIndividual {
 
     public List<RankingIndividual> setRankingLista(PlanilhaListaIndividual planilhaListaIndividual) {
         List<RankingIndividual> list = new ArrayList<>();
+        valorBase = s.valorBase;
 
         CategoriaTorneio categoriaTorneio = planilhaListaIndividual.getRingueIndividual().getTorneio().getCategoriaTorneio();
         valorBase = valorBase * categoriaTorneio.getPrioridade();
@@ -88,7 +89,7 @@ public class RankIndividual {
             } else {
                 list.add(rankingIndividualRepository.save(
                         new RankingIndividual(chaveListaIndividual.getCompetidor().getPessoa(), valorBase,
-                                              planilhaListaIndividual.getCategoriaCompeticao())));
+                                planilhaListaIndividual.getCategoriaCompeticao())));
             }
             valorBase = s.getValorBase(valorBase);
         }
@@ -97,6 +98,7 @@ public class RankIndividual {
 
     public List<RankingIndividual> setRankingChave(PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual) {
         List<RankingIndividual> list = new ArrayList<>();
+        valorBase = s.valorBase;
 
         CategoriaTorneio categoriaTorneio = planilhaChaveamentoIndividual.getRingueIndividual().getTorneio().getCategoriaTorneio();
         valorBase = valorBase * categoriaTorneio.getPrioridade();
@@ -106,7 +108,10 @@ public class RankIndividual {
                         planilhaChaveamentoIndividual, 0));
 
         for (ChaveLutaIndividual chaveLutaIndividual : chaveLutaIndividualArrayList) {
-            if (chaveLutaIndividual.getDesqualificacaoBranca()) {
+            if (chaveLutaIndividual.getCompetidorBranco() == null) {
+                saveChaveLutaVer(list, chaveLutaIndividual);
+                valorBase = s.getValorBase(valorBase);
+            } else if (chaveLutaIndividual.getDesqualificacaoBranca()) {
                 saveChaveLutaVer(list, chaveLutaIndividual);
                 valorBase = s.getValorBase(valorBase);
                 saveChaveLutaBra(list, chaveLutaIndividual);
@@ -140,7 +145,7 @@ public class RankIndividual {
         } else {
             list.add(rankingIndividualRepository.save(
                     new RankingIndividual(chaveLutaIndividual.getCompetidorVermelho().getPessoa(), valorBase,
-                                          chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao())));
+                            chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao())));
         }
     }
 
@@ -156,7 +161,7 @@ public class RankIndividual {
         } else {
             list.add(rankingIndividualRepository.save(
                     new RankingIndividual(chaveLutaIndividual.getCompetidorBranco().getPessoa(), valorBase,
-                                          chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao())));
+                            chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao())));
         }
     }
 }
