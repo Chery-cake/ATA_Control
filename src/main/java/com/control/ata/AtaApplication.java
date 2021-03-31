@@ -127,83 +127,83 @@ public class AtaApplication implements CommandLineRunner {
 
         //todo remover
 
-//        ArrayList<CategoriaCompeticao> competicaoArrayList = new ArrayList<>();
-//        competicaoArrayList.add(
-//                categoriaCompeticaoRepository.save(new CategoriaCompeticao("lista", false, false, 0, 0, 0, 0, 0)));
-//        competicaoArrayList.add(
-//                categoriaCompeticaoRepository.save(new CategoriaCompeticao("chave", true, false, 3, 2, 0, 0, 0)));
-//
-//        CategoriaTorneio categoriaTorneio = categoriaTorneioRepository.save(new CategoriaTorneio("nome", 5));
-//
-//        Torneio torneio = torneioRepository.save(new Torneio(new Date(), new Date(), 1, false, null, categoriaTorneio));
-//        RodadaJuiz rodadaJuiz = rodadaJuizRepository.save(new RodadaJuiz("ini", "ter", new Date(), torneio));
-//
-//        Planilheiro planilheiro = planilheiroRepository.save(new Planilheiro(torneio));
-//
-//        Usuario usuario1 = new Usuario(planilheiro, "ema", "root");
-//        usuario1.setUserRole(UserRole.ROLE_PLANILHA);
-//        usuarioService.signUpUser(usuario1);
-//
-//        ArrayList<Pessoa> pessoaArrayList = new ArrayList<>();
-//
-//        Pessoa pessoaInstru = pessoaRepository.save(new Pessoa("instrutor", "pessoa", false,// genero false = menina
-//                new GregorianCalendar(2013, Calendar.FEBRUARY,
-//                        11).getTime(), 0, "NumberWorld",
-//                "NumberBrasil", false, "telefone", null, null, null));
-//
-//        Academia academia = academiaRepository.save(new Academia("academia", null));
-//
-//        Instrutor instrutor = tipoPessoaDAO.save(new Instrutor(academia, pessoaInstru));
-//
-//        for (int i = 0; i < 4; i++) {
-//            pessoaArrayList.add(
-//                    pessoaRepository.save(new Pessoa(String.valueOf(i), "pessoa", false,// genero false = menina
-//                            new GregorianCalendar(2013, Calendar.FEBRUARY,
-//                                    11).getTime(), 0, "NumberWorld",
-//                            "NumberBrasil", false, "telefone", null, null, null)));
-//        }
-//
-//        for (Pessoa pessoa1 : pessoaArrayList) {
-//            pessoa1.setInstrutor(instrutor);
-//            pessoa1 = pessoaRepository.save(pessoa1);
-//            tipoPessoaDAO.save(new Competidor(55d, 55d, 0, pessoa1, torneio, competicaoArrayList));
-//        }
-//
-//        pessoaArrayList = new ArrayList<>();
-//
-//        for (int i = 0; i < 3; i++) {
-//            pessoaArrayList.add(
-//                    pessoaRepository.save(new Pessoa(String.valueOf(i), "juiz", false,// genero false = menina
-//                            new GregorianCalendar(2013, Calendar.FEBRUARY,
-//                                    11).getTime(), 0, "NumberWorld",
-//                            "NumberBrasil", false, "telefone", null, null, null)));
-//        }
-//
-//        ArrayList<RodadaJuiz> rodadaJuizArrayList = new ArrayList<>();
-//        rodadaJuizArrayList.add(rodadaJuiz);
-//
-//        ArrayList<Juiz> juizArrayList =  new ArrayList<>();
-//
-//        for (Pessoa pessoa1 : pessoaArrayList) {
-//            pessoa1 = pessoaRepository.save(pessoa1);
-//            juizArrayList.add(tipoPessoaDAO.save(new Juiz(pessoa1, rodadaJuizArrayList)));
-//        }
-//
-//        ArrayList<RingueIndividual> ringueIndividualArrayList = new ArrayList<>();
-//
-//        for (int i = 1; i <= 2; i++) {
-//            ringueIndividualArrayList.add(ringueDAO.save(
-//                    new RingueIndividual(false, false, 1, i, 1, 0, juizArrayList, torneio, competicaoArrayList, rodadaJuiz)));
-//        }
-//
-//        ringueService.createRingueIndividual(torneio);
-//
-//        Singleton s = Singleton.getSingleton();
-//
-//        for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {
-//            listaIndividual.createPlanilhasLista(ringueIndividual);
-//            chaveIndividual.createPlanilhasChave(ringueIndividual);
-//
+        ArrayList<CategoriaCompeticao> competicaoArrayList = new ArrayList<>();
+        competicaoArrayList.add(
+                categoriaCompeticaoRepository.save(new CategoriaCompeticao("lista", false, false, 0, 0, 0, 0, 0)));
+        competicaoArrayList.add(
+                categoriaCompeticaoRepository.save(new CategoriaCompeticao("chave", true, false, 3, 2, 0, 0, 0)));
+
+        CategoriaTorneio categoriaTorneio = categoriaTorneioRepository.save(new CategoriaTorneio("nome", 5));
+
+        Torneio torneio = torneioRepository.save(new Torneio(new Date(), new Date(), 1, false, null, categoriaTorneio));
+        RodadaJuiz rodadaJuiz = rodadaJuizRepository.save(new RodadaJuiz("ini", "ter", new Date(), torneio));
+
+        Planilheiro planilheiro = planilheiroRepository.save(new Planilheiro(torneio));
+
+        Usuario usuario1 = new Usuario(planilheiro, "ema", "root");
+        usuario1.setUserRole(UserRole.ROLE_PLANILHA);
+        usuarioService.signUpUser(usuario1);
+
+        ArrayList<Pessoa> pessoaArrayList = new ArrayList<>();
+
+        Pessoa pessoaInstru = pessoaRepository.save(new Pessoa("instrutor", "pessoa", false,// genero false = menina
+                new GregorianCalendar(2013, Calendar.FEBRUARY,
+                        11).getTime(), 0, "NumberWorld",
+                "NumberBrasil", false, "telefone", null, null, null));
+
+        Academia academia = academiaRepository.save(new Academia("academia", null));
+
+        Instrutor instrutor = tipoPessoaDAO.save(new Instrutor(academia, pessoaInstru));
+
+        for (int i = 0; i < 4; i++) {
+            pessoaArrayList.add(
+                    pessoaRepository.save(new Pessoa(String.valueOf(i), "pessoa", false,// genero false = menina
+                            new GregorianCalendar(2013, Calendar.FEBRUARY,
+                                    11).getTime(), 0, "NumberWorld",
+                            "NumberBrasil", false, "telefone", null, null, null)));
+        }
+
+        for (Pessoa pessoa1 : pessoaArrayList) {
+            pessoa1.setInstrutor(instrutor);
+            pessoa1 = pessoaRepository.save(pessoa1);
+            tipoPessoaDAO.save(new Competidor(55d, 55d, 0, pessoa1, torneio, competicaoArrayList));
+        }
+
+        pessoaArrayList = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            pessoaArrayList.add(
+                    pessoaRepository.save(new Pessoa(String.valueOf(i), "juiz", false,// genero false = menina
+                            new GregorianCalendar(2013, Calendar.FEBRUARY,
+                                    11).getTime(), 0, "NumberWorld",
+                            "NumberBrasil", false, "telefone", null, null, null)));
+        }
+
+        ArrayList<RodadaJuiz> rodadaJuizArrayList = new ArrayList<>();
+        rodadaJuizArrayList.add(rodadaJuiz);
+
+        ArrayList<Juiz> juizArrayList =  new ArrayList<>();
+
+        for (Pessoa pessoa1 : pessoaArrayList) {
+            pessoa1 = pessoaRepository.save(pessoa1);
+            juizArrayList.add(tipoPessoaDAO.save(new Juiz(pessoa1, rodadaJuizArrayList)));
+        }
+
+        ArrayList<RingueIndividual> ringueIndividualArrayList = new ArrayList<>();
+
+        for (int i = 1; i <= 2; i++) {
+            ringueIndividualArrayList.add(ringueDAO.save(
+                    new RingueIndividual(false, false, 1, i, 1, 0, juizArrayList, torneio, competicaoArrayList, rodadaJuiz)));
+        }
+
+        ringueService.createRingueIndividual(torneio);
+
+        Singleton s = Singleton.getSingleton();
+
+        for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {
+            listaIndividual.createPlanilhasLista(ringueIndividual);
+            chaveIndividual.createPlanilhasChave(ringueIndividual);
+
 //            for (PlanilhaListaIndividual planilhaListaIndividual : planilhaListaIndividualRepository.getAllByRingueIndividual(ringueIndividual)) {
 //                for (ChaveListaIndividual chaveListaIndividual : chaveListaIndividualRepository.getAllByPlanilhaListaIndividual(planilhaListaIndividual)) {
 //                    chaveListaIndividual.setNotaJuizA(s.getRandomInt(1, 10));
@@ -252,7 +252,7 @@ public class AtaApplication implements CommandLineRunner {
 //
 //                rankIndividual.setRankingChave(planilhaChaveamentoIndividual);
 //            }
-//        }
+        }
 
         System.out.println("Terminou insercoes");
 

@@ -25,6 +25,10 @@ public class PlanilhaChaveamentoIndividual {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private RingueIndividual ringueIndividual;
 
+    @OneToOne
+    @JsonIgnore
+    private ColocacaoIndividual colocacaoIndividual;
+
     public PlanilhaChaveamentoIndividual() {
     }
 

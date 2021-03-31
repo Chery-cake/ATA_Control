@@ -1,6 +1,6 @@
 # Server Port
 server:
-  port: 8090
+  port: 8080
 
 
 # Postgres
@@ -14,7 +14,7 @@ spring:
   #JPA
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: false
     open-in-view: true
 

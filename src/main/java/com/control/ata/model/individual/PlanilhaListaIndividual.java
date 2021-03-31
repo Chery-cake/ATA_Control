@@ -25,6 +25,10 @@ public class PlanilhaListaIndividual {
     @OneToMany(mappedBy = "planilhaListaIndividual", cascade = CascadeType.ALL)
     private Collection<ChaveListaIndividual> chaveListaIndividualList;
 
+    @OneToOne
+    @JsonIgnore
+    private ColocacaoIndividual colocacaoIndividual;
+
     public PlanilhaListaIndividual() {
     }
 

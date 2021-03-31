@@ -483,12 +483,14 @@ $(document).on("click", "button[id='submit_lista']", function () {
                 if (nova_chave === false) {
                     document.getElementById("submit_lista").remove();
 
-                    var label = document.createElement("label");
-                    label.textContent = "Todos os competidores ja receberam suas notas";
                     document.getElementById("juiz_B").remove();
                     document.getElementById("juiz_A").remove();
                     document.getElementById("juiz_C").remove();
 
+                    empate_lista();
+
+                    var label = document.createElement("label");
+                    label.textContent = "Todos os competidores ja receberam suas notas";
                     document.getElementById("planilha").appendChild(label);
 
                     chave = 1;
@@ -498,6 +500,116 @@ $(document).on("click", "button[id='submit_lista']", function () {
     }
 
 });
+
+function empate_lista() {
+
+    var lugar_1 = [];
+    var nota_1 = 0;
+
+    var lugar_2 = [];
+    var nota_2 = 0;
+
+    var lugar_3 = [];
+    var nota_3 = 0;
+
+    var change = true;
+    while (change) {
+        change = false;
+        for (var i = 1; i < document.getElementById("chaves").children.length; i++) {
+            var tr = document.getElementById("chaves").children[i];
+            var nota = parseInt(tr.children[5].textContent);
+            if (nota > nota_1) {
+                lugar_1 = [];
+                lugar_1.push(tr.id);
+                change = true;
+                nota_1 = nota;
+            } else if (nota === nota_1) {
+                if (!inArray(tr.id, lugar_1)) {
+                    lugar_1.push(tr.id);
+                }
+            } else if (nota > nota_2) {
+                lugar_2 = [];
+                lugar_2.push(tr.id);
+                change = true;
+                nota_2 = nota;
+            } else if (nota === nota_2) {
+                if (!inArray(tr.id, lugar_2)) {
+                    lugar_2.push(tr.id);
+                }
+            } else if (nota > nota_3) {
+                lugar_3 = [];
+                lugar_3.push(tr.id);
+                change = true;
+                nota_3 = nota;
+            } else if (nota === nota_3) {
+                if (!inArray(tr.id, lugar_3)) {
+                    lugar_3.push(tr.id);
+                }
+            }
+        }
+    }
+    console.log(nota_1);
+    console.log(nota_2);
+    console.log(nota_3);
+    console.log(lugar_1);
+    console.log(lugar_2);
+    console.log(lugar_3);
+
+    var lugar_def_1 = lugar_1[0];
+    var lugar_def_2 = lugar_2[0];
+    var lugar_def_3 = lugar_3[0];
+
+    var emp_1 = false;
+    var emp_2 = false;
+
+    if (lugar_1.length >= 3) {
+        emp_2 = true;
+
+        for (var i = 0; i < lugar_1.length; i++) {
+            var tr;
+            for (var j = 1; j < document.getElementById("chaves").children.length; j++) {
+                var aux = document.getElementById("chaves").children[j];
+                if (aux.id === lugar_1[i]) {
+                    tr = aux;
+                    break;
+                }
+            }
+            var button = document.createElement("button");
+            button.id = "btn_lugar_1_" + lugar_1[i];
+            button.textContent = tr.children[1].textContent;
+            button.value = lugar_1[i];
+            button.className = "btn btn-info btn-icon btn-sm";
+            document.getElementById("planilha").appendChild(button);
+        }
+
+    } else if (lugar_1.length === 2) {
+        emp_1 = true;
+
+    }
+
+    if (lugar_2.length >= 2 && !emp_2) {
+        emp_2 = true;
+
+    }
+
+    if (lugar_3.length >= 2 && !emp_2) {
+
+    }
+
+    console.log(lugar_def_1);
+    console.log(lugar_def_2);
+    console.log(lugar_def_3);
+
+}
+
+function inArray(obj, array) {
+    for (var aux in array) {
+        if (array.hasOwnProperty(aux) && array[aux] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
 
 var fase = 0;
 var posicao = 0;
