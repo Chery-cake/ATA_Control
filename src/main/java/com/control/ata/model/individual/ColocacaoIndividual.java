@@ -26,4 +26,20 @@ public class ColocacaoIndividual {
     @ManyToOne
     private Competidor competidor_3;
 
+    public ColocacaoIndividual() {
+    }
+
+    public ColocacaoIndividual(PlanilhaChaveamentoIndividual planilhaChaveamentoIndividual, Competidor competidor_1, Competidor competidor_2, Competidor competidor_3) {
+        this.planilhaChaveamentoIndividual = planilhaChaveamentoIndividual;
+        this.competidor_1 = competidor_1;
+        this.competidor_2 = competidor_2;
+        this.competidor_3 = competidor_3;
+    }
+
+    public ColocacaoIndividual(PlanilhaListaIndividual planilhaListaIndividual, Competidor competidor_1, Competidor competidor_2, Competidor competidor_3) {
+        this.planilhaListaIndividual = planilhaListaIndividual;
+        this.competidor_1 = competidor_1;
+        this.competidor_2 = competidor_2;
+        this.competidor_3 = competidor_3;
+    }
 }

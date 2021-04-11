@@ -212,9 +212,10 @@ $("#ter_ringue").on("click", function () {
 });
 
 var tipo_plan = null;
+var id_plan = null;
 
 $(document).on("change", "select[id='planilha_select']", function () {
-    var id_plan = $("#planilha_select").val().substr(0, 1);
+    id_plan = $("#planilha_select").val().substr(0, 1);
     var tipo_chave = $("#planilha_select").val().substr(2);
 
     while (document.getElementById("planilha").firstChild) {
@@ -501,6 +502,10 @@ $(document).on("click", "button[id='submit_lista']", function () {
 
 });
 
+var lugar_def_1 = 0;
+var lugar_def_2 = 0;
+var lugar_def_3 = 0;
+
 function empate_lista() {
 
     var lugar_1 = [];
@@ -555,9 +560,17 @@ function empate_lista() {
     console.log(lugar_2);
     console.log(lugar_3);
 
-    var lugar_def_1 = lugar_1[0];
-    var lugar_def_2 = lugar_2[0];
-    var lugar_def_3 = lugar_3[0];
+    lugar_def_1 = lugar_1[0];
+    lugar_def_2 = lugar_2[0];
+    lugar_def_3 = lugar_3[0];
+
+    var emp = false;
+
+    if (lugar_1.length > 1 || lugar_2.length > 1 || lugar_3.length > 1) {
+        emp = true;
+    } else {
+        save_colocacao();
+    }
 
     var emp_1 = false;
     var emp_2 = false;
@@ -565,34 +578,227 @@ function empate_lista() {
     if (lugar_1.length >= 3) {
         emp_2 = true;
 
-        for (var i = 0; i < lugar_1.length; i++) {
-            var tr;
-            for (var j = 1; j < document.getElementById("chaves").children.length; j++) {
-                var aux = document.getElementById("chaves").children[j];
-                if (aux.id === lugar_1[i]) {
-                    tr = aux;
-                    break;
+        for (var q = 1; q <= 3; q++) {
+
+            var div = document.createElement("div");
+
+            var label = document.createElement("label");
+            label.textContent = "Selecionar competidor para " + q + "º colocação: ";
+            div.appendChild(label);
+
+            var select = document.createElement("select");
+            select.id = "select_lugar_" + q;
+            select.className = "form-control";
+            select.required = true;
+
+            var option = document.createElement("option");
+            option.value = "";
+            option.disabled = true;
+            option.selected = true;
+            option.text = "Selecione";
+            select.appendChild(option);
+
+            for (var i = 0; i < lugar_1.length; i++) {
+                var tr;
+                for (var j = 1; j < document.getElementById("chaves").children.length; j++) {
+                    var aux = document.getElementById("chaves").children[j];
+                    if (aux.id === lugar_1[i]) {
+                        tr = aux;
+                        break;
+                    }
                 }
+
+                option = document.createElement("option");
+                option.value = lugar_1[i];
+                option.text = tr.children[1].textContent;
+                select.appendChild(option);
             }
-            var button = document.createElement("button");
-            button.id = "btn_lugar_1_" + lugar_1[i];
-            button.textContent = tr.children[1].textContent;
-            button.value = lugar_1[i];
-            button.className = "btn btn-info btn-icon btn-sm";
-            document.getElementById("planilha").appendChild(button);
+
+            div.appendChild(select);
+
+            document.getElementById("planilha").appendChild(div);
         }
 
     } else if (lugar_1.length === 2) {
         emp_1 = true;
+
+        lugar_def_3 = lugar_def_2;
+
+        for (var q = 1; q <= 2; q++) {
+
+            var div = document.createElement("div");
+
+            var label = document.createElement("label");
+            label.textContent = "Selecionar competidor para " + q + "º colocação: ";
+            div.appendChild(label);
+
+            var select = document.createElement("select");
+            select.id = "select_lugar_" + q;
+            select.className = "form-control";
+            select.required = true;
+
+            var option = document.createElement("option");
+            option.value = "";
+            option.disabled = true;
+            option.selected = true;
+            option.text = "Selecione";
+            select.appendChild(option);
+
+            for (var i = 0; i < lugar_1.length; i++) {
+                var tr;
+                for (var j = 1; j < document.getElementById("chaves").children.length; j++) {
+                    var aux = document.getElementById("chaves").children[j];
+                    if (aux.id === lugar_1[i]) {
+                        tr = aux;
+                        break;
+                    }
+                }
+
+                option = document.createElement("option");
+                option.value = lugar_1[i];
+                option.text = tr.children[1].textContent;
+                select.appendChild(option);
+            }
+
+            div.appendChild(select);
+
+            document.getElementById("planilha").appendChild(div);
+        }
 
     }
 
     if (lugar_2.length >= 2 && !emp_2) {
         emp_2 = true;
 
+        if (emp_1) {
+            for (var q = 3; q <= 3; q++) {
+
+                var div = document.createElement("div");
+
+                var label = document.createElement("label");
+                label.textContent = "Selecionar competidor para " + q + "º colocação: ";
+                div.appendChild(label);
+
+                var select = document.createElement("select");
+                select.id = "select_lugar_" + q;
+                select.className = "form-control";
+                select.required = true;
+
+                var option = document.createElement("option");
+                option.value = "";
+                option.disabled = true;
+                option.selected = true;
+                option.text = "Selecione";
+                select.appendChild(option);
+
+                for (var i = 0; i < lugar_2.length; i++) {
+                    var tr;
+                    for (var j = 1; j < document.getElementById("chaves").children.length; j++) {
+                        var aux = document.getElementById("chaves").children[j];
+                        if (aux.id === lugar_2[i]) {
+                            tr = aux;
+                            break;
+                        }
+                    }
+
+                    option = document.createElement("option");
+                    option.value = lugar_2[i];
+                    option.text = tr.children[1].textContent;
+                    select.appendChild(option);
+                }
+
+                div.appendChild(select);
+
+                document.getElementById("planilha").appendChild(div);
+            }
+        } else {
+
+            for (var q = 2; q <= 3; q++) {
+
+                var div = document.createElement("div");
+
+                var label = document.createElement("label");
+                label.textContent = "Selecionar competidor para " + q + "º colocação: ";
+                div.appendChild(label);
+
+                var select = document.createElement("select");
+                select.id = "select_lugar_" + q;
+                select.className = "form-control";
+                select.required = true;
+
+                var option = document.createElement("option");
+                option.value = "";
+                option.disabled = true;
+                option.selected = true;
+                option.text = "Selecione";
+                select.appendChild(option);
+
+                for (var i = 0; i < lugar_2.length; i++) {
+                    var tr;
+                    for (var j = 1; j < document.getElementById("chaves").children.length; j++) {
+                        var aux = document.getElementById("chaves").children[j];
+                        if (aux.id === lugar_2[i]) {
+                            tr = aux;
+                            break;
+                        }
+                    }
+
+                    option = document.createElement("option");
+                    option.value = lugar_2[i];
+                    option.text = tr.children[1].textContent;
+                    select.appendChild(option);
+                }
+
+                div.appendChild(select);
+
+                document.getElementById("planilha").appendChild(div);
+            }
+
+        }
     }
 
     if (lugar_3.length >= 2 && !emp_2) {
+
+        for (var q = 3; q <= 3; q++) {
+
+            var div = document.createElement("div");
+
+            var label = document.createElement("label");
+            label.textContent = "Selecionar competidor para " + q + "º colocação: ";
+            div.appendChild(label);
+
+            var select = document.createElement("select");
+            select.id = "select_lugar_" + q;
+            select.className = "form-control";
+            select.required = true;
+
+            var option = document.createElement("option");
+            option.value = "";
+            option.disabled = true;
+            option.selected = true;
+            option.text = "Selecione";
+            select.appendChild(option);
+
+            for (var i = 0; i < lugar_3.length; i++) {
+                var tr;
+                for (var j = 1; j < document.getElementById("chaves").children.length; j++) {
+                    var aux = document.getElementById("chaves").children[j];
+                    if (aux.id === lugar_3[i]) {
+                        tr = aux;
+                        break;
+                    }
+                }
+
+                option = document.createElement("option");
+                option.value = lugar_3[i];
+                option.text = tr.children[1].textContent;
+                select.appendChild(option);
+            }
+
+            div.appendChild(select);
+
+            document.getElementById("planilha").appendChild(div);
+        }
 
     }
 
@@ -600,6 +806,46 @@ function empate_lista() {
     console.log(lugar_def_2);
     console.log(lugar_def_3);
 
+    if (emp) {
+        var div = document.createElement("div");
+
+        var button = document.createElement("button");
+        button.id = "finalizar_emp";
+        button.textContent = "Finalizar empates";
+        button.className = "btn btn-lg btn-github btn-icon my-4";
+        div.appendChild(button);
+
+        document.getElementById("planilha").appendChild(div);
+    }
+}
+
+$(document).on("click", "button[id='finalizar_emp']", function () {
+    if (document.getElementById("select_lugar_1")) {
+        lugar_def_1 = $("#select_lugar_1").val();
+    }
+    if (document.getElementById("select_lugar_2")) {
+        lugar_def_2 = $("#select_lugar_2").val();
+    }
+    if (document.getElementById("select_lugar_3")) {
+        lugar_def_3 = $("#select_lugar_3").val();
+    }
+    save_colocacao();
+});
+
+function save_colocacao() {
+
+    var data = {};
+
+    data.lugar_1 = lugar_def_1;
+    data.lugar_2 = lugar_def_2;
+    data.lugar_3 = lugar_def_3;
+
+    $.ajax({
+        method: "POST",
+        url: "/planilha/lista/individual/colocacao/" + id_plan,
+        contentType: 'application/json',
+        data: JSON.stringify(data)
+    });
 }
 
 function inArray(obj, array) {

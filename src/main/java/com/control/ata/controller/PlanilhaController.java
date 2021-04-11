@@ -2,15 +2,16 @@ package com.control.ata.controller;
 
 import com.control.ata.model.individual.ChaveListaIndividual;
 import com.control.ata.model.individual.ChaveLutaIndividual;
+import com.control.ata.model.individual.ColocacaoIndividual;
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.torneio.Cronometro;
 import com.control.ata.repository.individual.*;
+import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
 import com.control.ata.repository.torneio.CronometroRepository;
 import com.control.ata.repository.torneio.TorneioRepository;
 import com.control.ata.service.planilhaIndividual.ChaveIndividual;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -45,6 +46,10 @@ public class PlanilhaController {
     private CronometroRepository cronometroRepository;
     @Autowired
     private ChaveIndividual chaveIndividual;
+    @Autowired
+    private ColocacaoIndividualRepository colocacaoIndividualRepository;
+    @Autowired
+    private CompetidorRepository competidorRepository;
 
     // ======================================PLANILHA=============================================
 
@@ -93,14 +98,14 @@ public class PlanilhaController {
 
     @PostMapping("/chave/lista/individual/{id}")
     public ResponseEntity<?> setChavePlanilhaLista(@Valid @RequestBody String json, @PathVariable("id") Integer id,
-            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+                                                   BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
 
         String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
         ObjectMapper jacksonObjectMapper = new ObjectMapper();
         chaveListaIndividualDTO chaveListaIndividualDTO = jacksonObjectMapper.readValue(decodedJson,
-                                                                                        chaveListaIndividualDTO.class);
+                chaveListaIndividualDTO.class);
 
         ChaveListaIndividual chaveListaIndividual = chaveListaIndividualRepository.getOne(id);
 
@@ -113,6 +118,24 @@ public class PlanilhaController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/planilha/lista/individual/colocacao/{id}")
+    public ResponseEntity<?> setPlanilhaListaColocacao(@Valid @RequestBody String json, @PathVariable("id") Integer id, BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+        ResponseEntity<?> errors = getErrors(result);
+        if (errors != null) return errors;
+
+        String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
+        ObjectMapper jacksonObjectMapper = new ObjectMapper();
+        colocacaoListaDTO colocacaoListaDTO = jacksonObjectMapper.readValue(decodedJson,
+                colocacaoListaDTO.class);
+
+        System.out.println(planilhaListaIndividualRepository.getOne(id));
+        System.out.println(colocacaoListaDTO);
+
+        colocacaoIndividualRepository.save(new ColocacaoIndividual(planilhaListaIndividualRepository.getOne(id), competidorRepository.getOne(colocacaoListaDTO.lugar_1), competidorRepository.getOne(colocacaoListaDTO.lugar_2), competidorRepository.getOne(colocacaoListaDTO.lugar_3)));
+
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/planilha/individual/chave/competidores/{id}")
     public ResponseEntity<?> getCompetidoresPlanilhaChave(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(
@@ -121,14 +144,14 @@ public class PlanilhaController {
 
     @PostMapping("/chave/luta/individual/{id}")
     public ResponseEntity<?> setChavePlanilhaChave(@Valid @RequestBody String json, @PathVariable("id") Integer id,
-            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+                                                   BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
 
         String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
         ObjectMapper jacksonObjectMapper = new ObjectMapper();
         chaveLutaIndividualDTO chaveLutaIndividualDTO = jacksonObjectMapper.readValue(decodedJson,
-                                                                                      chaveLutaIndividualDTO.class);
+                chaveLutaIndividualDTO.class);
 
         ChaveLutaIndividual chaveLutaIndividual = chaveLutaIndividualRepository.getOne(id);
 
@@ -146,8 +169,8 @@ public class PlanilhaController {
 
     @PostMapping("/chave/luta/individual/desqualificacao/{id}")
     public ResponseEntity<?> setChavePlanilhaChaveDesqualificacao(@Valid @RequestBody String json,
-            @PathVariable("id") Integer id,
-            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+                                                                  @PathVariable("id") Integer id,
+                                                                  BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
 
@@ -169,7 +192,7 @@ public class PlanilhaController {
 
     @PostMapping("/planilha/individual/chave/fase/competidores")
     public ResponseEntity<?> getCompetidoresPlanilhaChaveFase(@Valid @RequestBody String json,
-            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+                                                              BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
 
@@ -198,14 +221,14 @@ public class PlanilhaController {
 
     @PostMapping("/ringue/individual/cronometro/save/{id}")
     public ResponseEntity<?> setCronometro(@Valid @RequestBody String json, @PathVariable("id") Integer id,
-            BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
+                                           BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
         ResponseEntity<?> errors = getErrors(result);
         if (errors != null) return errors;
 
         String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
         ObjectMapper jacksonObjectMapper = new ObjectMapper();
         cronometroDTO cronometroDTO = jacksonObjectMapper.readValue(decodedJson,
-                                                                    PlanilhaController.cronometroDTO.class);
+                PlanilhaController.cronometroDTO.class);
 
         RingueIndividual ringueIndividual = ringueIndividualRepository.getOne(id);
         Cronometro cronometro = new Cronometro();
@@ -267,8 +290,8 @@ public class PlanilhaController {
         }
 
         public chaveLutaIndividualDTO(Integer pontos_vermelho, Integer advertencias_vermelhas,
-                Integer penalidades_vermelhas, Integer pontos_brancos, Integer advertencias_brancas,
-                Integer penalidades_brancas) {
+                                      Integer penalidades_vermelhas, Integer pontos_brancos, Integer advertencias_brancas,
+                                      Integer penalidades_brancas) {
             this.pontos_vermelho = pontos_vermelho;
             this.advertencias_vermelhas = advertencias_vermelhas;
             this.penalidades_vermelhas = penalidades_vermelhas;
@@ -316,6 +339,21 @@ public class PlanilhaController {
             this.tempo_mim = tempo_mim;
             this.tempo_seg = tempo_seg;
             this.rodando = rodando;
+        }
+    }
+
+    private static class colocacaoListaDTO {
+        public Integer lugar_1;
+        public Integer lugar_2;
+        public Integer lugar_3;
+
+        public colocacaoListaDTO() {
+        }
+
+        public colocacaoListaDTO(Integer lugar_1, Integer lugar_2, Integer lugar_3) {
+            this.lugar_1 = lugar_1;
+            this.lugar_2 = lugar_2;
+            this.lugar_3 = lugar_3;
         }
     }
 
