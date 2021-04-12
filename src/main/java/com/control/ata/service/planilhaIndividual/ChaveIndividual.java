@@ -95,9 +95,9 @@ public class ChaveIndividual {
             nextChave(chaveLutaIndividual.getCompetidorVermelho(), chaveLutaIndividual);
         } else if (chaveLutaIndividual.getDesqualificacaoVermelha()) {
             nextChave(chaveLutaIndividual.getCompetidorBranco(), chaveLutaIndividual);
-        } else if (chaveLutaIndividual.getPontosBrancos() >= chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao().getLimitePonto()) {
+        } else if (chaveLutaIndividual.getPontosBrancos() >= chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao().getLimitePonto() || chaveLutaIndividual.getPontosBrancos() > chaveLutaIndividual.getPontosVermelhos()) {
             nextChave(chaveLutaIndividual.getCompetidorBranco(), chaveLutaIndividual);
-        } else if (chaveLutaIndividual.getPontosVermelhos() >= chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao().getLimitePonto()) {
+        } else if (chaveLutaIndividual.getPontosVermelhos() >= chaveLutaIndividual.getPlanilhaChaveamentoIndividual().getCategoriaCompeticao().getLimitePonto() || chaveLutaIndividual.getPontosVermelhos() > chaveLutaIndividual.getPontosBrancos()) {
             nextChave(chaveLutaIndividual.getCompetidorVermelho(), chaveLutaIndividual);
         }
 

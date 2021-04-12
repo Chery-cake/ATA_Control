@@ -42,4 +42,40 @@ public class ColocacaoIndividual {
         this.competidor_2 = competidor_2;
         this.competidor_3 = competidor_3;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public PlanilhaChaveamentoIndividual getPlanilhaChaveamentoIndividual() {
+        return planilhaChaveamentoIndividual;
+    }
+
+    public PlanilhaListaIndividual getPlanilhaListaIndividual() {
+        return planilhaListaIndividual;
+    }
+
+    public Competidor getCompetidor_1() {
+        return competidor_1;
+    }
+
+    public void setCompetidor_1(Competidor competidor_1) {
+        this.competidor_1 = competidor_1;
+    }
+
+    public Competidor getCompetidor_2() {
+        return competidor_2;
+    }
+
+    public void setCompetidor_2(Competidor competidor_2) {
+        this.competidor_2 = competidor_2;
+    }
+
+    public Competidor getCompetidor_3() {
+        return competidor_3;
+    }
+
+    public void setCompetidor_3(Competidor competidor_3) {
+        this.competidor_3 = competidor_3;
+    }
 }

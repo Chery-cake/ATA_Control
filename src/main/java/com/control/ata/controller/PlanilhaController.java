@@ -4,6 +4,7 @@ import com.control.ata.model.individual.ChaveListaIndividual;
 import com.control.ata.model.individual.ChaveLutaIndividual;
 import com.control.ata.model.individual.ColocacaoIndividual;
 import com.control.ata.model.individual.RingueIndividual;
+import com.control.ata.model.tipo_pessoa.Competidor;
 import com.control.ata.model.torneio.Cronometro;
 import com.control.ata.repository.individual.*;
 import com.control.ata.repository.tipo_pessoa.CompetidorRepository;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -128,10 +130,7 @@ public class PlanilhaController {
         colocacaoListaDTO colocacaoListaDTO = jacksonObjectMapper.readValue(decodedJson,
                 colocacaoListaDTO.class);
 
-        System.out.println(planilhaListaIndividualRepository.getOne(id));
-        System.out.println(colocacaoListaDTO);
-
-        colocacaoIndividualRepository.save(new ColocacaoIndividual(planilhaListaIndividualRepository.getOne(id), competidorRepository.getOne(colocacaoListaDTO.lugar_1), competidorRepository.getOne(colocacaoListaDTO.lugar_2), competidorRepository.getOne(colocacaoListaDTO.lugar_3)));
+        colocacaoIndividualRepository.save(new ColocacaoIndividual(planilhaListaIndividualRepository.getOne(id), chaveListaIndividualRepository.getOne(colocacaoListaDTO.lugar_1).getCompetidor(), chaveListaIndividualRepository.getOne(colocacaoListaDTO.lugar_2).getCompetidor(), chaveListaIndividualRepository.getOne(colocacaoListaDTO.lugar_3).getCompetidor()));
 
         return ResponseEntity.ok().build();
     }
@@ -213,6 +212,81 @@ public class PlanilhaController {
 
         ChaveLutaIndividual chaveLutaIndividual = chaveLutaIndividualRepository.getOne(id);
         chaveLutaIndividual.setFinalizado(true);
+
+        if (chaveLutaIndividual.getFase() == 0) {
+            ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList = (ArrayList<ChaveLutaIndividual>) chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividualAndFase(chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), 0);
+            System.out.println(chaveLutaIndividualArrayList);
+            for (ChaveLutaIndividual chaveLutaIndividual1 : chaveLutaIndividualArrayList) {
+                if (chaveLutaIndividual1.getFinalizado()) {
+
+                    ColocacaoIndividual colocacaoIndividual = new ColocacaoIndividual(chaveLutaIndividual.getPlanilhaChaveamentoIndividual(), null, null, null);
+
+                    if (colocacaoIndividualRepository.getColocacaoIndividualByPlanilhaChaveamentoIndividual(chaveLutaIndividual.getPlanilhaChaveamentoIndividual()) != null) {
+                        colocacaoIndividual = colocacaoIndividualRepository.getColocacaoIndividualByPlanilhaChaveamentoIndividual(chaveLutaIndividual.getPlanilhaChaveamentoIndividual());
+                    }
+
+                    if (chaveLutaIndividual1.getPosicao() == 1) {
+
+                        Competidor competidor_ven = null;
+                        Competidor competidor_per = null;
+
+                        if (chaveLutaIndividual1.getPontosBrancos() > chaveLutaIndividual1.getPontosVermelhos()) {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorBranco();
+                            competidor_per = chaveLutaIndividual1.getCompetidorVermelho();
+                        } else {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorVermelho();
+                            competidor_per = chaveLutaIndividual1.getCompetidorBranco();
+                        }
+
+                        if (chaveLutaIndividual1.getDesqualificacaoBranca()) {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorVermelho();
+                            competidor_per = chaveLutaIndividual1.getCompetidorBranco();
+                        }
+                        if (chaveLutaIndividual1.getDesqualificacaoVermelha()) {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorBranco();
+                            competidor_per = chaveLutaIndividual1.getCompetidorVermelho();
+                        }
+
+                        if (chaveLutaIndividual1.getCompetidorBranco() == null) {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorVermelho();
+                        } else if (chaveLutaIndividual1.getCompetidorVermelho() == null) {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorBranco();
+                        }
+
+                        colocacaoIndividual.setCompetidor_1(competidor_ven);
+                        colocacaoIndividual.setCompetidor_2(competidor_per);
+
+                    } else if (chaveLutaIndividual1.getPosicao() == 2) {
+
+                        Competidor competidor_ven = null;
+
+                        if (chaveLutaIndividual1.getPontosBrancos() > chaveLutaIndividual1.getPontosVermelhos()) {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorBranco();
+                        } else {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorVermelho();
+                        }
+
+                        if (chaveLutaIndividual1.getDesqualificacaoBranca()) {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorVermelho();
+                        }
+                        if (chaveLutaIndividual1.getDesqualificacaoVermelha()) {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorBranco();
+                        }
+
+                        if (chaveLutaIndividual1.getCompetidorBranco() == null) {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorVermelho();
+                        } else if (chaveLutaIndividual1.getCompetidorVermelho() == null) {
+                            competidor_ven = chaveLutaIndividual1.getCompetidorBranco();
+                        }
+
+                        colocacaoIndividual.setCompetidor_3(competidor_ven);
+
+                    }
+
+                    colocacaoIndividualRepository.save(colocacaoIndividual);
+                }
+            }
+        }
 
         chaveIndividual.updateChave(chaveLutaIndividual);
 

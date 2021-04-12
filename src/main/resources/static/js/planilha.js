@@ -553,12 +553,6 @@ function empate_lista() {
             }
         }
     }
-    console.log(nota_1);
-    console.log(nota_2);
-    console.log(nota_3);
-    console.log(lugar_1);
-    console.log(lugar_2);
-    console.log(lugar_3);
 
     lugar_def_1 = lugar_1[0];
     lugar_def_2 = lugar_2[0];
@@ -574,6 +568,9 @@ function empate_lista() {
 
     var emp_1 = false;
     var emp_2 = false;
+
+    var div_prin = document.createElement("div");
+    div_prin.id = "div_emp";
 
     if (lugar_1.length >= 3) {
         emp_2 = true;
@@ -616,7 +613,7 @@ function empate_lista() {
 
             div.appendChild(select);
 
-            document.getElementById("planilha").appendChild(div);
+            div_prin.appendChild(div);
         }
 
     } else if (lugar_1.length === 2) {
@@ -662,7 +659,7 @@ function empate_lista() {
 
             div.appendChild(select);
 
-            document.getElementById("planilha").appendChild(div);
+            div_prin.appendChild(div);
         }
 
     }
@@ -709,7 +706,7 @@ function empate_lista() {
 
                 div.appendChild(select);
 
-                document.getElementById("planilha").appendChild(div);
+                div_prin.appendChild(div);
             }
         } else {
 
@@ -751,7 +748,7 @@ function empate_lista() {
 
                 div.appendChild(select);
 
-                document.getElementById("planilha").appendChild(div);
+                div_prin.appendChild(div);
             }
 
         }
@@ -797,14 +794,10 @@ function empate_lista() {
 
             div.appendChild(select);
 
-            document.getElementById("planilha").appendChild(div);
+            div_prin.appendChild(div);
         }
 
     }
-
-    console.log(lugar_def_1);
-    console.log(lugar_def_2);
-    console.log(lugar_def_3);
 
     if (emp) {
         var div = document.createElement("div");
@@ -815,8 +808,10 @@ function empate_lista() {
         button.className = "btn btn-lg btn-github btn-icon my-4";
         div.appendChild(button);
 
-        document.getElementById("planilha").appendChild(div);
+        div_prin.appendChild(div);
     }
+
+    document.getElementById("planilha").appendChild(div_prin);
 }
 
 $(document).on("click", "button[id='finalizar_emp']", function () {
@@ -829,7 +824,9 @@ $(document).on("click", "button[id='finalizar_emp']", function () {
     if (document.getElementById("select_lugar_3")) {
         lugar_def_3 = $("#select_lugar_3").val();
     }
+
     save_colocacao();
+    $("#div_emp").remove();
 });
 
 function save_colocacao() {
