@@ -15,6 +15,7 @@ public class Placar {
 
     private String tipo_plan;
     private Integer id_plan;
+    private Integer id_chave;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -45,6 +46,14 @@ public class Placar {
 
     public void setId_plan(Integer id_plan) {
         this.id_plan = id_plan;
+    }
+
+    public Integer getId_chave() {
+        return id_chave;
+    }
+
+    public void setId_chave(Integer id_chave) {
+        this.id_chave = id_chave;
     }
 
     public RingueIndividual getRingueIndividual() {

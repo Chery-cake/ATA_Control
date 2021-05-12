@@ -61,6 +61,7 @@ public class PlacarController {
 
         placar.setId_plan(placarDTO.id_plan);
         placar.setTipo_plan(placarDTO.tipo_plan);
+        placar.setId_chave(placarDTO.id_chave);
 
         placarRepository.save(placar);
 
@@ -95,10 +96,17 @@ public class PlacarController {
     private static class PlacarDTO {
         public Integer id_plan;
         public String tipo_plan;
+        public Integer id_chave;
 
         public PlacarDTO(Integer id_plan, String tipo_plan) {
             this.id_plan = id_plan;
             this.tipo_plan = tipo_plan;
+        }
+
+        public PlacarDTO(Integer id_plan, String tipo_plan, Integer id_chave) {
+            this.id_plan = id_plan;
+            this.tipo_plan = tipo_plan;
+            this.id_chave = id_chave;
         }
 
         public PlacarDTO() {

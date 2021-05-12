@@ -495,9 +495,11 @@ function setPlan() {
     }
     if (tipo_plan === "lista") {
         monta_plan_lista(placar.id_plan);
+    }else if(Number.isInteger(placar.id_chave)){
+        console.log(placar.id_chave);
+        getCronometro();
     } else if (tipo_plan === "chave") {
         monta_plan_chave(placar.id_plan);
-        getCronometro();
     } else if (Object.keys(ringue_atual).length !== 0) {
         info_ringue();
     }

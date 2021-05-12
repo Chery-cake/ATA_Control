@@ -234,6 +234,7 @@ $(document).on("change", "select[id='planilha_select']", function () {
 
     data.id_plan = id_plan;
     data.tipo_plan = tipo_plan;
+    data.id_chave = null;
 
     $.ajax({
         method: "POST",
@@ -1540,18 +1541,23 @@ $(document).on("click", "button[id='desqualificacao']", function () {
 
 });
 
+var ini_chave = false;
+
 function submit_chave() {
     var tr = document.getElementById("chaves").children[chave];
     tr.children[9].textContent = "true";
 
     saveCronometro(false);
     saveChaveLuta();
+    ini_chave = false;
 
     $.ajax({
         method: "POST",
         url: "/chave/luta/individual/avancar/" + $(tr).attr("id"),
         contentType: 'application/json',
         success: function (fase) {
+
+            placar_chave();
 
             var data = {};
             data.fase = fase;
@@ -1699,6 +1705,8 @@ var crono_rodando = false;
 $(document).on("click", "button[id='cronometro']", function () {
     if ($(this).val() === "iniciar") {
         crono_rodando = true;
+        ini_chave = true;
+        placar_chave();
         saveCronometro(true);
     } else if ($(this).val() === "pausar") {
         crono_rodando = false;
@@ -1814,3 +1822,30 @@ setInterval(function () {
         }
     }
 }, 1000);
+
+function placar_chave(){
+
+    var data = {};
+
+    data.id_plan = id_plan;
+    data.tipo_plan = tipo_plan;
+
+    var tr = document.getElementById("chaves").children[chave];
+
+    if(ini_chave === false){
+        data.id_chave = null;
+    }else {
+        data.id_chave = tr.id;
+    }
+
+    console.log(data);
+
+    $.ajax({
+        method: "POST",
+        url: "/ringue/individual/placar/save/" + ringue_atual.id,
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (result) {
+        }
+    });
+}
