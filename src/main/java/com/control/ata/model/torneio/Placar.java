@@ -2,7 +2,6 @@ package com.control.ata.model.torneio;
 
 import com.control.ata.model.individual.RingueIndividual;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 

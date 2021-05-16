@@ -2,6 +2,7 @@ package com.control.ata.controller;
 
 import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.torneio.Placar;
+import com.control.ata.repository.individual.ChaveLutaIndividualRepository;
 import com.control.ata.repository.individual.PlanilhaChaveamentoIndividualRepository;
 import com.control.ata.repository.individual.PlanilhaListaIndividualRepository;
 import com.control.ata.repository.individual.RingueIndividualRepository;
@@ -37,6 +38,8 @@ public class PlacarController {
     private RingueIndividualRepository ringueIndividualRepository;
     @Autowired
     private CronometroRepository cronometroRepository;
+    @Autowired
+    private ChaveLutaIndividualRepository chaveLutaIndividualRepository;
 
     // ======================================PLACAR=============================================
 
@@ -76,6 +79,11 @@ public class PlacarController {
     @PostMapping("/ringue/individual/get/{id}")
     public ResponseEntity<RingueIndividual> getRingueIndividual(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(ringueIndividualRepository.getOne(id));
+    }
+
+    @PostMapping("/planilha/individual/chave/luta/{id}")
+    public ResponseEntity<?> getChave_luta(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(chaveLutaIndividualRepository.getOne(id));
     }
 
     // ======================================FUNCTIONS=============================================

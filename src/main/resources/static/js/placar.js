@@ -199,24 +199,6 @@ function monta_plan_chave(id_plan) {
 
                 var div = document.getElementById("planilha");
 
-                var crono = document.createElement("div");
-                crono.id = "cronometro";
-                div.appendChild(crono);
-
-                crono.className = "row d-flex justify-content-center bg-white text-center";
-                var div_cronometro = document.createElement("div");
-                div_cronometro.id = "cronometro";
-                var h4 = document.createElement("h4");
-                h4.textContent = "CRONOMETRO";
-                div_cronometro.appendChild(h4);
-
-                var h4 = document.createElement("h4");
-                h4.textContent = "02:00";
-                h4.id = "tempo";
-                div_cronometro.appendChild(h4);
-
-                crono.appendChild(div_cronometro);
-
                 var table = document.createElement("table");
                 table.className = "table ";
                 table.id = "chaves";
@@ -337,6 +319,156 @@ function monta_plan_chave(id_plan) {
                     tr.appendChild(td);
                     table.appendChild(tr);
                 }
+
+                div.appendChild(table);
+
+            }
+        }
+    });
+}
+
+function monta_chave_luta(id_chave) {
+    $.ajax({
+        method: "POST",
+        url: "/planilha/individual/chave/luta/" + id_chave,
+        contentType: 'application/json',
+        success: function (result) {
+
+            if (JSON.stringify(plan) !== JSON.stringify(result)) {
+
+                while (document.getElementById("planilha").firstChild) {
+                    document.getElementById("planilha").firstChild.remove();
+                }
+
+                plan = result;
+
+                var div = document.getElementById("planilha");
+
+                var crono = document.createElement("div");
+                crono.id = "cronometro";
+                div.appendChild(crono);
+
+                var crono = document.createElement("div");
+                crono.id = "cronometro";
+                div.appendChild(crono);
+
+                crono.className = "row d-flex justify-content-center bg-white text-center";
+                var div_cronometro = document.createElement("div");
+                div_cronometro.id = "cronometro";
+                var h4 = document.createElement("h4");
+                h4.textContent = "CRONOMETRO";
+                div_cronometro.appendChild(h4);
+
+                var h4 = document.createElement("h4");
+                h4.textContent = "02:00";
+                h4.id = "tempo";
+                div_cronometro.appendChild(h4);
+
+                crono.appendChild(div_cronometro);
+
+                var table = document.createElement("table");
+                table.className = "table ";
+                table.id = "chaves";
+
+                var tr = document.createElement("tr");
+
+                var th = document.createElement("th");
+                th.textContent = "Competidor";
+                th.style = "color: white; background-color: red;";
+                tr.appendChild(th);
+
+                th = document.createElement("th");
+                th.textContent = "Pontos";
+                th.style = "color: white; background-color: red;";
+                tr.appendChild(th);
+
+                th = document.createElement("th");
+                tr.appendChild(th);
+
+                th = document.createElement("th");
+                th.textContent = "Competidor";
+                th.style = "color: black; background-color: white;";
+                tr.appendChild(th);
+
+                th = document.createElement("th");
+                th.textContent = "Pontos";
+                th.style = "color: black; background-color: white;";
+                tr.appendChild(th);
+                table.appendChild(tr);
+
+                tr = document.createElement("tr");
+
+                var td = document.createElement("td");
+                td.textContent = result.competidorVermelho.pessoa.nome + " " + result.competidorVermelho.pessoa.sobrenome;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.textContent = result.pontosVermelhos;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                if (result.competidorBranco === null) {
+                    td.textContent = "vazio";
+                } else {
+                    td.textContent = result.competidorBranco.pessoa.nome + " " + result.competidorBranco.pessoa.sobrenome;
+                }
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.textContent = result.pontosBrancos;
+                tr.appendChild(td);
+                table.appendChild(tr);
+
+                tr = document.createElement("tr");
+
+                th = document.createElement("th");
+                th.textContent = "Advertencias";
+                th.style = "color: white; background-color: red;";
+                tr.appendChild(th);
+
+                th = document.createElement("th");
+                th.textContent = "Penalidades";
+                th.style = "color: white; background-color: red;";
+                tr.appendChild(th);
+
+                th = document.createElement("th");
+                tr.appendChild(th);
+
+                th = document.createElement("th");
+                th.textContent = "Advertencias";
+                th.style = "color: black; background-color: white;";
+                tr.appendChild(th);
+
+                th = document.createElement("th");
+                th.textContent = "Penalidades";
+                th.style = "color: black; background-color: white;";
+                tr.appendChild(th);
+                table.appendChild(tr);
+
+                tr = document.createElement("tr");
+
+                var td = document.createElement("td");
+                td.textContent = result.advertenciasVermelhas;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.textContent = result.penalidadesVermelhas;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.textContent = result.advertenciasBrancas;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.textContent = result.penalidadesBrancas;
+                tr.appendChild(td);
+                table.appendChild(tr);
 
                 div.appendChild(table);
 
@@ -490,13 +622,14 @@ setInterval(function () {
 var plan = {};
 
 function setPlan() {
+
     if (tipo_plan !== placar.tipo_plan) {
         tipo_plan = placar.tipo_plan;
     }
     if (tipo_plan === "lista") {
         monta_plan_lista(placar.id_plan);
-    }else if(Number.isInteger(placar.id_chave)){
-        console.log(placar.id_chave);
+    } else if (Number.isInteger(placar.id_chave)) {
+        monta_chave_luta(placar.id_chave);
         getCronometro();
     } else if (tipo_plan === "chave") {
         monta_plan_chave(placar.id_plan);

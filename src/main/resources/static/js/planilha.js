@@ -1548,6 +1548,9 @@ function submit_chave() {
     tr.children[9].textContent = "true";
 
     saveCronometro(false);
+    var h4 = document.getElementById("cronometro_timer");
+    h4.textContent = "02:00";
+    crono_rodando = false;
     saveChaveLuta();
     ini_chave = false;
 
@@ -1823,7 +1826,7 @@ setInterval(function () {
     }
 }, 1000);
 
-function placar_chave(){
+function placar_chave() {
 
     var data = {};
 
@@ -1832,9 +1835,9 @@ function placar_chave(){
 
     var tr = document.getElementById("chaves").children[chave];
 
-    if(ini_chave === false){
+    if (ini_chave === false) {
         data.id_chave = null;
-    }else {
+    } else {
         data.id_chave = tr.id;
     }
 
