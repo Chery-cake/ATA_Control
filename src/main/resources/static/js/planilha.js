@@ -1572,17 +1572,20 @@ function submit_chave() {
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function (result) {
+
                     var table = document.getElementById("chaves");
 
                     var aux = [];
                     for (var i in table.children) {
                         tr = table.children[i];
                         if (tr.children) {
-                            if (tr.children[5].textContent === "vazio" && tr.children[11].textContent === "false" && result.length !== 0) {
+                            if (parseInt(tr.children[10].textContent) === parseInt(fase)) {
                                 aux.push(table.children[i]);
                             }
                         }
                     }
+
+                    console.log(aux);
 
                     if (aux !== []) {
                         for (var i in aux) {
@@ -1840,8 +1843,6 @@ function placar_chave() {
     } else {
         data.id_chave = tr.id;
     }
-
-    console.log(data);
 
     $.ajax({
         method: "POST",

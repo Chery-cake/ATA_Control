@@ -5,6 +5,7 @@ import com.control.ata.model.torneio.CategoriaCompeticao;
 import com.control.ata.model.torneio.Titulo;
 import com.control.ata.repository.torneio.TituloRepository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
 

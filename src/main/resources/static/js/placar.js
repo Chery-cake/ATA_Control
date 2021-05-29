@@ -204,86 +204,47 @@ function monta_plan_chave(id_plan) {
                 table.id = "chaves";
 
                 var tr = document.createElement("tr");
-                var th = document.createElement("th");
-                th.textContent = "Sequência";
-                tr.appendChild(th);
+                tr.style.display = "block";
+                tr.style.float = "left";
 
-                th = document.createElement("th");
-                th.textContent = "Competidor V";
-                th.style = "color: white; background-color: red;";
-                tr.appendChild(th);
-
-                th = document.createElement("th");
-                th.textContent = "Pontos";
-                th.style = "color: white; background-color: red;";
-                tr.appendChild(th);
-
-                th = document.createElement("th");
-                th.textContent = "Ad";
-                th.style = "color: white; background-color: red;";
-                tr.appendChild(th);
-
-                th = document.createElement("th");
-                th.textContent = "Pena";
-                th.style = "color: white; background-color: red;";
-                tr.appendChild(th);
-
-                th = document.createElement("th");
-                th.textContent = "Competidor B";
-                th.style = "color: black; background-color: white;";
-                tr.appendChild(th);
-
-                th = document.createElement("th");
-                th.textContent = "Pontos";
-                th.style = "color: black; background-color: white;";
-                tr.appendChild(th);
-
-                th = document.createElement("th");
-                th.textContent = "Ad";
-                th.style = "color: black; background-color: white;";
-                tr.appendChild(th);
-
-                th = document.createElement("th");
-                th.textContent = "Pena";
-                th.style = "color: black; background-color: white;";
-                tr.appendChild(th);
-
-                td = document.createElement("td");
-                td.hidden = true;
-                td.textContent = true;
-                tr.appendChild(td);
-
-                td = document.createElement("td");
-                td.hidden = true;
-                td.textContent = true;
-                tr.appendChild(td);
-                table.appendChild(tr);
+                var fase_aux = result[0].fase;
+                console.log(fase_aux);
 
                 for (var i in result) {
-                    tr = document.createElement("tr");
-                    tr.id = result[i].id;
+
+                    if (result[i].fase !== fase_aux) {
+                        fase_aux = result[i].fase;
+
+                        table.appendChild(tr);
+
+                        tr = document.createElement("tr");
+                        tr.style.display = "block";
+                        tr.style.float = "left";
+                        tr.style.marginLeft = "20px";
+                    }
 
                     var td = document.createElement("td");
-                    td.textContent = table.children.length;
-                    tr.appendChild(td);
-
-                    td = document.createElement("td");
+                    td.style.color = "white";
+                    td.style.backgroundColor = "red";
+                    td.style.display = "block";
+                    td.style.marginTop = "20px";
+                    td.padding = "8px";
                     td.textContent = result[i].competidorVermelho.pessoa.nome + " " + result[i].competidorVermelho.pessoa.sobrenome;
                     tr.appendChild(td);
 
                     td = document.createElement("td");
-                    td.textContent = result[i].pontosVermelhos;
+                    td.style.color = "white";
+                    td.style.backgroundColor = "red";
+                    td.style.display = "block";
+                    td.padding = "8px";
+                    td.textContent = "Pontos: " + result[i].pontosVermelhos + " -/- " + result[i].fase;
                     tr.appendChild(td);
 
                     td = document.createElement("td");
-                    td.textContent = result[i].advertenciasVermelhas;
-                    tr.appendChild(td);
-
-                    td = document.createElement("td");
-                    td.textContent = result[i].penalidadesVermelhas;
-                    tr.appendChild(td);
-
-                    td = document.createElement("td");
+                    td.style.color = "black";
+                    td.style.backgroundColor = "white";
+                    td.style.display = "block";
+                    td.padding = "8px";
                     if (result[i].competidorBranco === null) {
                         td.textContent = "vazio";
                     } else {
@@ -292,33 +253,16 @@ function monta_plan_chave(id_plan) {
                     tr.appendChild(td);
 
                     td = document.createElement("td");
-                    td.textContent = result[i].pontosBrancos;
+                    td.style.color = "black";
+                    td.style.backgroundColor = "white";
+                    td.style.display = "block";
+                    td.padding = "8px";
+                    td.textContent = "Pontos: " + result[i].pontosBrancos;
                     tr.appendChild(td);
 
-                    td = document.createElement("td");
-                    td.textContent = result[i].advertenciasBrancas;
-                    tr.appendChild(td);
-
-                    td = document.createElement("td");
-                    td.textContent = result[i].penalidadesBrancas;
-                    tr.appendChild(td);
-
-                    td = document.createElement("td");
-                    td.hidden = true;
-                    td.textContent = false;
-                    tr.appendChild(td);
-
-                    td = document.createElement("td");
-                    td.hidden = true;
-                    td.textContent = false;
-                    tr.appendChild(td);
-
-                    td = document.createElement("td");
-                    td.hidden = true;
-                    td.textContent = result[i].fase;
-                    tr.appendChild(td);
-                    table.appendChild(tr);
                 }
+
+                table.appendChild(tr);
 
                 div.appendChild(table);
 
@@ -589,7 +533,7 @@ setInterval(function () {
 }, 1000);
 
 setInterval(function () {
-    if (tipo_plan === "chave") {
+    if (tipo_plan === "chave" && cronometro_rodando) {
         if (document.getElementById("chaves").children[chave] != null) {
 
             var h4 = document.getElementById("tempo");
@@ -620,8 +564,11 @@ setInterval(function () {
 }, 1000);
 
 var plan = {};
+var cronometro_rodando = false;
 
 function setPlan() {
+
+    cronometro_rodando = false;
 
     if (tipo_plan !== placar.tipo_plan) {
         tipo_plan = placar.tipo_plan;
@@ -629,6 +576,7 @@ function setPlan() {
     if (tipo_plan === "lista") {
         monta_plan_lista(placar.id_plan);
     } else if (Number.isInteger(placar.id_chave)) {
+        cronometro_rodando = true;
         monta_chave_luta(placar.id_chave);
         getCronometro();
     } else if (tipo_plan === "chave") {

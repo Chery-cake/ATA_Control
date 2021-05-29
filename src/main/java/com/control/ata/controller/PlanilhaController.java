@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -137,8 +138,15 @@ public class PlanilhaController {
 
     @PostMapping("/planilha/individual/chave/competidores/{id}")
     public ResponseEntity<?> getCompetidoresPlanilhaChave(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(
-                planilhaChaveamentoIndividualRepository.getOne(id)));
+
+        ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList = (ArrayList<ChaveLutaIndividual>) chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividual(
+                planilhaChaveamentoIndividualRepository.getOne(id));
+
+        chaveLutaIndividualArrayList.sort(Comparator.comparing(ChaveLutaIndividual::getFase, (s1, s2) -> {
+            return s2.compareTo(s1);
+        }).thenComparing(ChaveLutaIndividual::getPosicao));
+
+        return ResponseEntity.ok(chaveLutaIndividualArrayList);
     }
 
     @PostMapping("/chave/luta/individual/{id}")
@@ -201,10 +209,13 @@ public class PlanilhaController {
                 decodedJson,
                 chaveLutaIndividualPlanilhaFaseDTO.class);
 
-
-        return ResponseEntity.ok(chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividualAndFase(
+        ArrayList<ChaveLutaIndividual> chaveLutaIndividualArrayList = (ArrayList<ChaveLutaIndividual>) chaveLutaIndividualRepository.getAllByPlanilhaChaveamentoIndividualAndFase(
                 planilhaChaveamentoIndividualRepository.getOne(chaveLutaIndividualPlanilhaFaseDTO.id_plan),
-                chaveLutaIndividualPlanilhaFaseDTO.fase));
+                chaveLutaIndividualPlanilhaFaseDTO.fase);
+
+        chaveLutaIndividualArrayList.sort(Comparator.comparing(ChaveLutaIndividual::getFase).thenComparing(ChaveLutaIndividual::getPosicao));
+
+        return ResponseEntity.ok(chaveLutaIndividualArrayList);
     }
 
     @PostMapping("/chave/luta/individual/avancar/{id}")

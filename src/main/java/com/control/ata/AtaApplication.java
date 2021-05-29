@@ -155,7 +155,7 @@ public class AtaApplication implements CommandLineRunner {
 
         Instrutor instrutor = tipoPessoaDAO.save(new Instrutor(academia, pessoaInstru));
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 8; i++) {
             pessoaArrayList.add(
                     pessoaRepository.save(new Pessoa(String.valueOf(i), "pessoa", false,// genero false = menina
                             new GregorianCalendar(2013, Calendar.FEBRUARY,
