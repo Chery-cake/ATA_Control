@@ -6,7 +6,7 @@ import com.control.ata.model.endereco.Academia;
 import com.control.ata.model.endereco.Cidade;
 import com.control.ata.model.endereco.Estado;
 import com.control.ata.model.endereco.Pais;
-import com.control.ata.model.individual.*;
+import com.control.ata.model.individual.RingueIndividual;
 import com.control.ata.model.pessoa.Faixa;
 import com.control.ata.model.pessoa.Pessoa;
 import com.control.ata.model.pessoa.Planilheiro;
@@ -36,6 +36,7 @@ import com.control.ata.security.entity.Usuario;
 import com.control.ata.security.enuns.UserRole;
 import com.control.ata.security.repository.UsuarioRepository;
 import com.control.ata.security.service.BCrypt;
+import com.control.ata.security.service.EmailSenderService;
 import com.control.ata.security.service.UsuarioService;
 import com.control.ata.service.RingueService;
 import com.control.ata.service.planilhaIndividual.ChaveIndividual;
@@ -48,6 +49,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -97,6 +100,8 @@ public class AtaApplication implements CommandLineRunner {
     private PlanilhaChaveamentoIndividualRepository planilhaChaveamentoIndividualRepository;
     @Autowired
     private PlanilhaListaIndividualRepository planilhaListaIndividualRepository;
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     public static void main(String[] args) {
         SpringApplication.run(AtaApplication.class, args);
@@ -127,82 +132,82 @@ public class AtaApplication implements CommandLineRunner {
 
         //todo remover
 
-        ArrayList<CategoriaCompeticao> competicaoArrayList = new ArrayList<>();
-        competicaoArrayList.add(
-                categoriaCompeticaoRepository.save(new CategoriaCompeticao("lista", false, false, 0, 0, 0, 0, 0)));
-        competicaoArrayList.add(
-                categoriaCompeticaoRepository.save(new CategoriaCompeticao("chave", true, false, 3, 2, 0, 0, 0)));
-
-        CategoriaTorneio categoriaTorneio = categoriaTorneioRepository.save(new CategoriaTorneio("nome", 5));
-
-        Torneio torneio = torneioRepository.save(new Torneio(new Date(), new Date(), 1, false, null, categoriaTorneio));
-        RodadaJuiz rodadaJuiz = rodadaJuizRepository.save(new RodadaJuiz("ini", "ter", new Date(), torneio));
-
-        Planilheiro planilheiro = planilheiroRepository.save(new Planilheiro(torneio));
-
-        Usuario usuario1 = new Usuario(planilheiro, "ema", "root");
-        usuario1.setUserRole(UserRole.ROLE_PLANILHA);
-        usuarioService.signUpUser(usuario1);
-
-        ArrayList<Pessoa> pessoaArrayList = new ArrayList<>();
-
-        Pessoa pessoaInstru = pessoaRepository.save(new Pessoa("instrutor", "pessoa", false,// genero false = menina
-                new GregorianCalendar(2013, Calendar.FEBRUARY,
-                        11).getTime(), 0, "NumberWorld",
-                "NumberBrasil", false, "telefone", null, null, null));
-
-        Academia academia = academiaRepository.save(new Academia("academia", null));
-
-        Instrutor instrutor = tipoPessoaDAO.save(new Instrutor(academia, pessoaInstru));
-
-        for (int i = 0; i < 8; i++) {
-            pessoaArrayList.add(
-                    pessoaRepository.save(new Pessoa(String.valueOf(i), "pessoa", false,// genero false = menina
-                            new GregorianCalendar(2013, Calendar.FEBRUARY,
-                                    11).getTime(), 0, "NumberWorld",
-                            "NumberBrasil", false, "telefone", null, null, null)));
-        }
-
-        for (Pessoa pessoa1 : pessoaArrayList) {
-            pessoa1.setInstrutor(instrutor);
-            pessoa1 = pessoaRepository.save(pessoa1);
-            tipoPessoaDAO.save(new Competidor(55d, 55d, 0, pessoa1, torneio, competicaoArrayList));
-        }
-
-        pessoaArrayList = new ArrayList<>();
-
-        for (int i = 0; i < 3; i++) {
-            pessoaArrayList.add(
-                    pessoaRepository.save(new Pessoa(String.valueOf(i), "juiz", false,// genero false = menina
-                            new GregorianCalendar(2013, Calendar.FEBRUARY,
-                                    11).getTime(), 0, "NumberWorld",
-                            "NumberBrasil", false, "telefone", null, null, null)));
-        }
-
-        ArrayList<RodadaJuiz> rodadaJuizArrayList = new ArrayList<>();
-        rodadaJuizArrayList.add(rodadaJuiz);
-
-        ArrayList<Juiz> juizArrayList =  new ArrayList<>();
-
-        for (Pessoa pessoa1 : pessoaArrayList) {
-            pessoa1 = pessoaRepository.save(pessoa1);
-            juizArrayList.add(tipoPessoaDAO.save(new Juiz(pessoa1, rodadaJuizArrayList)));
-        }
-
-        ArrayList<RingueIndividual> ringueIndividualArrayList = new ArrayList<>();
-
-        for (int i = 1; i <= 2; i++) {
-            ringueIndividualArrayList.add(ringueDAO.save(
-                    new RingueIndividual(false, false, 1, i, 1, 0, juizArrayList, torneio, competicaoArrayList, rodadaJuiz)));
-        }
-
-        ringueService.createRingueIndividual(torneio);
-
-        Singleton s = Singleton.getSingleton();
-
-        for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {
-            listaIndividual.createPlanilhasLista(ringueIndividual);
-            chaveIndividual.createPlanilhasChave(ringueIndividual);
+//        ArrayList<CategoriaCompeticao> competicaoArrayList = new ArrayList<>();
+//        competicaoArrayList.add(
+//                categoriaCompeticaoRepository.save(new CategoriaCompeticao("lista", false, false, 0, 0, 0, 0, 0)));
+//        competicaoArrayList.add(
+//                categoriaCompeticaoRepository.save(new CategoriaCompeticao("chave", true, false, 3, 2, 0, 0, 0)));
+//
+//        CategoriaTorneio categoriaTorneio = categoriaTorneioRepository.save(new CategoriaTorneio("nome", 5));
+//
+//        Torneio torneio = torneioRepository.save(new Torneio(new Date(), new Date(), 1, false, null, categoriaTorneio));
+//        RodadaJuiz rodadaJuiz = rodadaJuizRepository.save(new RodadaJuiz("ini", "ter", new Date(), torneio));
+//
+//        Planilheiro planilheiro = planilheiroRepository.save(new Planilheiro(torneio));
+//
+//        Usuario usuario1 = new Usuario(planilheiro, "ema", "root");
+//        usuario1.setUserRole(UserRole.ROLE_PLANILHA);
+//        usuarioService.signUpUser(usuario1);
+//
+//        ArrayList<Pessoa> pessoaArrayList = new ArrayList<>();
+//
+//        Pessoa pessoaInstru = pessoaRepository.save(new Pessoa("instrutor", "pessoa", false,// genero false = menina
+//                new GregorianCalendar(2013, Calendar.FEBRUARY,
+//                        11).getTime(), 0, "NumberWorld",
+//                "NumberBrasil", false, "telefone", null, null, null));
+//
+//        Academia academia = academiaRepository.save(new Academia("academia", null));
+//
+//        Instrutor instrutor = tipoPessoaDAO.save(new Instrutor(academia, pessoaInstru));
+//
+//        for (int i = 0; i < 8; i++) {
+//            pessoaArrayList.add(
+//                    pessoaRepository.save(new Pessoa(String.valueOf(i), "pessoa", false,// genero false = menina
+//                            new GregorianCalendar(2013, Calendar.FEBRUARY,
+//                                    11).getTime(), 0, "NumberWorld",
+//                            "NumberBrasil", false, "telefone", null, null, null)));
+//        }
+//
+//        for (Pessoa pessoa1 : pessoaArrayList) {
+//            pessoa1.setInstrutor(instrutor);
+//            pessoa1 = pessoaRepository.save(pessoa1);
+//            tipoPessoaDAO.save(new Competidor(55d, 55d, 0, pessoa1, torneio, competicaoArrayList));
+//        }
+//
+//        pessoaArrayList = new ArrayList<>();
+//
+//        for (int i = 0; i < 3; i++) {
+//            pessoaArrayList.add(
+//                    pessoaRepository.save(new Pessoa(String.valueOf(i), "juiz", false,// genero false = menina
+//                            new GregorianCalendar(2013, Calendar.FEBRUARY,
+//                                    11).getTime(), 0, "NumberWorld",
+//                            "NumberBrasil", false, "telefone", null, null, null)));
+//        }
+//
+//        ArrayList<RodadaJuiz> rodadaJuizArrayList = new ArrayList<>();
+//        rodadaJuizArrayList.add(rodadaJuiz);
+//
+//        ArrayList<Juiz> juizArrayList = new ArrayList<>();
+//
+//        for (Pessoa pessoa1 : pessoaArrayList) {
+//            pessoa1 = pessoaRepository.save(pessoa1);
+//            juizArrayList.add(tipoPessoaDAO.save(new Juiz(pessoa1, rodadaJuizArrayList)));
+//        }
+//
+//        ArrayList<RingueIndividual> ringueIndividualArrayList = new ArrayList<>();
+//
+//        for (int i = 1; i <= 2; i++) {
+//            ringueIndividualArrayList.add(ringueDAO.save(
+//                    new RingueIndividual(false, false, 1, i, 1, 0, juizArrayList, torneio, competicaoArrayList, rodadaJuiz)));
+//        }
+//
+//        ringueService.createRingueIndividual(torneio);
+//
+//        Singleton s = Singleton.getSingleton();
+//
+//        for (RingueIndividual ringueIndividual : ringueIndividualArrayList) {
+//            listaIndividual.createPlanilhasLista(ringueIndividual);
+//            chaveIndividual.createPlanilhasChave(ringueIndividual);
 
 //            for (PlanilhaListaIndividual planilhaListaIndividual : planilhaListaIndividualRepository.getAllByRingueIndividual(ringueIndividual)) {
 //                for (ChaveListaIndividual chaveListaIndividual : chaveListaIndividualRepository.getAllByPlanilhaListaIndividual(planilhaListaIndividual)) {
@@ -252,10 +257,31 @@ public class AtaApplication implements CommandLineRunner {
 //
 //                rankIndividual.setRankingChave(planilhaChaveamentoIndividual);
 //            }
-        }
+//        }
 
         System.out.println("Terminou insercoes");
 
+//        emailSenderService.sendSimpleMessage("estudanteenem888@gmail.com", "test", "tesfasdfndjfshufbcjsak");
+
+    }
+
+    @Bean
+    JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername("ata.control.br@gmail.com");
+        mailSender.setPassword("ATA@c0ntr0l");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        return mailSender;
     }
 
     @Bean

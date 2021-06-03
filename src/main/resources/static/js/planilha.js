@@ -1,3 +1,10 @@
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
+
+$(document).ajaxSend(function(e, xhr, options) {
+    xhr.setRequestHeader(header, token);
+});
+
 $.ajax({
     method: "POST",
     url: "/torneio/numero/ringues/individual/" + $("#torneio_id").val(),
@@ -1584,8 +1591,6 @@ function submit_chave() {
                             }
                         }
                     }
-
-                    console.log(aux);
 
                     if (aux !== []) {
                         for (var i in aux) {

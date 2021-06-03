@@ -19,8 +19,6 @@ public class UsuarioService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-//    @Autowired
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
     @Autowired
@@ -30,10 +28,23 @@ public class UsuarioService implements UserDetailsService {
 
         final SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(userMail);
-        mailMessage.setSubject("Mail Confirmation Link!");
+        mailMessage.setSubject("Confirmação de email");
         mailMessage.setFrom("<MAIL>");
         mailMessage.setText(
-                "Thank you for registering. Please click on the below link to activate your account." + "http://localhost:8080/sign-up/confirm?token="
+                "Para ativar a sua conta acesse: " + "http://localhost:8080/login/confirm?token="
+                        + token);
+
+        emailSenderService.sendEmail(mailMessage);
+    }
+
+    void sendPasswordRecoveryMail(String userMail, String token) {
+
+        final SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(userMail);
+        mailMessage.setSubject("Recuperação da senha");
+        mailMessage.setFrom("<MAIL>");
+        mailMessage.setText(
+                "Para recuperar a sua senha acesse: " + "http://localhost:8080/recuperar/senha?token="
                         + token);
 
         emailSenderService.sendEmail(mailMessage);
@@ -69,21 +80,18 @@ public class UsuarioService implements UserDetailsService {
 
         usuario.setPassword(encryptedPassword);
 
-        usuario.setEnabled(true);//todo resolver
-
         final Usuario createdUser = usuarioRepository.save(usuario);
 
-//        final ConfirmationToken confirmationToken = new ConfirmationToken(usuario);
+        final ConfirmationToken confirmationToken = new ConfirmationToken(usuario);
 
-//        confirmationTokenRepository.save(confirmationToken);
+        confirmationTokenRepository.save(confirmationToken);
 
-//        sendConfirmationMail(usuario.getEmail(), confirmationToken.getConfirmationToken());//todo arrumar
-//        confirmUser(confirmationToken);//todo remover
+        sendConfirmationMail(usuario.getEmail(), confirmationToken.getConfirmationToken());
 
         return createdUser;
     }
 
-    void confirmUser(ConfirmationToken confirmationToken) {
+    public void confirmUser(ConfirmationToken confirmationToken) {
 
         final Usuario user = confirmationToken.getUser();
 
@@ -92,5 +100,16 @@ public class UsuarioService implements UserDetailsService {
         usuarioRepository.save(user);
 
         confirmationTokenRepository.delete(confirmationToken);
+    }
+
+    public void recoverPassword(String email) {
+
+        Usuario usuario = usuarioRepository.getUsuarioByEmail(email);
+
+        final ConfirmationToken confirmationToken = new ConfirmationToken(usuario);
+
+        confirmationTokenRepository.save(confirmationToken);
+
+        sendPasswordRecoveryMail(usuario.getEmail(), confirmationToken.getConfirmationToken());
     }
 }

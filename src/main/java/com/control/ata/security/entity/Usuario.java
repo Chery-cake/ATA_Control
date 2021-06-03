@@ -138,6 +138,10 @@ public class Usuario implements UserDetails {
         this.enabled = enabled;
     }
 
+    public ConfirmationToken getConfirmationToken() {
+        return confirmationToken;
+    }
+
     public Planilheiro getPlanilheiro() {
         return planilheiro;
     }

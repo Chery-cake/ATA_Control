@@ -24,26 +24,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+//        http.csrf().disable();
 
-        http.headers().disable();
+//        http.headers().disable();
 
-        http
-                .authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers("/", "/home", "**.js", "/js/**", "**.css", "/css/**", "/img/**", "/webjars/**", "/assets", "/assets/**", "/save", "/save/**", "/register/pessoa", "/academia")
-                .permitAll()
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
+                .permitAll();
+
+        http.formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/home")
-                .permitAll()
-                .and()
-                .logout()
+                .permitAll();
+
+        http.authorizeRequests().antMatchers("/planilha", "/placar").access("hasRole('ROLE_PLANILHA')");
+
+        http.authorizeRequests().antMatchers("/perfil", "/criar/**", "/cadastrar/**", "/relatorio/**", "/novo/administrador").access("hasRole('ROLE_ADMIN')");
+
+        http.authorizeRequests().antMatchers("/register/competidor", "/register/juiz", "/ajustar/pessoa", "/ajustar/alunos").access("hasRole('ROLE_USER')");
+
+        http.authorizeRequests().anyRequest().permitAll();
+
+        http.logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/home")
+                .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
-                .permitAll();
+                .deleteCookies("dummyCookie")
+        );
+
     }
 
     @Autowired

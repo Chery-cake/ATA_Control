@@ -91,35 +91,26 @@
                     <div class="col-lg-7">
                         <div class="card bg-secondary shadow border-0">
                             <div class="card-body px-lg-5 py-lg-5">
-                            <main class="form-signin">
+                                <main class="form-signin">
 
-                                <form role="form" th:action="@{/login}" th:method="post">
-                                    <img
-                                            alt="Ata-Control"
-                                            class="mb-4"
-                                             width="100" height="50" th:src="@{../assets/img/logo-ata.png}"
-                                            >
-                                    <p class="error" th:if="${param.error}">Usuario ou senha incorreto(a)</p>
-                                    <br>
-                                    <label class="visually-hidden" for="username">Usuario</label>
-                                    <input autofocus class="form-control" id="username"
-                                           name="username" placeholder="Usuario">
+                                    <form id="form" role="form" action="#" th:method="post">
+                                        <img
+                                                alt="Ata-Control"
+                                                class="mb-4"
+                                                width="100" height="50" th:src="@{../assets/img/logo-ata.png}"
+                                        >
+                                        <br>
+                                        <label class="visually-hidden" for="senha">Senha</label>
+                                        <input autofocus class="form-control" id="senha"
+                                               name="senha" placeholder="Senha" type="password">
 
-                                    <label class="visually-hidden" for="password">Senha</label>
-                                    <input class="form-control" id="password" name="password"
-                                           placeholder="Senha"
-                                           type="password">
-
-
-                                   <div class="checkbox mb-3">
-
-                                        <label>
-                                            <a th:href="@{/recuperar/email}">Esqueceu a senha?</a>
-                                        </label>
-                                    </div>
-                                    <button class="btn btn-lg btn-github btn-icon my-4" type="submit">INICIAR SESSÃO</button>
-                                </form>
-                            </main>
+                                        <label class="visually-hidden" for="confi_senha">Confirmar Senha</label>
+                                        <input class="form-control" id="confi_senha" name="confi_senha"
+                                               placeholder="Confirmar senha"
+                                               type="password">
+                                        <button class="btn btn-lg btn-github btn-icon my-4" type="submit">ENVIAR</button>
+                                    </form>
+                                </main>
                             </div>
                         </div>
                     </div>
@@ -130,5 +121,10 @@
 
 
 </div>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/recuperar_senha.js}"></script>
+</th:block>
+
 </body>
 </html>

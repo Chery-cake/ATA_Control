@@ -24,7 +24,7 @@ $("#form-register-pessoa").submit(function (evt) {
                         $("#email").focus();
                     } else {
                         var label = document.createElement("label");
-                        label.textContent = "Este usuario ja existe";
+                        label.textContent = "Este email ja esta em uso";
                         label.className = "text-center";
                         label.id = "not_email";
                         document.getElementById("email_div").appendChild(label);
