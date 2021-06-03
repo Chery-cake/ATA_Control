@@ -188,14 +188,7 @@ public class FormController {
         return "register";
     }
 
-    @GetMapping("/register/confirm") //todo arrumar
-    public String confirmMail(@RequestParam("toke") String token) {
-        Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenRepository.findConfirmationTokenByConfirmationToken(
-                token);
 
-//        optionalConfirmationToken.ifPresent(pessoaService::confirmarPessoa); //todo arrumar
-        return "redirect:/";
-    }
 
     // ======================================CADASTRAR COMPETIDOR=============================================
 
