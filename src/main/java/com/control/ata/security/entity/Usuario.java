@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import reactor.util.annotation.Nullable;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -136,10 +137,6 @@ public class Usuario implements UserDetails {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public ConfirmationToken getConfirmationToken() {
-        return confirmationToken;
     }
 
     public Planilheiro getPlanilheiro() {

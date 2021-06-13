@@ -1,7 +1,6 @@
 package com.control.ata.security.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -12,7 +11,6 @@ public class ConfirmationToken {
     private Integer id;
 
     private String confirmationToken;
-    private LocalDate createdDate;
 
     @OneToOne(fetch = FetchType.EAGER)
     private Usuario user;
@@ -22,7 +20,6 @@ public class ConfirmationToken {
 
     public ConfirmationToken(Usuario user) {
         this.user = user;
-        this.createdDate = LocalDate.now();
         this.confirmationToken = UUID.randomUUID().toString();
     }
 
@@ -38,10 +35,6 @@ public class ConfirmationToken {
         this.confirmationToken = confirmationToken;
     }
 
-    public LocalDate getCreatedDate() {
-        return createdDate;
-    }
-
     public Usuario getUser() {
         return user;
     }
@@ -51,7 +44,6 @@ public class ConfirmationToken {
         return "ConfirmationToken{" +
                 "id=" + id +
                 ", confirmationToken='" + confirmationToken + '\'' +
-                ", createdDate=" + createdDate +
                 ", user=" + user +
                 '}';
     }

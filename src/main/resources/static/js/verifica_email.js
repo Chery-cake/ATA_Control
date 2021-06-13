@@ -1,4 +1,3 @@
-alert("test");
 $("#form").submit(function (evt) {
 
     evt.preventDefault();

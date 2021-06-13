@@ -15,7 +15,7 @@ $("#form").submit(function (evt) {
         }
         $.ajax({
             method: "POST",
-            url: "/recuper/senha/" + new URLSearchParams(window.location.hash).get('token'),
+            url: "/trocar/senha?token=" + new URLSearchParams(window.location.search).get('token'),
             contentType: 'application/json',
             data: JSON.stringify($("#senha").val()),
             success: function () {

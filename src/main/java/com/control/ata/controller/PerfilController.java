@@ -61,12 +61,8 @@ public class PerfilController {
     // ======================================PASSWORD RECOVERY=============================================
 
     @GetMapping("/recuperar/senha")
-    public String passwordRecovery(@RequestParam("token") String token) {
-        Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenRepository.findConfirmationTokenByConfirmationToken(
-                token);
-
-        optionalConfirmationToken.ifPresent(usuarioService::confirmUser);
-        return "redirect:/recuper_senha?token=" + token;
+    public String passwordRecovery() {
+        return "recuperar_senha";
     }
 
     @GetMapping("/recuperar/email")
@@ -88,19 +84,19 @@ public class PerfilController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/recuper/senha/{token}")
-    public ResponseEntity<?> atualizaSenha(@Valid @RequestBody String json, @RequestParam("token") String token, BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
-        ResponseEntity<?> errors = getErrors(result);
-        if (errors != null) return errors;
+    @PostMapping("/trocar/senha")
+    public String atualizaSenha(@Valid @RequestBody String json, @RequestParam("token") String token, BindingResult result) throws UnsupportedEncodingException, JsonProcessingException {
 
         String decodedJson = java.net.URLDecoder.decode(json, "UTF-8");
         ObjectMapper jacksonObjectMapper = new ObjectMapper();
         String senha = jacksonObjectMapper.readValue(decodedJson, String.class);
 
-        System.out.println(token);
-        System.out.println(senha);
+        Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenRepository.findConfirmationTokenByConfirmationToken(
+                token);
 
-        return ResponseEntity.ok().build();
+        optionalConfirmationToken.ifPresent(confirmationToken -> usuarioService.changePassword(confirmationToken, senha));
+
+        return "redirect:/login";
     }
 
     // ======================================NOVO ADMINISTRADOR=============================================

@@ -99,7 +99,7 @@ public class UsuarioService implements UserDetailsService {
 
         usuarioRepository.save(user);
 
-        confirmationTokenRepository.delete(confirmationToken);
+        confirmationTokenRepository.delete(confirmationToken.getId());
     }
 
     public void recoverPassword(String email) {
@@ -111,5 +111,19 @@ public class UsuarioService implements UserDetailsService {
         confirmationTokenRepository.save(confirmationToken);
 
         sendPasswordRecoveryMail(usuario.getEmail(), confirmationToken.getConfirmationToken());
+    }
+
+    public void changePassword(ConfirmationToken confirmationToken, String senha){
+
+        final Usuario user = confirmationToken.getUser();
+
+        final String encryptedPassword = BCrypt.gerarBCrypt(senha);
+
+        user.setPassword(encryptedPassword);
+        user.setEnabled(true);
+
+        usuarioRepository.save(user);
+
+        confirmationTokenRepository.delete(confirmationToken.getId());
     }
 }

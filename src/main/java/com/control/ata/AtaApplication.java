@@ -151,14 +151,18 @@ public class AtaApplication implements CommandLineRunner {
 //
 //        ArrayList<Pessoa> pessoaArrayList = new ArrayList<>();
 //
-//        Pessoa pessoaInstru = pessoaRepository.save(new Pessoa("instrutor", "pessoa", false,// genero false = menina
-//                new GregorianCalendar(2013, Calendar.FEBRUARY,
-//                        11).getTime(), 0, "NumberWorld",
-//                "NumberBrasil", false, "telefone", null, null, null));
-//
-//        Academia academia = academiaRepository.save(new Academia("academia", null));
-//
-//        Instrutor instrutor = tipoPessoaDAO.save(new Instrutor(academia, pessoaInstru));
+        Pessoa pessoaInstru = pessoaRepository.save(new Pessoa("instrutor", "pessoa", false,// genero false = menina
+                new GregorianCalendar(2013, Calendar.FEBRUARY,
+                        11).getTime(), 0, "NumberWorld",
+                "NumberBrasil", false, "telefone", null, null, null));
+
+        Academia academia = academiaRepository.save(new Academia("academia", null));
+
+        Instrutor instrutor = tipoPessoaDAO.save(new Instrutor(academia, pessoaInstru));
+
+        Usuario usuario2 = new Usuario(pessoaInstru, "test@test.com", "test");
+        usuarioService.signUpUser(usuario2);
+
 //
 //        for (int i = 0; i < 8; i++) {
 //            pessoaArrayList.add(
